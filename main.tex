@@ -1,5 +1,7 @@
 \documentclass[a4paper, 12pt]{article}
 
+\usepackage{amsmath}
+
 \begin{document}
 
 \section{Introduction}
@@ -13,6 +15,36 @@ The radar system used for this project is a 60 GHz radar developed by Acconeer A
 An antenna transmits a wavelet signal towards an object of interest. After a brief period of time a second wavelet signal is generated and \emph{mixed} with data from a recieving antenna. This procedure is repeated, every time slightly delaying the generation of the second wavelet and thus mixing with a different section of the incoming pulse. 
 
 Throgh this methodology we can effectively produce
+
+\subsection{The radar principle}
+
+The radar principle is at its core simple.  A wavelet pulse $x_T(t)$ with some carrier frequency $\Omega$  is transmitted towards an object of interest. 
+
+etc etc..
+
+
+\subsection{Matched filter}
+
+something something desired frequency response of the recieving antenna. 
+
+In any radar system a good Signal-to-Noise Ratio (SNR) is a highly desired property. Finding a reciever frequency response which maximizes SNR is thus an important topic. Denoting the reciever output as $y(t)$ and the incoming waveform as $x(t)$ the output spectrum will be a convolution of $x(t)$ and the system impulse response $h(t)$, or conversely a multiplication in the frequency domain $Y(\Omega) = X(\Omega)H(\Omega)$. If we seek to maximize SNR at some arbitrary point in time $T_M$ the power at that very instant is
+
+\begin{equation}
+	|y(T_M)|^{2} = |\frac{1}{2\pi}\int X(\Omega)H(\Omega)e^{j\Omega T_M} d\Omega|^{2}.
+\end{equation}
+
+If we also have white noise present in the signal with spectral density $\sigma^2$ W/Hz the total SNR $\xi$ is 
+
+\begin{equation}
+	\xi = \frac{|(1/2\pi)\int X(\Omega)H(\Omega)e^{j\Omega T_M}d\Omega|^2}{(\sigma^2/2\pi)\int |H(\Omega)|^{2}d\Omega}
+\end{equation}
+
+It can then be shown [reference] that $\xi$ is maximized when
+
+\begin{gather}
+ H(\Omega) = \alpha X*(\Omega)e^{j\Omega T_M}, \text{ or} \\
+h(t) = \alpha x^*(T_M - t)
+\end{gather}
 
 \subsection{IQ demodulation}
 
