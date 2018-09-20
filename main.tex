@@ -4,6 +4,7 @@
 
 \begin{document}
 
+
 \section{Introduction}
 
 In this report a micro radar system is utilized for surface classification. Specifically, a radar sensor is placed on the inside of a robot facing downwards, with the objective of distinguishing if the surface below is made of grass and dirt or not.
@@ -28,27 +29,38 @@ etc etc..
 something something desired frequency response of the recieving antenna. 
 
 In any radar system a good Signal-to-Noise Ratio (SNR) is a highly desired property. Finding a reciever frequency response which maximizes SNR is thus an important topic. Denoting the reciever output as $y(t)$ and the incoming waveform as $x(t)$ the output spectrum will be a convolution of $x(t)$ and the system impulse response $h(t)$, or conversely a multiplication in the frequency domain $Y(\Omega) = X(\Omega)H(\Omega)$. If we seek to maximize SNR at some arbitrary point in time $T_M$ the power at that very instant is
-
+%
 \begin{equation}
 	|y(T_M)|^{2} = |\frac{1}{2\pi}\int X(\Omega)H(\Omega)e^{j\Omega T_M} d\Omega|^{2}.
 \end{equation}
 
-If we also have white noise present in the signal with spectral density $\sigma^2$ W/Hz the total SNR $\xi$ is 
-
+Now we consider interference in the form of spectrally flat noise with power spectral density $\sigma^2$ W/Hz. The SNR $\xi$ measured at time $T_M$ can then be described as the ratio between the total signal power and the total noise power
+%
 \begin{equation}
-	\xi = \frac{|(1/2\pi)\int X(\Omega)H(\Omega)e^{j\Omega T_M}d\Omega|^2}{(\sigma^2/2\pi)\int |H(\Omega)|^{2}d\Omega}
+	\xi
+	= \frac{|y(T_M)|^{2}}{(1/2\pi)\int|\sigma H(\Omega)|^{2}d\Omega}
+	= \frac{|(1/2\pi)\int X(\Omega)H(\Omega)e^{j\Omega T_M}d\Omega|^2}{(\sigma^2/2\pi)\int|H(\Omega)|^{2}d\Omega}
 \end{equation}
-
-It can then be shown [reference] that $\xi$ is maximized when
-
+%
+which clearly depends on which reciever response is used. It can from above expression be shown [reference] that the maximum $\xi$ is obtained when 
+%
 \begin{gather}
  H(\Omega) = \alpha X*(\Omega)e^{j\Omega T_M}, \text{ or} \\
+\label{eq:123}
 h(t) = \alpha x^*(T_M - t)
 \end{gather}
+%
+where $\alpha$ is an arbitrary constant which has no impact on the resulting SNR. Examining $h(t)$ above we see that the optimal filter for maximizing SNR is when the coefficients consist of the transmitted waveform conjugated and time-reversed. This filter is called a \emph{matched filter} due to the symmetrical relationship between waveform and impulse response.
+
+One way of interpreting the matched filter is by viewing the filtering as a correlation. If we denote $\bar{x}(t)$ as the sum of both target and noise components the output $y(t)$ is given by
+%
+\begin{equation}
+	y(t) = \int \bar{x}(s)h(t-s)ds = \alpha\int \bar{x}(s)x^*(s + T_M - t)ds
+\end{equation}
+%
+which is recognized as the cross-correlation between noisy signal $\bar	{x}(t)$ and transmitted waveform $x(t)$ evaluated at lag $T_M-t$. By shifting the constant lag $T_M$ we then can obtain the full cross-correlation 
 
 \subsection{IQ demodulation}
-
-
 
 \section{Feature selection}
 
