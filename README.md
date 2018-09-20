@@ -1,3 +1,0 @@
-# exjobb
-
-Hej på dig :^)
