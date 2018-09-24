@@ -7,9 +7,60 @@
 
 \section{Introduction}
 
-In this report a micro radar system is utilized for surface classification. Specifically, a radar sensor is placed on the inside of a robot facing downwards, with the objective of distinguishing if the surface below is made of grass and dirt or not.
+
+\subsection{Motivation}
+
+Classification of surfaces is an important task.
+
+You can determine surfaces in many different ways - optical, probing etc.
+
+It is often desirable to to this without direct contact i.e. probing
+
+Radar has successfully been used to for example locate salt in the ground
+
+These radars commonly have wavelenghts of something something
+
+If we however want to classify surface materials using a much shorter wavelength, the task changes dramatically as apsorption is near-instant. 
+
+Something about radar wavelenght categories
+
+Furthermore, radar sensors are commonly used in an array setting which permits beamforming and extraction of spatial information. 
+
+If one on the other hand only has a singular radar sensor this is not possible and you must resort to other means.
+
+Probably want something about IQ demodulation somewhere in here.
+
+\subsection{Problem formulation}
+
+We develop a pipeline for effectively solving this problem. 
+
+We present modelling options with high accuracy and efficacy. 
+
+We present results based on a 60GHz Acconeer micro radar. 
+
+In this paper we introduce means of surface identification based on the output from a single 60 GHz radar sensor moving across a surface with constant height. 
+
+\subsection{Thesis outline}
+
+Chapter 2: We present a radar systems overview and introduce some crucial concepts for understanding the radar output used in this work. 
+
+Chapter 3: Feature selection and preprocessing is considered. Signal structure is discussed primarily on an intuitive level. 
+
+Chapter 4: Classification schemes. Moving from simple to advanced, some classifiers of special interest are investigated. Results with regards to these classifiers are presented.
+
+Chapter 5: Disucssion.
+
+Chapter 6: Conclusion.
 
 \section{Radar system overview}
+
+In this chapter we introduce three fundamental radar concepts which will be important for understanding future feature selection discussions. 
+
+The radar equation.
+
+The matched filter.
+
+The IQ demodulation scheme. 
 
 The radar system used for this project is a 60 GHz radar developed by Acconeer AB.
 
