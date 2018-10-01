@@ -10,62 +10,65 @@
 
 \subsection{Motivation}
 
-Classification of surfaces is an important task.
-
+Classification of surfaces is an important task. It appears in many areas.
+\\ \\
 You can determine surfaces in many different ways - optical, probing etc.
-
+\noindent Optical: Recent advancements in neural networks. 
+\noindent Probing: One may also measure directly onto a surface directly through a probing approach. \\
+\noindent Interfering: Induced surface vibrations \cite{ct:surfdet} generating sound.
+\\ \\
 It is often desirable to to this without direct contact i.e. probing
-
+\\ \\
 Radar has successfully been used to for example locate salt in the ground
-
+\\ \\
 These radars commonly have wavelenghts of something something
-
+\\ \\
 If we however want to classify surface materials using a much shorter wavelength, the task changes dramatically as apsorption is near-instant. 
-
+\\ \\
 Something about radar wavelenght categories
-
+\\ \\
 Furthermore, radar sensors are commonly used in an array setting which permits beamforming and extraction of spatial information. 
-
+\\ \\
 If one on the other hand only has a singular radar sensor this is not possible and you must resort to other means.
-
+\\ \\
 Probably want something about IQ demodulation somewhere in here.
 
 \subsection{Problem formulation}
 
 We develop a pipeline for effectively solving this problem. 
-
+\\ \\
 We present modelling options with high accuracy and efficacy. 
-
+\\ \\ 
 We present results based on a 60GHz Acconeer micro radar. 
-
+\\ \\
 In this paper we introduce means of surface identification based on the output from a single 60 GHz radar sensor moving across a surface with constant height. 
 
 \subsection{Thesis outline}
 
 Chapter 2: We present a radar systems overview and introduce some crucial concepts for understanding the radar output used in this work. 
-
+\\ \\
 Chapter 3: Feature selection and preprocessing is considered. Signal structure is discussed primarily on an intuitive level. 
-
+\\ \\
 Chapter 4: Classification schemes. Moving from simple to advanced, some classifiers of special interest are investigated. Results with regards to these classifiers are presented.
-
+\\ \\
 Chapter 5: Disucssion.
-
+\\ \\
 Chapter 6: Conclusion.
 
-\section{Radar system overview}
+\section{Chapter 2: Radar system overview}
 
 In this chapter we introduce three fundamental radar concepts which will be important for understanding future feature selection discussions. 
-
+\\ \\
 The radar equation.
-
+\\ \\
 The matched filter.
-
+\\ \\
 The IQ demodulation scheme. 
-
+\\ \\
 The radar system used for this project is a 60 GHz radar developed by Acconeer AB.
-
+\\ \\
 An antenna transmits a wavelet signal towards an object of interest. After a brief period of time a second wavelet signal is generated and \emph{mixed} with data from a recieving antenna. This procedure is repeated, every time slightly delaying the generation of the second wavelet and thus mixing with a different section of the incoming pulse. 
-
+\\ \\
 Throgh this methodology we can effectively produce
 
 \subsection{The radar principle}
@@ -133,10 +136,35 @@ The above result is implemented in hardware according to figure (....). The RF s
 
 
 
-\section{Feature selection}
+\section{Chapter 3: Feature selection}
 
-\section{Classification}
+\section{Chapter 4: Classification schemes}
 
-\section{Discussion}
+\section{Chapter 5: Discussion}
+
+\subsection{Moisture}
+
+One particularly challenging aspect of adequately classifying surfaces is the ever-changing environmental conditions surronding the sensor. Of particular interest is the moisture content in the surfaces of interest. Greater soil moisture implies higher dielectric constant, which in turn increases radar wave scattering \cite{ct:moist}. Thus a single surface may very well change its scattering properties over time. 
+
+% More things that make selecting data tricky
+
+\subsection{Surface variances}
+
+Such effects is difficult to account for when selecting data 
+
+\subsection{Individual sensor performance}
+
+
+\begin{thebibliography}{9}
+
+\bibitem{ct:moist}
+Rappaport, C. (2016). Soil Moisture and Surface Roughness Effects in Ground Penetrating Radar Detection of Land Mines. In: MTT-S International Microwave Symposium Digest. IEEE MTT-S, pp.1-5.
+
+\bibitem{ct:surfdet}
+Strese, M., Schuwerk, C., Iepure, A. and Steinbach, E. (2017). Multimodal Feature-Based Surface Material Classification. IEEE Transactions on Haptics, 10(2), pp.226-239.
+
+\end{thebibliography}
+
+
 
 \end{document}
