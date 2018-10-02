@@ -1,6 +1,11 @@
 \documentclass[a4paper, 12pt]{article}
 
 \usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+
+% Expectation symbol
+\DeclareMathOperator*{\E}{\mathbb{E}}
 
 \begin{document}
 
@@ -15,7 +20,7 @@ Classification of surfaces is an important task. It appears in many areas.
 You can determine surfaces in many different ways - optical, probing etc.
 \noindent Optical: Recent advancements in neural networks. 
 \noindent Probing: One may also measure directly onto a surface directly through a probing approach. \\
-\noindent Interfering: Induced surface vibrations \cite{ct:surfdet} generating sound.
+\noindent Interfering: Induced surface vibrations generating sound which can be detected and classified  \cite{ct:surfdet}.
 \\ \\
 It is often desirable to to this without direct contact i.e. probing
 \\ \\
@@ -137,6 +142,68 @@ The above result is implemented in hardware according to figure (....). The RF s
 
 
 \section{Chapter 3: Feature selection}
+
+\subsection{Used features}
+
+Fast time and slow time features 
+
+
+\subsubsection{Average sweep energy}
+
+\begin{equation}
+	P(t_m) = \frac{1}{NT}\sum_{t=0}^{T-1}\sum_{n=0}^{K-1}x(n, t_m + t)x^*(n, t_m + t)
+\end{equation}
+
+\subsubsection{Expected signal}
+
+\begin{equation}
+	s_i(t_m) = \E\{X_{i,t_m}\} = \frac{1}{T}\sum_{t=0}^{T-1}x(i, t_m + t)
+\end{equation}
+
+\subsubsection{Variance}
+
+Include a discussion about the biased/unbiased estimate \\
+
+Assume $x(n,t)$ are samples from a complex normal distribution $X_{n,t}$. Variance $v_i(t_m)$ at range $i$ at time $t_m$ can then be approximated using
+
+\begin{equation}
+\label{eq:var}
+\begin{gathered}
+	v_i(t_m) = \E\{ (X_{i,t_m} - \E\{X_{i,t_m}\})^2\} \\
+	= \frac{1}{T-1}\sum_{t=0}^{T-1}(x(i, t_m + t) - s_i(t_m))^*(x(i, t_m + t) -  s_i(t_m))
+\end{gathered}
+\end{equation}
+
+\subsubsection{Autocovariance in slow time}
+
+For some stochastic process $P_t$ we can define the autocovariance $\gamma$ as
+
+\begin{equation}
+	\gamma(t, s) = \E\big\{(P_t - \mu_t)(P_s - \mu_s)\big\}
+\end{equation}
+
+If $X_t$ is a weakly stationary process the first moment (mean) and autocovariance do not vary over time.  The autocovariance then only depends on the difference between $s$ and $t$, making it possible to rewrite as
+
+\begin{equation}
+	\gamma(\tau) = \E\big\{(P_t - \mu)(P_{t+\tau} - \mu)\big\}
+\end{equation}
+
+Assuming weak stationarity over a few rangebins we can estimate the autocovariance in slow time for each selected range. 
+
+\begin{equation}
+\begin{gathered}
+	\gamma_i(t_m, \tau) = \E\big\{(X_{i,t_m} - \E\{X_{i, t_m}\})^*(X_{i, t_m+\tau} - \E\{X_{i, t_m+\tau}\})\big\}\\
+	= \frac{1}{T-1}\sum_{t=0}^{T-1-\tau}(x(i, t_m + t) - s_i(t_m))^*(x(i, t_m + t + \tau) - s_i(t_m + \tau))
+\end{gathered}
+\end{equation}•
+
+We can drop the $\tau$ in the final expectation term, as $s_i(t)$ are estimated in batch from $t_m$ to  $t_m + T$ yielding
+
+\begin{equation}
+	\gamma_i(t_m, \tau) = \frac{1}{T-1}\sum_{t=0}^{T-1- \tau}(x(i, t_m + t) - s_i(t_m))^*(x(i, t_m + t + \tau) - s_i(t_m))
+\end{equation}
+as our expression for autocovariance. Note that the variance in \ref{eq:var} collapses to the autocovariance at 0 lag. 
+
 
 \section{Chapter 4: Classification schemes}
 
