@@ -119,17 +119,35 @@ One way of interpreting the matched filter is by viewing the filtering as a corr
 %
 which is recognized as the cross-correlation between noisy signal $\bar	{x}(t)$ and transmitted waveform $x(t)$ evaluated at lag $T_M-t$. By shifting the constant lag $T_M$ we then can obtain the full cross-correlation 
 
-\subsection{IQ demodulation}
-A common type of data when working with radar signal processing is IQ-data (in- and quadrature phase).  This type of data is useful in that it contains information not only about amplitude, but about the phase of the radar signal as well. 
 
-IQ-data is derived through a process commonly known as IQ- or quadrature-demodulation. For a mathematical deduction, the trigonometric identity
+\subsection{IQ demodulation}
+
+IQ "amplifies" phase information
+\\ \\
+Phase information is more detailed over time
+\\  \\
+We sample really often
+\\ \\
+That might be good for us
+\\ \\
+IQ splits into two channels, interpreted as real and complex
+\\ \\
+
+
+
+
+
+A common type of data when working with radar signal processing is IQ-data (in- and quadrature phase).  This type of data is useful in that it contains information not only about amplitude, but about the phase of the radar signal as well. In particular, this is good for situations where small changes in the radar signal need to be detected, (Mention a case such as recording over grass...) as the phase is more sensitive to changes than the amplitude. Due to the high phase sensitivity, a high sampling rate is required or the recorded phase data will just appear to be fluctuating randomly over time.
+
+IQ-data is derived through a process commonly known as IQ- or quadrature-demodulation. To describe the process mathematically,  the RF-signal received from the radar is described as $s(t) = A(t)\sin(2\pi ft+\phi(t))$. To be able to uniquely determine $\phi(t)$ later, the signal is multiplied separately by two sinusoids shifted 90 degrees in phase relative to eachother, yielding
+\begin{gather}
+	s_1(t) = \sin(2\pi ft+\phi(t))A(t)\sin(2\pi ft+\phi(t)) \\
+	s_2(t) = \cos(2\pi ft+\phi(t))A(t)\sin(2\pi ft+\phi(t)).
+\end{gather}
+
 \begin{equation}
 	\label{eq:IQtrig}
 	\cos(\alpha+\beta) = \cos(\alpha)\cos(\beta)-\sin(\alpha)\sin(\beta)
-\end{equation}
-is used. Assuming the RF-signal received from the radar can be described as $s(t) = A(t)\cos(2\pi ft+\phi)$ it can be rewritten, using \eqref{eq:IQtrig}, as 
-\begin{equation}
-	s(t)=A(t)\cos(2\pi ft)\cos(\phi)-A(t)\sin(2\pi ft)\sin(\phi)
 \end{equation}
 By means of low pass filtering, the following signal is then obtained
 \begin{equation}
