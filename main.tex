@@ -1,5 +1,6 @@
 \documentclass[a4paper, 12pt]{article}
 
+%\usepackage{natbib}
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{amsfonts}
@@ -12,6 +13,20 @@
 
 \section{Introduction}
 
+This paper presents an algorithm for surface classification using millimeter-wave radar. 
+
+Fundamentally, radar is based on the concept of transmitting and recieving electromagnetic radiation. Radar response will be highly dependant on the surrounding region of the sensor, as objects in its vicinity scatter transmitted waves differently \cite{richards_2014}.  
+
+ As technolgy is becoming increasingly intertwined with everyday life a multitude of new areas for smart sensing has opened up. One sensor category that has been recieving much attention is radars with very high frequency. These sensors combine a multitude of desirable features packed into a favorable form factor . These capabilities has made high frequency radars an increasingly popular choice in a steadily growing number of applications, such as monitoring of vital signs \cite{kuo_lin_yu_lo_lyu_chou_chuang_2016}, gesture recognition \cite{lien_gillian_karagozler_amihood_schwesig_olson_raja_poupyrev_2016}
+
+Alongside with this development another trend within data science has emerged; the movement towards machine learning centric methods. Machine learning algorithms fundamentally utilizes various statistical techniques in order to allow computer systems to progressively improve performance. Data scientists have found this subclass of aritficial intelligence extremely practical, especially for data that lack an easily predictable structure. 
+%A notable recent example where machine learning has proven to be essential is within the field of autonomous driving. Here, a multitude of different sensors such as cameras, radars and ultrasonic sensors generate a massive amount of data every second that requires interpretation. Information about a passing car is extracted from this complex output of images and ultrasonic responses accurately and robustly. 
+\\ \\
+The amount of millimetre-wave radar applications is growing steadily.
+
+With a continuously increasing demand for small sensors for use in a world where 
+
+The number of new application areas that are based on millimetre based radar sensor is continou
 
 \subsection{Motivation}
 
@@ -20,7 +35,7 @@ Classification of surfaces is an important task. It appears in many areas.
 You can determine surfaces in many different ways - optical, probing etc.
 \noindent Optical: Recent advancements in neural networks. 
 \noindent Probing: One may also measure directly onto a surface directly through a probing approach. \\
-\noindent Interfering: Induced surface vibrations generating sound which can be detected and classified  \cite{ct:surfdet}.
+\noindent Interfering: Induced surface vibrations generating sound which can be detected and classified  \cite{strese_schuwerk_iepure_steinbach_2017}.
 \\ \\
 It is often desirable to to this without direct contact i.e. probing
 \\ \\
@@ -280,7 +295,7 @@ as our expression for autocovariance. Note that the variance in \ref{eq:var} col
 
 \subsection{Moisture}
 
-One particularly challenging aspect of adequately classifying surfaces is the ever-changing environmental conditions surronding the sensor. Of particular interest is the moisture content in the surfaces of interest. Greater soil moisture implies higher dielectric constant, which in turn increases radar wave scattering \cite{ct:moist}. Thus a single surface may very well change its scattering properties over time. 
+One particularly challenging aspect of adequately classifying surfaces is the ever-changing environmental conditions surronding the sensor. Of particular interest is the moisture content in the surfaces of interest. Greater soil moisture implies higher dielectric constant, which in turn increases radar wave scattering \cite{rappaport_2006}. Thus a single surface may very well change its scattering properties over time. 
 
 % More things that make selecting data tricky
 
@@ -291,16 +306,8 @@ Such effects is difficult to account for when selecting data. Gather a dataset a
 \subsection{Individual sensor performance}
 Despite the fact that the radar sensors have high precision, the output can vary a lot from sensor to sensor. In particular, one sensor can have a significantly higher gain than another, meaning that two sensors can have a different measure of reflexivity on the very same surface. 
 
-\begin{thebibliography}{9}
-
-\bibitem{ct:moist}
-Rappaport, C. (2016). Soil Moisture and Surface Roughness Effects in Ground Penetrating Radar Detection of Land Mines. In: MTT-S International Microwave Symposium Digest. IEEE MTT-S, pp.1-5.
-
-\bibitem{ct:surfdet}
-Strese, M., Schuwerk, C., Iepure, A. and Steinbach, E. (2017). Multimodal Feature-Based Surface Material Classification. IEEE Transactions on Haptics, 10(2), pp.226-239.
-
-\end{thebibliography}
-
+\bibliographystyle{plain}
+\bibliography{refs}
 
 
 \end{document}
