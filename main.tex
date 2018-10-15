@@ -141,16 +141,19 @@ A common type of data when working with radar signal processing is IQ-data (in- 
 IQ-data is derived through a process commonly known as IQ- or quadrature demodulation. Raw data, received from the radar, is split up into two channels, according to figure (...). These two channels make up a real part in-phase (I) and quadrature phase (Q) part. From these we can obtain abs and phase...
 
 \section{Data Collecting}
-Having reliable data is a fundamental requirement to build a good model upon. Hence, choosing suitable parameters such as sampling frequency, regions of interest and having a good measurment setups are all crucial tasks. The sampling frequency is particularly important to consider when working with means that can potentially cause aliasing. One such case is the DFT. If the sampling frequency is too low, we get aliasing etc. etc. 
+Having reliable data is a fundamental requirement to building a good model. Hence, choosing suitable parameters such as sampling frequency, regions of interest and making a good measurment setup are all crucial tasks. The sampling frequency is particularly important to consider when working with means that could potentially cause aliasing. One such case is the DFT. If the sampling frequency is too low, we get aliasing etc. etc. 
 
 In order to assure that aliasing is avoided, the maximal frequency component registered by the radar must be surpassed by half the sampling frequency
 \begin{equation}
 	f_{max} < \frac{f_s}{2}.
 \end{equation}
-By knowing the maximal frequency component, a sample frequency can be chosen accordingly. In figure (...) a vehicle is moving forward with constant speed, having a sensor mounted at the front. As it moves forward, small objects on the ground get closer to the radar sensor with some speed. This gives rise a doppler frequency being registered by the radar. This frequency is \citep{lien_gillian_karagozler_amihood_schwesig_olson_raja_poupyrev_2016}
+The sampling frequency can be chosen accordingly, assuming the maximal frequency component is known. 
+
+In figure (...) a vehicle is moving forward with constant speed, having a sensor mounted at the front. As it moves forward, small objects on the ground get closer to the radar sensor with some speed. This gives rise a doppler frequency being registered by the radar, which is \citep{lien_gillian_karagozler_amihood_schwesig_olson_raja_poupyrev_2016}
 \begin{equation}
 	f_{d} = \frac{2v_\perp}{\lambda}.
 \end{equation}
+...
 
 
 \section{Chapter 2.5: Data exploration}
@@ -224,12 +227,10 @@ Fast time and slow time features
 
 
 \subsubsection{Fourier Transform}
-First explain how FFT is used, then show that FFT causes aliasing. Possibly include plots that visualize the aliasing.
+First explain how FFT is used, then show what is required so that FFT does not cause aliasing.
 
 
-Sampling at 150 Hz and moving at 0.3m/s gives a maximal speed component of 0.15m/s, directed straight towards the sensor. This is notated $v_{\perp}$. The nyquist frequency is half the sampling frequency, i.e. $f_N=75$ Hz. From moving an "object" straight towards the sensor with speed $v_{\perp}$ we get a doppler frequency $f_d = \frac{2v_{\perp}}{\lambda}$. Comparing $f_d$ with $f_N$, we see that $f_d$ is greater, meaning we will have aliasing.
-
-There is still information in the FFT, and it can be used as features. Although the parts which are aliased will be jumping around in the spectra and act as noise. Hence not an ideal approach.
+Sampling at 150 Hz and moving at 0.3m/s gives a maximal speed component of 0.15m/s, directed straight towards the sensor. This is notated $v_{\perp}$. The nyquist frequency is half the sampling frequency, i.e. $f_N=75$ Hz. From moving an "object" straight towards the sensor with speed $v_{\perp}$ we get a doppler frequency $f_d = \frac{2v_{\perp}}{\lambda}$. Comparing $f_d$ with $f_N$, we see that $f_d$ is smaller, meaning we will have aliasing.
 
 * Figure showing how $v_\perp$ is defined. mark velocities and possibly other variables.*
 
