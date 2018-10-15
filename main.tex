@@ -18,7 +18,7 @@ This paper presents an algorithm for surface classification using millimeter-wav
 
 Fundamentally, radar is based on the concept of transmitting and recieving electromagnetic radiation. Radar response will be highly dependant on the surrounding region of the sensor, as objects in its vicinity scatter transmitted waves differently \citep{richards_2014}.  
 
- As technolgy is becoming increasingly intertwined with everyday life a multitude of new areas for smart sensing has opened up. One sensor category that has been recieving much attention is radars with very high frequency. These sensors combine a multitude of desirable features packed into a favorable form factor . These capabilities has made high frequency radars an increasingly popular choice in a steadily growing number of applications, such as monitoring of vital signs \citep{kuo_lin_yu_lo_lyu_chou_chuang_2016}, gesture recognition \citep{lien_gillian_karagozler_amihood_schwesig_olson_raja_poupyrev_2016}
+ As technolgy is becoming increasingly intertwined with everyday life a multitude of new areas for smart sensing has opened up. One sensor category that has been recieving much attention is radars with very high frequency. These sensors combine a multitude of desirable features packed into a favorable form factor. These capabilities has made high frequency radars an increasingly popular choice in a steadily growing number of applications, such as monitoring of vital signs \citep{kuo_lin_yu_lo_lyu_chou_chuang_2016}, gesture recognition \citep{lien_gillian_karagozler_amihood_schwesig_olson_raja_poupyrev_2016}
 
 Alongside with this development another trend within data science has emerged; the movement towards machine learning centric methods. Machine learning algorithms fundamentally utilizes various statistical techniques in order to allow computer systems to progressively improve performance. Data scientists have found this subclass of aritficial intelligence extremely practical, especially for data that lack an easily predictable structure. 
 %A notable recent example where machine learning has proven to be essential is within the field of autonomous driving. Here, a multitude of different sensors such as cameras, radars and ultrasonic sensors generate a massive amount of data every second that requires interpretation. Information about a passing car is extracted from this complex output of images and ultrasonic responses accurately and robustly. 
@@ -95,11 +95,19 @@ An antenna transmits a wavelet signal towards an object of interest. After a bri
 Throgh this methodology we can effectively produce
 
 \subsection{The radar principle}
+The radar principle is at its core simple.  A wavelet pulse $x_T(t)$ with some carrier frequency $\Omega$  is transmitted towards an object of interest. After some short time $t_1$, the radar listens for an echo. If no echo is received, it means there is no object present at distance\footnote{The reason for dividing by 2 is that the wavelet pulse must first travel from the radar to the object, and then find its way back to the radar.}
+\begin{equation}
+	d_1 = \frac{v_0\cdot t_1}2
+\end{equation}
+where $v_0$ is the speed of an electromagnetic wave in air. After the previously transmitted wavelet is guaranteed to have died out, a new one is transmitted. Again, the radar listens for an echo, but this time after another time $t_2$ has passed. $t_2$ is greater than $t_1$, meaning the radar listens for echoes further away. If an echo is received, it means there is an object present at distance 
+$
+	d_2 = \frac12(v_0\cdot t_2).
+$
+This process is repeated for different time delays $t_i$. The chosen time delays can be adjusted depending on in what ranges one wants to search in, and how good range resolution one seeks.
 
-The radar principle is at its core simple.  A wavelet pulse $x_T(t)$ with some carrier frequency $\Omega$  is transmitted towards an object of interest. 
+Together, the echoes (or lack thereof) from each transmitted wavelet make up one sweep. A sweep is often plotted in an amplitude-vs-range, or amplitude-vs-depth diagram as in figure (...). These plots are a good way to quickly visualize at what ranges objects are present.
 
-etc etc..
-
+* Plot of sweep *
 
 \subsection{Matched filter}
 
@@ -138,7 +146,7 @@ One way of interpreting the matched filter is by viewing the filtering as a corr
 which is recognized as the cross-correlation between noisy signal $\bar	{x}(t)$ and transmitted waveform $x(t)$ evaluated at lag $T_M-t$. By shifting the constant lag $T_M$ we then can obtain the full cross-correlation 
 
 \subsection{IQ demodulation}
-A common type of data when working with radar signal processing is IQ-data (in- and quadrature phase).  This type of data is useful in that it contains information not only about amplitude, but about the phase of the radar signal as well \citep{richards_2014}. In particular, this is good for situations where small changes in the radar signal need to be detected, (Mention a case such as recording over grass...) as the phase is more sensitive to changes than the amplitude \citep{lien_gillian_karagozler_amihood_schwesig_olson_raja_poupyrev_2016}. If an object is detected at distance $r(t_1)$ from the radar, and shortly thereafter, the object is moved to distance $r(t_2)$, the corresponding difference in phase will be
+A common type of data when working with radar signal processing is IQ-data (in- and quadrature phase).  This type of data is useful in that it contains information not only about amplitude, but about the phase of the radar signal as well \citep{richards_2014}. In particular, this is good for situations where small changes in the radar signal need to be detected, (Mention a case such as recording over grass...) as the phase is more sensitive to changes than the amplitude \citep{lien_gillian_karagozler_amihood_schwesig_olson_raja_poupyrev_2016}. If an object is detected at distance $r(t_1)$ from the radar at time $t_1$, and shortly thereafter, the object is moved to distance $r(t_2)$, the corresponding difference in phase will be
 \begin{equation}
 	\label{eq:phase_diff}
 	\Delta\phi(t_1, t_2)=\frac{4\pi}{\lambda}(r(t_2)-r(t_1)) \quad\quad \textrm{mod 2$\pi$}
@@ -151,7 +159,7 @@ IQ-data is derived through a process commonly known as IQ- or quadrature demodul
 
 \section{Data}
 \subsection{Data Collecting}
-Having reliable data is a fundamental requirement in building a good model. Hence, choosing suitable parameters such as sampling frequency, regions of interest and planning a good measurment setup are all crucial tasks. The sampling frequency is particularly important to consider when working with means that could potentially cause aliasing. One such case is the DFT. If the sampling frequency is too low, we get aliasing etc. etc. 
+Having reliable data is a fundamental requirement in building a good model. Hence, choosing suitable parameters such as sampling frequency, regions of interest and planning a good measurment setup are all crucial tasks. The sampling frequency is particularly important to consider when working with means that could potentially cause aliasing. One such case is the DFT \textbf{[SOURCE]}. If the sampling frequency is too low, we get aliasing etc. etc. 
 
 In order to assure that aliasing is avoided, the maximal frequency component registered by the radar must be surpassed by half the sampling frequency
 \begin{equation}
