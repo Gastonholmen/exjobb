@@ -68,13 +68,15 @@ In this paper we introduce means of surface identification based on the output f
 
 Chapter 2: We present a radar systems overview and introduce some crucial concepts for understanding the radar output used in this work. 
 \\ \\
-Chapter 3: Feature selection and preprocessing is considered. Signal structure is discussed primarily on an intuitive level. 
+Chapter 3: Mention something about the data collecting process. Motive our choice of parameters such as sampling frequency. Go through visual observations of our data.
 \\ \\
-Chapter 4: Classification schemes. Moving from simple to advanced, some classifiers of special interest are investigated. Results with regards to these classifiers are presented.
+Chapter 4: Feature selection and preprocessing is considered. Signal structure is discussed primarily on an intuitive level. 
 \\ \\
-Chapter 5: Disucssion.
+Chapter 5: Classification schemes. Moving from simple to advanced, some classifiers of special interest are investigated. Results with regards to these classifiers are presented.
 \\ \\
-Chapter 6: Conclusion.
+Chapter 6: Disucssion.
+\\ \\
+Chapter 7: Conclusion.
 
 \section{Chapter 2: Radar system overview}
 
@@ -136,12 +138,20 @@ One way of interpreting the matched filter is by viewing the filtering as a corr
 which is recognized as the cross-correlation between noisy signal $\bar	{x}(t)$ and transmitted waveform $x(t)$ evaluated at lag $T_M-t$. By shifting the constant lag $T_M$ we then can obtain the full cross-correlation 
 
 \subsection{IQ demodulation}
-A common type of data when working with radar signal processing is IQ-data (in- and quadrature phase).  This type of data is useful in that it contains information not only about amplitude, but about the phase of the radar signal as well. In particular, this is good for situations where small changes in the radar signal need to be detected, (Mention a case such as recording over grass...) as the phase is more sensitive to changes than the amplitude. (Mention some equation. See Soli eq (11) ) Due to the high phase sensitivity, a high sampling rate is required or the recorded phase data will just appear to be fluctuating randomly over time (possibly motivate mathematically)
+A common type of data when working with radar signal processing is IQ-data (in- and quadrature phase).  This type of data is useful in that it contains information not only about amplitude, but about the phase of the radar signal as well \citep{richards_2014}. In particular, this is good for situations where small changes in the radar signal need to be detected, (Mention a case such as recording over grass...) as the phase is more sensitive to changes than the amplitude \citep{lien_gillian_karagozler_amihood_schwesig_olson_raja_poupyrev_2016}. If an object is detected at distance $r(t_1)$ from the radar, and shortly thereafter, the object is moved to distance $r(t_2)$, the corresponding difference in phase will be
+\begin{equation}
+	\label{eq:phase_diff}
+	\Delta\phi(t_1, t_2)=\frac{4\pi}{\lambda}(r(t_2)-r(t_1)) \quad\quad \textrm{mod 2$\pi$}
+\end{equation}
+By having a sampling frequency which is too low, the range difference in $\eqref{eq:phase_diff}$ could potentially become very big, and the phase difference would fluctuate over time and be incomprehensible.
+
+In the case of material classification, a high sampling frequency is highly beneficial. When moving across surfaces characterized by tiny details, a high sampling frequency is essential in capturing the shape of these.
 
 IQ-data is derived through a process commonly known as IQ- or quadrature demodulation. Raw data, received from the radar, is split up into two channels, according to figure (...). These two channels make up a real part in-phase (I) and quadrature phase (Q) part. From these we can obtain abs and phase...
 
-\section{Data Collecting}
-Having reliable data is a fundamental requirement to building a good model. Hence, choosing suitable parameters such as sampling frequency, regions of interest and making a good measurment setup are all crucial tasks. The sampling frequency is particularly important to consider when working with means that could potentially cause aliasing. One such case is the DFT. If the sampling frequency is too low, we get aliasing etc. etc. 
+\section{Data}
+\subsection{Data Collecting}
+Having reliable data is a fundamental requirement in building a good model. Hence, choosing suitable parameters such as sampling frequency, regions of interest and planning a good measurment setup are all crucial tasks. The sampling frequency is particularly important to consider when working with means that could potentially cause aliasing. One such case is the DFT. If the sampling frequency is too low, we get aliasing etc. etc. 
 
 In order to assure that aliasing is avoided, the maximal frequency component registered by the radar must be surpassed by half the sampling frequency
 \begin{equation}
@@ -149,14 +159,14 @@ In order to assure that aliasing is avoided, the maximal frequency component reg
 \end{equation}
 The sampling frequency can be chosen accordingly, assuming the maximal frequency component is known. 
 
-In figure (...) a vehicle is moving forward with constant speed, having a sensor mounted at the front. As it moves forward, small objects on the ground get closer to the radar sensor with some speed. This gives rise a doppler frequency being registered by the radar, which is \citep{lien_gillian_karagozler_amihood_schwesig_olson_raja_poupyrev_2016}
+In figure (...) a vehicle is moving forward with constant speed, having a sensor mounted at the front. As it moves forward, small objects on the ground get closer to the radar sensor with some speed. This gives rise to a doppler frequency being registered by the radar, which is \citep{lien_gillian_karagozler_amihood_schwesig_olson_raja_poupyrev_2016}
 \begin{equation}
 	f_{d} = \frac{2v_\perp}{\lambda}.
 \end{equation}
 ...
 
 
-\section{Chapter 2.5: Data exploration}
+\subsection{Chapter 2.5: Data exploration}
 
 Good source on PCA
 \cite{hyvasrinen_karhunen_oja_2004}
@@ -300,7 +310,14 @@ One particularly challenging aspect of adequately classifying surfaces is the ev
 Such effects is difficult to account for when selecting data. Gather a dataset as diverse as possible
 
 \subsection{Individual sensor performance}
-Despite the fact that the radar sensors have high precision, the output can vary a lot from sensor to sensor. In particular, one sensor can have a significantly higher gain than another, meaning that two sensors can have a different measure of reflexivity on the very same surface. 
+Despite the fact that the radar sensors have high precision, the output can vary a lot from sensor to sensor. In particular, one sensor can have a significantly higher gain than another, meaning that two sensors can have a different measure of reflexivity on the very same surface. This problem can be dealt with in several ways. 
+
+Mention what we did, and discuss pros and cons.
+
+1. Choose features that are not affected by the issue. Normalize sweeps etc.
+	A. Normalize sweeps so that the main peak is at height 1
+	B. Normalize sweeps by dividing with mean 
+
 
 \bibliography{refs}
 \bibliographystyle{apalike}
