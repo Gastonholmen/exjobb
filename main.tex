@@ -89,10 +89,6 @@ The matched filter.
 The IQ demodulation scheme. 
 \\ \\
 The radar system used for this project is a 60 GHz radar developed by Acconeer AB.
-\\ \\
-An antenna transmits a wavelet signal towards an object of interest. After a brief period of time a second wavelet signal is generated and \emph{mixed} with data from a recieving antenna. This procedure is repeated, every time slightly delaying the generation of the second wavelet and thus mixing with a different section of the incoming pulse. 
-\\ \\
-Throgh this methodology we can effectively produce
 
 \subsection{The radar principle}
 
@@ -246,12 +242,12 @@ Fast time and slow time features
 
 
 \subsubsection{Fourier Transform}
-First explain how FFT is used, then show what is required so that FFT does not cause aliasing.
+A "feature box" consisting of $T$ sweeps is selected. Viewing this as a matrix with elements $X_{n,t}$, where $n$ denotes slow time, and $t$ fast time we can write a Fourier transform in slow time at range $r$, within this box as
+\begin{equation}
+	\mathbb{X}_k^{(r)} = \sum_{n=0}^{T-1}X_{n,r}\exp\Big[-2\pi i\frac{nk}{T}\Big] \quad k=0, ..., T-1
+\end{equation}
+To avoid aliasing we refer to chapter earlier in report where this is discussed. Mention that $\mathbb{X}_k^{(r)}$, for all $r$, $k$, is flattened to a vector, resulting in one new sample.
 
-
-Sampling at 150 Hz and moving at 0.3m/s gives a maximal speed component of 0.15m/s, directed straight towards the sensor. This is notated $v_{\perp}$. The nyquist frequency is half the sampling frequency, i.e. $f_N=75$ Hz. From moving an "object" straight towards the sensor with speed $v_{\perp}$ we get a doppler frequency $f_d = \frac{2v_{\perp}}{\lambda}$. Comparing $f_d$ with $f_N$, we see that $f_d$ is smaller, meaning we will have aliasing.
-
-* Figure showing how $v_\perp$ is defined. mark velocities and possibly other variables.*
 
 
 
