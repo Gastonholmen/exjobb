@@ -165,7 +165,7 @@ IQ-data is derived through a process commonly known as IQ- or quadrature demodul
 
 \section{Data}
 \subsection{Data Collecting}
-Having reliable data is a fundamental requirement in building a good model. Hence, choosing suitable parameters such as sampling frequency, regions of interest and planning a good measurment setup are all crucial tasks. The sampling frequency is particularly important to consider when working with means that could potentially cause aliasing. One such case is the DFT \textbf{[SOURCE]}. If the sampling frequency is too low, we get aliasing etc. etc. 
+Having reliable data is a fundamental requirement in building a good model. Hence, choosing suitable parameters such as sampling frequency, regions of interest and planning a good measurment setup are all crucial tasks. The sampling frequency is particularly important to consider when working with means that could potentially cause aliasing. One such case is the DFT \textbf{[SOURCE: some book in my bookshelf]}. If the sampling frequency is too low, we get aliasing etc. etc. 
 
 In order to assure that aliasing is avoided, the maximal frequency component registered by the radar must be surpassed by half the sampling frequency
 \begin{equation}
@@ -209,6 +209,7 @@ Yada yada there is two combatting ideas here
 \subsection{Preprocessing}
 
 \subsubsection{Downsampling}
+Add reference to Information Theoretic part
 
 Since the correlation between neighboring range samples is very high we can downsample without significant loss of information. The downsampling process essentially require three hyperparameters: A starting range $R_{start}$ and an end range $R_{end}$ where we begin and end our downsampling process respectively, as well as a downsampling factor $D$.
 
@@ -216,11 +217,21 @@ Since the correlation between neighboring range samples is very high we can down
 	x_D(n, t) = x(R_{start} + nD, t) \quad \text{for}\quad n=1...\frac{R_{end}-R_{start}}{D}
 \end{equation}
 
+\subsubsection{Sweep Normalization}
+The gain sensitivity of the Acconeer radar chips can vary a lot from sensor to sensor. Makes it meaningless to measure, and classify on one sensor which is very different from the one that measured the training data. 
+
+Explain normalization procedure: divide all sweeps within a feature box with the total energy within that feature box. 
+
+Mention this was the best approach, but do not go into detail about the other methods - if so, just mention them briefly.
+
+Drawbacks: This makes us unable to use energy as feature, which would be a good measure of reflectivity. 
+
+
 \subsubsection{Using multiple sweeps for feature selection}
 
 In the radar system multiple sources of noise are introduced.
 \\ \\
-List some noise sources.
+Noise sources: Thermal emissions of target, random currents in electrical components, data quantization, etc. etc. \citep{w_doerry_2016}
 \\ \\
 In the beginning section of this chapter we introduced two conflicting interpretations of the radar signal. In the first the incomming wavelet is drawn from a complex distribution, and each sweep is independent from the rest. In the second we instead considered that there may be some significant correlations in time to take into account; surface shapes and objects passing by the sensor are detected multiple times in a perhaps predictable and useful manner.  
 
@@ -228,20 +239,36 @@ The first suggest that signal averaging over a number of sweeps should yield a m
 
 Thus a predefined number is chosen as the number of sweeps used to extract each feature. While each feature may be extracted with higher accuracy, it is done at the price of a lower number of classifications per second. The relation between classification rate $F_c$, sampling speed $F_s$ and sweeps per feature $T_s$ is
 
+
+
 \begin{equation}
 	F_c = \frac{F_s}{T_s}
 \end{equation}
 
-
-\subsection{Used features}
+\subsection{Features}
 
 Fast time and slow time features 
 
-\subsubsection{Average sweep energy}
+Suggetsed general template of subsections: 
+\begin{itemize}
+	\item{Motivate the idea}
+	\item{Present the actual relevance in terms of plots or other investigation results}
+	\item{Show/explain the implementation}
+\end{itemize}
 
+\subsubsection{Average energy}
+The average energy tells us how much energy is reflected back to the radar. Hence it can be regarded as a measure of how good of a reflector the underlying surface is. The energy depends on the shape of the surface, as well as its dielectric constant. Compared to other materials, grass has a very different surface shape, which potentially gives it a very different reflexivity. However, its dielectric constant could also vary a lot from sunny and rainy days, making it hard to guess its reflective properties.
+
+By computing the average energy of single sweeps from different surfaces we obtain the results in figure (plots of sweep energies). Clearly, the grass surface has a much lower energy. $<$We have to compare different types of grass. Wet, dry, tall, short, etc.$>$
+
+To get a more robust measure of the average energy we not only compute the average over selected range bins of a single sweep, but we average over a few consecutive sweeps as well. Mathematically, the feature we end up using becomes
 \begin{equation}
-	P(t_m) = \frac{1}{NT}\sum_{t=0}^{T-1}\sum_{n=0}^{K-1}x(n, t_m + t)x^*(n, t_m + t)
+	P(t_m) = \frac{1}{NT}\sum_{t=0}^{T-1}\sum_{n=0}^{K-1}x(n, t_m + t)x^*(n, t_m + t).
 \end{equation}
+Add some talk about this feature being left unused due to normalization.
+
+
+
 
 \subsubsection{Expected signal}
 
