@@ -214,7 +214,7 @@ Add reference to Information Theoretic part
 Since the correlation between neighboring range samples is very high we can downsample without significant loss of information. The downsampling process essentially require three hyperparameters: A starting range $R_{start}$ and an end range $R_{end}$ where we begin and end our downsampling process respectively, as well as a downsampling factor $D$.
 
 \begin{equation}
-	x_D(n, t) = x(R_{start} + nD, t) \quad \text{for}\quad n=1...\frac{R_{end}-R_{start}}{D}
+	x_D(n, t) = x(R_{start} + nD, t) \quad \text{for}\quad n=0...\frac{R_{end}-R_{start}}{D}
 \end{equation}
 
 \subsubsection{Sweep Normalization}
@@ -271,6 +271,7 @@ Add some talk about this feature being left unused due to normalization.
 
 
 \subsubsection{Expected signal}
+The most simple feature would be to just use the plain sweeps as features. A simple next step could be to average a few sweeps in slow time, making the samples 
 
 \begin{equation}
 	s_i(t_m) = \E\{X_{i,t_m}\} = \frac{1}{T}\sum_{t=0}^{T-1}x(i, t_m + t)
