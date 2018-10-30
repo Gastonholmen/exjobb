@@ -255,8 +255,19 @@ Suggetsed general template of subsections:
 	\item{Show/explain the implementation}
 \end{itemize}
 
+
+
+\subsubsection{Expected signal}
+The simplest way of selecting features would be to use plain sweep data as features. While this method requires very little data preprocessing, it does not give very good results (Any comment on how well it performs?). With just a little more effort, a significant improvement can be made by averaging a few sweeps in slow time, making the samples more similar. For range bin $i$, $T$ consecutive samples in slow time are collapsed into one according to
+
+\begin{equation}
+	s_i(t_m) = \E\{X_{i,t_m}\} = \frac{1}{T}\sum_{t=0}^{T-1}x(i, t_m + t)
+\end{equation}
+
+Figures: Sweep averaging plot (?), comparing averaged sweeps for different materials
+
 \subsubsection{Average energy}
-The average energy tells us how much energy is reflected back to the radar. Hence it can be regarded as a measure of how good of a reflector the underlying surface is. The energy depends on the shape of the surface, as well as its dielectric constant. Compared to other materials, grass has a very different surface shape, which potentially gives it a very different reflexivity. However, its dielectric constant could also vary a lot from sunny and rainy days, making it hard to guess its reflective properties.
+The average energy in a sweep tells us how much energy is reflected back to the radar. Hence it can be regarded as a measure of how good of a reflector the underlying surface is. The energy depends on the shape of the surface, as well as its dielectric constant. Compared to other materials, grass has a very different surface shape, which potentially gives it a very different reflexivity. However, its dielectric constant could also vary a lot depending on whether it is wet or dry, making it hard to guess its reflective properties.
 
 By computing the average energy of single sweeps from different surfaces we obtain the results in figure (plots of sweep energies). Clearly, the grass surface has a much lower energy. $<$We have to compare different types of grass. Wet, dry, tall, short, etc.$>$
 
@@ -266,15 +277,6 @@ To get a more robust measure of the average energy we not only compute the avera
 \end{equation}
 Add some talk about this feature being left unused due to normalization.
 
-
-
-
-\subsubsection{Expected signal}
-The most simple feature would be to just use the plain sweeps as features. A simple next step could be to average a few sweeps in slow time, making the samples 
-
-\begin{equation}
-	s_i(t_m) = \E\{X_{i,t_m}\} = \frac{1}{T}\sum_{t=0}^{T-1}x(i, t_m + t)
-\end{equation}
 
 
 \subsubsection{Fourier Transform}
@@ -338,8 +340,9 @@ as our expression for autocovariance. Note that the variance in \ref{eq:var} col
 \section{Chapter 4: Classification schemes}
 
 \subsection{LSTM}
+Motivation: LSTM specialises on time series, and with good time resolution it makes sense to think of the observation from one range bin as a time series. LSTM has previously been used in connection with radar classification tasks, for example in (list some sources)
 
-Good reference on radar and LSTM: \citep{jithesh_sagayaraj_srinivasa_2018}
+Find one good reference on radar and LSTM: \citep{jithesh_sagayaraj_srinivasa_2018}
 
 \section{Chapter 5: Discussion}
 
