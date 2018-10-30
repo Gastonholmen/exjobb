@@ -2,3 +2,6 @@
 *.dvi
 *.aux
 *.gz
+*.pdf
+*.bbl
+*.blg
