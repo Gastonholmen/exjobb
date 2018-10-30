@@ -199,6 +199,27 @@ Principal Component Analysis (PCA) is  a classical technique in statistical data
 
 \section{Chapter 3: Feature selection}
 
+In order to create an effective predictive model one must first select a set of features used to produce each classification. Both a science and an art, this process involves intuition, theory and a hefty amount of trial-and-error. Although a seemingly daunting task, for a model to be effective the feature selection procedure is key, and a carefully considered selection often generates significantly better results than one hastily put together. 
+
+Ideally, one seeks a small set of variables which accurately captures the information content in a larger set of data. After reducing the number of features into a more manageable format it is then possible to obtain good results with significantly less computational load then if no feature selection had been considered. Furthermore, the feature selection process allows us to pinpoint what data characteristics we wish to monitor, and subsequently which data characteristics we can disregard. 
+
+\subsection{Desirable traits}
+
+In the present case the objective is to capture defining characteristics of a surface using one dimensional data obtained from a radar sensor placed some small distance above the surface of interest. Furthermore, the sensor is moving along some direction parallell to the surface plane, thus continuously altering the sensors surroundings. One may split up the possible methods of characterizing this data obtained through this process into two main categories: Methods which aim at capturing the overall spatial signal form, and methods which examine the temporal changes in radar response. 
+
+The first of the two is straight forward; if the scattering surface can be assumed to maintain some defining characteristics at any given point time one could simply extract features relating to these characteristics to generate a classification. Say for example we are presented two surfaces with equivalent reflective properties but where one is rough and the other is smooth. For the smooth surface the scatterers behave more predictably than the rugged surface. This would mean that the main portion of scattered electromagnetic waves will scatter at the
+
+one would expect to receive a strong response from a electromagnetic pulse sent at a zero degree angle of incidence. If one instead sends a pulse at a higher angle of incidence, one would expect the opposite as the scatterers of the smooth surface would primarily scatter away from the sensor yielding a weak response. For the rough surface on the other hand, scatterers direct an incoming reflection in a wider array of angles. 
+
+% Fortsätt här
+
+
+due to the various properties of the scattering surface in the vicinity 
+
+we begin this section with a discussion 
+
+
+
 In order to make sense of data one must impose some reasonable assumptions. 
 \\ 
 One idea is to view each measurement, taken at time instance $t$ at range $r$ for material $m$, as drawn from some 
