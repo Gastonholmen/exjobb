@@ -89,7 +89,7 @@ In chapter 2 we present an overview of a general radar system and introduce some
 
 \section{Chapter 2: Radar system overview}
 
-In this chapter we introduce three fundamental radar concepts which will be important for understanding future feature selection discussions. 
+In this chapter we introduce a few fundamental radar concepts which will be important for understanding the data acquired by the 60 GHz sensor.
 \\ \\
 The radar equation.
 \\ \\
@@ -98,6 +98,8 @@ The matched filter.
 The IQ demodulation scheme. 
 \\ \\
 The radar system used for this project is a 60 GHz radar developed by Acconeer AB.
+
+
 
 \subsection{The radar principle}
 
@@ -115,41 +117,19 @@ Together, the echoes (or lack thereof) from each transmitted wavelet make up one
 
 * Plot of sweep *
 
-\subsection{Matched filter}
+\subsection{Elements of a pulsed radar}
 
-something something desired frequency response of the recieving antenna. 
+A pulsed radar system can be realized in countless ways, but all subscribe to the fundamental physical laws of electromagnetic radiation previously described. In this section one such configuration for a pulsed radar system is described.
 
-In any radar system a good Signal-to-Noise Ratio (SNR) is a highly desired property. Finding a reciever frequency response which maximizes SNR is thus an important topic. Denoting the reciever output as $y(t)$ and the incoming waveform as $x(t)$ the output spectrum will be a convolution of $x(t)$ and the system impulse response $h(t)$, or conversely a multiplication in the frequency domain $Y(\Omega) = X(\Omega)H(\Omega)$. If we seek to maximize SNR at some arbitrary point in time $T_M$ the power at that very instant is
-%
-\begin{equation}
-	|y(T_M)|^{2} = |\frac{1}{2\pi}\int X(\Omega)H(\Omega)e^{j\Omega T_M} d\Omega|^{2}.
-\end{equation}
+A waveform generator outputs a radar envelope which is modulated by a local oscillator to some desired radio frequency. After signal amplification the wavelet is transmitted through an antenna. 
 
-Now we consider interference in the form of spectrally flat noise with power spectral density $\sigma^2$ W/Hz. The SNR $\xi$ measured at time $T_M$ can then be described as the ratio between the total signal power and the total noise power
-%
-\begin{equation}
-	\xi
-	= \frac{|y(T_M)|^{2}}{(1/2\pi)\int|\sigma H(\Omega)|^{2}d\Omega}
-	= \frac{|(1/2\pi)\int X(\Omega)H(\Omega)e^{j\Omega T_M}d\Omega|^2}{(\sigma^2/2\pi)\int|H(\Omega)|^{2}d\Omega}
-\end{equation}
-%
-which clearly depends on which reciever response is used. It can from above expression be shown [reference] that the maximum $\xi$ is obtained when 
-%
-\begin{gather}
- H(\Omega) = \alpha X*(\Omega)e^{j\Omega T_M}, \text{ or} \\
-\label{eq:123}
-h(t) = \alpha x^*(T_M - t)
-\end{gather}
-%
-where $\alpha$ is an arbitrary constant which has no impact on the resulting SNR. Examining $h(t)$ above we see that the optimal filter for maximizing SNR is when the coefficients consist of the transmitted waveform conjugated and time-reversed. This filter is called a \emph{matched filter} due to the symmetrical relationship between waveform and impulse response.
+Detection is performed by a second antenna, which receives the returning signal during some time interval. The received signal then goes through a process known as \emph{mixing}. An internal wavelet is generated at a very specific delay from the initial pulse transmission and multiplied with the received signal. If the received and internal pulses do not match, the output of this multiplication will be zero. If there however exist some overlap between the internal and returning signals the output will be nonzero, indicating some level of energy content at the distance corresponding to the internal pulse delay. By increasing the internal pulse delay and repeating this procedure a set of measurement points is obtained. Mixing is thus achieved by multiplying a large number of returning wavelets with internally generated wavelet counterparts, adding a slight delay between sampling points. 
 
-One way of interpreting the matched filter is by viewing the filtering as a correlation. If we denote $\bar{x}(t)$ as the sum of both target and noise components the output $y(t)$ is given by
-%
-\begin{equation}
-	y(t) = \int \bar{x}(s)h(t-s)ds = \alpha\int \bar{x}(s)x^*(s + T_M - t)ds
-\end{equation}
-%
-which is recognized as the cross-correlation between noisy signal $\bar	{x}(t)$ and transmitted waveform $x(t)$ evaluated at lag $T_M-t$. By shifting the constant lag $T_M$ we then can obtain the full cross-correlation 
+
+A local oscillator operates at a required frequency
+
+
+Capturing scattering "echoes" is performed through a process known as \emph{mixing}. 
 
 \subsection{IQ Data}
 A common type of data when working with radar signal processing is in-phase and quadrature-phase data (IQ-data).  This type of data is useful in that it contains information not only about amplitude, but about the phase of the radar signal as well \citep{richards_2014}. IQ-data is represented as complex numbers, and a radar sweep consists of several such complex numbers - one for each investigated range. To obtain the amplitude plot, as the one in figure .... for a sweep, $s$, made up of IQ-data, one simply computes the absolute value for each complex number in $s$. Similarly, a phase curve can be obtained by computing the phase in each point. A phase curve can typically look like the one in *Figure of phase plot*
