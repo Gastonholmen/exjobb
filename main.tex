@@ -75,17 +75,17 @@ In this paper we introduce means of surface identification based on the output f
 
 \subsection{Thesis outline}
 
-Chapter 2: We present a radar systems overview and introduce some crucial concepts for understanding the radar output used in this work. 
-\\ \\
-Chapter 3: Mention something about the data collecting process. Motive our choice of parameters such as sampling frequency. Go through visual observations of our data.
-\\ \\
-Chapter 4: Feature selection and preprocessing is considered. Signal structure is discussed primarily on an intuitive level. 
-\\ \\
-Chapter 5: Classification schemes. Moving from simple to advanced, some classifiers of special interest are investigated. Results with regards to these classifiers are presented.
-\\ \\
-Chapter 6: Disucssion.
-\\ \\
-Chapter 7: Conclusion.
+In chapter 2 we present an overview of a general radar system and introduce some crucial concepts for understanding the radar output used in this work. In chapter 3 we proceed by presenting our measurement setup and comment on the data collecting process and the data itself. Chapter 4 revolves around discussing ways of preprocessing the data and extracting relevant features from it. After the preprocessing, in chapter 5, we go through different classification schemes we have tested. The classification results are presented in a table for easy comparison. Finally, we conclude with an overall discussion of the work in chapter 6 and summarize our conclusions in chapter 7.
+
+%Chapter 3: Mention something about the data collecting process. Motive our choice of parameters such as sampling frequency. Go through visual observations of our data.
+
+%Chapter 4: Feature selection and preprocessing is considered. Signal structure is discussed primarily on an intuitive level. 
+
+%Chapter 5: Classification schemes. Moving from simple to advanced, some classifiers of special interest are investigated. Results with regards to these classifiers are presented.
+
+%Chapter 6: Disucssion.
+
+%Chapter 7: Conclusion.
 
 \section{Chapter 2: Radar system overview}
 
@@ -152,7 +152,9 @@ One way of interpreting the matched filter is by viewing the filtering as a corr
 which is recognized as the cross-correlation between noisy signal $\bar	{x}(t)$ and transmitted waveform $x(t)$ evaluated at lag $T_M-t$. By shifting the constant lag $T_M$ we then can obtain the full cross-correlation 
 
 \subsection{IQ Data}
-A common type of data when working with radar signal processing is IQ-data (in- and quadrature phase).  This type of data is useful in that it contains information not only about amplitude, but about the phase of the radar signal as well \citep{richards_2014}. In particular, this is good for situations where small changes in the radar signal need to be detected, (Mention a case such as recording over grass...) as the phase is more sensitive to changes than the amplitude \citep{lien_gillian_karagozler_amihood_schwesig_olson_raja_poupyrev_2016}. If an object is detected at distance $r(t_1)$ from the radar at time $t_1$, and shortly thereafter, the object is moved to distance $r(t_2)$, the corresponding difference in phase will be
+A common type of data when working with radar signal processing is in-phase and quadrature-phase data (IQ-data).  This type of data is useful in that it contains information not only about amplitude, but about the phase of the radar signal as well \citep{richards_2014}. IQ-data is represented as complex numbers, and a radar sweep consists of several such complex numbers - one for each investigated range. To obtain the amplitude plot, as the one in figure .... for a sweep, $s$ made up of IQ-data, one simply computes the absolute value for each complex number in $s$. Similarly, a phase curve can be obtained by computing the phase in each point. A phase curve can typically look like the one in *Figure of phase plot*
+
+In many applications, the phase information in IQ-data is used when small changes in the radar signal need to be detected, (Mention a case such as recording over grass...) as the phase is more sensitive to changes than the amplitude \citep{lien_gillian_karagozler_amihood_schwesig_olson_raja_poupyrev_2016}. If an object is detected at distance $r(t_1)$ from the radar at time $t_1$, and shortly thereafter, the object is moved to distance $r(t_2)$, the corresponding difference in phase will be
 \begin{equation}
 	\label{eq:phase_diff}
 	\Delta\phi(t_1, t_2)=\frac{4\pi}{\lambda}(r(t_2)-r(t_1)) \quad\quad \textrm{mod 2$\pi$}
@@ -161,11 +163,11 @@ By having a sampling frequency which is too low, the range difference in $\eqref
 
 In the case of material classification, a high sampling frequency is highly beneficial. When moving across surfaces characterized by tiny details, a high sampling frequency is essential in capturing the shape of these.
 
-IQ-data is derived through a process commonly known as IQ- or quadrature demodulation. Raw data, received from the radar, is split up into two channels, according to figure (...). These two channels make up a real part in-phase (I) and quadrature phase (Q) part. From these we can obtain abs and phase...
+For a thorough description of how IQ-data is derived from raw radar data, we refer to \citep{richards_2014}
 
 \section{Data}
 \subsection{Data Collecting}
-Having reliable data is a fundamental requirement in building a good model. Hence, choosing suitable parameters such as sampling frequency, regions of interest and planning a good measurment setup are all crucial tasks. The sampling frequency is particularly important to consider when working with means that could potentially cause aliasing. One such case is the DFT \textbf{[SOURCE: some book in my bookshelf]}. If the sampling frequency is too low, we get aliasing etc. etc. 
+Having reliable data is a fundamental requirement in building a good model. Hence, choosing suitable parameters such as sampling frequency, regions of interest and planning a good measurment setup are all crucial tasks. The sampling frequency is particularly important to consider when working with means that could potentially cause aliasing. One such case is the DFT \citep{lindgren_rootzeŽn_sandsten_2013}. If the sampling frequency is too low, we get aliasing etc. etc. 
 
 In order to assure that aliasing is avoided, the maximal frequency component registered by the radar must be surpassed by half the sampling frequency
 \begin{equation}
@@ -268,13 +270,6 @@ Thus a predefined number is chosen as the number of sweeps used to extract each 
 \subsection{Features}
 
 Fast time and slow time features 
-
-Suggetsed general template of subsections: 
-\begin{itemize}
-	\item{Motivate the idea}
-	\item{Present the actual relevance in terms of plots or other investigation results}
-	\item{Show/explain the implementation}
-\end{itemize}
 
 
 
