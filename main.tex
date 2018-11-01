@@ -151,7 +151,7 @@ One way of interpreting the matched filter is by viewing the filtering as a corr
 %
 which is recognized as the cross-correlation between noisy signal $\bar	{x}(t)$ and transmitted waveform $x(t)$ evaluated at lag $T_M-t$. By shifting the constant lag $T_M$ we then can obtain the full cross-correlation 
 
-\subsection{IQ demodulation}
+\subsection{IQ Data}
 A common type of data when working with radar signal processing is IQ-data (in- and quadrature phase).  This type of data is useful in that it contains information not only about amplitude, but about the phase of the radar signal as well \citep{richards_2014}. In particular, this is good for situations where small changes in the radar signal need to be detected, (Mention a case such as recording over grass...) as the phase is more sensitive to changes than the amplitude \citep{lien_gillian_karagozler_amihood_schwesig_olson_raja_poupyrev_2016}. If an object is detected at distance $r(t_1)$ from the radar at time $t_1$, and shortly thereafter, the object is moved to distance $r(t_2)$, the corresponding difference in phase will be
 \begin{equation}
 	\label{eq:phase_diff}
@@ -195,13 +195,13 @@ Observing a typical radar sweep[ref to plot with sweep] we note that points are 
 
 PCA 125-143: Through the point and feature selection methods described in previous sections we obtain high dimensional feature vectors. Getting an intuitive feel for such data extracted in these processes is difficult as direct plotting is limited to three dimensions. 
 
-Principal Component Analysis (PCA) is  a classical technique in statistical data analysis which takes a large set of multivariate variables and finds a smaller set of variables with less redundancy. Critically, PCA finds a rotated orthogonal coordinate system such that the elements of the set become uncorrelated. Projecting elements on the principal axes corresponding to the directions of maximal variance a good approximation of the original data in lower dimension is obtained\citep{hyvasrinen_karhunen_oja_2004}. 
+Principal Component Analysis (PCA) is  a classical technique in statistical data analysis which takes a large set of multivariate variables and finds a smaller set of variables with less redundancy. Critically, PCA finds a rotated orthogonal coordinate system such that the elements of the set become uncorrelated. Projecting elements on the principal axes corresponding to the directions of maximal variance a good approximation of the original data in lower dimension is obtained \citep{hyvasrinen_karhunen_oja_2004}. 
 
 \section{Chapter 3: Feature selection}
 
 In order to create an effective predictive model one must first select a set of features used to produce each classification. Both a science and an art, this process involves intuition, theory and a hefty amount of trial-and-error. Although a seemingly daunting task, for a model to be effective the feature selection procedure is key, and a carefully considered selection often generates significantly better results than one hastily put together. 
 
-Ideally, one seeks a small set of variables which accurately captures the information content in a larger set of data. After reducing the number of features into a more manageable format it is then possible to obtain good results with significantly less computational load then if no feature selection had been considered. Furthermore, the feature selection process allows us to pinpoint what data characteristics we wish to monitor, and subsequently which data characteristics we can disregard. 
+Ideally, one seeks a small set of variables which accurately captures the information content in a larger set of data. After reducing the number of features into a more manageable format it is then possible to obtain good results with significantly less computational load than if no feature selection had been considered. Furthermore, the feature selection process allows us to pinpoint what data characteristics we wish to monitor, and subsequently which data characteristics we can disregard. 
 
 \subsection{Desirable traits}
 
@@ -232,7 +232,7 @@ Yada yada there is two combatting ideas here
 \subsubsection{Downsampling}
 Add reference to Information Theoretic part
 
-Since the correlation between neighboring range samples is very high we can downsample without significant loss of information. The downsampling process essentially require three hyperparameters: A starting range $R_{start}$ and an end range $R_{end}$ where we begin and end our downsampling process respectively, as well as a downsampling factor $D$.
+Since the correlation between neighboring range samples is very high we can downsample without significant loss of information. The downsampling process essentially requires three hyperparameters: A starting range $R_{start}$ and an end range $R_{end}$ where we begin and end our downsampling process respectively, as well as a downsampling factor $D$.
 
 \begin{equation}
 	x_D(n, t) = x(R_{start} + nD, t) \quad \text{for}\quad n=0...\frac{R_{end}-R_{start}}{D}
@@ -361,9 +361,9 @@ as our expression for autocovariance. Note that the variance in \ref{eq:var} col
 \section{Chapter 4: Classification schemes}
 
 \subsection{LSTM}
-Motivation: LSTM specialises on time series, and with good time resolution it makes sense to think of the observation from one range bin as a time series. LSTM has previously been used in connection with radar classification tasks, for example in (list some sources)
+Observing one range bin at a time, one could think of the radar data as a time series. This motivates the use of some classification scheme that exploits temporal behaviour. Recurrent neral networks (RNNs) feature this by having feedback within individual layers in the network. \citep{karim_majumdar_darabi_chen_2018} The problem with RNNs, however, is that they suffer from a vanishing or exploding gradient, and can only sustain a short term memory. A way to combat this is to use a neural network layer called long short term memory (LSTM). These are thoroughly described in, for example \citep{hochreiter_schmidhuber_1997}
 
-Find one good reference on radar and LSTM: \citep{jithesh_sagayaraj_srinivasa_2018}
+LSTM-layers have previously been used successfully for classifications in radar applications. For instance in \citep{jithesh_sagayaraj_srinivasa_2018} the method was able to classify flying objects from $\textbf{nnn}$ different classes with an accuracy of ...? In \citep{karim_majumdar_darabi_chen_2018}, the LSTM layer is used in combination with a fully convolutional neural network (FCN), which proves to be a significant improvement from just using FCNs when classifying time series.
 
 \section{Chapter 5: Discussion}
 
