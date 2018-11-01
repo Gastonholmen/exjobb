@@ -152,7 +152,7 @@ One way of interpreting the matched filter is by viewing the filtering as a corr
 which is recognized as the cross-correlation between noisy signal $\bar	{x}(t)$ and transmitted waveform $x(t)$ evaluated at lag $T_M-t$. By shifting the constant lag $T_M$ we then can obtain the full cross-correlation 
 
 \subsection{IQ Data}
-A common type of data when working with radar signal processing is in-phase and quadrature-phase data (IQ-data).  This type of data is useful in that it contains information not only about amplitude, but about the phase of the radar signal as well \citep{richards_2014}. IQ-data is represented as complex numbers, and a radar sweep consists of several such complex numbers - one for each investigated range. To obtain the amplitude plot, as the one in figure .... for a sweep, $s$ made up of IQ-data, one simply computes the absolute value for each complex number in $s$. Similarly, a phase curve can be obtained by computing the phase in each point. A phase curve can typically look like the one in *Figure of phase plot*
+A common type of data when working with radar signal processing is in-phase and quadrature-phase data (IQ-data).  This type of data is useful in that it contains information not only about amplitude, but about the phase of the radar signal as well \citep{richards_2014}. IQ-data is represented as complex numbers, and a radar sweep consists of several such complex numbers - one for each investigated range. To obtain the amplitude plot, as the one in figure .... for a sweep, $s$, made up of IQ-data, one simply computes the absolute value for each complex number in $s$. Similarly, a phase curve can be obtained by computing the phase in each point. A phase curve can typically look like the one in *Figure of phase plot*
 
 In many applications, the phase information in IQ-data is used when small changes in the radar signal need to be detected, (Mention a case such as recording over grass...) as the phase is more sensitive to changes than the amplitude \citep{lien_gillian_karagozler_amihood_schwesig_olson_raja_poupyrev_2016}. If an object is detected at distance $r(t_1)$ from the radar at time $t_1$, and shortly thereafter, the object is moved to distance $r(t_2)$, the corresponding difference in phase will be
 \begin{equation}
@@ -167,6 +167,13 @@ For a thorough description of how IQ-data is derived from raw radar data, we ref
 
 \section{Data}
 \subsection{Data Collecting}
+Having reliable data is a fundamental requirement in building a good model. There are many parameters to consider in optimizing the data collecting process. However,  finding an optimal solution is often impossible as the combinations are endless, but putting some thought into every decision often proves worthwhile. Below, we motivate our choices of sensor placement as well as various parameters.
+
+\subsubsection{Measurement Setup}
+
+
+Include graphics of the sensor placement etc. and describe the setup briefly. Possibly mention the $\frac14\lambda$ gap between the sensor and RLM plastic.
+\subsubsection{Measurement Settings}
 Having reliable data is a fundamental requirement in building a good model. Hence, choosing suitable parameters such as sampling frequency, regions of interest and planning a good measurment setup are all crucial tasks. The sampling frequency is particularly important to consider when working with means that could potentially cause aliasing. One such case is the DFT \citep{lindgren_rootzeŽn_sandsten_2013}. If the sampling frequency is too low, we get aliasing etc. etc. 
 
 In order to assure that aliasing is avoided, the maximal frequency component registered by the radar must be surpassed by half the sampling frequency
@@ -175,7 +182,7 @@ In order to assure that aliasing is avoided, the maximal frequency component reg
 \end{equation}
 The sampling frequency can be chosen accordingly, assuming the maximal frequency component is known. 
 
-In figure (...) a vehicle is moving forward with constant speed, having a sensor mounted at the front. As it moves forward, small objects on the ground get closer to the radar sensor with some speed. This gives rise to a doppler frequency being registered by the radar, which is \citep{lien_gillian_karagozler_amihood_schwesig_olson_raja_poupyrev_2016}
+In figure (fig. from previous subsubsection) a vehicle is moving forward with constant speed, having a sensor mounted at the front. As it moves forward, small objects on the ground get closer to the radar sensor with some speed. This gives rise to a doppler frequency being registered by the radar, which is \citep{lien_gillian_karagozler_amihood_schwesig_olson_raja_poupyrev_2016}
 \begin{equation}
 	f_{d} = \frac{2v_\perp}{\lambda}.
 \end{equation}
