@@ -4,8 +4,10 @@
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{amsfonts}
+%\usepackage{graphicx}
+%\usepackage[outdir=./]{epstopdf}
 %\usepackage{notoccite}
-
+\usepackage{graphicx}
 % Expectation symbol
 \DeclareMathOperator*{\E}{\mathbb{E}}
 
@@ -126,10 +128,14 @@ A waveform generator outputs a radar envelope which is modulated by a local osci
 Detection is performed by a second antenna, which receives the returning signal during some time interval. The received signal then goes through a process known as \emph{mixing}. An internal wavelet is generated at a very specific delay from the initial pulse transmission and multiplied with the received signal. If the received and internal pulses do not match, the output of this multiplication will be zero. If there however exist some overlap between the internal and returning signals the output will be nonzero, indicating some level of energy content at the distance corresponding to the internal pulse delay. By increasing the internal pulse delay and repeating this procedure a set of measurement points is obtained. Mixing is thus achieved by multiplying a large number of returning wavelets with internally generated wavelet counterparts, adding a slight delay between sampling points. 
 
 
-A local oscillator operates at a required frequency
+\includegraphics[scale=0.5]{figs_temp/mixing0}
+
+\includegraphics[scale=0.5]{figs_temp/mixing1}
+
+\includegraphics[scale=0.5]{figs_temp/mixing2}
 
 
-Capturing scattering "echoes" is performed through a process known as \emph{mixing}. 
+
 
 \subsection{IQ Data}
 A common type of data when working with radar signal processing is in-phase and quadrature-phase data (IQ-data).  This type of data is useful in that it contains information not only about amplitude, but about the phase of the radar signal as well \citep{richards_2014}. IQ-data is represented as complex numbers, and a radar sweep consists of several such complex numbers - one for each investigated range. To obtain the amplitude plot, as the one in figure .... for a sweep, $s$, made up of IQ-data, one simply computes the absolute value for each complex number in $s$. Similarly, a phase curve can be obtained by computing the phase in each point. A phase curve can typically look like the one in *Figure of phase plot*
