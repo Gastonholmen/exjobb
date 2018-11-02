@@ -170,11 +170,11 @@ For a thorough description of how IQ-data is derived from raw radar data, we ref
 Having reliable data is a fundamental requirement in building a good model. There are many parameters to consider in optimizing the data collecting process. However,  finding an optimal solution is often impossible as the combinations are endless, but putting some thought into every decision often proves worthwhile. Below, we motivate our choices of sensor placement as well as various parameters.
 
 \subsubsection{Measurement Setup}
-
+By having one sensor mounted flat towards the ground as in figure (...) we may capture useful information that could potentially differntiate grass from other surfaces. A reasonable assumption is that a grass surface will reach up higher towards the sensor than other surfaces - especially for long grass. Hence, as the robot moves across a grass surface the radar will detect an object closer than if it were moving across something else.
 
 Include graphics of the sensor placement etc. and describe the setup briefly. Possibly mention the $\frac14\lambda$ gap between the sensor and RLM plastic.
 \subsubsection{Measurement Settings}
-Having reliable data is a fundamental requirement in building a good model. Hence, choosing suitable parameters such as sampling frequency, regions of interest and planning a good measurment setup are all crucial tasks. The sampling frequency is particularly important to consider when working with means that could potentially cause aliasing. One such case is the DFT \citep{lindgren_rootzeŽn_sandsten_2013}. If the sampling frequency is too low, we get aliasing etc. etc. 
+Choosing suitable parameters such as sampling frequency, regions of interest and planning a good measurment setup are all crucial tasks. The sampling frequency is particularly important to consider when working with means that could potentially cause aliasing. One such case is the DFT \citep{lindgren_rootzeŽn_sandsten_2013}. If the sampling frequency is too low, we get aliasing etc. etc. 
 
 In order to assure that aliasing is avoided, the maximal frequency component registered by the radar must be surpassed by half the sampling frequency
 \begin{equation}
