@@ -30,19 +30,37 @@ Together, the echoes (or lack thereof) from each transmitted wavelet make up one
 
 \subsection{Elements of a pulsed radar}
 
-A pulsed radar system can be realized in countless ways, but all subscribe to the fundamental physical laws of electromagnetic radiation previously described. In this section one such configuration for a pulsed radar system is described.
+A pulsed radar system can be realized in countless ways, but all subscribe to the fundamental physical laws of electromagnetic radiation. In this section one such configuration for a pulsed radar system is described.
 
 A waveform generator outputs a radar envelope which is modulated by a local oscillator to some desired radio frequency. After signal amplification the wavelet is transmitted through an antenna. 
 
 Detection is performed by a second antenna, which receives the returning signal during some time interval. The received signal then goes through a process known as \emph{mixing}. An internal wavelet is generated at a very specific delay from the initial pulse transmission and multiplied with the received signal. If the received and internal pulses do not match, the output of this multiplication will be zero. If there however exist some overlap between the internal and returning signals the output will be nonzero, indicating some level of energy content at the distance corresponding to the internal pulse delay. By increasing the internal pulse delay and repeating this procedure a set of measurement points is obtained. Mixing is thus achieved by multiplying a large number of returning wavelets with internally generated wavelet counterparts, adding a slight delay between sampling points. 
 
+% Describe why this process is equivalent to an autocorrelation
+% Include plot of raw data to show what a real sweep looks like.
 
-\includegraphics[scale=0.5]{figs_temp/mixing0}
+Figures \ref{fig:mix0}, \ref{fig:mix1} and \ref{fig:mix2} illustrate this principle. In the upper plot in the first two figures two analysis wavelets are shown, each at a different time delay. The center plot show the received radar pulse registrered by the antenna, and the lower plot the result when the two above signals are multiplied elementwise. 
 
-\includegraphics[scale=0.5]{figs_temp/mixing1}
+\begin{figure}[t]
+	\centering
+	\includegraphics[scale=0.5]{figs_temp/mixing0}
+	\caption{Analysis pulse (top), received pulse (mid) and multiplication output (bot). As the signals do not overlap the multiplication yields only zero values.}
+	\label{fig:mix0}
+\end{figure}
 
-\includegraphics[scale=0.5]{figs_temp/mixing2}
+\begin{figure}[t]
+	\centering
+	\includegraphics[scale=0.5]{figs_temp/mixing1}
+	\caption{Analysis pulse (top), received pulse (mid) and multiplication output (bot). The overlapping signals produce varying amplitudes at the output sensitive to small changes in phase.}
+	\label{fig:mix1}
+\end{figure}
 
+\begin{figure}[t]
+	\centering
+	\includegraphics[scale=0.5]{figs_temp/mixing2}
+	\caption{By integrating the multiplication at each delay the mixing output is produced.}
+	\label{fig:mix2}
+\end{figure}
 
 
 
