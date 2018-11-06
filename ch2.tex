@@ -28,34 +28,52 @@ Together, the echoes (or lack thereof) from each transmitted wavelet make up one
 
 * Plot of sweep *
 
-\subsection{Elements of a pulsed radar}
+\subsection{Radar operation}
 
-A pulsed radar system can be realized in countless ways, but all subscribe to the fundamental physical laws of electromagnetic radiation. In this section one such configuration for a pulsed radar system is described.
+A pulsed radar system can be realized in countless ways, but all subscribe to the fundamental physical laws of electromagnetic radiation. In this section one such configuration is described. Furthermore, we describe the key signal processing method, \emph{In-phase and Quadrature-phase demodulation} (IQ demodulation), used for extracting useful information from the unprocessed radar response. 
 
-A waveform generator outputs a radar envelope which is modulated by a local oscillator to some desired radio frequency. After signal amplification the wavelet is transmitted through an antenna. 
+\subsubsection{Elements of a pulsed radar}
+The radar system considered in this report includes the following crucial components:
 
-Detection is performed by a second antenna, which receives the returning signal during some time interval. The received signal then goes through a process known as \emph{mixing}. An internal wavelet is generated at a very specific delay from the initial pulse transmission and multiplied with the received signal. If the received and internal pulses do not match, the output of this multiplication will be zero. If there however exist some overlap between the internal and returning signals the output will be nonzero, indicating some level of energy content at the distance corresponding to the internal pulse delay. By increasing the internal pulse delay and repeating this procedure a set of measurement points is obtained. Mixing is thus achieved by multiplying a large number of returning wavelets with internally generated wavelet counterparts, adding a slight delay between sampling points. 
+\begin{itemize}
+	\item Waveform generator
+	\item Oscillator
+	\item Transmitting antenna
+	\item Receiving antenna
+	\item Mixer
+	\item Integrator
+\end{itemize}
+
+% List of parts in radar system
+% Nice figure showing this process
+
+
+A waveform generator outputs a radar envelope which is modulated by a local oscillator to some desired radio frequency. After signal amplification the wavelet is transmitted through an antenna. Detection is performed by a second antenna, which receives the returning signal during some time interval. 
+
+\subsubsection{Mixing}
+
+After receiving the returning radiation the signal then goes through a process known as \emph{mixing}. An internal wavelet is generated at a very specific delay from the initial pulse transmission and multiplied with the received signal. If the received and internal pulses do not match, the output of this multiplication will be zero. If there however exist some overlap between the internal and returning signals the output will be nonzero, indicating some level of energy content at the distance corresponding to the internal pulse delay. By increasing the internal pulse delay and repeating this procedure a set of measurement points is obtained. Mixing is thus achieved by multiplying a large number of returning wavelets with internally generated wavelet counterparts, adding a slight delay between sampling points. 
 
 % Describe why this process is equivalent to an autocorrelation
 % Include plot of raw data to show what a real sweep looks like.
 
-Figures \ref{fig:mix0}, \ref{fig:mix1} and \ref{fig:mix2} illustrate this principle. In the upper plot in the first two figures two analysis wavelets are shown, each at a different time delay. The center plot show the received radar pulse registrered by the antenna, and the lower plot the result when the two above signals are multiplied elementwise. 
+Figures \ref{fig:mix0}, \ref{fig:mix1} and \ref{fig:mix2} illustrate this principle. In the upper plot in the first two figures two analysis wavelets are shown, each at a different time delay. The center plot show the received radar pulse registrered by the antenna, and the lower plot the result when the two above signals are multiplied elementwise. Note that the final figure show the result of multiple received electromagnetic pulses, each sample point representing a summation of one set of multiplications between returning and internally generated signals. This output will henceforth be called the \emph{raw signal}.   
 
-\begin{figure}[t]
+\begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.5]{figs_temp/mixing0}
 	\caption{Analysis pulse (top), received pulse (mid) and multiplication output (bot). As the signals do not overlap the multiplication yields only zero values.}
 	\label{fig:mix0}
 \end{figure}
 
-\begin{figure}[t]
+\begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.5]{figs_temp/mixing1}
 	\caption{Analysis pulse (top), received pulse (mid) and multiplication output (bot). The overlapping signals produce varying amplitudes at the output sensitive to small changes in phase.}
 	\label{fig:mix1}
 \end{figure}
 
-\begin{figure}[t]
+\begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.5]{figs_temp/mixing2}
 	\caption{By integrating the multiplication at each delay the mixing output is produced.}
@@ -64,7 +82,7 @@ Figures \ref{fig:mix0}, \ref{fig:mix1} and \ref{fig:mix2} illustrate this princi
 
 
 
-\subsection{IQ Data}
+\subsubsection{IQ demodulation}
 A common type of data when working with radar signal processing is in-phase and quadrature-phase data (IQ-data).  This type of data is useful in that it contains information not only about amplitude, but about the phase of the radar signal as well \citep{richards_2014}. IQ-data is represented as complex numbers, and a radar sweep consists of several such complex numbers - one for each investigated range. To obtain the amplitude plot, as the one in figure .... for a sweep, $s$, made up of IQ-data, one simply computes the absolute value for each complex number in $s$. Similarly, a phase curve can be obtained by computing the phase in each point. A phase curve can typically look like the one in *Figure of phase plot*
 
 In many applications, the phase information in IQ-data is used when small changes in the radar signal need to be detected, (Mention a case such as recording over grass...) as the phase is more sensitive to changes than the amplitude \citep{lien_gillian_karagozler_amihood_schwesig_olson_raja_poupyrev_2016}. If an object is detected at distance $r(t_1)$ from the radar at time $t_1$, and shortly thereafter, the object is moved to distance $r(t_2)$, the corresponding difference in phase will be
