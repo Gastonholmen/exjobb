@@ -45,6 +45,7 @@ The gain of Acconeer radars can vary significantly from one sensor to another. D
 
 A way to combat this problem is to perform some kind of sweep normalization before proceeding with any other preprocessing. There are numerous ways of doing this. A rather simplistic strategy could be to simply normalize each sweep with its maximum value. While this may intuitively seem like a good idea, it may erroneously normalize sweeps which contain outliers (Is this really a problem? What is it really that makes this method work bad?)
 
+A more robust solution is to compute the average energy of ...
 
 Explain normalization procedure: divide all sweeps within a feature box with the total energy within that feature box. 
 
