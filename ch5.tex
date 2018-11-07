@@ -1,21 +1,50 @@
-\section{Chapter 5: Discussion}
+\section{Chapter 6: Postprocessing and optimization}
+
+After in previous chapters finding a good model, it is now time to make it great. This chapter is split into two segments: The first considers two detection alternatives and postprocessing methods for accurate recognizing surface transitions, and in the second a few optimizations done to improve the found model are examined.
+
+\subsection{Postprocessing and detection}
+
+Prediction probabilities are produced by the model in quick succession by interpreting the neural network softmax output as predictive confidences. When the robot passes over a transition region the produced predictions changes, as seen in figure ?. In order to detect such a change some detection algorithm is required. In this section three such alternatives are compared and evaluated.  
+
+\subsubsection{Thresholding}
+
+The simplest possible detection algorithm is by setting a threshold $\xi$, and classifying below surface as either grass or non-grass depending on whether the prediction is above or below the set threshold. Denoting the resulting prediction as $P$ this detection algorithm is 
+
+\begin{equation}
+	P_i=0 \quad\text{if}\quad p_i\leq\xi, \quad
+	\text{else} \quad P_i=1
+\end{equation}
+
+However, for this method to fail only a single incorrect prediction $p_i$ is required so the algorithm is extremely sensitive to any errors in $p$.
+
+\subsubsection{Median filtering}
+
+The perhaps most effective way of suppressing data littered with outliers is through some form of median filtering. The regular form of a median filter simply takes the median of current and previous datapoints, resulting in an output significantly less sensitive to inconsistencies \citep{pearson_2002}. After median filtering a threshold can be utilized, leading to the following predictions for a filter length $L$
+
+\begin{equation}
+	P_i=0 \quad\text{if}\quad\text{median}\{p\}_{i-L+1}^i\leq\xi, 
+	\quad \text{else} \quad P_i = 1
+\end{equation}
+
+\subsubsection{CUSUM}
+
+A traditional and statistically appealing method for effectively detecting abrupt changes in data is CUmulative SUM, hereby refered to as CUSUM. The cumulative sum computed in CUSUM is a log-likelihood $S$ defined through
+
+\begin{equation}
+	S_j^k = \sum_{i=j}^k \text{ln}\frac{p_{\theta_1}(y_i)}{p_{\theta_0}(y_i)}
+\end{equation}
+
+[Continue explanation]
 
 
-\subsection{Moisture}
+\citep{basseville_nikiforov_1993}
 
-One particularly challenging aspect of adequately classifying surfaces is the ever-changing environmental conditions surronding the sensor. Of particular interest is the moisture content in the surfaces of interest. Greater soil moisture implies higher dielectric constant, which in turn increases radar wave scattering \citep{rappaport_2006}. Thus a single surface may very well change its scattering properties over time. 
 
-% More things that make selecting data tricky
 
-\subsection{Surface variances}
 
-Such effects is difficult to account for when selecting data. Gather a dataset as diverse as possible
+\subsubsection{Method comparison}
 
-\subsection{Individual sensor performance}
-Despite the fact that the radar sensors have high precision, the output can vary a lot from sensor to sensor. In particular, one sensor can have a significantly higher gain than another, meaning that two sensors can have a different measure of reflexivity on the very same surface. This problem can be dealt with in several ways. 
+After introducing each detection algorithm a comparison is in order. Below is output from a typical transition using [model we made]. Each algorithm has been applied to the data for change detection.
 
-Mention what we did, and discuss pros and cons.
 
-1. Choose features that are not affected by the issue. Normalize sweeps etc.
-	A. Normalize sweeps so that the main peak is at height 1
-	B. Normalize sweeps by dividing with mean 
+Informal definition as data points inconsistent with our expectations
