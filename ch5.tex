@@ -4,7 +4,15 @@ After in previous chapters finding a good model, it is now time to make it great
 
 \subsection{Postprocessing and detection}
 
-Prediction probabilities are produced by the model in quick succession by interpreting the neural network softmax output as predictive confidences. When the robot passes over a transition region the produced predictions changes, as seen in figure ?. In order to detect such a change some detection algorithm is required. In this section three such alternatives are compared and evaluated.  
+Prediction probabilities are produced by the model in quick succession by interpreting the neural network softmax output as predictive confidences. When the robot passes over a transition region the produced predictions changes, as seen in figure \ref{fig:detect_no}. In order to detect such a change some detection algorithm is required. In this section three such alternatives are compared and evaluated.  
+
+
+\begin{figure}
+	\includegraphics[scale=0.5]{figs_temp/detect_nothing}
+	\label{fig:detect_no}
+	\caption{Transition region with some outliers}
+\end{figure}
+
 
 \subsubsection{Thresholding}
 
