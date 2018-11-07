@@ -1,8 +1,9 @@
+*.swo
+*.swp
 *.log
 *.dvi
 *.aux
 *.gz
-*.pdf
 *.bbl
 *.blg
 *.fls
