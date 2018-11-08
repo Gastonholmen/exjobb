@@ -1,4 +1,4 @@
-\documentclass[a4paper, 12pt]{article}
+\documentclass[a4paper, 12pt]{book}
 
 \usepackage{natbib}
 \usepackage{amsmath}
@@ -13,27 +13,26 @@
 
 \begin{document}
 
-
-% Introduction
 \tableofcontents
 \newpage
 
 % Introduction 
- \include{ch1}
+\include{introduction}
 
 % Radar system overview
-\include{ch2}
+\include{radar_principle}
 
 % Feature selection
-\include{ch3}
+\include{feature_selection}
 
 % Classification schemes
-\include{ch4}
+\include{classification_schemes}
+
+% Postprocessing and optimization
+\include{postprocessing_and_optimization}
 
 % Discussion
-\include{ch5}
-
-\include{ch6}
+\include{discussion}
 
 \bibliography{refs}
 \bibliographystyle{apalike}
