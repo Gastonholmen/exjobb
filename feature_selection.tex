@@ -1,10 +1,10 @@
-\section{Chapter 3: Feature selection}
+\chapter{Feature selection}
 
 In order to create an effective predictive model one must first select a set of features used to produce each classification. Both a science and an art, this process involves intuition, theory and a hefty amount of trial-and-error. Although a seemingly daunting task, for a model to be effective the feature selection procedure is key, and a carefully considered selection often generates significantly better results than one hastily put together. 
 
 Ideally, one seeks a small set of variables which accurately captures the information content in a larger set of data. After reducing the number of features into a more manageable format it is then possible to obtain good results with significantly less computational load than if no feature selection had been considered. Furthermore, the feature selection process allows us to pinpoint what data characteristics we wish to monitor, and subsequently which data characteristics we can disregard. 
 
-\subsection{Desirable traits}
+\section{Desirable traits}
 
 In the present case the objective is to capture defining characteristics of a surface using one dimensional data obtained from a radar sensor placed some small distance above the surface of interest. Furthermore, the sensor is moving along some direction parallell to the surface plane, thus continuously altering the sensors surroundings. One may split up the possible methods of characterizing this data obtained through this process into two main categories: Methods which aim at capturing the overall spatial signal form, and methods which examine the temporal changes in radar response. 
 
@@ -28,9 +28,9 @@ complex distribution specific for that combination of $r$ and $s$ but independen
 \\
 Yada yada there is two combatting ideas here
 
-\subsection{Preprocessing}
+\section{Preprocessing}
 
-\subsubsection{Downsampling}
+\subsection{Downsampling}
 Add reference to Information Theoretic part
 
 Since the correlation between neighboring range samples is very high we can downsample without significant loss of information. The downsampling process essentially requires three hyperparameters: A starting range $R_{start}$ and an end range $R_{end}$ where we begin and end our downsampling process respectively, as well as a downsampling factor $D$.
@@ -39,7 +39,7 @@ Since the correlation between neighboring range samples is very high we can down
 	x_D(n, t) = x(R_{start} + nD, t) \quad \text{for}\quad n=0...\frac{R_{end}-R_{start}}{D}
 \end{equation}
 
-\subsubsection{Sweep Normalization}
+\subsection{Sweep Normalization}
 
 The gain of Acconeer radars can vary significantly from one sensor to another. Despite facing towards the very same surface, two sensors may exhibit a similar sweep structure,  yet with very different amplitudes. This could potentially have serious consequences if not handled properly. Assuming measurements for a model's training data have been collected with one sensor, it would be impossible to successfully perform classifications with a sensor which has a very different gain. The recordings would simply have too little resemblence, even though they merely differ by a constant gain factor.
 
@@ -53,7 +53,7 @@ Mention this was the best approach, but do not go into detail about the other me
 
 
 
-\subsubsection{Using multiple sweeps for feature selection}
+\subsection{Using multiple sweeps for feature selection}
 
 In the radar system multiple sources of noise are introduced.
 \\ \\
@@ -71,13 +71,13 @@ Thus a predefined number is chosen as the number of sweeps used to extract each 
 	F_c = \frac{F_s}{T_s}
 \end{equation}
 
-\subsection{Features}
+\section{Features}
 
 Fast time and slow time features 
 
 
 
-\subsubsection{Expected signal}
+\subsection{Expected signal}
 The simplest way of selecting features would be to use plain sweep data as features. While this method requires very little data preprocessing, it does not give very good results (Any comment on how well it performs?). With just a little more effort, a significant improvement can be made by averaging a few sweeps in slow time, making the samples more similar. For range bin $i$, $T$ consecutive samples in slow time are collapsed into one according to
 
 \begin{equation}
@@ -86,7 +86,7 @@ The simplest way of selecting features would be to use plain sweep data as featu
 
 Figures: Sweep averaging plot (?), comparing averaged sweeps for different materials
 
-\subsubsection{Average energy}
+\subsection{Average energy}
 The average energy in a sweep tells us how much energy is reflected back to the radar. Hence it can be regarded as a measure of how good of a reflector the underlying surface is. The energy depends on the shape of the surface, as well as its dielectric constant. Compared to other materials, grass has a very different surface shape, which potentially gives it a very different reflexivity. However, its dielectric constant could also vary a lot depending on whether it is wet or dry, making it hard to guess its reflective properties.
 
 By computing the average energy of single sweeps from different surfaces we obtain the results in figure (plots of sweep energies). Clearly, the grass surface has a much lower energy. $<$We have to compare different types of grass. Wet, dry, tall, short, etc.$>$
@@ -99,7 +99,7 @@ Add some talk about this feature being left unused due to normalization.
 
 
 
-\subsubsection{Fourier Transform}
+\subsection{Fourier Transform}
 A "feature box" consisting of $T$ sweeps is selected. Viewing this as a matrix with elements $X_{n,t}$, where $n$ denotes slow time, and $t$ fast time we can write a Fourier transform in slow time at range $r$, within this box as
 \begin{equation}
 	\mathbb{X}_k^{(r)} = \sum_{n=0}^{T-1}X_{n,r}\exp\Big[-2\pi i\frac{nk}{T}\Big] \quad k=0, ..., T-1
@@ -109,7 +109,7 @@ To avoid aliasing we refer to chapter earlier in report where this is discussed.
 
 
 
-\subsubsection{Variance}
+\subsection{Variance}
 
 Include a discussion about the biased/unbiased estimate \\
 
@@ -123,7 +123,7 @@ Assume $x(n,t)$ are samples from a complex normal distribution $X_{n,t}$. Varian
 \end{gathered}
 \end{equation}
 
-\subsubsection{Autocovariance in slow time}
+\subsection{Autocovariance in slow time}
 
 \textbf{Add some motivation for using autocovariance}
 
