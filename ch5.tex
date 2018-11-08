@@ -13,7 +13,6 @@ Prediction probabilities are produced by the model in quick succession by interp
 	\caption{Transition region with some outliers}
 \end{figure}
 
-
 \subsubsection{Thresholding}
 
 The simplest possible detection algorithm is by setting a threshold $\xi$, and classifying below surface as either grass or non-grass depending on whether the prediction is above or below the set threshold. Denoting the resulting prediction as $P$ this detection algorithm is 
@@ -25,6 +24,12 @@ The simplest possible detection algorithm is by setting a threshold $\xi$, and c
 
 However, for this method to fail only a single incorrect prediction $p_i$ is required so the algorithm is extremely sensitive to any errors in $p$.
 
+\begin{figure}
+	\includegraphics[scale=0.5]{figs_temp/detect_thresh}
+	\label{fig:detect_thresh}
+	\caption{Detecting transition region using thresholding.}
+\end{figure}
+
 \subsubsection{Median filtering}
 
 The perhaps most effective way of suppressing data littered with outliers is through some form of median filtering. The regular form of a median filter simply takes the median of current and previous datapoints, resulting in an output significantly less sensitive to inconsistencies \citep{pearson_2002}. After median filtering a threshold can be utilized, leading to the following predictions for a filter length $L$
@@ -34,6 +39,12 @@ The perhaps most effective way of suppressing data littered with outliers is thr
 	\quad \text{else} \quad P_i = 1
 \end{equation}
 
+\begin{figure}
+	\includegraphics[scale=0.5]{figs_temp/detect_median}
+	\label{fig:detect_median}
+	\caption{Detection transition using median filtering}
+\end{figure}
+
 \subsubsection{CUSUM}
 
 A traditional and statistically appealing method for effectively detecting abrupt changes in data is CUmulative SUM, hereby refered to as CUSUM. The cumulative sum computed in CUSUM is a log-likelihood $S$ defined through
@@ -41,6 +52,12 @@ A traditional and statistically appealing method for effectively detecting abrup
 \begin{equation}
 	S_j^k = \sum_{i=j}^k \text{ln}\frac{p_{\theta_1}(y_i)}{p_{\theta_0}(y_i)}
 \end{equation}
+
+\begin{figure}
+	\includegraphics[scale=0.5]{figs_temp/detect_cusum}
+	\label{fig:detect_cusum}
+	\caption{Detection of transition using CUSUM.}
+\end{figure}
 
 [Continue explanation]
 
