@@ -55,40 +55,52 @@ Fast time and slow time features
 
 
 \subsection{Expected signal}
-The simplest way of selecting features would be to use plain sweep data as features. While this method requires very little data preprocessing, it does not give very good results (Any comment on how well it performs?). With just a little more effort, a significant improvement can be made by averaging a few sweeps in slow time, making the samples more similar. For range bin $i$, $T$ consecutive samples in slow time are collapsed into one according to
+The simplest way of selecting features would be to use plain sweep data as features. While this method requires very little data preprocessing, it does not give very good results (Any comment on how well it performs?). With just a little more effort, a significant improvement can be made by averaging a few sweeps in slow time, as in figure \ref{fig:sweep_average}. This makes the samples more similar.  For range bin $i$, $T$ consecutive samples in slow time are collapsed into one according to
 
 \begin{equation}
-	s_i(t_m) = \E\{X_{i,t_m}\} = \frac{1}{T}\sum_{t=0}^{T-1}x(i, t_m + t)
+	s_i(t_m) = \E\{X_{i,t_m}\} = \frac{1}{T}\sum_{t=0}^{T-1}x(i, t_m + t).
 \end{equation}
 
-Figures: Sweep averaging plot (?), comparing averaged sweeps for different materials
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.7]{figs_temp/features/sweep_average}
+	\caption{}
+	\label{fig:sweep_average}
+\end{figure}
 
 \subsection{Average energy}
 The average energy in a sweep tells us how much energy is reflected back to the radar. Hence it can be regarded as a measure of how good of a reflector the underlying surface is. The energy depends on the shape of the surface, as well as its dielectric constant. Compared to other materials, grass has a very different surface shape, which potentially gives it a very different reflexivity. However, its dielectric constant could also vary a lot depending on whether it is wet or dry, making it hard to guess its reflective properties.
 
-By computing the average energy of single sweeps from different surfaces we obtain the results in figure (plots of sweep energies). Clearly, the grass surface has a much lower energy. $<$We have to compare different types of grass. Wet, dry, tall, short, etc.$>$
-
-To get a more robust measure of the average energy we not only compute the average over selected range bins of a single sweep, but we average over a few consecutive sweeps as well. Mathematically, the feature we end up using becomes
+By computing the average energy of single sweeps from different surfaces we see in figure \ref{fig:sweep_energy} that grass reflects much less energy. This indicates that the average sweep energy is a good feature for binary grass/not grass classification. However, in order to get a more robust measure of the average energy we do not only compute the average over selected range bins of a single sweep, but we average over a few consecutive sweeps as well. Mathematically, the feature we end up using becomes
 \begin{equation}
-	P(t_m) = \frac{1}{NT}\sum_{t=0}^{T-1}\sum_{n=0}^{K-1}x(n, t_m + t)x^*(n, t_m + t).
+	P(t_m) = \frac{1}{NT}\sum_{t=0}^{T-1}\sum_{n=0}^{K-1}x(n, t_m + t)x^*(n, t_m + t),
 \end{equation}
-Add some talk about this feature being left unused due to normalization.
+where (describe variables)
 
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.45]{figs_temp/features/sweep_energy}
-	\caption{The plot shows the average sweep energy for 200 sweeps and four different materials. All measurements were made on the same day. The reflections from the grass surface carry noticeably less energy than the other surfaces, making this a good feature for binary grass/not grass classification. }
+	\caption{The figure shows the average sweep energy for 200 sweeps and four different materials. All measurements were made during a short period of time. The reflections from the grass surface carry noticeably less energy than those from the other surfaces. }
 	\label{fig:sweep_energy}
 \end{figure}
 
 
 
 \subsection{Fourier Transform}
+
+
 A "feature box" consisting of $T$ sweeps is selected. Viewing this as a matrix with elements $X_{n,t}$, where $n$ denotes slow time, and $t$ fast time we can write a Fourier transform in slow time at range $r$, within this box as
 \begin{equation}
 	\mathbb{X}_k^{(r)} = \sum_{n=0}^{T-1}X_{n,r}\exp\Big[-2\pi i\frac{nk}{T}\Big] \quad k=0, ..., T-1
 \end{equation}
 To avoid aliasing we refer to chapter earlier in report where this is discussed. Mention that $\mathbb{X}_k^{(r)}$, for all $r$, $k$, is flattened to a vector, resulting in one new sample.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.4]{figs_temp/features/fft}
+	\caption{Each plot shows 5 concatenated DFTs, which have all been estimated from 128 consecutive sweeps. This has been done for ranges 7-23 cm, and the materials included in the figure are grass, asphalt, soil and tiles, respectively.}
+	\label{fig:fft}
+\end{figure}
 
 
 
