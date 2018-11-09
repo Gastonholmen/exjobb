@@ -1,6 +1,6 @@
-\section{Chapter 4: Classification schemes}
+\chapter{Classification schemes}
 
-\subsection{LSTM}
+\section{LSTM}
 Mention CNN and LSTM being used for time series classification. Then bring up the article which combines these two to motivate this approach.
 
 Observing one range bin at a time, one could think of the radar data as a time series. This motivates the use of some classification scheme that exploits temporal behaviour. Recurrent neral networks (RNNs) feature this by having feedback within individual layers in the network. \citep{karim_majumdar_darabi_chen_2018} The problem with RNNs, however, is that they suffer from a vanishing or exploding gradient, and can only sustain a short term memory. A way to combat this is to use a neural network layer called long short term memory (LSTM). These are thoroughly described in, for example \citep{hochreiter_schmidhuber_1997}
