@@ -1,8 +1,6 @@
 \chapter{Data Preprocessing}
 \section{Downsampling}
-Add reference to Information Theoretic part
-
-Since the correlation between neighboring range samples is very high we can downsample without significant loss of information. The downsampling process essentially requires three hyperparameters: A starting range $R_{start}$ and an end range $R_{end}$ where we begin and end our downsampling process respectively, as well as a downsampling factor $D$.
+As mentioned in chapter *information theory chapter*, the correlation between neighboring range samples is very high, which means we can downsample without significant loss of information. The downsampling process essentially requires three hyperparameters: A starting range $R_{start}$ and an end range $R_{end}$ where we begin and end our downsampling process respectively, as well as a downsampling factor $D$.
 
 \begin{equation}
 	x_D(n, t) = x(R_{start} + nD, t) \quad \text{for}\quad n=0...\frac{R_{end}-R_{start}}{D}
