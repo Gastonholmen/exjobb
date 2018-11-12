@@ -22,26 +22,33 @@ LSTM-layers have previously been used successfully for classifications in radar 
 
 % Define block styles
 \tikzstyle{decision} = [diamond, draw, fill=blue!20, 
-    text width=4.5em, text badly centered, node distance=1.5cm, inner sep=0pt]
+    text width=7.5em, text badly centered, inner sep=0pt]
 \tikzstyle{block} = [rectangle, draw, fill=blue!20, 
     text width=7em, text centered, rounded corners, minimum height=4em]
 \tikzstyle{line} = [draw, -latex']
 \tikzstyle{cloud} = [draw, ellipse,fill=red!20, node distance=3cm,
-    minimum height=2em]
-   
+    minimum height=4em]
+\tikzstyle{blockgreen} = [rectangle, draw, fill=green!20, 
+    text width=7em, text centered, rounded corners, minimum height=4em]
+\tikzstyle{blockbrown} = [rectangle, draw, fill=brown!20, 
+    text width=7em, text centered, rounded corners, minimum height=4em]
 
+\begin{figure}
+\centering
 \begin{tikzpicture}[node distance = 3cm, auto]
 	% Place nodes
-	\node [block] (obtained) {Obtained data};
-	\node [block, below left of=obtained] (training) {Training data};
+	\node [blockbrown] (obtained) {Obtained data};
+	\node [blockgreen, below left of=obtained] (training) {Training data};
 	\node [block, below right of=obtained] (test) {Test data};
-	\node [block, below of=training] (train pre) {Preprocess and extract features};
-	\node [block, below of=test] (test pre) {Preprocess and extract features};
-	\node [block, below right of=train pre] (est) {Estimate $\mathbf{\mu}_f$, $\mathbf{\sigma}_f$};
-	\node [block, below left of=est] (scale train) {Scale to ZMUV};
+	\node [blockgreen, below of=training, node distance=2.2cm] (train pre) {Preprocess and extract features};
+	\node [block, below of=test, node distance=2.2cm] (test pre) {Preprocess and extract features};
+	\node [blockgreen, below right of=train pre] (est) {Estimate $\mathbf{\mu}_f$, $\mathbf{\sigma}_f$};
+	\node [blockgreen, below left of=est] (scale train) {Scale to ZMUV};
 	\node [block, below right of=est] (scale test) {Scale to ZMUV};
-	\node [block, below of=scale train] (train model) {Train model};
-	\node [block, below right of=train model] (Classify) {Classify};
+	\node [cloud, below right of=scale train] (train model) {Train model};
+	\node [decision, below of=train model] (classify) {Classification};
+	\node [block, below of=classify] (post) {Postprocessing};
+	\node [block, below of=post, node distance=2.2cm] (output) {Model output};
 	% Draw lines
 	\path [line] (obtained) -| (training);
 	\path [line] (obtained) -| (test);
@@ -52,4 +59,11 @@ LSTM-layers have previously been used successfully for classifications in radar 
 	\path [line,dashed] (est) -- (scale test);
 	\path [line] (test pre) -- (scale test);
 	\path [line] (train pre) -- (scale train);
+	\path [line] (scale train) |- (train model);
+	\path [line] (train model) -- (classify);
+	\path [line] (scale test) |- (classify);
+	\path [line] (classify) -- (post);
+	\path [line] (post) -- (output);
 \end{tikzpicture}
+\caption{Flowchart of classification scheme.}
+\end{figure}
