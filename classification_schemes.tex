@@ -19,3 +19,37 @@ Mention CNN and LSTM being used for time series classification. Then bring up th
 Observing one range bin at a time, one could think of the radar data as a time series. This motivates the use of some classification scheme that exploits temporal behaviour. Recurrent neral networks (RNNs) feature this by having feedback within individual layers in the network. \citep{karim_majumdar_darabi_chen_2018} The problem with RNNs, however, is that they suffer from a vanishing or exploding gradient, and can only sustain a short term memory. A way to combat this is to use a neural network layer called long short term memory (LSTM). These are thoroughly described in, for example \citep{hochreiter_schmidhuber_1997}
 
 LSTM-layers have previously been used successfully for classifications in radar applications. For instance in \citep{jithesh_sagayaraj_srinivasa_2018} the method was able to classify flying objects from $\textbf{nnn}$ different classes with an accuracy of ...? In \citep{karim_majumdar_darabi_chen_2018}, the LSTM layer is used in combination with a fully convolutional neural network (FCN), which proves to be a significant improvement from just using FCNs when classifying time series.
+
+% Define block styles
+\tikzstyle{decision} = [diamond, draw, fill=blue!20, 
+    text width=4.5em, text badly centered, node distance=1.5cm, inner sep=0pt]
+\tikzstyle{block} = [rectangle, draw, fill=blue!20, 
+    text width=7em, text centered, rounded corners, minimum height=4em]
+\tikzstyle{line} = [draw, -latex']
+\tikzstyle{cloud} = [draw, ellipse,fill=red!20, node distance=3cm,
+    minimum height=2em]
+   
+
+\begin{tikzpicture}[node distance = 3cm, auto]
+	% Place nodes
+	\node [block] (obtained) {Obtained data};
+	\node [block, below left of=obtained] (training) {Training data};
+	\node [block, below right of=obtained] (test) {Test data};
+	\node [block, below of=training] (train pre) {Preprocess and extract features};
+	\node [block, below of=test] (test pre) {Preprocess and extract features};
+	\node [block, below right of=train pre] (est) {Estimate $\mathbf{\mu}_f$, $\mathbf{\sigma}_f$};
+	\node [block, below left of=est] (scale train) {Scale to ZMUV};
+	\node [block, below right of=est] (scale test) {Scale to ZMUV};
+	\node [block, below of=scale train] (train model) {Train model};
+	\node [block, below right of=train model] (Classify) {Classify};
+	% Draw lines
+	\path [line] (obtained) -| (training);
+	\path [line] (obtained) -| (test);
+	\path [line] (training) -- (train pre);
+	\path [line] (test) -- (test pre);
+	\path [line, dashed] (train pre) -| (est);
+	\path [line,dashed] (est) -- (scale train);
+	\path [line,dashed] (est) -- (scale test);
+	\path [line] (test pre) -- (scale test);
+	\path [line] (train pre) -- (scale train);
+\end{tikzpicture}
