@@ -1,24 +1,22 @@
 \chapter{Introduction}
 
-As technology is becoming increasingly intertwined with everyday life smart sensing has become an integral part within many areas of engineering. From smart watches to cars, applications where no or only rudimentary sensoring equipment previously were utilized now holds a multitude of advanced sensors. Many business and technical leades have articulated that a world where an abundance of sensors is emerging, significantly propelled by the Internet of Things \citep{bryzek_2013}. 
+As technology is becoming increasingly intertwined with everyday life, smart sensing has become an integral component in many areas of engineering. From watches to cars, applications where no or only rudimentary sensoring equipment previously were utilized now hold a multitude of advanced sensors. Many business and technical leades have articulated that a world where an abundance of sensors is emerging, largely propelled by the Internet of Things \citep{bryzek_2013}. 
 
-One sensor category that has been recieving much attention is high frequency radars, playing an important role in the field of radar remote sesning \citep{frenzel_2018}. These sensors combine a multitude of desirable features packed into a favorable form factor. These capabilities has made high frequency radars an increasingly popular choice in a steadily growing number of applications, such as monitoring of vital signs \citep{kuo_lin_yu_lo_lyu_chou_chuang_2016}, gesture recognition \citep{lien_gillian_karagozler_amihood_schwesig_olson_raja_poupyrev_2016}
+One sensor category that has been recieving much attention is high frequency radars \citep{frenzel_2018}. Finding use in the automotive industry, radars have been adopted in a wide variety of systems, such as adaptive cruise control, automatic breaking and backup object detection. This development has greatly impacted the sales volume, subsequently lowering the price and making millimeter-wave radars attractive in other applications. These radar systems can be packed into a favorable form factor, which further facilitates development. These capabilities has made high frequency radars an increasingly popular choice in a steadily growing number of applications, such as monitoring of vital signs \citep{kuo_lin_yu_lo_lyu_chou_chuang_2016}, gesture recognition \citep{lien_gillian_karagozler_amihood_schwesig_olson_raja_poupyrev_2016}.
 
-Alongside with this development another trend within data science has emerged; the movement towards machine learning centric methods . This transition, spanned over multiple decades, has placed machine learning as one of the main-stays of information technology and a rather central part of our life. With ever increasing amounts of data, smart data analysis has proven key for technological progress \citep{a_smola_svn_vishwanathan_2010}.
+Alongside with this development another trend in data science has emerged; the movement towards machine learning centric methods . This transition, spanned over multiple decades, has placed machine learning as one of the main-stays of information technology and a rather central part of our life. With ever increasing amounts of data, smart data analysis has proven key for technological progress \citep{a_smola_svn_vishwanathan_2010}.
 
 Machine learning algorithms fundamentally utilizes various statistical techniques in order to allow computer systems to progressively improve performance. Data scientists have found this subclass of aritficial intelligence extremely practical, especially for data that lack an easily predictable structure. 
 
-The amount of millimetre-wave radar applications is growing steadily.
-
-With a continuously increasing demand for small sensors for use in a world where 
-
 \section{Motivation}
 
-Classification of surfaces is an important task which appears in many areas. There are already numerous methods for classifying surfaces which are based on, for instance, optics and probing. As for optics, using images has been a successful approach in determining surface roughness. One such method involves analyzing images of three-dimensional surface textures captured with different directions of illumination. After going through image processing techniques, the data was fed through a support vector machine for classification \citep{dong_duan_yang_2008}. 
+Classification of surfaces is an important task which appears in many areas. There are already numerous methods for classifying surfaces which are based on, for instance, optics and probing. As for optics, using images has been a successful approach in determining surface roughness. One such method involves analyzing images of three-dimensional surface textures captured with different directions of illumination. After processing the images, the images were fed through a support vector machine for classification \citep{dong_duan_yang_2008}. 
 
-For probing on the other hand one resorts to measuring directly onto a surface through direct contact. In \citep{song_han_hu_li_2014} probing is used by sweeping a thin film across a fabric with constant contact force a depth-dependant charge is induced. After reading the output charge over some time interval it is possible to extract information for detecting the texture of the fabric. A similar approach was used in \citep{strese_schuwerk_iepure_steinbach_2017}, where again surface classification was performed through direct contact. In this case features where instead extracted from the sound produced by vibrations generated by the movement. 
+For probing on the other hand, one resorts to measuring directly onto a surface through direct contact. In \citep{song_han_hu_li_2014} probing is used by sweeping a thin film across a fabric with constant contact force a depth-dependant charge is induced. After reading the output charge over some time interval it is possible to extract information for detecting the texture of the fabric. A similar approach was used in \citep{strese_schuwerk_iepure_steinbach_2017}, where again surface classification was performed through direct contact. In this case features where instead extracted from sound produced by vibrations generated by movement across the texture. 
 
-Both of the approaches above have drawbacks that make them unsuited for this work. The optical approach requires a decent amount of light in order to work. This requirement could potentially limit the applications of the result from this work. Using a radar based solution instead, we can perform surface classification without having to rely on ambient light, nor having to emit any visible light.
+The above approaches for surface detection have drawbacks. The optical approach requires, besides the obvious need of a good enough camera, a specific illumination setup in order to work.  
+
+This requirement could potentially limit the applications of the result from this work. Using a radar based solution instead, we can perform surface classification without having to rely on ambient light, nor having to emit any visible light.
 
 When it comes to probing, it is necessary that the measuring instruments touch the underlying surface. It has been proven that probing can be used successfully in surface identification of rough terrain in \citep{giguere_dudek_2011}. At the end of a small metal rod, an accelerometer is attached, which measures acceleration patterns that are later used for classification. However, with an instrument that has direct contact with the ground, the chances that the instruments breaks, or that it drags other objects with it increases significantly. Hence our radar based approach has an advantage over probing in this remark.
 
@@ -34,7 +32,19 @@ Localization is the classic use-case for radars.
 \\ \\
  Radar  can detect relatively small targets at near or far distances and can measure their range with  precision  in  all weather,  which is  its chief  advantage when compared with other  sensors \citep{skolnik}
 \\ \\
-Radar classification: Previous work and how they are different: A major challenge in radar sensing is to not only detect, but also to identify radar targets. This can for example be used for monitoring of urban environments \citep{harter_kowalewski_sit_jalilvand_ziroff_zwick_2014}, or with a radar system mounted on a rotary table unit. 
+Radar classification: 
+
+% Monitoring of urban envirnments
+Previous work and how they are different: A major challenge in radar sensing is to not only detect, but also to identify radar targets. This can for example be used for monitoring of urban environments \citep{harter_kowalewski_sit_jalilvand_ziroff_zwick_2014}, or with a radar system mounted on a rotary table unit. 
+
+% Classifying underground objects - this is a good paper we should look deeper into
+Using a ground penetrating radar (GPR), it is possible to identify subsurface objects. 
+Significantly lower frequency (900 MHz)
+\citep{lu_pu_liu_2014}.
+
+
+% RadarCat
+The RadarCat project is perhaps the work most closely related to this report \citep{yeo_2016}. As a part of Google's project Soli, RadarCat used Infineons radar sensor for accurate classification of materials. Detections was performed by placing an object of interest in direct contact with the sensor and determining the type by using a support vector machine. However, a central part of this approach is having the object in direct contact in a stationary setting, as opposed to at a range and in motion. The results found are however encouraging in the sense that high frequency radars are, at the very least to some degree, capable of classifying materials based solely on their radar response. 
 
  of urban environments and automotive radar 
 \\ \\
