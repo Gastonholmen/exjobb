@@ -7,9 +7,9 @@ In order to build a model capable of accurately capturing key features from vari
 
 \subsection{Fundamental concepts}
 
-The radar principle is at its core simple. A radar operates by radiating electromagnetic energy and detecting the echo returned from reflecting targets in its field of view. By examining properties of the echo signal it is possible to obtain information about the targets is provided. This may involve the range at which scatterers are located, the angular at which targets are found or the speed at which a scatterer moves. With a sufficiently high angular and range resolution it is also possible to discern parts of the targets size and shape. 
+The radar principle is at its core simple. A radar operates by radiating electromagnetic energy and detecting the echo returned from reflecting targets in its field of view\citep{skolnik_2009}. By examining properties of the echo signal it is possible to obtain information about the targets is provided \citep{richards_2014}. This may involve the range at which scatterers are located, the angular at which targets are found or the speed at which a scatterer moves. With a sufficiently high angular and range resolution it is also possible to discern parts of the targets size and shape. 
 
-Radars are active systems, meaning that it radiates using its own antenna and does not depend on ambient radiation . 
+Radars are active systems, meaning that it radiates using its own antenna and does not depend on ambient radiation. 
 
 \citep{skolnik_2009}
 
@@ -37,6 +37,7 @@ Together, the echoes (or lack thereof) from each transmitted wavelet make up one
 
 How signals get weaker by a factor 1/r4
 
+
 1-dimensional data: signals propagate in a spherical manner
 
 How this ties in to what we do
@@ -44,10 +45,7 @@ How this ties in to what we do
 
 If it is assumed that the radar pulses are transmitted isotropically, and no power is lost in the transmission medium, the power density at a range $R$ is the emission power $P_t$ divided by the surface area of a sphere with radius $R$.
 
-\begin{equation}
-	P(R) = \frac{P_t}{4\pi R^2}
-\end{equation}
-
+The ratio $R$ between the transmitted signal power nd the received signal power is described in the \emph{Radar Transmission Equation}, seen below. Relating the 
 
 In this report a singular radar transmitter and receiver is used. 
 
