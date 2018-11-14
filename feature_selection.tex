@@ -8,7 +8,9 @@ Ideally, one seeks a small set of variables which accurately captures the inform
 
 In the present case the objective is to capture defining characteristics of a surface using one dimensional data obtained from a radar sensor placed some small distance above the surface of interest. Furthermore, the sensor is moving along some direction parallell to the surface plane, thus continuously altering the sensors surroundings. One may split up the possible methods of characterizing this data obtained through this process into two main categories: Methods which aim at capturing the overall spatial signal form, and methods which examine the temporal changes in radar response. 
 
-The first of the two is straight forward; if the scattering surface can be assumed to maintain some defining characteristics at any given point time one could simply extract features relating to these characteristics to generate a classification. Say for example we are presented two surfaces with equivalent reflective properties but where one is rough and the other is smooth. For the smooth surface the scatterers behave more predictably than the rugged surface. This would mean that the main portion of scattered electromagnetic waves will scatter at the
+The first of the two is straight forward; if the scattering surface can be assumed to maintain some defining characteristics at any given point time one could simply extract features relating to these characteristics to generate a classification. Say for example we are presented two surfaces with equivalent reflective properties but where one is rough and the other is smooth. For the smooth surface the scatterers behave more predictably than for the rugged surface. 
+
+%This would mean that the main portion of scattered electromagnetic waves will scatter at the
 
 one would expect to receive a strong response from a electromagnetic pulse sent at a zero degree angle of incidence. If one instead sends a pulse at a higher angle of incidence, one would expect the opposite as the scatterers of the smooth surface would primarily scatter away from the sensor yielding a weak response. For the rough surface on the other hand, scatterers direct an incoming reflection in a wider array of angles. 
 
@@ -32,10 +34,9 @@ Yada yada there is two combatting ideas here
 
 \subsection{Using multiple sweeps for feature selection}
 
-In the radar system multiple sources of noise are introduced.
+In a radar system multiple sources of noise are introduced. The noise can for instance stem from random currents in electrical components and data quantization \citep{w_doerry_2016}. 
 \\ \\
-Noise sources: Thermal emissions of target, random currents in electrical components, data quantization, etc. etc. \citep{w_doerry_2016}
-\\ \\
+
 In the beginning section of this chapter we introduced two conflicting interpretations of the radar signal. In the first the incomming wavelet is drawn from a complex distribution, and each sweep is independent from the rest. In the second we instead considered that there may be some significant correlations in time to take into account; surface shapes and objects passing by the sensor are detected multiple times in a perhaps predictable and useful manner.  
 
 The first suggest that signal averaging over a number of sweeps should yield a more and more accurate estimate. Thus the first approach greatly benefit from using multiple sweeps to find an average over some predefined number of sweeps.  In order to utilize the time correlations assumed in the second interpretation processing in time is of course demanded, and a number of sweeps need to be analyzed at once to extract features related to this way of viewing the radar response. 
