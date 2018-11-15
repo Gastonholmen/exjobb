@@ -25,6 +25,10 @@ In figure (fig. from previous subsubsection) a vehicle is moving forward with co
 
 \section{Data Preprocessing}
 \subsection{Downsampling}
+
+In an information theoretic framework we interpret a random variable by how unpredicable or unstructured an observation of the variable is\citep{anderson_johnnesson_2006}. First introduced by Claude E. Shannon in his monumental 1948 papers, information theory brings about a mean to quantify the information content of some source \citep{shannon_1948}. This concept, which essentially concerns examining the randomness of a variable, is commonly measured through entropy. Directly related to entropy is mutual information which asserts how much information each member of a set have on the other members. \citep{hyvasrinen_karhunen_oja_2004}. Ideally one wants measurements that have a low measure of mutual information, meaning that each datapoint contain information not found elsewhere in the set. 
+
+Observing a typical radar sweep (figure \ref{fig:singel_sweep}) we note that points are very closely related on a small range scale, and nearly identical if we were to examine them on a sample by sample basis. One could argue that the mutual information found in the set is very high and that the entropy in each datapoint is low. Hence, to lower the first and increase the latter, one could downsample by some factor $D$ in range without significant loss of information.
 As mentioned in chapter *information theory chapter*, the correlation between neighboring range samples is very high, which means we can downsample without significant loss of information. The downsampling process essentially requires three hyperparameters: A starting range $R_{start}$ and an end range $R_{end}$ where we begin and end our downsampling process respectively, as well as a downsampling factor $D$.
 
 \begin{equation}
@@ -50,7 +54,6 @@ PCA 125-143
 
 Information theory
 105-122
-Argument for downsampling in range: In an information theoretic framework we interpret a random variable by how unpredicable or unstructured an observation of the variable is. This concept, examining the randomness of a variable, is commonly measured through entropy. Directly related to entropy is mutual information which essentially is how much information each member of a set have on the other members. \cite{hyvasrinen_karhunen_oja_2004}. Ideally one wants measurements that have a low measure of mutual information, meaning that each datapoint contain information not found elsewhere in the set. 
 
 Observing a typical radar sweep (figure \ref{fig:singel_sweep}) we note that points are very closely related on a small range scale, and nearly identical if we were to examine them on a sample by sample basis. One could argue that the mutual information found in the set is very high and that the entropy in each datapoint is low. Hence, to lower the first and increase the latter, one could downsample by some factor $D$ in range without significant loss of information.
 
