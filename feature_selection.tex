@@ -20,13 +20,9 @@ The other method we consider does not look at separate radar sweeps, but explore
 \section{Preprocessing}
 
 \subsection{Using multiple sweeps for feature selection}
+In the previous section we introduced two conflicting interpretations of the radar signal. In the first, the incoming wavelet is drawn from a complex distribution, and each sweep is independent from the rest. In the second we instead consider that there may be some significant correlations in time to take into account; surface shapes and objects passing by the sensor are detected multiple times in a perhaps predictable and useful manner.  
 
-In a radar system multiple sources of noise are introduced. The noise can for instance stem from random currents in electrical components and data quantization \citep{w_doerry_2016}. 
-\\ \\
-
-In the beginning section of this chapter we introduced two conflicting interpretations of the radar signal. In the first the incomming wavelet is drawn from a complex distribution, and each sweep is independent from the rest. In the second we instead considered that there may be some significant correlations in time to take into account; surface shapes and objects passing by the sensor are detected multiple times in a perhaps predictable and useful manner.  
-
-The first suggest that signal averaging over a number of sweeps should yield a more and more accurate estimate. Thus the first approach greatly benefit from using multiple sweeps to find an average over some predefined number of sweeps.  In order to utilize the time correlations assumed in the second interpretation processing in time is of course demanded, and a number of sweeps need to be analyzed at once to extract features related to this way of viewing the radar response. 
+The first method suggests that signal averaging over a number of sweeps should yield a more and more accurate estimate, as it reduces noise that could occur from e.g. quantization effects or random currents in the radar \citep{w_doerry_2016}. Thus the first approach greatly benefits from using multiple sweeps to find an average over some predefined number of sweeps.  In order to utilize the time correlations assumed in the second interpretation processing in time is of course demanded, and a number of sweeps need to be analyzed at once to extract features related to this way of viewing the radar response. 
 
 Thus a predefined number is chosen as the number of sweeps used to extract each feature. While each feature may be extracted with higher accuracy, it is done at the price of a lower number of classifications per second. The relation between classification rate $F_c$, sampling speed $F_s$ and sweeps per feature $T_s$ is
 
