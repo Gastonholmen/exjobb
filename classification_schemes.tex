@@ -75,53 +75,53 @@ LSTM-layers have previously been used successfully for classifications in radar 
 \rowcolors{2}{gray!25}{white}
 \begin{table}
 \begin{center}
-  \begin{tabular}{|l|l|l|}
+  \begin{tabular}{|l|l|l|l|}
 \hline
     \rowcolor{gray!150}
-\rule{0pt}{25pt}\color{white}\textbf{Material} & \color{white}\textbf{DNN} & \color{white}\textbf{\shortstack{LSTM \\CNN}} \\
-pgrass1& 98.25 & 94.3\\
-pgrass2& \cellcolor{red!20} 88.25 & \cellcolor{red!20} 6.9\\
-pgrass3& 100.0 &99.9\\
-pgrass4& \cellcolor{red!20} 94.7 &97.7\\
-pgrass5& 97.9 &\cellcolor{green!20} 100.0\\
-qgrass1& 95.75 &97.3\\
-qgrass2& 98.4 &99.3\\
-qgrass3& 99.95 &99.8\\
-hgrass12& 97.25 &98.1\\ 
-hgrass2 &98.4 & 99.7\\
-hgrass3 &99.65 &\cellcolor{green!20}100.0\\
-hgrass4 &99.85 &99.9\\
-hgrass5 &99.5 &99.9\\
-hgrass6 &\cellcolor{green!20}100.0 &\cellcolor{green!20}100.0\\
-hgrass7 &98.5 & 98.0\\
-hgrass8 &97.5 & \cellcolor{green!20}100.0\\
-hgrass9 &98.65 & \cellcolor{green!20}100.0\\
-hgrass10& 95.25 & 98.5\\ 
-hgrass11& 96.55 & 98.1\\ 
-pasph1 &\cellcolor{green!20}100.0 & \cellcolor{green!20}100.0\\
-pgravel1& 98.15 & \cellcolor{red!20} 72.0\\
-pasph2 &99.95 & 99.5\\
-pasph3 &99.9 & \cellcolor{green!20}100.0\\
-psoil1 &99.9 & 99.9\\
-psoil2 &99.15 & 99.0\\
-ptiles1& 97.8 & 99.8\\
-qasph1& 99.95 & \cellcolor{green!20}100.0\\
-qasph2& \cellcolor{green!20}100.0 & \cellcolor{green!20}100.0\\
-qgravel1& 97.15 & \cellcolor{red!20} 76.7\\
-qsoil1 &99.9 & \cellcolor{green!20}100.0\\
-qsoil2& 94.05 & \cellcolor{red!20} 90.6\\
-qtiles1& 99.55 & 99.9\\
-rtiles1 &99.9 & 99.9\\
-rgravel1& 99.35 & 99.9\\
-rgravel2 &99.35 & \cellcolor{green!20}100.0\\
-rasp1 &99.9 & 100.0\\
-rsoil1 &\cellcolor{red!20} 93.45 & 99.5\\
-G2gravel2& 99.65& 99.7\\ 
-G2gravel1& 99.8 & \cellcolor{green!20}100.0\\
-G2soil1 &\cellcolor{red!20} 94.3 & 95.7\\
-G2tiles1& \cellcolor{green!20}100.0 & 99.4\\
-hsoil1 &\cellcolor{red!20} 93.4 &97.3\\
-hsoil2 &95.5 & \cellcolor{red!20} 92.3 \\
+\rule{0pt}{25pt}\color{white}\textbf{Material} & \color{white}\textbf{DNN} & \color{white}\textbf{\shortstack{LSTM \\CNN}} & \color{white}\textbf{LR}\\
+pgrass1& 98.25 & 94.3& 98.7\\
+pgrass2& \cellcolor{red!20} 88.25 & \cellcolor{red!20} 6.9 & 90.35\\
+pgrass3& 100.0 &99.9 & 99.9\\
+pgrass4& \cellcolor{red!20} 94.7 &97.7 & 94.05\\
+pgrass5& 97.9 &\cellcolor{green!20} 100.0 & 95.65\\
+qgrass1& 95.75 &97.3& 97.5\\
+qgrass2& 98.4 &99.3& 97.95\\
+qgrass3& 99.95 &99.8&99.95\\
+hgrass12& 97.25 &98.1& 96.90\\ 
+hgrass2 &98.4 & 99.7&97.90\\
+hgrass3 &99.65 &\cellcolor{green!20}100.0&99.3\\
+hgrass4 &99.85 &99.9&99.45\\
+hgrass5 &99.5 &99.9&99.6\\
+hgrass6 &\cellcolor{green!20}100.0 &\cellcolor{green!20}100.0&100.0\\
+hgrass7 &98.5 & 98.0&95.90\\
+hgrass8 &97.5 & \cellcolor{green!20}100.0&97.8\\
+hgrass9 &98.65 & \cellcolor{green!20}100.0&97.5\\
+hgrass10& 95.25 & 98.5&94.95\\ 
+hgrass11& 96.55 & 98.1& 96.7\\ 
+pasph1 &\cellcolor{green!20}100.0 & \cellcolor{green!20}100.0& 100.0\\
+pgravel1& 98.15 & \cellcolor{red!20} 72.0&98.05\\
+pasph2 &99.95 & 99.5&99.95\\
+pasph3 &99.9 & \cellcolor{green!20}100.0&100.0\\
+psoil1 &99.9 & 99.9&99.75\\
+psoil2 &99.15 & 99.0&98.3\\
+ptiles1& 97.8 & 99.8&99.0\\
+qasph1& 99.95 & \cellcolor{green!20}100.0& 99.9\\
+qasph2& \cellcolor{green!20}100.0 & \cellcolor{green!20}100.0& 100.0\\
+qgravel1& 97.15 & \cellcolor{red!20} 76.7 & 88.35\\
+qsoil1 &99.9 & \cellcolor{green!20}100.0 & 99.9\\
+qsoil2& 94.05 & \cellcolor{red!20} 90.6& 97.8\\
+qtiles1& 99.55 & 99.9& 99.95\\
+rtiles1 &99.9 & 99.9& 99.95\\
+rgravel1& 99.35 & 99.9 & 99.85\\
+rgravel2 &99.35 & \cellcolor{green!20}100.0 & 98.7\\
+rasp1 &99.9 & 100.0 & 100.0\\
+rsoil1 &\cellcolor{red!20} 93.45 & 99.5& 95.40\\
+G2gravel2& 99.65& 99.7& 99.75\\ 
+G2gravel1& 99.8 & \cellcolor{green!20}100.0& 99.75\\
+G2soil1 &\cellcolor{red!20} 94.3 & 95.7& 96.65\\
+G2tiles1& \cellcolor{green!20}100.0 & 99.4 & 99.9\\
+hsoil1 &\cellcolor{red!20} 93.4 &97.3 & 92.95\\
+hsoil2 &95.5 & \cellcolor{red!20} 92.3 & 95.25\\
 \hline
   \end{tabular}
 \end{center}
@@ -138,10 +138,11 @@ However, selecting a suitable metric is not enough. Choosing what data to test y
 \subsubsection{Validation set accuracy}
 
 
-\subsubsection{Leave-one-out accuracy}
-The leave-one-out strategy means dividing the dataset into $n$ parts. In this work the data is split up in the $n=43$ different measured surfaces (see table \ref{tab:loo}). The model validation is then performed in $n$ stages. For each stage, the model is trained on all data, except for one of the $n$ parts. After the training, the model makes prediction of the unseen data, and the accuracy is noted. When having a small dataset - or as in this case, an arguably small amount of surfaces that have been recorded - this method is useful in that it does not require us to withhold data from the model training \citep{raschka}. It also mimics a real scenario where the model predicts on a surface it has never seen before.
 
-"it can be useful for small datasets, cases where withholding data from the training set would be too wasteful" \citep{raschka}
+\subsubsection{Leave-one-out accuracy}
+The leave-one-out strategy means dividing the dataset into $n$ parts. In this work the data is split up in the $n=43$ different measured surfaces. The model validation is then performed in $n$ stages. For each stage, the model is trained on all data, except for one of the $n$ parts. After the training, the model makes predictions of the unseen data, and the accuracy is noted. When having a small dataset - or as in this case, an arguably small amount of surfaces that have been recorded - this method is useful in that it does not require us to withhold data from the model training \citep{raschka}. It also mimics a real scenario where the model predicts on a surface it has never seen before.
+
+The result of the leave-one-out test is shown in table \ref{tab:loo}.
 
 
 
