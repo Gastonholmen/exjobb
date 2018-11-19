@@ -161,17 +161,26 @@ as our expression for autocovariance. Note that the variance in \ref{eq:var} col
 \rowcolors{2}{gray!25}{white}
 \begin{table}
 \begin{center}
-  \begin{tabular}{c|cccc}
-%\hline
-    \rowcolor{gray!150}
-                  & \color{white}\textbf{Abs} & \color{white}\textbf{AC Energy} & \color{white}\textbf{AC Range} & \color{white}\textbf{FFT}\\
+  \begin{tabular}{|c|cccc|}
+\hline
+    \rowcolor{blue!35}
+                  & Abs & AC Energy & AC Range & FFT\\
     Config 1 & X & & & \\
     Config 2 &  & X & X&\\
     Config 3 & & & &X\\
     Config 4 & & & &\\
-%\hline
+\hline
   \end{tabular}
 \end{center}
 \caption{Feature configurations}
 \end{table}
 
+\section{Mutual information}
+
+In (link to information section) it was briefly discussed that information theory metrics can be utilized when considering which data is of interest. 
+
+While a useful metric, estimating MI can be a non-trivial task. k-nearest neighbors introduced here:
+\citep{kraskov_stögbauer_grassberger_2004}
+
+The particular link between continuous features and discrete values that we use are itnroduced  here:
+\citep{ross_2014}
