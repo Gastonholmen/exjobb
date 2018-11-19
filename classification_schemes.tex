@@ -125,11 +125,30 @@ hsoil2 &95.5 & \cellcolor{red!20} 92.3 \\
 \hline
   \end{tabular}
 \end{center}
+\label{tab:loo}
 \caption{Leave-one-out accuracies for all collected data series and several different models.}
 \end{table}
 
 \subsection{Evaluation metrics}
+Model evaluation is an important aspect in creating machine learning models. By using a bad evaluation strategy, one might construct a model that is seemingly good, but turns out to be useless in reality. There are several things to keep in mind when testing a model's performance. One of these is to use evaluation metrics that are relevant to the type of model that is being tested. For a classification model, a common metric is accuracy, which reveals the ratio between correct predictions and total predictions. A more informative metric is the confusion matrix which, in addition, provides details about the model's mispredictions. Two additional metrics, suitable for classification are log-loss and AUC \citep{zheng_2015}. 
+
+However, selecting a suitable metric is not enough. Choosing what data to test your model on is equally important. By predicting on data that the model has been trained on, one could expect a very high accuracy. This accuracy, however, is not interesting at this point as a model is intended to be used on new, unseen data. For this reason, the dataset is split up in a training set and a test set in one of many ways \citep{raschka}.
+
 
 \subsubsection{Validation set accuracy}
 
+
 \subsubsection{Leave-one-out accuracy}
+The leave-one-out strategy means dividing the dataset into $n$ parts. In this work the data is split up in the $n=43$ different measured surfaces (see table \ref{tab:loo}). The model validation is then performed in $n$ stages. For each stage, the model is trained on all data, except for one of the $n$ parts. After the training, the model makes prediction of the unseen data, and the accuracy is noted. When having a small dataset - or as in this case, an arguably small amount of surfaces that have been recorded - this method is useful in that it does not require us to withhold data from the model training \citep{raschka}. It also mimics a real scenario where the model predicts on a surface it has never seen before.
+
+"it can be useful for small datasets, cases where withholding data from the training set would be too wasteful" \citep{raschka}
+
+
+
+
+
+
+
+
+
+
