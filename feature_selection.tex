@@ -8,27 +8,14 @@ Ideally, one seeks a small set of variables which accurately captures the inform
 
 In the present case the objective is to capture defining characteristics of a surface using one dimensional data obtained from a radar sensor placed some small distance above the surface of interest. Furthermore, the sensor is moving along some direction parallell to the surface plane, thus continuously altering the sensors surroundings. One may split up the possible methods of characterizing this data obtained through this process into two main categories: Methods which aim at capturing the overall spatial signal form, and methods which examine the temporal changes in radar response. 
 
-The first of the two is straight forward; if the scattering surface can be assumed to maintain some defining characteristics at any given point time one could simply extract features relating to these characteristics to generate a classification. Say for example we are presented two surfaces with equivalent reflective properties but where one is rough and the other is smooth. For the smooth surface the scatterers behave more predictably than for the rugged surface. 
+The first of the two is straight forward; if the scattering surface can be assumed to maintain some defining characteristics at any given point in time, one could simply extract features relating to these characteristics and generate a classification. Say for example we are presented two surfaces with equivalent reflective properties but where one is rough and the other is smooth. For the smooth surface the reflections behave more predictably than those for the rugged. Say a strong electromagnetic pulse is sent at a zero degree angle of incidence, as in figure ...., one would expect to receive a strong response from the smooth surface. If one instead were to send a pulse at a higher angle of incidence, one would expect the opposite as the reflections upon the smooth surface would primarily bounce away from the sensor, yielding a weak response. For the rough surface on the other hand, the signal would scatter in a wider array of angles, both when the pulse is sent straight downwards or facing forward. An idealization of what the received reflections could look like from the four scenarios (2 surfaces, and 2 sensors) is presented in figure ....
 
-%This would mean that the main portion of scattered electromagnetic waves will scatter at the
+The other method we consider does not look at separate radar sweeps, but explores how these develop and correlate over time. With a high enough sampling frequency and good spatial resolution we might be able to extract useful characterizing information from different surfaces. Again, looking at two very much simplified cases - a flat and a rough surface - it is reasonable to assume that the response from a perfectly flat surface does not vary over time, as in figure ... For a rough terrain, however, there will be small random details in the texture that move relative to the sensor, yielding a response that varies over time. With appropriate tools, these changes could possibly be detected and used to differentiate surfaces.
 
-one would expect to receive a strong response from a electromagnetic pulse sent at a zero degree angle of incidence. If one instead sends a pulse at a higher angle of incidence, one would expect the opposite as the scatterers of the smooth surface would primarily scatter away from the sensor yielding a weak response. For the rough surface on the other hand, scatterers direct an incoming reflection in a wider array of angles. 
+* Bild på reflektioner på platt/skrovligt underlag*
 
-% Fortsätt här
+* Bild på envelopes från mätningar *
 
-
-due to the various properties of the scattering surface in the vicinity 
-
-we begin this section with a discussion 
-
-
-
-In order to make sense of data one must impose some reasonable assumptions. 
-\\ 
-One idea is to view each measurement, taken at time instance $t$ at range $r$ for material $m$, as drawn from some 
-complex distribution specific for that combination of $r$ and $s$ but independent of time of sampling $t$. 
-\\
-Yada yada there is two combatting ideas here
 
 \section{Preprocessing}
 
