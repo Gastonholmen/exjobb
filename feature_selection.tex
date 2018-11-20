@@ -5,10 +5,11 @@ In order to create an effective predictive model one must first select a set of 
 Ideally, one seeks a small set of variables which accurately captures the information content in a larger set of data. After reducing the number of features into a more manageable format it is then possible to obtain good results with significantly less computational load than if no feature selection had been considered. Furthermore, the feature selection process allows us to pinpoint what data characteristics we wish to monitor, and subsequently which data characteristics we can disregard. 
 
 \section{Desirable traits}
+\label{destrait}
 
 In the present case the objective is to capture defining characteristics of a surface using one dimensional data obtained from a radar sensor placed some small distance above the surface of interest. Furthermore, the sensor is moving along some direction parallell to the surface plane, thus continuously altering the sensors surroundings. One may split up the possible methods of characterizing this data obtained through this process into two main categories: Methods which aim at capturing the overall spatial signal form, and methods which examine the temporal changes in radar response. 
 
-The first of the two is straight forward; if the scattering surface can be assumed to maintain some defining characteristics at any given point in time, one could simply extract features relating to these characteristics and generate a classification. Say for example we are presented two surfaces with equivalent reflective properties but where one is rough and the other is smooth. For the smooth surface the reflections behave more predictably than those for the rugged. Say a strong electromagnetic pulse is sent at a zero degree angle of incidence, as in figure ...., one would expect to receive a strong response from the smooth surface. If one instead were to send a pulse at a higher angle of incidence, one would expect the opposite as the reflections upon the smooth surface would primarily bounce away from the sensor, yielding a weak response. For the rough surface on the other hand, the signal would scatter in a wider array of angles, both when the pulse is sent straight downwards or facing forward. An idealization of what the received reflections could look like from the four scenarios (2 surfaces, and 2 sensors) is presented in figure ....
+The first of the two is straight forward; if the scattering surface can be assumed to maintain some defining characteristics at any given point in time, one could simply extract features relating to these characteristics and generate a classification. Say for example we are presented two surfaces with equivalent reflective properties but where one is rough and the other is smooth. For the smooth surface the reflections behave more predictably than those for the rugged. Assume that a strong electromagnetic pulse is sent at a zero degree angle of incidence, as in figure ...., one would expect to receive a strong response from the smooth surface. If one instead were to send a pulse at a higher angle of incidence, one would expect the opposite as the reflections upon the smooth surface would primarily bounce away from the sensor, yielding a weak response. For the rough surface on the other hand, the signal would scatter in a wider array of angles, both when the pulse is sent straight downwards and facing forward. An idealization of what the received reflections could look like from the four scenarios (2 surfaces, and 2 sensors) is presented in figure ....
 
 The other method we consider does not look at separate radar sweeps, but explores how these develop and correlate over time. With a high enough sampling frequency and good spatial resolution we might be able to extract useful characterizing information from different surfaces. Again, looking at two very much simplified cases - a flat and a rough surface - it is reasonable to assume that the response from a perfectly flat surface does not vary over time, as in figure ... For a rough terrain, however, there will be small random details in the texture that move relative to the sensor, yielding a response that varies over time. With appropriate tools, these changes could possibly be detected and used to differentiate surfaces.
 
@@ -20,7 +21,9 @@ The other method we consider does not look at separate radar sweeps, but explore
 \section{Preprocessing}
 
 \subsection{Using multiple sweeps for feature selection}
-In the previous section we introduced two conflicting interpretations of the radar signal. In the first, the incoming wavelet is drawn from a complex distribution, and each sweep is independent from the rest. In the second we instead consider that there may be some significant correlations in time to take into account; surface shapes and objects passing by the sensor are detected multiple times in a perhaps predictable and useful manner.  
+\label{multsweep}
+%In the previous section we introduced two conflicting interpretations of the radar signal. 
+In the previous section we introduced two ways to work with the radar signal. In the first, the incoming wavelet is drawn from a complex distribution, and each sweep is independent from the rest. In the second we instead consider that there may be some significant correlations in time to take into account; surface shapes and objects passing by the sensor are detected multiple times in a perhaps predictable and useful manner.  
 
 The first method suggests that signal averaging over a number of sweeps should yield a more and more accurate estimate, as it reduces noise that could occur from e.g. quantization effects or random currents in the radar \citep{w_doerry_2016}. Thus the first approach greatly benefits from using multiple sweeps to find an average over some predefined number of sweeps.  In order to utilize the time correlations assumed in the second interpretation processing in time is of course demanded, and a number of sweeps need to be analyzed at once to extract features related to this way of viewing the radar response. 
 
@@ -39,7 +42,9 @@ Fast time and slow time features
 
 
 \subsection{Expected signal}
-The simplest way of selecting features would be to use plain sweep data as features. While this method requires very little data preprocessing, it does not give very good results (Any comment on how well it performs?). With just a little more effort, a significant improvement can be made by averaging a few sweeps in slow time, as in figure \ref{fig:sweep_average}. This makes the samples more similar.  For range bin $i$, $T$ consecutive samples in slow time are collapsed into one according to
+As discussed in section \ref{destrait}, it is reasonable to believe that the envelope shape from a flat and a rough surface may differ. Considering our goal is to differentiate grass - which is without doubt a rugged surface - from other surfaces, using the shape of radar sweeps is motivated. However, as mentioned in section \ref{multsweep} we ought to improve the signal quality by averaging over a number of sweeps as in figure \ref{fig:sweep_average}. In addition, this gives the samples a higher resemlance.  
+
+For range bin $i$, $T$ consecutive samples in slow time are collapsed into one according to
 
 \begin{equation}
 	s_i(t_m) = \E\{X_{i,t_m}\} = \frac{1}{T}\sum_{t=0}^{T-1}x(i, t_m + t).
@@ -48,7 +53,7 @@ The simplest way of selecting features would be to use plain sweep data as featu
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.7]{figs_temp/features/sweep_average}
-	\caption{}
+	\caption{By averaging a number of consecutive sweeps, we reduce noise and make samples more similar. The dashed line shows the average of the solid envelopes. Note that the actual averaging is done over complex IQ data, wheras this figure depicts absolute values. }
 	\label{fig:sweep_average}
 \end{figure}
 
