@@ -6,14 +6,38 @@ In this chapter a few classification models are evaluated for the feature extrac
 
 In this section the effectiveness of a few different models are compared. Two linear models and two non-linear models are evaluated. The two linear models considered, a \emph{Linear Discriminant Analysis} (LDA) and a \emph{Support Vector Machine} (SVM) model.
 
-\subsection{Deep neural networks}
+\subsection{Linear models}
+
+\subsubsection{Linear Discriminant Analysis}
+
+Linear Discriminant Analysis, or LDA for short, 
+
+
+
+\subsection{Artificial neural networks}
+
+Artificial neural networks (ANNs) constitute a class of nonlinear models designed to mimic biological neural systems. ANNs consist of multiple layers of neurons. 
+
+
+ANNs have been widely applied to solve a great number of difficult problems in different areas, including pattern recognition, signal processing and language learning. 
+
+
+\subsubsection{Feedforward neural networks}
+Feedforward networks consist of an input layer, some hidden layers and an output layer. Each layer receives a set of input values $\mathbf{x}$ from the previous layer, multiplies the inputs by a set of weights $\mathbf{\beta}_{i}$ and applies a nonlinear activation function $F$ to the multiplication output. This output is then used as inputs for the sequent layer. The output of layer $i$ at neuron index $j$, $y_{i,j}$, is thus related to the previous layer output $\{{y}_{i-1, k}\}_{k=1}^{K}$ through
+
+\begin{equation}
+	y_{i,j} = F\Big\{\sum_{k=1}^{K}\beta_{i,j,k}y_{i-1,k}\Big\}
+\end{equation}
+
+
+
 
 Deep neural networks, or DNN for short, are neural networks that has more than one layer of hidden units between its inputs and outputs \citep{hinton_deng_yu_dahl_mohamed_jaitly_senior_vanhoucke_nguyen_sainath_2012}. 
 
 
 DNN's in various forms have gained immense popularity over the past two decades achieving considerable success within a wide spectrum of applications, such as in image recognition \citep{szegedy_liu_jia_sermanet_reed_anguelov_erhan_vanhoucke_rabinovich_2018}, acoustic modeling of speech \citep{hinton_deng_yu_dahl_mohamed_jaitly_senior_vanhoucke_nguyen_sainath_2012}, 
 
-\subsection{LSTM}
+\subsubsection{LSTM}
 Mention CNN and LSTM being used for time series classification. Then bring up the article which combines these two to motivate this approach.
 
 Observing one range bin at a time, one could think of the radar data as a time series. This motivates the use of some classification scheme that exploits temporal behaviour. Recurrent neral networks (RNNs) feature this by having feedback within individual layers in the network. \citep{karim_majumdar_darabi_chen_2018} The problem with RNNs, however, is that they suffer from a vanishing or exploding gradient, and can only sustain a short term memory. A way to combat this is to use a neural network layer called long short term memory (LSTM). These are thoroughly described in, for example \citep{hochreiter_schmidhuber_1997}
