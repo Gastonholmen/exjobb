@@ -42,7 +42,7 @@ Fast time and slow time features
 
 
 \subsection{Expected signal}
-As discussed in section \ref{destrait}, it is reasonable to believe that the envelope shape from a flat and a rough surface may differ. Considering our goal is to differentiate grass - which is without doubt a rugged surface - from other surfaces, using the shape of radar sweeps is motivated. However, as mentioned in section \ref{multsweep} we ought to improve the signal quality by averaging over a number of sweeps as in figure \ref{fig:sweep_average}. In addition, this gives the samples a higher resemlance.  
+As discussed in section \ref{destrait}, it is reasonable to believe that the envelope shape from a flat and a rough surface may differ. Considering our goal is to differentiate grass - which is without doubt a rugged surface - from other surfaces, using the shape of radar sweeps is motivated. However, as mentioned in section \ref{multsweep} we ought to improve the signal quality by averaging over a number of sweeps as in figure \ref{fig:sweep_average}. In addition to an improved quality, this gives the samples a higher resemblance.  
 
 For range bin $i$, $T$ consecutive samples in slow time are collapsed into one according to
 
@@ -53,7 +53,7 @@ For range bin $i$, $T$ consecutive samples in slow time are collapsed into one a
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.7]{figs_temp/features/sweep_average}
-	\caption{By averaging a number of consecutive sweeps, we reduce noise and make samples more similar. The dashed line shows the average of the solid envelopes. Note that the actual averaging is done over complex IQ data, wheras this figure depicts absolute values. }
+	\caption{By averaging a number of consecutive sweeps, we reduce noise and make samples more similar. The dashed line shows the average of the solid lines. Note that the actual averaging is done over complex IQ data, wheras this figure depicts absolute values for the sake of clarity. }
 	\label{fig:sweep_average}
 \end{figure}
 
@@ -99,8 +99,6 @@ To avoid aliasing we refer to chapter earlier in report where this is discussed.
 
 
 \subsection{Variance}
-
-Include a discussion about the biased/unbiased estimate \\
 
 Assume $x(n,t)$ are samples from a complex normal distribution $X_{n,t}$. Variance $v_i(t_m)$ at range $i$ at time $t_m$ can then be approximated using
 
