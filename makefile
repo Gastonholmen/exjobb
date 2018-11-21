@@ -2,7 +2,7 @@
 
 
 make: 
-	pdflatex main.tex
+	xelatex main.tex
 	bibtex main.aux
-	pdflatex main.tex
-	pdflatex main.tex
+	xelatex main.tex
+	xelatex main.tex
