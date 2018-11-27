@@ -1,11 +1,11 @@
 \chapter{Data acquisition and preprocessing}
 \section{Data Acquisition}
-Having reliable data is a fundamental requirement in building a good model. There are many parameters to consider in optimizing the data collecting process. However,  finding an optimal solution is often impossible as the combinations are endless, but putting some thought into every decision often proves worthwhile. Below, we motivate our choices of sensor placement as well as various parameters.
+Having reliable data is a fundamental requirement in building a good model. There are many parameters to consider in optimizing the data collecting process, and often an endless amount of possible configurations among these. This can make it impossible to find an optimal solution, but putting some thought into every decision can prove worthwhile. Below, we motivate our choices of sensor placement as well as various parameters.
 
 After this is done, the data is collected by recording radar sweeps at a certain rate while moving across a surface, according to figure *fig*.
 
 \subsection{Measurement Setup}
-The measurement setup is comprised of two sensors, mounted at the front of \emph{a slowly moving robot}. One of the sensors is facing straight down towards the ground, whereas the other one is tilted 30 degrees, facing forward. *Refer to figure*
+The measurement setup is comprised of two sensors, mounted at the front of \emph{a slowly moving robot}. One of the sensors is facing straight down towards the ground, whereas the other one is tilted 22.5 degrees, facing forward. *Refer to figure*
 
 Possibly mention the $\frac14\lambda$ gap between the sensor and RLM plastic.
 
@@ -13,10 +13,10 @@ Possibly mention the $\frac14\lambda$ gap between the sensor and RLM plastic.
 \subsection{Measurement Settings}
 Setting the sensor parameters is an iterative process which requires a trial-and-error approach. However, the choices for some parameters can be narrowed down with a little bit of thought. One such parameter is the sampling frequency. When working with means that could potentially cause aliasing, such as the DFT \citep{lindgren_rootzeŽn_sandsten_2013}, it is important to choose a sampling frequency high enough to avoid this.
 
-In order to assure that aliasing is avoided, the maximal frequency component registered by the radar must be surpassed by the Nyquist frequency, $f_N=f_s/2$
+In order to assure that aliasing is avoided, the maximal frequency component registered by the radar must be surpassed by half the sampling frequency \footnote{This is often referred to as the Nyquist frequency, and is defined as $f_N=f_s/2$.}.
 \begin{equation}
 \label{eq:nyquist}
-	f_{max} < f_N.
+	f_{max} < \frac{f_s}2.
 \end{equation}
 The sampling frequency can be chosen accordingly, assuming the maximal frequency component is known. 
 
