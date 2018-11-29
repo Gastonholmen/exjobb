@@ -42,7 +42,7 @@ Fast time and slow time features
 
 
 \subsection{Expected signal}
-As discussed in section \ref{destrait}, it is reasonable to believe that the envelope shape from a flat and a rough surface may differ. Considering our goal is to differentiate grass - which is without doubt a rugged surface - from other surfaces, using the shape of radar sweeps is motivated. However, as mentioned in section \ref{multsweep} we ought to improve the signal quality by averaging over a number of sweeps as in figure \ref{fig:sweep_average}. In addition to an improved quality, this gives the samples a higher resemblance.  
+As discussed in section \ref{destrait}, it is reasonable to believe that the envelope from a flat and a rugged surface may differ. Considering our goal is to differentiate grass - which is without doubt a rugged surface - from other surfaces, using the shape of radar sweeps is motivated. However, as mentioned in section \ref{multsweep} we ought to improve the signal quality by averaging over a number of sweeps as in figure \ref{fig:sweep_average}. In addition to an improved quality, this gives the samples a higher resemblance.  
 
 For range bin $i$, $T$ consecutive samples in slow time are collapsed into one according to
 
@@ -53,7 +53,7 @@ For range bin $i$, $T$ consecutive samples in slow time are collapsed into one a
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.7]{figs_temp/features/sweep_average}
-	\caption{By averaging a number of consecutive sweeps, we reduce noise and make samples more similar. The dashed line shows the average of the solid lines. Note that the actual averaging is done over complex IQ data, wheras this figure depicts absolute values for the sake of clarity. }
+	\caption{By averaging a number of consecutive sweeps, we reduce noise and make samples more similar. The dashed line shows the average of the solid lines. }
 	\label{fig:sweep_average}
 \end{figure}
 
@@ -66,7 +66,7 @@ By computing the average energy of single sweeps from different surfaces we see 
 \end{equation}
 where (describe variables)
 
-Mention the feature is left unused
+Despite the fact that the average energy appears to be a highly relevant feature, it is also much gain dependent, and conflicts with what is stated in section *reference to sweep norm.*. Therefore, if different sensors are to be used for training and future classifications, this feature will not be of any use.
 
 \begin{figure}[h]
 	\centering

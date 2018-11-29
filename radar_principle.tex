@@ -20,17 +20,17 @@ $
 $
 This process is repeated for different time delays $t_i$. The chosen time delays can be adjusted depending on in what ranges one wants to search in, and how good range resolution one seeks. Together, the echoes (or lack thereof) from each transmitted wavelet make up what we call a \textit{sweep}. Before going through any preprocessing, a sweep can look like the one in figure \ref{fig:single_sweep_raw}.
 
-After a radar wavelet is transmitted and reflected back to the radar from a single scatterer, it can be described mathematically as \citep{richards_2014}
+After a radar wavelet is transmitted and reflected on a single scatterer, it can be described mathematically as \citep{richards_2014}
 \begin{equation}
 	\label{eq:raw_sweep}
-	\textrm{rx}(t)=A(t)\sin(\Omega t +\theta (t)),
+	x_R(t)=A(t)\sin(\Omega t +\theta (t)),
 \end{equation}
 where $t$ relates to distance according to equation \eqref{eq:dist_time}. The major part of the receiver processing consists of extracting $A(t)$ and $\theta(t)$ explicitly from \eqref{eq:raw_sweep}. This process, known as quadrature demodulation, is described in appendix... and the benefits of doing this is further discussed in chapter \ref{IQ}.
 
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.8]{figs_temp/single_sweep_raw}
-	\caption{A single radar sweep which has been measured from 7 to 23 cm. The largest amplitude between at around 18 cm. suggests there is some object present at that distance from the sensor.}
+	\caption{A single radar sweep which has been measured from 7 to 23 cm. The largest amplitude at around 18 cm. suggests there is some object present at that distance from the sensor.}
 	\label{fig:single_sweep_raw}
 \end{figure}
 
@@ -114,7 +114,7 @@ Figures \ref{fig:mix0}, \ref{fig:mix1} and \ref{fig:mix2} illustrate this princi
 
 \subsection{IQ demodulated data}
 \label{IQ}
-A common type of data when working with radar signal processing is in-phase and quadrature-phase data (IQ-data). IQ-data is represented as complex numbers, and a radar sweep consists of several such complex numbers - one for each investigated range. The process of obtaining IQ-data is often referred to as IQ- or quadrature demodulation, and is described in appendix .... The usefulness of IQ-data lies in that it contains explicit information about the amplitude, $A(t)$, and phase, $\theta(t)$, in equation \eqref{eq:raw_sweep} \citep{richards_2014}. To obtain the amplitude for a sweep, $s$, one simply computes the absolute value for each complex number in $s$. The amplitude plot is a good way to visualize at what ranges objects are present. Figure \ref{fig:single_sweep_iq} illustrates such a graph where the same measurement setup as in figure \ref{fig:single_sweep_raw} has been used. Similarly, a phase curve can be obtained by computing the phase in each point.
+A common type of data when working with radar signal processing is in-phase and quadrature-phase data (IQ-data). IQ-data is represented as complex numbers, and a radar sweep consists of several such complex numbers - one for each investigated range. The process of obtaining IQ-data is often referred to as IQ- or quadrature demodulation, and is described in appendix .... The usefulness of this type of data lies in that it contains explicit information about the amplitude, $A(t)$, and phase, $\theta(t)$, in equation \eqref{eq:raw_sweep} \citep{richards_2014}. To obtain the amplitude for a sweep, $s$, one simply computes the absolute value for each complex number in $s$. The amplitude plot is a good way to visualize at what ranges objects are present. Figure \ref{fig:single_sweep_iq} illustrates such a graph where the same measurement setup as in figure \ref{fig:single_sweep_raw} has been used. Similarly, a phase curve can be obtained by computing the phase in each point.
 
 In many applications, the phase information in IQ-data is used when small changes in the radar signal need to be detected, (Mention a case such as recording over grass...) as the phase is more sensitive to changes than the amplitude \citep{lien_gillian_karagozler_amihood_schwesig_olson_raja_poupyrev_2016}. If an object is detected at distance $r(t_1)$ from the radar at time $t_1$, and shortly thereafter, the object is moved to distance $r(t_2)$, the corresponding difference in phase will be
 \begin{equation}
@@ -128,21 +128,12 @@ In the case of material classification, a high sampling frequency is highly bene
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.8]{figs_temp/single_sweep_iq}
-	\caption{Visualization of an amplitude function in \eqref{eq:raw_sweep}. The large amplitude at certain ranges suggests there are objects present at those ranges.}
+	\caption{Visualization of an amplitude function derived from IQ-data.}
 	\label{fig:single_sweep_iq}
 \end{figure}
 
-For a thorough description of how IQ-data is derived from raw radar data, we refer to \citep{richards_2014} (Or appendix)
+For a thorough description of how IQ-data is derived, see appendix ...
 
-\section{Notation and Definitions}
-\begin{itemize}
-	\item Fast time
-	\item Slow time
-	\item delay/distance
-	\item f=60GHz
-	\item derive $\lambda$ from 60GHz frequency
-	\item 
-\end{itemize}
 
 
 
