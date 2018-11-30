@@ -163,11 +163,11 @@ However, selecting a suitable metric is not enough. Choosing what data to test y
 
 
 \subsubsection{Validation set accuracy}
-
+Splitting a dataset into a training and validation set often means selecting samples for training and validation completely randomly. This can be a good way of comparing different models' performances, but it is not the ideal method for a final model evaluation. While it is true that the validation set consists of samples that the model has never seen before, it \textit{has} trained on samples close to the validation samples due to the random selection. Oftentimes closely spaced samples can have a high resemblance, and even if the model has not trained on the validation samples, it achieves a high validation accuracy because it has trained on very similar samples.
 
 
 \subsubsection{Leave-one-out accuracy}
-The leave-one-out strategy means dividing the dataset into $n$ parts. In this work the data is split up in the $n=43$ different measured surfaces. The model validation is then performed in $n$ stages. For each stage, the model is trained on all data, except for one of the $n$ parts. After the training, the model makes predictions of the unseen data, and the accuracy is noted. When having a small dataset - or as in this case, an arguably small amount of surfaces that have been recorded - this method is useful in that it does not require us to withhold data from the model training \citep{raschka}. It also mimics a real scenario where the model predicts on a surface it has never seen before.
+The leave-one-out strategy means dividing the dataset into $n$ parts. In this work the data is split up in the $n=42$ different measured surfaces. The model validation is then performed in $n$ stages. For each stage, the model is trained on all data, except for one of the $n$ parts. After the training, the model makes predictions of the unseen data, and the accuracy is noted. When having a small dataset - or as in this case, an arguably small amount of surfaces that have been recorded - this method is useful in that it does not require us to withhold data from the model training \citep{raschka}. It also mimics a real scenario where the model predicts on a surface it has never seen before.
 
 The result of the leave-one-out test is shown in table \ref{tab:loo}.
 
