@@ -11,11 +11,6 @@ One particularly challenging aspect of adequately classifying surfaces is the ev
 
 Such effects is difficult to account for when selecting data. Gather a dataset as diverse as possible
 
-\section{Individual sensor performance}
-Despite the fact that the radar sensors have high precision, the output can vary a lot from sensor to sensor. In particular, one sensor can have a significantly higher gain than another, meaning that two sensors can have a different measure of reflexivity on the very same surface. This problem can be dealt with in several ways. 
-
-Mention what we did, and discuss pros and cons.
-
-1. Choose features that are not affected by the issue. Normalize sweeps etc.
-	A. Normalize sweeps so that the main peak is at height 1
-	B. Normalize sweeps by dividing with mean 
+\section{Feature Extraction}
+ Machine learning is used to find features it considers are good. By manually performing feat. ext. we remove information that the algorithms may otherwise have used to become even better etc. 
+Future work: investigate models with no manual feat. extr.

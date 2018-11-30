@@ -1,0 +1,32 @@
+
+
+\begin{appendices}
+
+	\chapter{IQ Demodulation}
+	IQ demodulation is a major part in the receiver processing of radar data. When an echo produced by a single scatterer is received by the radar, it can be described as
+\begin{equation}
+\label{eq:signal}
+	x_R(t)=A(t)\sin(\Omega t+\theta(t)).
+\end{equation}
+Here, $\Omega$ is the carrier frequency of the transmitted pulse and the time, $t$, relates to distance according to equation \textbf{*ref*}. The goal of IQ demodulation is to extract $A(t)$ and $\theta(t)$ from \eqref{eq:signal}, and end up with a complex signal of the form $A(t)e^{i\theta(t)}$.
+
+Most classical radars follow the demodulation scheme depicted in figure *ref*. The first step is to split the signal in \eqref{eq:signal} into two separate channels. In the upper channel, the signal is multiplied by a sinusoid which is generated with the same carrier frequency as the received pulse. The result of this multiplication can be rewritten as
+\begin{gather}
+	 A(t)\sin(\Omega t+\theta(t))\cdot 2\sin(\Omega t) = \\
+	\label{eq:split}
+ 	 A(t)\cos(\theta(t))-A(t)\cos(2\Omega t+\theta(t)).
+\end{gather}
+The next step in the demodulation scheme is to low pass filter the signal. Thus, the high frequency term in \eqref{eq:split} is removed, and only $A(t)\cos(\theta(t))$ remains. We define this as $I(t)$.
+
+Similarly, in the bottom channel in figure *ref to schematics*, the original signal is multiplied by a generated wave signal of the same carrier frequency. However, this time, the signal is shifted 90 degrees in phase. Just as before, we may rewrite the product as
+\begin{gather}
+	 A(t)\sin(\Omega t+\theta(t))\cdot 2\cos(\Omega t) = \\
+	\label{eq:split}
+ 	 A(t)\sin(\theta(t))+A(t)\sin(2\Omega t+\theta(t)).
+\end{gather}
+After low pass filtering we obtain $A(t)\sin(\theta(t))$, which we define as $Q(t)$. Finally, by defining $I$ and $Q$ as the real- and imaginary parts of a complex number, respectively, we have our IQ-data
+\begin{equation}
+	I(t)+iQ(t)=A(t)\Big(\cos(\theta(t))+i\sin(\theta(t))\Big)=A(t)e^{i\theta(t)}
+\end{equation}
+
+\end{appendices}
