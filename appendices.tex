@@ -21,7 +21,7 @@ The next step in the demodulation scheme is to low pass filter the signal. Thus,
 Similarly, in the bottom channel in figure *ref to schematics*, the original signal is multiplied by a generated wave signal of the same carrier frequency. However, this time, the signal is shifted 90 degrees in phase. Just as before, we may rewrite the product as
 \begin{gather}
 	 A(t)\sin(\Omega t+\theta(t))\cdot 2\cos(\Omega t) = \\
-	\label{eq:split}
+	\label{eq:split2}
  	 A(t)\sin(\theta(t))+A(t)\sin(2\Omega t+\theta(t)).
 \end{gather}
 After low pass filtering we obtain $A(t)\sin(\theta(t))$, which we define as $Q(t)$. Finally, by defining $I$ and $Q$ as the real- and imaginary parts of a complex number, respectively, we have our IQ-data
