@@ -5,16 +5,16 @@ In order to build a model capable of accurately capturing key features from vari
 
 \section{The radar principle}
 
-\subsection{Fundamental concepts}
-
 The radar principle is at its core simple. A radar operates by radiating electromagnetic energy and detecting the echo returned from reflecting targets in its field of view\citep{skolnik_2009}. By examining properties of the echo signal it is possible to obtain information about the targets \citep{richards_2014}. This may involve the range at which scatterers are located, the angles at which targets are found or the speed at which a scatterer moves. With a sufficiently high angular and range resolution it is also possible to discern parts of the targets' size and shape. 
 
-Radars are active systems, meaning that it radiates using its own antenna and does not depend on ambient radiation \citep{skolnik_2009}. To perform measurements, a wavelet pulse $x_T(t)$ with some carrier frequency $\Omega$  is transmitted towards an object of interest. After some short time $t_1$, the radar listens for an echo. If no echo is received, it means there is no object present at distance\footnote{The reason for dividing by 2 is that the distance the wavelet pulse must travel before coming back to the radar is twice the distance to the object of interest.}
-\begin{equation}
-	\label{eq:dist_time}
+Radars are active systems, meaning that they radiate using their own antenna and do not depend on ambient radiation \citep{skolnik_2009}. To perform measurements, a wavelet pulse $x_T(t)$ with some carrier frequency $\Omega$  is transmitted towards an object of interest. After some short time $t_1$, the radar listens for an echo. Since the speed of light is practically known in air, we can deduce from the recieved echo whether or not some reflective target was present at distance $d_1$.
+
+\begin{equation}\label{eq:dist_time}
 	d_1 = \frac{c\cdot t_1}2
 \end{equation}
-where $c$ is the speed of an electromagnetic wave in air. After the previously transmitted wavelet is guaranteed to have died out, a new one is transmitted. Again, the radar listens for an echo, but this time after another time $t_2$ has passed. $t_2$ is greater than $t_1$, meaning the radar listens for echoes further away. If an echo is received, it means there is an object present at distance 
+
+where $c$ is the speed of an electromagnetic wave in air. Note that we must divide by 2 in equation \ref{eq:dist_time} in order to accomodate for the pulse travelling back and forth (or, perhaps more accurately, forth and back). After the previously transmitted wavelet is guaranteed to have died out, a new one is transmitted. Again, the radar listens for an echo, but this time after another time $t_2$ has passed. $t_2$ is greater than $t_1$, meaning the radar listens for echoes further away. If an echo is received, it means there is an object present at distance 
+
 $
 	d_2 = \frac12(c\cdot t_2).
 $
