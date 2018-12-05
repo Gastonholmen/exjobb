@@ -1,20 +1,23 @@
 \chapter{Classification schemes}
-
 In this chapter a few classification models are evaluated for the feature extraction processes described in the preceding chapter. Detailed descriptions of each classification framework is omitted, but good sources for further explanation will be supplied for the interested reader. The aim of this chapter is to compare various models and to determine the most promising one with regards to accuracy, size and complexity. 
 
-\section{Evaluated models}
+\section{Linear Models}
+Linear models are widely used in practice as they are general, and can therefore be used in many cases \citep{shalev-shwartz_ben-david_2016}.  Furthermore, they are relatively easy to understand, in contrast to more complex models such as neural networks. Despite this, they can often produce a decent accuracy with a low complexity.
 
-In this section the effectiveness of a few different models are compared. Two linear models and two non-linear models are evaluated. The two linear models considered, a \emph{Linear Discriminant Analysis} (LDA) and a \emph{Support Vector Machine} (SVM) model.
+In this work, two linear models are considered. One being \emph{Linear Discriminant Analysis} (LDA) and the other, \emph{Support Vector Machine} (SVM) with a linear kernel \textbf{(check if we used linear or poly deg 2)}. 
 
-\subsection{Linear models}
-
-\subsubsection{Linear Discriminant Analysis}
-
+\subsection*{Linear Discriminant Analysis}
 Linear Discriminant Analysis, or LDA for short, 
 
+\subsection*{Support Vector Machine}
+SVMs are one of the most popular models when it comes to supervised learning. The most simple SVM uses what is called a linear kernel, and generates a linear hyperplane that separates two sets of labeled data. Finding such a hyperplane is often an ambiguous task. To find what the SVM regards as the optimal hyperplane, it finds parameters that maximize the distance between the plane and the sample points closest to the plane.
+
+Even though support vector machines are linear models, there are ways to use them in a non-linear fashion \citep{xia_2016}. In principle, the data is first transformed into a higher dimensional space, including non-linear terms. In the new space, the SVM is used as normal. This makes SVMs useful even if one's data is not linearly separable.
 
 
-\subsection{Artificial neural networks}
+\section{Non-linear Models}
+
+\subsection*{Artificial neural networks}
 
 Artificial neural networks (ANNs) constitute a class of nonlinear models designed to mimic biological neural systems. ANNs consist of multiple layers of neurons. 
 
@@ -22,7 +25,18 @@ Artificial neural networks (ANNs) constitute a class of nonlinear models designe
 ANNs have been widely applied to solve a great number of difficult problems in different areas, including pattern recognition, signal processing and language learning. 
 
 
-\subsubsection{Feedforward neural networks}
+\subsection*{LSTM}
+In previous models the data went through a feature extraction process before going into the model training. For this model, on the other hand, no feature extraction is performed. Instead, several consecutive sweeps of unprocessed IQ-data are used as input. Each range bin can be regarded as a one-dimensional time series. This motivates the use of some classification scheme that exploits temporal behaviour. Recurrent neral networks (RNNs) feature this by having feedback within individual layers in the network. \citep{karim_majumdar_darabi_chen_2018} The problem with RNNs, however, is that they suffer from a vanishing or exploding gradient, and can only sustain a short term memory. A way to combat this is to use a neural network layer called long short term memory (LSTM).
+
+LSTM-layers have previously been used successfully for classifications in radar applications. For instance in \citep{jithesh_sagayaraj_srinivasa_2018} the method was able to classify flying objects from $\textbf{nnn}$ different classes with an accuracy of ...? The theory behind these layers are thoroughly described in, for example \citep{hochreiter_schmidhuber_1997}
+
+Mention some source(s) using convolutional layers for radar classification.
+
+ In \citep{karim_majumdar_darabi_chen_2018}, the LSTM layer is used in combination with a fully convolutional neural network (FCN), which proves to be a significant improvement from just using FCNs when classifying time series.
+
+Describe our model.
+
+\subsection*{Feedforward neural networks}
 Feedforward networks consist of an input layer, some hidden layers and an output layer. Each layer receives a set of input values $\mathbf{x}$ from the previous layer, multiplies the inputs by a set of weights $\mathbf{\beta}_{i}$ and applies a nonlinear activation function $F$ to the multiplication output. This output is then used as inputs for the sequent layer. The output of layer $i$ at neuron index $j$, $y_{i,j}$, is thus related to the previous layer output $\{{y}_{i-1, k}\}_{k=1}^{K}$ through
 
 \begin{equation}
@@ -37,17 +51,7 @@ Deep neural networks, or DNN for short, are neural networks that has more than o
 
 DNN's in various forms have gained immense popularity over the past two decades achieving considerable success within a wide spectrum of applications, such as in image recognition \citep{szegedy_liu_jia_sermanet_reed_anguelov_erhan_vanhoucke_rabinovich_2018}, acoustic modeling of speech \citep{hinton_deng_yu_dahl_mohamed_jaitly_senior_vanhoucke_nguyen_sainath_2012}, 
 
-\subsubsection{LSTM}
 
-In previous models the data went through a feature extraction process before going into the model training. For this model, on the other hand, no feature extraction is performed. Instead, several consecutive sweeps of unprocessed IQ-data are used as input. Each range bin can be regarded as a one-dimensional time series. This motivates the use of some classification scheme that exploits temporal behaviour. Recurrent neral networks (RNNs) feature this by having feedback within individual layers in the network. \citep{karim_majumdar_darabi_chen_2018} The problem with RNNs, however, is that they suffer from a vanishing or exploding gradient, and can only sustain a short term memory. A way to combat this is to use a neural network layer called long short term memory (LSTM).
-
-LSTM-layers have previously been used successfully for classifications in radar applications. For instance in \citep{jithesh_sagayaraj_srinivasa_2018} the method was able to classify flying objects from $\textbf{nnn}$ different classes with an accuracy of ...? The theory behind these layers are thoroughly described in, for example \citep{hochreiter_schmidhuber_1997}
-
-Mention some source(s) using convolutional layers for radar classification.
-
- In \citep{karim_majumdar_darabi_chen_2018}, the LSTM layer is used in combination with a fully convolutional neural network (FCN), which proves to be a significant improvement from just using FCNs when classifying time series.
-
-Describe our model.
 
 % Define block styles
 \tikzstyle{decision} = [diamond, draw, fill=blue!20, 
@@ -161,7 +165,6 @@ Describe our model.
 	\caption{Leave-one-out accuracies for all collected data series and several different models.}
 \end{table}
 
-\subsection{Evaluation metrics}
 Model evaluation is an important aspect in creating machine learning models. By using a bad evaluation strategy, one might construct a model that is seemingly good, but turns out to be useless in reality. There are several things to keep in mind when testing a model's performance. One of these is to use evaluation metrics that are relevant to the type of model that is being tested. For a classification model, a common metric is accuracy, which reveals the ratio between correct predictions and total predictions. A more informative metric is the confusion matrix which, in addition, provides details about the model's mispredictions. Two additional metrics, suitable for classification are log-loss and AUC \citep{zheng_2015}. 
 
 However, selecting a suitable metric is not enough. Choosing what data to test your model on is equally important. By predicting on data that the model has been trained on, one could expect a very high accuracy. This accuracy, however, is not interesting at this point as a model is intended to be used on new, unseen data. For this reason, the dataset is split up in a training set and a test set in one of many ways \citep{raschka}.
