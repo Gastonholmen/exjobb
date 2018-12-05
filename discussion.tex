@@ -1,6 +1,25 @@
 \chapter{Discussion}
 
 
+
+
+\section{Data acquisition}
+
+
+\section{Feature selection}
+
+
+\section{Modelling and optimization}
+
+
+\section{Detection algorithms}
+
+
+\section{Dangers of overfitting}
+
+
+
+\iffalse
 \section{Moisture}
 
 One particularly challenging aspect of adequately classifying surfaces is the ever-changing environmental conditions surronding the sensor. Of particular interest is the moisture content in the surfaces of interest. Greater soil moisture implies higher dielectric constant, which in turn increases radar wave scattering \citep{rappaport_2006}. Thus a single surface may very well change its scattering properties over time. 
@@ -13,5 +32,11 @@ Such effects is difficult to account for when selecting data. Gather a dataset a
 
 \section{Feature Extraction}
  Machine learning is used to find features it considers are good. By manually performing feat. ext. we remove information that the algorithms may otherwise have used to become even better etc. 
+<<<<<<< HEAD
+Future work: investigate models with no manual feat. extr.
 
-However, feature extraction works good...
+Table [TABLENAME] is in many ways a very telling one. Here, each sample session was classified without using any of the samples from the session at hand. Instead, all other sessions were used in training. Six different methods of classification were evaluated; two linear and four nonlinear. 
+
+First and foremost it is noted that each tested method performed at the very least \emph{decently}. One may argue that the LSTM model is unstable or that using LDA produces lower accuracy predictions, but they nonetheless generated accuracies above 97.5\%. This remarkable result means that given a random sample from the dataset collected, with no samples from the session the sample was taken from used in training, we can correcly classify the surface as grass or non-grass 39/40 times even with the lower-performing classifiers. With the top performing fully connected model, even higher accuracy was obtained with a low standard deviation. 
+
+\fi
