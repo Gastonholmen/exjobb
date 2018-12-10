@@ -20,8 +20,7 @@ As the radar samples rather quickly at around 200 Hz we can allow ourselves to u
 
 \begin{equation}
 	F_c = \frac{F_s}{T}
-\end{equation}
-
+\end{equation} 
 The parameter $T$ becomes a tradeoff between accuracy and classification rate. The more samples $T$ used per classification the higher the classification accuracy is at the cost of a lower classification frequency. Conversely we may be able to generate feature estimates more rapidly by setting $T$ to a lower value, but will in the process end up with worse feature estimates. 
 
 \section{Features}
@@ -30,10 +29,10 @@ In this section four different features are discussed aimed at capturing the geo
 
 \subsubsection{Expected signal}
 
-First of all we may characterize a sweep by its envelope form - that is, the shape of the absolute values of the radar sweeps. For range $i$ and features $m$, $T$ consecutive samples are averaged over to yield the estimate. 
+First of all we may characterize a sweep by its envelope form - that is, the shape of the absolute values of the radar sweeps. For range $i$ and feature index $m$, $T$ consecutive samples are averaged over to yield the averaging estimate $s_i(m)$ through
 
 \begin{equation}
-	s_i(m) = \E\{X_{i,t_m}\} = \frac{1}{T}\sum_{t=0}^{T-1}x(i, t_m + t).
+	s_i(m) = \frac{1}{T}\sum_{t=0}^{T-1}|x(i, t_m + t)|.
 \end{equation}
 
 \begin{figure}[h]
@@ -43,7 +42,39 @@ First of all we may characterize a sweep by its envelope form - that is, the sha
 	\label{fig:sweep_average}
 \end{figure}
 
-\subsubsection{Average energy}
+\subsubsection{Autocovariance - range}
+
+
+We can regard the sequence $\{x(i,t)\}_{t=t_m}^{t_m+T}$ of measurements of range $i$ as samples from a stochastic process $X_{i,t}$ with the autocovariance function
+
+\begin{equation}
+	C_{XX}(i,t_m,s) = \text{Cov}(X_{i,t_m},X_{i,s}).
+\end{equation}
+
+If we then can consider the process to be having the following three properties:
+\emph{
+\begin{enumerate}
+	\item Constant finite mean
+	\item Autocovariance function only dependant on the difference $(s-t)$ and not on actual values of $s$ and $t$.
+	\item Finite variance
+\end{enumerate}
+}
+over the time interval $t_m$ to $t_m+T-1$, it can be regarded as a \emph{Wide-Sense Stationary} (WSS) process \citep{jakobsson_2015}. The first and second assumptions require the returning signal to carry some level of stability, which is reasonble considering the short time-frame $T/F_s$ considered. From the autocovariance function 
+
+\begin{equation}
+	r_i(m, k) = \E\big\{(X_{i,t_m} - \E\{X_{i,t_m}\})^*(X_{i,t_m+k} - \E\{X_{i,t_m+k}\})\big\}
+\end{equation}
+
+we can then form the (biased) estimated autocovariance function through
+
+\begin{equation}
+	\hat{r}_i^b(m, k) = \frac{1}{T}\sum_{t=0}^{T-1-k}\big(x(i,t_m+t) - s_i(t_m)\big)^*\big(x(i,t_m+t+k) - s_i(t_m)\big)
+\end{equation}
+
+\subsubsection{Autocovariance - energy}
+
+We can also calculate the autocovariance function of estimated sweep energy. Although the sweeps are normalized in the preprocessing, we can investigate how the sweeps change over time. 
+
 The average energy in a sweep tells us how much energy is reflected back to the radar. Hence it can be regarded as a measure of how good of a reflector the underlying surface is. The energy depends on the shape of the surface, as well as its dielectric constant. Compared to other materials, grass has a very different surface shape, which potentially gives it a very different reflexivity. However, its dielectric constant could also vary a lot depending on whether it is wet or dry, making it hard to guess its reflective properties.
 
 By computing the average energy of single sweeps from different surfaces we see in figure \ref{fig:sweep_energy} that grass reflects much less energy. This indicates that the average sweep energy is a good feature for binary grass/not grass classification. However, in order to get a more robust measure of the average energy we do not only compute the average over selected range bins of a single sweep, but we average over a few consecutive sweeps as well. Mathematically, the feature we end up using becomes
@@ -63,7 +94,7 @@ Despite the fact that the average energy appears to be a highly relevant feature
 
 
 
-\subsection{Fourier Transform}
+\subsubsection{Fourier Transform}
 The surface underneath the radar can be assumed to be static, whereas the radar traverses the surface at a constant speed. This causes the radar to detect doppler frequencies. Depending on the surface's characteristics, the doppler frequencies may vary, (according to figure *Figure comparing reflections on a flat and rough terrain*?) and to visualize the frequency contents of different measured materials, the discrete Fourier transform is used. 
 
 To compute the Fourier transform, a "box" consisting of $T$ sweeps is selected. Viewing this as a matrix with elements $X_{n,t}$, where $n$ denotes slow time, and $t$ fast time we can write a Fourier transform in slow time at range $r$, within this box as
@@ -83,51 +114,6 @@ To avoid aliasing we refer to chapter earlier in report where this is discussed.
 
 
 
-
-\subsection{Variance}
-
-Assume $x(n,t)$ are samples from a complex normal distribution $X_{n,t}$. Variance $v_i(t_m)$ at range $i$ at time $t_m$ can then be approximated using
-
-\begin{equation}
-\label{eq:var}
-\begin{gathered}
-	v_i(t_m) = \E\{ (X_{i,t_m} - \E\{X_{i,t_m}\})^2\} \\
-	= \frac{1}{T-1}\sum_{t=0}^{T-1}(x(i, t_m + t) - s_i(t_m))^*(x(i, t_m + t) -  s_i(t_m))
-\end{gathered}
-\end{equation}
-
-\subsection{Autocovariance in slow time}
-
-\textbf{Add some motivation for using autocovariance}
-
-\noindent
-For some stochastic process $P_t$ we can define the autocovariance $\gamma$ as
-
-\begin{equation}
-	\gamma(t, s) = \E\big\{(P_t - \mu_t)(P_s - \mu_s)\big\}
-\end{equation}
-
-If $X_t$ is a weakly stationary process the first moment (mean) and autocovariance do not vary over time.  The autocovariance then only depends on the difference between $s$ and $t$, making it possible to rewrite as
-
-\begin{equation}
-	\gamma(\tau) = \E\big\{(P_t - \mu)(P_{t+\tau} - \mu)\big\}
-\end{equation}
-
-Assuming weak stationarity over a few rangebins we can estimate the autocovariance in slow time for each selected range. 
-
-\begin{equation}
-\begin{gathered}
-	\gamma_i(t_m, \tau) = \E\big\{(X_{i,t_m} - \E\{X_{i, t_m}\})^*(X_{i, t_m+\tau} - \E\{X_{i, t_m+\tau}\})\big\}\\
-	= \frac{1}{T-1}\sum_{t=0}^{T-1-\tau}(x(i, t_m + t) - s_i(t_m))^*(x(i, t_m + t + \tau) - s_i(t_m + \tau))
-\end{gathered}
-\end{equation}•
-
-We can drop the $\tau$ in the final expectation term, as $s_i(t)$ are estimated in batch from $t_m$ to  $t_m + T$ yielding
-
-\begin{equation}
-	\gamma_i(t_m, \tau) = \frac{1}{T-1}\sum_{t=0}^{T-1- \tau}(x(i, t_m + t) - s_i(t_m))^*(x(i, t_m + t + \tau) - s_i(t_m))
-\end{equation}
-as our expression for autocovariance. Note that the variance in \ref{eq:var} collapses to the autocovariance at 0 lag. 
 
 
 \rowcolors{2}{gray!25}{white}
