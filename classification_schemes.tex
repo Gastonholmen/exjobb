@@ -1,21 +1,31 @@
 \chapter{Classification schemes}
+In this chapter a few classification models are evaluated for the feature extraction processes described in the preceding chapter. Detailed descriptions of each classification framework is omitted, but good sources for further explanation will be supplied for the interested reader. The aim of this chapter is to compare various models and to determine the most promising one with regards to accuracy, size and complexity. 
 
-In this chapter a few classification models are evaluated for the feature extraction processes described in the preceding chapter. Detailed descriptions of each classification framework is omitted, but good sources for further explanation will be supplied for the interested reader. The aim of this chapter is to compare various models and to determine the most promising one with regards to accuracy, size and complexity.
+\section{Linear Models}
+Linear models are widely used in practice as they are general, and can therefore be used in many cases \citep{shalev-shwartz_ben-david_2016}.  Furthermore, they are relatively easy to understand, in contrast to more complex models such as neural networks. Despite this, they can often produce a decent accuracy with a low complexity.
 
+In this work, two linear models are considered. One being \emph{Linear Discriminant Analysis} (LDA) and the other, \emph{Support Vector Machine} (SVM) with a linear kernel. 
 
-\section{Evaluated models}
+\subsection*{Linear Discriminant Analysis}
+Linear Discriminant Analysis, or LDA for short, is an algorithm commonly used for dimensionality reduction of data. \citep{raschka_2014} It is not uncommon, however, to use it for classification tasks as well. LDA is a supervised algorithm, meaning it knows what class each sample belongs to. This enables it to project data into a lower dimension in such a way that the different classes are as separated as possible; unlike PCA which projects data in a way that maintains a high variance, disregarding class labels. 
 
-In this section the effectiveness of a few different models are compared. Two linear models and two non-linear models are evaluated. The two linear models considered, a \emph{Linear Discriminant Analysis} (LDA) and a \emph{Support Vector Machine} (SVM) model.
+Reducing the dimensionality of data is a good way of both lowering computational costs and avoiding overfitting as well as other phenomena that stem from a high-dimensional data.
 
-\subsection{Linear models}
+For further reading about LDA, we refer to \citep{raschka_2014}.
 
-\subsubsection{Linear Discriminant Analysis}
+\subsection*{Support Vector Machine}
+SVMs are one of the most popular models when it comes to supervised learning. The most simple SVM uses what is called a linear kernel, and generates a linear hyperplane that separates two sets of labeled data. Finding such a hyperplane is often an ambiguous task, so to find what the SVM regards as the best hyperplane, it seeks parameters that maximize the distance between the hyperplane and the sample points closest to it, known as support vectors \citep{boswell2002introduction}.
 
-Linear Discriminant Analysis, or LDA for short, 
+Even if support vector machines are linear models, they are not limited to work only on linearly separable data. There are ways to use them in a non-linear fashion by utilizing different kinds of kernels \citep{xia_2016}. In principle, the data is first transformed into a higher dimensional space, including non-linear terms. In this new space, the SVM is used just as before. This makes the SVM a powerful tool even in non-linear problems.
 
+\section{Non-linear Models}
 
+\subsection*{Random Forest}
 
-\subsection{Artificial neural networks}
+\subsection*{Logistic Regression}
+Logistic regression is simlar to an ordinary linear regression. Both methods estimate parameters for each input variable 
+
+\subsection*{Artificial neural networks}
 
 Artificial neural networks (ANNs) constitute a class of nonlinear models designed to mimic biological neural systems. ANNs consist of multiple layers of neurons. 
 
@@ -23,7 +33,18 @@ Artificial neural networks (ANNs) constitute a class of nonlinear models designe
 ANNs have been widely applied to solve a great number of difficult problems in different areas, including pattern recognition, signal processing and language learning. 
 
 
-\subsubsection{Feedforward neural networks}
+\subsection*{LSTM}
+In previous models the data went through a feature extraction process before going into the model training. For this model, on the other hand, no feature extraction is performed. Instead, several consecutive sweeps of unprocessed IQ-data are used as input. Each range bin can be regarded as a one-dimensional time series. This motivates the use of some classification scheme that exploits temporal behaviour. Recurrent neral networks (RNNs) feature this by having feedback within individual layers in the network. \citep{karim_majumdar_darabi_chen_2018} The problem with RNNs, however, is that they suffer from a vanishing or exploding gradient, and can only sustain a short term memory. A way to combat this is to use a neural network layer called long short term memory (LSTM).
+
+LSTM-layers have previously been used successfully for classifications in radar applications. For instance in \citep{jithesh_sagayaraj_srinivasa_2018} the method was able to classify flying objects from $\textbf{nnn}$ different classes with an accuracy of ...? The theory behind these layers are thoroughly described in, for example \citep{hochreiter_schmidhuber_1997}
+
+Mention some source(s) using convolutional layers for radar classification.
+
+ In \citep{karim_majumdar_darabi_chen_2018}, the LSTM layer is used in combination with a fully convolutional neural network (FCN), which proves to be a significant improvement from just using FCNs when classifying time series.
+
+Describe our model.
+
+\subsection*{Feedforward neural networks}
 Feedforward networks consist of an input layer, some hidden layers and an output layer. Each layer receives a set of input values $\mathbf{x}$ from the previous layer, multiplies the inputs by a set of weights $\mathbf{\beta}_{i}$ and applies a nonlinear activation function $F$ to the multiplication output. This output is then used as inputs for the sequent layer. The output of layer $i$ at neuron index $j$, $y_{i,j}$, is thus related to the previous layer output $\{{y}_{i-1, k}\}_{k=1}^{K}$ through
 
 \begin{equation}
@@ -38,17 +59,7 @@ Deep neural networks, or DNN for short, are neural networks that has more than o
 
 DNN's in various forms have gained immense popularity over the past two decades achieving considerable success within a wide spectrum of applications, such as in image recognition \citep{szegedy_liu_jia_sermanet_reed_anguelov_erhan_vanhoucke_rabinovich_2018}, acoustic modeling of speech \citep{hinton_deng_yu_dahl_mohamed_jaitly_senior_vanhoucke_nguyen_sainath_2012}, 
 
-\subsubsection{LSTM}
 
-In previous models the data went through a feature extraction process before going into the model training. For this model, on the other hand, no feature extraction is performed. Instead, several consecutive sweeps of unprocessed IQ-data are used as input. Each range bin can be regarded as a one-dimensional time series. This motivates the use of some classification scheme that exploits temporal behaviour. Recurrent neral networks (RNNs) feature this by having feedback within individual layers in the network. \citep{karim_majumdar_darabi_chen_2018} The problem with RNNs, however, is that they suffer from a vanishing or exploding gradient, and can only sustain a short term memory. A way to combat this is to use a neural network layer called long short term memory (LSTM).
-
-LSTM-layers have previously been used successfully for classifications in radar applications. For instance in \citep{jithesh_sagayaraj_srinivasa_2018} the method was able to classify flying objects from $\textbf{nnn}$ different classes with an accuracy of ...? The theory behind these layers are thoroughly described in, for example \citep{hochreiter_schmidhuber_1997}
-
-Mention some source(s) using convolutional layers for radar classification.
-
- In \citep{karim_majumdar_darabi_chen_2018}, the LSTM layer is used in combination with a fully convolutional neural network (FCN), which proves to be a significant improvement from just using FCNs when classifying time series.
-
-Describe our model.
 
 % Define block styles
 \tikzstyle{decision} = [diamond, draw, fill=blue!20, 
@@ -103,66 +114,65 @@ Describe our model.
 \rowcolors{2}{gray!25}{white}
 \begin{table}
 	\begin{center}
-\begin{adjustbox}{totalheight=\textheight-2\baselineskip}
+	\begin{adjustbox}{totalheight=\textheight-2\baselineskip}
 		\begin{tabular}{|l|l|l|l|l|l|l|}
 		\hline
 		\rowcolor{gray!150}
 		\rule{0pt}{25pt}\color{white}\textbf{Material} & \color{white}\textbf{LR} & \color{white}\textbf{RF} & \color{white}\textbf{\shortstack{LSTM \\CNN}} & \color{white}\textbf{SVM} & \color{white}\textbf{LDA} & \color{white}\textbf{DNN}\\
-		pgrass1 & 98.7 & 98.4 & \cellcolor{red!20}94.3 & 97.95 & 97.75 & 98.25\\
-		pgrass3 & 99.9 & 99.6 & 99.9 & 99.25 & 100.0 & 100.0\\
-		pgrass4 & \cellcolor{red!20}94.05 & \cellcolor{red!20}92.25 & 97.7 & \cellcolor{red!20}93.25 & \cellcolor{red!20}91.95 & \cellcolor{red!20}94.7\\
-		pgrass5 & 95.65 & 96.9 & 100.0 & \cellcolor{red!20}92.85 & \cellcolor{red!20}93.55 & 97.9\\
-		qgrass1 & 97.5 & 97.45 & 97.3 & 96.15 & 97.25 & 95.75\\
-		qgrass2 & 97.95 & 99.0 & 99.3 & 96.65 & 97.9 & 98.4\\
-		qgrass3 & 99.95 & 100.0 & 99.8 & 99.95 & 100.0 & 99.95\\
-		hgrass12 & 96.9 & 96.7 & 98.1 & 96.4 & \cellcolor{red!20}92.85 & 97.25\\
-		hgrass2 & 97.9 & 97.7 & 99.7 & 97.85 & 96.45 & 98.4\\
-		hgrass3 & 99.3 & 98.6 & 100.0 & 98.95 & 97.85 & 99.65\\
-		hgrass4 & 99.45 & 98.85 & 99.9 & 99.1 & 97.6 & 99.85\\
-		hgrass5 & 99.6 & 99.5 & 99.9 & 99.6 & 99.2 & 99.5\\
+		pgrass1 & 97.9 & 98.05 & \cellcolor{red!20}59.0 & 95.75 & 96.8 & 95.75\\
+		pgrass3 & 99.8 & 99.5 & \cellcolor{red!20}83.8 & 96.2 & 100.0 & 99.95\\
+		pgrass4 & \cellcolor{red!20}94.35 & \cellcolor{red!20}86.75 & \cellcolor{red!20}94.5 & \cellcolor{red!20}91.4 & \cellcolor{red!20}92.6 & \cellcolor{red!20}92.15\\
+		pgrass5 & 95.7 & 96.45 & 100.0 & \cellcolor{red!20}91.35 & \cellcolor{red!20}93.65 & 98.95\\
+		qgrass1 & 96.65 & 97.25 & 97.4 & \cellcolor{red!20}93.95 & 95.9 & 96.1\\
+		qgrass2 & 96.35 & 98.8 & 95.9 & \cellcolor{red!20}92.95 & 97.2 & 99.25\\
+		qgrass3 & 99.9 & 99.85 & 99.9 & 99.65 & 99.95 & 100.0\\
+		hgrass12 & 97.0 & 96.65 & 97.5 & 96.85 & \cellcolor{red!20}92.7 & 96.25\\
+		hgrass2 & 97.75 & 97.7 & 99.8 & 97.8 & 96.3 & 98.15\\
+		hgrass3 & 99.2 & 98.65 & 99.9 & 99.0 & 97.65 & 99.8\\
+		hgrass4 & 99.35 & 98.7 & 99.9 & 99.25 & 97.55 & 99.85\\
+		hgrass5 & 99.6 & 99.4 & 99.9 & 99.6 & 99.2 & 99.3\\
 		hgrass6 & 100.0 & 100.0 & 100.0 & 100.0 & 99.85 & 100.0\\
-		hgrass7 & 95.9 & 96.65 & 98.0 & \cellcolor{red!20}94.8 & \cellcolor{red!20}89.1 & 98.5\\
-		hgrass8 & 97.8 & 95.65 & 100.0 & 95.15 & \cellcolor{red!20}89.5 & 97.5\\
-		hgrass9 & 97.5 & 98.0 & 100.0 & 96.4 & \cellcolor{red!20}94.35 & 98.65\\
-		hgrass10 & \cellcolor{red!20}94.95 & \cellcolor{red!20}93.0 & 98.5 & \cellcolor{red!20}94.1 & \cellcolor{red!20}89.4 & 95.25\\
-		hgrass11 & 96.7 & \cellcolor{red!20}94.6 & 98.1 & 95.9 & \cellcolor{red!20}93.55 & 96.55\\
-		pasph1 & 100.0 & 100.0 & 100.0 & 100.0 & 100.0 & 100.0\\
-		pgravel1 & 98.05 & 99.65 & \cellcolor{red!20}72.0 & 99.4 & 97.8 & 98.15\\
-		pasph2 & 99.95 & 100.0 & 99.5 & 99.95 & 99.95 & 99.95\\
-		pasph3 & 100.0 & 100.0 & 100.0 & 100.0 & 99.95 & 99.9\\
-		psoil1 & 99.75 & 99.85 & 99.9 & 99.9 & 99.65 & 99.9\\
-		psoil2 & 98.3 & 99.5 & 99.0 & 99.6 & 98.65 & 99.15\\
-		ptiles1 & 99.0 & 99.3 & 99.8 & 99.55 & 99.05 & 97.8\\
-		qasph1 & 99.9 & 99.85 & 100.0 & 99.9 & 100.0 & 99.95\\
+		hgrass7 & 96.35 & 96.8 & 98.6 & 95.6 & \cellcolor{red!20}89.85 & 98.6\\
+		hgrass8 & 97.6 & 95.45 & 99.8 & \cellcolor{red!20}93.1 & \cellcolor{red!20}87.4 & 98.35\\
+		hgrass9 & 97.55 & 98.0 & 99.8 & 95.8 & \cellcolor{red!20}94.05 & 99.1\\
+		hgrass10 & 95.4 & \cellcolor{red!20}92.85 & 98.4 & \cellcolor{red!20}94.6 & \cellcolor{red!20}89.9 & \cellcolor{red!20}94.7\\
+		hgrass11 & 97.35 & \cellcolor{red!20}94.4 & 96.9 & 96.55 & \cellcolor{red!20}93.65 & 96.3\\
+		pasph1 & 100.0 & 100.0 & 99.9 & 100.0 & 100.0 & 100.0\\
+		pgravel1 & 99.45 & 99.85 & 99.8 & 99.9 & 99.2 & 99.1\\
+		pasph2 & 99.95 & 100.0 & 99.0 & 100.0 & 100.0 & 99.95\\
+		pasph3 & 100.0 & 100.0 & 99.7 & 100.0 & 99.95 & 99.85\\
+		psoil1 & 99.85 & 100.0 & 99.7 & 99.95 & 99.7 & 99.7\\
+		psoil2 & 99.35 & 99.6 & 99.4 & 99.85 & 99.4 & 99.5\\
+		ptiles1 & 99.35 & 99.4 & 100.0 & 99.55 & 99.3 & 99.5\\
+		qasph1 & 99.9 & 99.85 & 100.0 & 99.9 & 99.95 & 99.95\\
 		qasph2 & 100.0 & 100.0 & 100.0 & 100.0 & 100.0 & 100.0\\
-		qgravel1 & \cellcolor{red!20}88.35 & 95.4 & \cellcolor{red!20}76.7 & \cellcolor{red!20}93.25 & \cellcolor{red!20}91.5 & 97.15\\
-		qsoil1 & 99.9 & 99.75 & 100.0 & 100.0 & 99.9 & 99.9\\
-		qsoil2 & 97.8 & 95.25 & \cellcolor{red!20}90.6 & 98.75 & 96.95 & \cellcolor{red!20}94.05\\
-		qtiles1 & 99.95 & 99.45 & 99.9 & 99.95 & 99.65 & 99.55\\
-		rtiles1 & 99.95 & 99.9 & 99.9 & 100.0 & 100.0 & 99.9\\
-		rgravel1 & 99.85 & 99.5 & 99.9 & 99.95 & 99.95 & 99.35\\
-		rgravel2 & 98.7 & 99.4 & 100.0 & 99.5 & 99.8 & 99.35\\
-		rasp1 & 100.0 & 100.0 & 100.0 & 100.0 & 99.9 & 99.9\\
-		rsoil1 & 95.4 & 95.8 & 99.5 & 96.5 & 96.35 & \cellcolor{red!20}93.45\\
-		G2gravel2 & 99.75 & 99.75 & 99.7 & 99.95 & 100.0 & 99.65\\
-		G2gravel1 & 99.75 & 99.55 & 100.0 & 99.95 & 99.9 & 99.8\\
-		G2soil1 & 96.65 & \cellcolor{red!20}94.4 & 95.7 & 97.6 & 95.35 & \cellcolor{red!20}94.3\\
-		G2tiles1 & 99.9 & 99.65 & 99.4 & 100.0 & 100.0 & 100.0\\
-		hsoil1 & \cellcolor{red!20}92.95 & 95.55 & 97.3 & \cellcolor{red!20}93.25 & \cellcolor{red!20}92.4 & \cellcolor{red!20}93.4\\
-		hsoil2 & 95.25 & 95.1 & \cellcolor{red!20}92.3 & 95.1 & \cellcolor{red!20}92.9 & 95.5\\
+		qgravel1 & \cellcolor{red!20}82.65 & 97.1 & \cellcolor{red!20}86.6 & \cellcolor{red!20}88.2 & \cellcolor{red!20}89.3 & \cellcolor{red!20}92.8\\
+		qsoil1 & 99.75 & 99.85 & 100.0 & 100.0 & 99.9 & 99.85\\
+		qsoil2 & 97.8 & 96.3 & \cellcolor{red!20}88.9 & 98.9 & 97.4 & 95.2\\
+		qtiles1 & 99.95 & 99.75 & 99.9 & 99.95 & 99.6 & 99.55\\
+		rtiles1 & 99.95 & 99.9 & 100.0 & 100.0 & 100.0 & 100.0\\
+		rgravel1 & 99.95 & 99.55 & 100.0 & 100.0 & 99.95 & 99.6\\
+		rgravel2 & 98.95 & 99.6 & 99.9 & 99.55 & 99.9 & 99.6\\
+		rasp1 & 100.0 & 100.0 & 100.0 & 100.0 & 99.9 & 100.0\\
+		rsoil1 & 96.25 & 95.45 & 100.0 & 96.55 & 96.55 & \cellcolor{red!20}93.4\\
+		G2gravel2 & 99.85 & 99.8 & 99.9 & 99.95 & 100.0 & 99.5\\
+		G2gravel1 & 99.75 & 99.7 & 100.0 & 99.75 & 99.9 & 99.6\\
+		G2soil1 & 96.35 & \cellcolor{red!20}94.0 & 99.3 & 96.85 & 95.5 & \cellcolor{red!20}94.6\\
+		G2tiles1 & 99.95 & 99.7 & 99.5 & 99.95 & 100.0 & 100.0\\
+		hsoil1 & \cellcolor{red!20}92.65 & 95.15 & 99.3 & \cellcolor{red!20}90.25 & \cellcolor{red!20}92.4 & \cellcolor{red!20}94.35\\
+		hsoil2 & \cellcolor{red!20}94.75 & 95.65 & \cellcolor{red!20}84.7 & \cellcolor{red!20}90.95 & \cellcolor{red!20}92.9 & 96.0\\
 		\hline
-		\textbf{Mean} & 98.07 & 98.08 & 97.66 & 98.01 & 97.09 & \cellcolor{green!20}98.24\\
-		\textbf{Median} & 98.85 & 99.35 & \cellcolor{green!20}99.8 & 99.32 & 98.28 & 99.25\\
-		\textbf{Variance} & 5.8 & 4.67 & 31.69 & 5.51 & 11.66 & \cellcolor{green!20}4.15\\
+		\textbf{Mean} & 97.96 & 97.99 & 97.06 & 97.37 & 97.02 & \cellcolor{green!20}98.19\\
+		\textbf{Median} & 99.35 & 99.4 &\cellcolor{green!20} 99.8 & 99.4 & 99.2 & 99.5\\
+		\textbf{SD} & 3.05 & 2.63 & 7.23 & 3.3 & 3.58 & \cellcolor{green!20}2.3\\
 		\hline
 		\end{tabular}
-\end{adjustbox}
+	\end{adjustbox}
 	\end{center}
 	\label{tab:loo}
 	\caption{Leave-one-out accuracies for all collected data series and several different models.}
 \end{table}
 
-\subsection{Evaluation metrics}
 Model evaluation is an important aspect in creating machine learning models. By using a bad evaluation strategy, one might construct a model that is seemingly good, but turns out to be useless in reality. There are several things to keep in mind when testing a model's performance. One of these is to use evaluation metrics that are relevant to the type of model that is being tested. For a classification model, a common metric is accuracy, which reveals the ratio between correct predictions and total predictions. A more informative metric is the confusion matrix which, in addition, provides details about the model's mispredictions. Two additional metrics, suitable for classification are log-loss and AUC \citep{zheng_2015}. 
 
 However, selecting a suitable metric is not enough. Choosing what data to test your model on is equally important. By predicting on data that the model has been trained on, one could expect a very high accuracy. This accuracy, however, is not interesting at this point as a model is intended to be used on new, unseen data. For this reason, the dataset is split up in a training set and a test set in one of many ways \citep{raschka}.
