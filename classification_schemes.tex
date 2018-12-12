@@ -21,9 +21,26 @@ Even if support vector machines are linear models, they are not limited to work 
 \section{Non-linear Models}
 
 \subsection*{Random Forest}
+Random Forest (RF) is a strong tool that can be used for both regression- and classification problems. The name stems from that the method is based on several \textit{decision trees}, which are initiated randomly. A decision tree is a classifier per se, and is structured as a sequence of simple questions. These questions typically ask if a sample's feature is equal to, or greater/smaller than some set value. The answers to these questions form a path in the decision tree, leading to an end node which corresponds to the prediction.
+
+RF segments the training data into $n$ parts, and induces a decision tree from each group of data. Thus there are $n$ predictors that work independently, and by selecting the most common prediction, RF yields a robust result with no overfitting due to the combined results of many trees. On top of that it offers a very high accuracy in a wide variety of applications, while still maintaining an intuitive model structure that allows us to, e.g., estimate which features are important. \citep{breiman_cutler_2018}
+
 
 \subsection*{Logistic Regression}
-Logistic regression is simlar to an ordinary linear regression. Both methods estimate parameters for each input variable 
+Logistic regression is simlar to an ordinary linear regression. Both methods aim to estimate parameters to describe the relationship between the input- and the output variables. For linear regression, the parameters $\{b_i\}_{i=0}^n$ are estimated, and together with the input variables $\{X_i\}_{i=1}^n$ they generate the output $Y$:
+
+\begin{equation}
+	Y= b_0+\sum_{i=1}^n b_iX_i.
+\end{equation}
+
+One big difference between the two models is that linear regression outputs continuous values, whereas logistic regression outputs a value in the open interval (0,1).  To achieve this, logistic regression transforms the result of the linear regression using the sigmoid function, defined as $f(z)=\frac{1}{1+e^{-z}}$. With this function, logistic regressions maps the inputs $X_i, i=1,...,n$ to
+\begin{equation}
+	Y= \frac{1}{1+e^{-b_0-\sum_{i=1}^n b_iX_i}}
+\end{equation}
+
+This value is interpreted as a probability and can be used for making a decision in a binary classification - in this case grass/not grass.
+
+Another major difference between linear and logistic regression is the choice of cost function. Logistic regression commonly uses a cost function known as Cross-Entropy or Log Loss as opposed to Mean Squared Error, which is used for linear regression. For further details about logistic regression, including its cost function, we refer to \citep{a_smola_svn_vishwanathan_2010}.
 
 \subsection*{Artificial neural networks}
 
@@ -109,8 +126,6 @@ DNN's in various forms have gained immense popularity over the past two decades 
 \caption{Flowchart of classification scheme.}
 \end{figure}
 
-\section{Model evaluations}
-
 \rowcolors{2}{gray!25}{white}
 \begin{table}
 	\begin{center}
@@ -118,25 +133,25 @@ DNN's in various forms have gained immense popularity over the past two decades 
 		\begin{tabular}{|l|l|l|l|l|l|l|}
 		\hline
 		\rowcolor{gray!150}
-		\rule{0pt}{25pt}\color{white}\textbf{Material} & \color{white}\textbf{LR} & \color{white}\textbf{RF} & \color{white}\textbf{\shortstack{LSTM \\CNN}} & \color{white}\textbf{SVM} & \color{white}\textbf{LDA} & \color{white}\textbf{DNN}\\
+		\rule{0pt}{25pt}\color{white}\textbf{Material} & \color{white}\textbf{LR} & \color{white}\textbf{RF} & \color{white}\textbf{\shortstack{LSTM\\CNN}} & \color{white}\textbf{SVM} & \color{white}\textbf{LDA} & \color{white}\textbf{DNN}\\
 		pgrass1 & 97.9 & 98.05 & \cellcolor{red!20}59.0 & 95.75 & 96.8 & 95.75\\
 		pgrass3 & 99.8 & 99.5 & \cellcolor{red!20}83.8 & 96.2 & 100.0 & 99.95\\
-		pgrass4 & \cellcolor{red!20}94.35 & \cellcolor{red!20}86.75 & \cellcolor{red!20}94.5 & \cellcolor{red!20}91.4 & \cellcolor{red!20}92.6 & \cellcolor{red!20}92.15\\
-		pgrass5 & 95.7 & 96.45 & 100.0 & \cellcolor{red!20}91.35 & \cellcolor{red!20}93.65 & 98.95\\
-		qgrass1 & 96.65 & 97.25 & 97.4 & \cellcolor{red!20}93.95 & 95.9 & 96.1\\
-		qgrass2 & 96.35 & 98.8 & 95.9 & \cellcolor{red!20}92.95 & 97.2 & 99.25\\
+		pgrass4 & 94.35 & \cellcolor{red!20}86.75 & 94.5 & 91.4 & 92.6 & 92.15\\
+		pgrass5 & 95.7 & 96.45 & 100.0 & 91.35 & 93.65 & 98.95\\
+		qgrass1 & 96.65 & 97.25 & 97.4 & 93.95 & 95.9 & 96.1\\
+		qgrass2 & 96.35 & 98.8 & 95.9 & 92.95 & 97.2 & 99.25\\
 		qgrass3 & 99.9 & 99.85 & 99.9 & 99.65 & 99.95 & 100.0\\
-		hgrass12 & 97.0 & 96.65 & 97.5 & 96.85 & \cellcolor{red!20}92.7 & 96.25\\
+		hgrass12 & 97.0 & 96.65 & 97.5 & 96.85 & 92.7 & 96.25\\
 		hgrass2 & 97.75 & 97.7 & 99.8 & 97.8 & 96.3 & 98.15\\
 		hgrass3 & 99.2 & 98.65 & 99.9 & 99.0 & 97.65 & 99.8\\
 		hgrass4 & 99.35 & 98.7 & 99.9 & 99.25 & 97.55 & 99.85\\
 		hgrass5 & 99.6 & 99.4 & 99.9 & 99.6 & 99.2 & 99.3\\
 		hgrass6 & 100.0 & 100.0 & 100.0 & 100.0 & 99.85 & 100.0\\
 		hgrass7 & 96.35 & 96.8 & 98.6 & 95.6 & \cellcolor{red!20}89.85 & 98.6\\
-		hgrass8 & 97.6 & 95.45 & 99.8 & \cellcolor{red!20}93.1 & \cellcolor{red!20}87.4 & 98.35\\
-		hgrass9 & 97.55 & 98.0 & 99.8 & 95.8 & \cellcolor{red!20}94.05 & 99.1\\
-		hgrass10 & 95.4 & \cellcolor{red!20}92.85 & 98.4 & \cellcolor{red!20}94.6 & \cellcolor{red!20}89.9 & \cellcolor{red!20}94.7\\
-		hgrass11 & 97.35 & \cellcolor{red!20}94.4 & 96.9 & 96.55 & \cellcolor{red!20}93.65 & 96.3\\
+		hgrass8 & 97.6 & 95.45 & 99.8 & 93.1 & \cellcolor{red!20}87.4 & 98.35\\
+		hgrass9 & 97.55 & 98.0 & 99.8 & 95.8 & 94.05 & 99.1\\
+		hgrass10 & 95.4 & 92.85 & 98.4 & 94.6 & \cellcolor{red!20}89.9 & 94.7\\
+		hgrass11 & 97.35 & 94.4 & 96.9 & 96.55 & 93.65 & 96.3\\
 		pasph1 & 100.0 & 100.0 & 99.9 & 100.0 & 100.0 & 100.0\\
 		pgravel1 & 99.45 & 99.85 & 99.8 & 99.9 & 99.2 & 99.1\\
 		pasph2 & 99.95 & 100.0 & 99.0 & 100.0 & 100.0 & 99.95\\
@@ -146,7 +161,6 @@ DNN's in various forms have gained immense popularity over the past two decades 
 		ptiles1 & 99.35 & 99.4 & 100.0 & 99.55 & 99.3 & 99.5\\
 		qasph1 & 99.9 & 99.85 & 100.0 & 99.9 & 99.95 & 99.95\\
 		qasph2 & 100.0 & 100.0 & 100.0 & 100.0 & 100.0 & 100.0\\
-		qgravel1 & \cellcolor{red!20}82.65 & 97.1 & \cellcolor{red!20}86.6 & \cellcolor{red!20}88.2 & \cellcolor{red!20}89.3 & \cellcolor{red!20}92.8\\
 		qsoil1 & 99.75 & 99.85 & 100.0 & 100.0 & 99.9 & 99.85\\
 		qsoil2 & 97.8 & 96.3 & \cellcolor{red!20}88.9 & 98.9 & 97.4 & 95.2\\
 		qtiles1 & 99.95 & 99.75 & 99.9 & 99.95 & 99.6 & 99.55\\
@@ -154,17 +168,17 @@ DNN's in various forms have gained immense popularity over the past two decades 
 		rgravel1 & 99.95 & 99.55 & 100.0 & 100.0 & 99.95 & 99.6\\
 		rgravel2 & 98.95 & 99.6 & 99.9 & 99.55 & 99.9 & 99.6\\
 		rasp1 & 100.0 & 100.0 & 100.0 & 100.0 & 99.9 & 100.0\\
-		rsoil1 & 96.25 & 95.45 & 100.0 & 96.55 & 96.55 & \cellcolor{red!20}93.4\\
+		rsoil1 & 96.25 & 95.45 & 100.0 & 96.55 & 96.55 & 93.4\\
 		G2gravel2 & 99.85 & 99.8 & 99.9 & 99.95 & 100.0 & 99.5\\
 		G2gravel1 & 99.75 & 99.7 & 100.0 & 99.75 & 99.9 & 99.6\\
-		G2soil1 & 96.35 & \cellcolor{red!20}94.0 & 99.3 & 96.85 & 95.5 & \cellcolor{red!20}94.6\\
+		G2soil1 & 96.35 & 94.0 & 99.3 & 96.85 & 95.5 & 94.6\\
 		G2tiles1 & 99.95 & 99.7 & 99.5 & 99.95 & 100.0 & 100.0\\
-		hsoil1 & \cellcolor{red!20}92.65 & 95.15 & 99.3 & \cellcolor{red!20}90.25 & \cellcolor{red!20}92.4 & \cellcolor{red!20}94.35\\
-		hsoil2 & \cellcolor{red!20}94.75 & 95.65 & \cellcolor{red!20}84.7 & \cellcolor{red!20}90.95 & \cellcolor{red!20}92.9 & 96.0\\
+		hsoil1 & 92.65 & 95.15 & 99.3 & 90.25 & 92.4 & 94.35\\
+		hsoil2 & 94.75 & 95.65 & \cellcolor{red!20}84.7 & 90.95 & 92.9 & 96.0\\
 		\hline
-		\textbf{Mean} & 97.96 & 97.99 & 97.06 & 97.37 & 97.02 & \cellcolor{green!20}98.19\\
-		\textbf{Median} & 99.35 & 99.4 &\cellcolor{green!20} 99.8 & 99.4 & 99.2 & 99.5\\
-		\textbf{SD} & 3.05 & 2.63 & 7.23 & 3.3 & 3.58 & \cellcolor{green!20}2.3\\
+		\textbf{Mean} & 98.33 & 98.01 & 97.31 & 97.59 & 97.21 & 98.33\\
+		\textbf{Median} & 99.35 & 99.4 & 99.8 & 99.55 & 99.2 & 99.5\\
+		\textbf{SD} & 1.91 & 2.66 & 7.13 & 3.01 & 3.42 & 2.17\\
 		\hline
 		\end{tabular}
 	\end{adjustbox}
@@ -173,19 +187,33 @@ DNN's in various forms have gained immense popularity over the past two decades 
 	\caption{Leave-one-out accuracies for all collected data series and several different models.}
 \end{table}
 
-Model evaluation is an important aspect in creating machine learning models. By using a bad evaluation strategy, one might construct a model that is seemingly good, but turns out to be useless in reality. There are several things to keep in mind when testing a model's performance. One of these is to use evaluation metrics that are relevant to the type of model that is being tested. For a classification model, a common metric is accuracy, which reveals the ratio between correct predictions and total predictions. A more informative metric is the confusion matrix which, in addition, provides details about the model's mispredictions. Two additional metrics, suitable for classification are log-loss and AUC \citep{zheng_2015}. 
+\section{Model evaluations}
+Model evaluation is an important aspect in creating machine learning models. By using a bad evaluation strategy, one might construct a model that is seemingly good, but turns out to be useless in reality, simply because the model has been evaluated using a poorly chosen set of data. There are several things to keep in mind when testing a model's performance. One of these is to use evaluation metrics that are relevant to the type of model that is being tested. For a classification model, a common metric is accuracy, which reveals the ratio between correct predictions and total predictions. A more informative metric is the confusion matrix which, in addition, provides details about the model's mispredictions. Two additional metrics, suitable for classification are log-loss and AUC \citep{zheng_2015}. 
 
-However, selecting a suitable metric is not enough. Choosing what data to test your model on is equally important. By predicting on data that the model has been trained on, one could expect a very high accuracy. This accuracy, however, is not interesting at this point as a model is intended to be used on new, unseen data. For this reason, the dataset is split up in a training set and a test set in one of many ways \citep{raschka}.
+However, selecting a suitable metric is not enough. Of course, choosing what data to test your model on is equally important. By predicting on data that the model has been trained on, one could expect a very high accuracy. This accuracy, however, is not interesting at this point as a model is intended to be used on new, unseen data. For this reason, the dataset is split up in a training set and a test set in one of many ways \citep{raschka}.
 
 
 \subsubsection{Validation set accuracy}
 Splitting a dataset into a training and validation set often means selecting samples for training and validation completely randomly. This can be a good way of comparing different models' performances, but it is not the ideal method for a final model evaluation. While it is true that the validation set consists of samples that the model has never seen before, it \textit{has} trained on samples close to the validation samples due to the random selection. Oftentimes closely spaced samples can have a high resemblance, and even if the model has not trained on the validation samples, it achieves a high validation accuracy because it has trained on very similar samples.
 
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.3]{figs_temp/validation_split.jpg}
+	\caption{Splitting a dataset into a training- and validation set usually refers to selecting a certain percentage of samples at random and evaluate the model based on those.}
+	\label{fig:validation_split}
+\end{figure}
 
 \subsubsection{Leave-one-out accuracy}
-The leave-one-out strategy means dividing the dataset into $n$ parts. In this work the data is split up in the $n=42$ different measured surfaces. The model validation is then performed in $n$ stages. For each stage, the model is trained on all data, except for one of the $n$ parts. After the training, the model makes predictions of the unseen data, and the accuracy is noted. When having a small dataset - or as in this case, an arguably small amount of surfaces that have been recorded - this method is useful in that it does not require us to withhold data from the model training \citep{raschka}. It also mimics a real scenario where the model predicts on a surface it has never seen before.
+The leave-one-out strategy means dividing the dataset into $n$ parts. In this work the data is split up in the $n=41$ different measured surfaces. The model validation is then performed in $n$ stages. For each stage, the model is trained on all data, except for one of the $n$ parts, as in figure \ref{fig:loo}. After the training, the model makes predictions of the unseen data, and the accuracy is noted. When having a small dataset - or as in this case, an arguably small amount of surfaces that have been recorded - this method is useful in that it does not require us to withhold data from the model training \citep{raschka}. It also mimics a real scenario where the model predicts on a surface it has never seen before.
 
-The result of the leave-one-out test is shown in table \ref{tab:loo}.
+In table \ref{tab:loo}, the leave-one-out results of all models above are listed for comparison.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.3]{figs_temp/loo.jpg}
+	\caption{With the leave-one-out strategy, data is split up into $n$ parts. The model evaluation is done in $n$ steps - each time, one part of the data is excluded from the training and evaluated upon. The T's in the figure mark which parts of the data that are used for training, and the C's show what is used for classification.}
+	\label{fig:loo}
+\end{figure}
 
 
 
