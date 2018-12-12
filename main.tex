@@ -1,11 +1,11 @@
 \documentclass[a4paper, 12pt]{book}
-
 \usepackage{natbib}
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{amsfonts}
 %\usepackage{epstopdf}
 \usepackage{graphicx}
+\usepackage{epstopdf}
 \usepackage{adjustbox}
 \usepackage[table]{xcolor}
 \usepackage[toc, page]{appendix}
@@ -48,10 +48,12 @@
 % Discussion
 \include{discussion}
 
-\bibliography{refs}
-\bibliographystyle{apalike}
+% Conclusions and future work
+\include{conclusions_and_future_work}
 
 % Appendices
 \include{appendices}
 
+\bibliography{refs}
+\bibliographystyle{apalike}
 \end{document}

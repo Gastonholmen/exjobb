@@ -1,54 +1,53 @@
 \chapter{Feature selection}
 
-In order to create an effective predictive model one must first select a set of features used to produce each classification. Both a science and an art, this process involves intuition, theory and a hefty amount of trial-and-error. Although a seemingly daunting task, for a model to be effective the feature selection procedure is key, and a carefully considered selection often generates significantly better results than one hastily put together. 
+In order to create an effective predictive model one must first select a set of features used to produce each classification. Both a science and an art, this process involves intuition, theory and a hefty amount of trial-and-error. Although a seemingly daunting task, for a model to be effective the feature selection procedure is key, and a carefully considered selection often generates significantly better results than one put together without much thought. 
 
-Ideally, one seeks a small set of variables which accurately captures the information content in a larger set of data. After reducing the number of features into a more manageable format it is then possible to obtain good results with significantly less computational load than if no feature selection had been considered. Furthermore, the feature selection process allows us to pinpoint what data characteristics we wish to monitor, and subsequently which data characteristics we can disregard. 
+Ideally, one seeks a small set of variables which accurately captures the information content in some larger set of data. After reducing the number of features into a more manageable format it is then possible to obtain good results with significantly less computational load than if no feature selection had been considered. Furthermore, the feature selection process allows us to pinpoint what data characteristics we wish to monitor, and subsequently which data characteristics we can disregard. 
 
-\section{Desirable traits}
-\label{destrait}
+\section{An impossible modeling problem}
 
-In the present case the objective is to capture defining characteristics of a surface using one dimensional data obtained from a radar sensor placed some small distance above the surface of interest. Furthermore, the sensor is moving along some direction parallell to the surface plane, thus continuously altering the sensor's surroundings. One may split up the possible methods of characterizing this data obtained through this process into two main categories: Methods which aim at capturing the overall spatial signal form, and methods which examine the temporal changes in radar response. 
-
-The first of the two is straight forward; if the scattering surface can be assumed to maintain some defining characteristics at any given point in time, one could simply extract features relating to these characteristics and generate a classification. The surface roughness that was discussed in \textbf{*measurement setup*} is one example of such a characteristic.
-
-The other method we consider does not look at separate radar sweeps, but explores how these develop and correlate over time. With a high enough sampling frequency and good spatial resolution we might be able to extract useful characterizing information from different surfaces. Again, looking at two very much simplified cases - a flat and a rough surface - it is reasonable to assume that the response from a perfectly flat surface does not vary over time, as in figure ... For a rough terrain, however, there will be small random details in the texture that move relative to the sensor, yielding a response that varies over time. With appropriate tools, these changes could possibly be detected and used to differentiate surfaces.
-
-* Bild på reflektioner på platt/skrovligt underlag*
-
-* Bild på envelopes från mätningar *
-
-
-\section{Preprocessing}
-
-\subsection{Using multiple sweeps for feature selection}
-\label{multsweep}
-%In the previous section we introduced two conflicting interpretations of the radar signal. 
-In the previous section we introduced two ways to work with the radar signal. In the first, the incoming wavelet is drawn from a complex distribution, and each sweep is independent from the rest. In the second we instead consider that there may be some significant correlations in time to take into account; surface shapes and objects passing by the sensor are detected multiple times in a perhaps predictable and useful manner.  
-
-The first method suggests that signal averaging over a number of sweeps should yield a more and more accurate estimate, as it reduces noise that could occur from e.g. quantization effects or random currents in the radar \citep{w_doerry_2016}. However, when averaging over sweeps on complex form there is a risk of destroying phase information. Hence, the averaging should only be performed on the envelopes of sweeps. Thus the first approach greatly benefits from using multiple sweeps to find an average over some predefined number of sweeps.  In order to utilize the time correlations assumed in the second interpretation processing in time is of course demanded, and a number of sweeps need to be analyzed at once to extract features related to this way of viewing the radar response. 
-
-Thus a predefined number is chosen as the number of sweeps used to extract each feature. While each feature may be extracted with higher accuracy, it is done at the price of a lower number of classifications per second. The relation between classification rate $F_c$, sampling speed $F_s$ and sweeps per feature $T_s$ is
-
-
+Fundamentally, the radar used transmits pulses with some envelope $A(t)$ of some frequency $\Omega$ into its surroundings.
 
 \begin{equation}
-	F_c = \frac{F_s}{T_s}
+	x(t) = A(t)\sin(\Omega t + \varphi)
 \end{equation}
+
+After scattering, a signal $s(t)$ reaches the receiving antenna. This signal is comprised of radiation diffuesly scattered from the target scene. It contains both specular (i.e. mirror-like) and non-specular reflective components. Its content will be a function dependant both on the surrounding surface topography, as well as the dielectric properties of the surface at hand \citep{grossman_popovic_chamberlin_gordon_novotny_2017}. Furthermore, the surfaces at hand have a, to some degree, random structure with varying characteristics. The great difficulty with modeling $s(t)$ is clear - the universe of all possible "realistic" surfaces, both natural and man-made, is almost impossibly large. Without making significant assumptions with regards to surface roughness or dielectric properties, there is no general model of $s(t)$ we can make use of. Instead, we have to come up with a set of \emph{reasonable} features that \emph{should} capture the signal structure. These features will no be based on any specific signal model, but instad rely on the returning signals having stable structure over brief periods of time. Hence our task is to find \emph{defining characteristics} from a given surface using the sequence of one dimensional data obtained from a radar sensor. 
+
+
+As the radar samples rather quickly at around 200 Hz we can allow ourselves to use a sequence of sweeps to generate one prediction. This allows for feature-processing over a number of sweeps, rather than on a sweep-by-sweep basis. Besides improving the signal-to-noise ratio \citep{w_doerry_2016} we may also investigate time correlations when using multiple radar sweeps. If $T$ sweeps are used per classification, the rate of classifications $F_c$ produced relates to the sampling rate $F_s$ through
+
+\begin{equation}
+	F_c = \frac{F_s}{T}
+\end{equation} 
+The parameter $T$ becomes a tradeoff between accuracy and classification rate. The more samples $T$ used per classification the higher the classification accuracy is, but with the cost of a lower classification frequency. Conversely we may be able to generate feature estimates more rapidly by setting $T$ to a lower value, but will in the process end up with worse feature estimates. 
 
 \section{Features}
 
-Fast time and slow time features 
+The reflectivity of a material, described by its dielectric constant, shows up in the obtained IQ-demodulated sweeps in the amplitude of the returning signals. Therefore it might seem like a good idea to simply measure the energy content of a sweep and use it as a feature. However, due to inconsistencies inbetween individual sensors sweep normalization is performed as a pre-processing step rendering such calculations unusable. We are thus left with investigating the topography of the scene. 
 
+In this section four different features are discussed aimed at capturing the geometric characteristics of a target surface. A radar datapoint captured at time $t$ and range $n$ is denoted as $x(n,t)$. Since we are using $T$ samples per classification, each new set of features $f_m$ are estimated from time $t_m=Tm$ to $Tm+T-1$ 
 
+\subsubsection{Expected signal}
 
-\subsection{Expected signal}
-As discussed in section \ref{destrait}, it is reasonable to believe that the envelope from a flat and a rugged surface may differ. Considering our goal is to differentiate grass - which is without doubt a rugged surface - from other surfaces, using the shape of radar sweeps is motivated. However, as mentioned in section \ref{multsweep} we ought to improve the signal quality by averaging over a number of sweeps as in figure \ref{fig:sweep_average}. In addition to an improved quality, this gives the samples a higher resemblance.  
+First of all we may characterize a sweep by its envelope form - that is, the shape of the absolute values of the radar sweeps. If we can assume that the samples are taken from some unknown stochastic process $X_{i,t}$ with constant mean over $T$ samples we may for range $i$ and feature index $m$ form the estimate using $T$ consecutive sweeps to form the averaging estimate $s_i(m)$ through
 
-For range bin $i$, $T$ consecutive samples in slow time are collapsed into one according to
 
 \begin{equation}
-	s_i(t_m) = \E\{X_{i,t_m}\} = \frac{1}{T}\sum_{t=0}^{T-1}x(i, t_m + t).
+	s_i(m) = \E\{X_{i,t_m}\}\frac{1}{T}\sum_{t=0}^{T-1}|x(i, t_m + t)|.
 \end{equation}
+
+These estimates form the expected signal feature vector $f_{s,m}$ as 
+
+\begin{equation}
+	\mathbf{f}_{s,m} = 
+	\begin{bmatrix}
+		s_0(m) & s_1(m) & ... & s_{K-1}(m)
+	\end{bmatrix}.
+\end{equation}
+
+
+In figure \ref{fig:sweep_average} we see what such an averaging process yields. Individual variances are suppressed to form a stable estimate of the sweep shape. 
 
 \begin{figure}[h]
 	\centering
@@ -57,16 +56,91 @@ For range bin $i$, $T$ consecutive samples in slow time are collapsed into one a
 	\label{fig:sweep_average}
 \end{figure}
 
-\subsection{Average energy}
-The average energy in a sweep tells us how much energy is reflected back to the radar. Hence it can be regarded as a measure of how good of a reflector the underlying surface is. The energy depends on the shape of the surface, as well as its dielectric constant. Compared to other materials, grass has a very different surface shape, which potentially gives it a very different reflexivity. However, its dielectric constant could also vary a lot depending on whether it is wet or dry, making it hard to guess its reflective properties.
+\subsubsection{Autocovariance - range}
 
-By computing the average energy of single sweeps from different surfaces we see in figure \ref{fig:sweep_energy} that grass reflects much less energy. This indicates that the average sweep energy is a good feature for binary grass/not grass classification. However, in order to get a more robust measure of the average energy we do not only compute the average over selected range bins of a single sweep, but we average over a few consecutive sweeps as well. Mathematically, the feature we end up using becomes
+
+We can regard the sequence $\{x(i,t)\}_{t=t_m}^{t_m+T}$ of measurements of range $i$ as samples from a stochastic process $X_{i,t}$ with the autocovariance function
+
 \begin{equation}
-	P(t_m) = \frac{1}{NT}\sum_{t=0}^{T-1}\sum_{n=0}^{K-1}x(n, t_m + t)x^*(n, t_m + t),
+	C_{XX}(i,t,s) = \text{Cov}(X_{i,t},X_{i,s}).
 \end{equation}
-where (describe variables)
 
-Despite the fact that the average energy appears to be a highly relevant feature, it is also much gain dependent, and conflicts with what is stated in section *reference to sweep norm.*. Therefore, if different sensors are to be used for training and future classifications, this feature will not be of any use.
+If we then can consider the process to have the following three properties:
+\emph{
+\begin{enumerate}
+	\item Constant finite mean
+	\item Autocovariance function only dependant on the difference $(s-t)$ and not on actual values of $s$ and $t$.
+	\item Finite variance
+\end{enumerate}
+}
+over the time interval $t_m$ to $t_m+T-1$, it can be regarded as a \emph{Wide-Sense Stationary} (WSS) process \citep{jakobsson_2015}. The first and second assumptions require the returning signal to carry some level of stability, which is reasonble considering the short time-frame $T/F_s$ considered. From the autocovariance function 
+
+\begin{equation}
+	r_i(m, k) = \E\big\{(X_{i,t_m} - \E\{X_{i,t_m}\})^*(X_{i,t_m+k} - \E\{X_{i,t_m+k}\})\big\}
+\end{equation}
+
+we can then form the (biased) estimated autocovariance function through
+
+\begin{equation}
+	\hat{r}_i^b(m, k) = \frac{1}{T}\sum_{t=0}^{T-1-k}\big(x(i,t_m+t) - s_i(m)\big)^*\big(x(i,t_m+t+k) - s_i(m)\big).
+\end{equation}
+
+
+Note that the bias in this estimate is completely inconsequential as all features later are normalized to zero mean unit variance.  Thus, the features formed are
+
+\begin{equation}
+	f_{r,mk} = 
+	\begin{bmatrix}
+		\hat{r}_0(m,k) & \hat{r}_1(m,k) & ... & \hat{r}_{K-1}(m,k)
+	\end{bmatrix}
+\end{equation}
+
+Noting that the autocovariance sequence at 0 lag produce only real numbers, as any complex number $z = a + bi$ multiplied with its conjugate has zero imaginary part $\text{Im}(z^*z) = \text{Im}((a + bi)(a - bi)) = \text{Im}(a^2 + b^2) = 0$, we may form the full feature component for $q$ autocovariance lags $f_{r,m}$ as
+
+\begin{equation}
+	f_{r,m} = 
+	\begin{bmatrix}
+		f_{r,m,0} & \text{Re}(f_{r,m,1}) & \text{Im}(f_{r,m,1}) & ... & \text{Re}(f_{r,m,q}) & \text{Im}(f_{r,m,q}) 
+	\end{bmatrix}
+\end{equation}
+
+
+\subsubsection{Autocovariance - energy}
+
+While the sweep normalization process rendered absolute mesurements of signal energy useless, we are still able to investigate its time-dependant structure through the autocovariane function. First we estimate the energy in each sweep $v(t)$ and the average energy $v_a(t)$ in $T$ number of sweeps, and then calculate the real-valued autocorrelation sequence $h(m,k)$. 
+
+\begin{equation}
+	v(t) = \frac{1}{N}\sum_{n=0}^{K-1}x(n,t)x^*(n,t)
+\end{equation}
+
+\begin{equation} 
+	v_a(m) = \frac{1}{T}\sum_{t=0}^{T-1}v(t_m+t)
+\end{equation}
+
+\begin{equation}
+	h(m,k) = \frac{1}{T}\sum_{t=0}^{T-1-k}\big(v(t_m+t) - v_a(m)\big)^*\big(v(t_m+t+k) - v_a(m)\big)
+\end{equation}
+
+As $h(m,k)$ only consist of real values, the energy autocorrelation feature vector $f_{h,m}$ is formed as
+
+\begin{equation}
+	f_{h,m} = 
+	\begin{bmatrix}
+		h(m,0) & h(m,1) & ... & h(m,K-1).
+	\end{bmatrix}
+\end{equation}
+
+%We can also calculate the autocovariance function of estimated sweep energy. Although the sweeps are normalized in the preprocessing, we can investigate how the sweeps change over time. 
+
+%The average energy in a sweep tells us how much energy is reflected back to the radar. Hence it can be regarded as a measure of how good of a reflector the underlying surface is. The energy depends on the shape of the surface, as well as its dielectric constant. Compared to other materials, grass has a very different surface shape, which potentially gives it a very different reflexivity. However, its dielectric constant could also vary a lot depending on whether it is wet or dry, making it hard to guess its reflective properties.
+
+%By computing the average energy of single sweeps from different surfaces we see in figure \ref{fig:sweep_energy} that grass reflects much less energy. This indicates that the average sweep energy is a good feature for binary grass/not grass classification. However, in order to get a more robust measure of the average energy we do not only compute the average over selected range bins of a single sweep, but we average over a few consecutive sweeps as well. Mathematically, the feature we end up using becomes
+%\begin{equation}
+%	P(t_m) = \frac{1}{NT}\sum_{t=0}^{T-1}\sum_{n=0}^{K-1}x(n, t_m + t)x^*(n, t_m + t),
+%\end{equation}
+%where (describe variables)
+
+%Despite the fact that the average energy appears to be a highly relevant feature, it is also much gain dependent, and conflicts with what is stated in section *reference to sweep norm.*. Therefore, if different sensors are to be used for training and future classifications, this feature will not be of any use.
 
 \begin{figure}[h]
 	\centering
@@ -77,7 +151,7 @@ Despite the fact that the average energy appears to be a highly relevant feature
 
 
 
-\subsection{Fourier Transform}
+\subsubsection{Fourier Transform}
 The surface underneath the radar can be assumed to be static, whereas the radar traverses the surface at a constant speed. This causes the radar to detect doppler frequencies. Depending on the surface's characteristics, the doppler frequencies may vary, (according to figure *Figure comparing reflections on a flat and rough terrain*?) and to visualize the frequency contents of different measured materials, the discrete Fourier transform is used. 
 
 To compute the Fourier transform, a "box" consisting of $T$ sweeps is selected. Viewing this as a matrix with elements $X_{n,t}$, where $n$ denotes slow time, and $t$ fast time we can write a Fourier transform in slow time at range $r$, within this box as
@@ -95,77 +169,24 @@ To avoid aliasing we refer to chapter earlier in report where this is discussed.
 	\label{fig:fft}
 \end{figure}
 
-
-
-
-\subsection{Variance}
-
-Assume $x(n,t)$ are samples from a complex normal distribution $X_{n,t}$. Variance $v_i(t_m)$ at range $i$ at time $t_m$ can then be approximated using
-
-\begin{equation}
-\label{eq:var}
-\begin{gathered}
-	v_i(t_m) = \E\{ (X_{i,t_m} - \E\{X_{i,t_m}\})^2\} \\
-	= \frac{1}{T-1}\sum_{t=0}^{T-1}(x(i, t_m + t) - s_i(t_m))^*(x(i, t_m + t) -  s_i(t_m))
-\end{gathered}
-\end{equation}
-
-\subsection{Autocovariance in slow time}
-
-\textbf{Add some motivation for using autocovariance}
-
-\noindent
-For some stochastic process $P_t$ we can define the autocovariance $\gamma$ as
-
-\begin{equation}
-	\gamma(t, s) = \E\big\{(P_t - \mu_t)(P_s - \mu_s)\big\}
-\end{equation}
-
-If $X_t$ is a weakly stationary process the first moment (mean) and autocovariance do not vary over time.  The autocovariance then only depends on the difference between $s$ and $t$, making it possible to rewrite as
-
-\begin{equation}
-	\gamma(\tau) = \E\big\{(P_t - \mu)(P_{t+\tau} - \mu)\big\}
-\end{equation}
-
-Assuming weak stationarity over a few rangebins we can estimate the autocovariance in slow time for each selected range. 
-
-\begin{equation}
-\begin{gathered}
-	\gamma_i(t_m, \tau) = \E\big\{(X_{i,t_m} - \E\{X_{i, t_m}\})^*(X_{i, t_m+\tau} - \E\{X_{i, t_m+\tau}\})\big\}\\
-	= \frac{1}{T-1}\sum_{t=0}^{T-1-\tau}(x(i, t_m + t) - s_i(t_m))^*(x(i, t_m + t + \tau) - s_i(t_m + \tau))
-\end{gathered}
-\end{equation}•
-
-We can drop the $\tau$ in the final expectation term, as $s_i(t)$ are estimated in batch from $t_m$ to  $t_m + T$ yielding
-
-\begin{equation}
-	\gamma_i(t_m, \tau) = \frac{1}{T-1}\sum_{t=0}^{T-1- \tau}(x(i, t_m + t) - s_i(t_m))^*(x(i, t_m + t + \tau) - s_i(t_m))
-\end{equation}
-as our expression for autocovariance. Note that the variance in \ref{eq:var} collapses to the autocovariance at 0 lag. 
-
-
 \rowcolors{2}{gray!25}{white}
 \begin{table}
 \begin{center}
-  \begin{tabular}{|c|cccc|}
+  \begin{tabular}{|c|cccccc|}
 \hline
     \rowcolor{gray!150}
-                  & \color{white}\textbf{Abs} & \color{white}\textbf{AC Energy} & \color{white}\textbf{AC Range} & \color{white}\textbf{FFT}\\
-    Config 1 & X & & & \\
-    Config 2 & X & X & X&\\
-    Config 3 & & & &X\\
+		  & \color{white}\textbf{Abs} & \color{white}\textbf{AC Energy} & \color{white}\textbf{AC Range} & \color{white}\textbf{FFT} & \color{white}\textbf{Features} & \color{white}\textbf{Accuracy} \\
+	  Config 2 & X & X & X& & 175 & 99.25 \\
+	  Config 3 & & & &X & 700 & 98.75\\
 \hline
   \end{tabular}
 \end{center}
 \caption{Feature configurations}
 \end{table}
 
-\section{Mutual information}
 
-In (link to information section) it was briefly discussed that information theory metrics can be utilized when considering which data is of interest. 
+\subsection{Tested feature combinations}
 
-While a useful metric, estimating MI can be a non-trivial task. k-nearest neighbors introduced here:
-\citep{kraskov_stögbauer_grassberger_2004}
+In above section, four different features were described - the average signal shape, the autocovariance in range, the autocovariance in energy and the fourier transform.
 
-The particular link between continuous features and discrete values that we use are itnroduced  here:
-\citep{ross_2014}
+
