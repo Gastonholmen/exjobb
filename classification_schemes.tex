@@ -126,6 +126,8 @@ DNN's in various forms have gained immense popularity over the past two decades 
 \caption{Flowchart of classification scheme.}
 \end{figure}
 
+
+
 \rowcolors{2}{gray!25}{white}
 \begin{table}
 	\begin{center}
@@ -161,6 +163,7 @@ DNN's in various forms have gained immense popularity over the past two decades 
 		ptiles1 & 99.35 & 99.4 & 100.0 & 99.55 & 99.3 & 99.5\\
 		qasph1 & 99.9 & 99.85 & 100.0 & 99.9 & 99.95 & 99.95\\
 		qasph2 & 100.0 & 100.0 & 100.0 & 100.0 & 100.0 & 100.0\\
+		qgravel1 & \cellcolor{red!20}82.65 & 97.1 & \cellcolor{red!20}86.6 & \cellcolor{red!20}88.2 & \cellcolor{red!20}89.3 & 92.8\\
 		qsoil1 & 99.75 & 99.85 & 100.0 & 100.0 & 99.9 & 99.85\\
 		qsoil2 & 97.8 & 96.3 & \cellcolor{red!20}88.9 & 98.9 & 97.4 & 95.2\\
 		qtiles1 & 99.95 & 99.75 & 99.9 & 99.95 & 99.6 & 99.55\\
@@ -176,16 +179,17 @@ DNN's in various forms have gained immense popularity over the past two decades 
 		hsoil1 & 92.65 & 95.15 & 99.3 & 90.25 & 92.4 & 94.35\\
 		hsoil2 & 94.75 & 95.65 & \cellcolor{red!20}84.7 & 90.95 & 92.9 & 96.0\\
 		\hline
-		\textbf{Mean} & 98.33 & 98.01 & 97.31 & 97.59 & 97.21 & 98.33\\
-		\textbf{Median} & 99.35 & 99.4 & 99.8 & 99.55 & 99.2 & 99.5\\
-		\textbf{SD} & 1.91 & 2.66 & 7.13 & 3.01 & 3.42 & 2.17\\
+		\textbf{Mean} & 97.96 & 97.99 & 97.06 & 97.37 & 97.02 & \cellcolor{green!20}98.19\\
+		\textbf{Median} & 99.35 & 99.4 & \cellcolor{green!20}99.8 & 99.4 & 99.2 & 99.5\\
+		\textbf{SD} & 3.05 & 2.63 & 7.23 & 3.3 & 3.58 & \cellcolor{green!20}2.3\\
 		\hline
 		\end{tabular}
 	\end{adjustbox}
 	\end{center}
 	\label{tab:loo}
-	\caption{Leave-one-out accuracies for all collected data series and several different models.}
+	\caption{A comparison of the leave-one-out accuracies for all models. Red cells mark accuracies below 90 percent, whereas green cells mark the highest mean/median and lowest standard deviation (SD).}
 \end{table}
+
 
 \section{Model evaluations}
 Model evaluation is an important aspect in creating machine learning models. By using a bad evaluation strategy, one might construct a model that is seemingly good, but turns out to be useless in reality, simply because the model has been evaluated using a poorly chosen set of data. There are several things to keep in mind when testing a model's performance. One of these is to use evaluation metrics that are relevant to the type of model that is being tested. For a classification model, a common metric is accuracy, which reveals the ratio between correct predictions and total predictions. A more informative metric is the confusion matrix which, in addition, provides details about the model's mispredictions. Two additional metrics, suitable for classification are log-loss and AUC \citep{zheng_2015}. 
@@ -193,7 +197,7 @@ Model evaluation is an important aspect in creating machine learning models. By 
 However, selecting a suitable metric is not enough. Of course, choosing what data to test your model on is equally important. By predicting on data that the model has been trained on, one could expect a very high accuracy. This accuracy, however, is not interesting at this point as a model is intended to be used on new, unseen data. For this reason, the dataset is split up in a training set and a test set in one of many ways \citep{raschka}.
 
 
-\subsubsection{Validation set accuracy}
+\subsubsection{Validation Set Accuracy}
 Splitting a dataset into a training and validation set often means selecting samples for training and validation completely randomly. This can be a good way of comparing different models' performances, but it is not the ideal method for a final model evaluation. While it is true that the validation set consists of samples that the model has never seen before, it \textit{has} trained on samples close to the validation samples due to the random selection. Oftentimes closely spaced samples can have a high resemblance, and even if the model has not trained on the validation samples, it achieves a high validation accuracy because it has trained on very similar samples.
 
 \begin{figure}[h]
@@ -204,7 +208,7 @@ Splitting a dataset into a training and validation set often means selecting sam
 \end{figure}
 
 \subsubsection{Leave-one-out accuracy}
-The leave-one-out strategy means dividing the dataset into $n$ parts. In this work the data is split up in the $n=41$ different measured surfaces. The model validation is then performed in $n$ stages. For each stage, the model is trained on all data, except for one of the $n$ parts, as in figure \ref{fig:loo}. After the training, the model makes predictions of the unseen data, and the accuracy is noted. When having a small dataset - or as in this case, an arguably small amount of surfaces that have been recorded - this method is useful in that it does not require us to withhold data from the model training \citep{raschka}. It also mimics a real scenario where the model predicts on a surface it has never seen before.
+The leave-one-out strategy means dividing the dataset into $n$ parts. The model validation is then performed in $n$ stages. For each stage, the model is trained on all data, except for one of the $n$ parts, as in figure \ref{fig:loo}. After the training, the model makes predictions of the unseen data, and the accuracy is noted. When having a small dataset - or as in this case, an arguably small amount of surfaces that have been recorded - this method is useful in that it does not require us to withhold data from the model training \citep{raschka}. It also mimics a real scenario where the model predicts on a surface it has never seen before.
 
 In table \ref{tab:loo}, the leave-one-out results of all models above are listed for comparison.
 
@@ -215,7 +219,14 @@ In table \ref{tab:loo}, the leave-one-out results of all models above are listed
 	\label{fig:loo}
 \end{figure}
 
+\subsubsection{Selecting a Model}
+Optimizing each model presented above would of course be ideal, but also require much time and effort. Hence, we select what we regard as the most promising model based on the aforementioned evaluation methods. This model will then be optimized and more thoroughly evaluated.
 
+In table ... we see the validation accuracies of all models. <Some comment about the result...> bla bla bla
+
+Table \ref{tab:loo} shows the leave-one-out results for all models. These are more interesting as the model is evaluated on surfaces it has never before seen. From the table we can see that all models perform well on every asphalt- and tiled surfaces. Gravel-, soil- and grass-surfaces, however, can sometimes be harder to classify for the models. Looking back at the principal component analysis in figure *ref to PCA-plot*, this is what we could have expected due to the wide spread, and slight overlap between the samples within these categories. As for gravel, there is one measurement in particular that sticks out - "qgravel1". The accuracy of this is well below the average accuracy for all models. This could be that this particular gravel contains characteristics which are not captured by the other non-grass surfaces, resulting in several misclassifications. It could also be that some temporary problem occured while measuring, for example that the radar jumped out of its socket.
+
+Another quirk worth noting is the great accuracy span of the LSTM\& CNN method. While it has a leading median score of 99.8 \%, it also contains several dips to some of the lowest accuracies of all models. This gives it a high standard deviation compared to the other models, and makes it less robust. It is possible that this could be remedied with a little bit of fine-tuning, but due to a limited amount of time, we disregard the LSTM-model, and the DNN-model becomes the one with the greatest median and mean as well as the lowest standard deviation.
 
 
 
