@@ -1,6 +1,6 @@
 \chapter{Postprocessing and optimization}
 
-After in previous chapters finding a good model, it is now time to make it great. This chapter is split into two segments: The first considers two detection alternatives and postprocessing methods for accurate recognizing surface transitions, and in the second a few optimizations done to improve the found model are examined.
+After in previous chapters finding a good model that was capable of accurately fitting data. However, to make such a model practical some robust detection algorithm in place for finding when a surface transition has occurred. Furthermore, every measurement obtained during the measurement process may contain outlying data, which can perturbate a model to make it worse. This chapter is split into two segments: The first considers two detection alternatives and postprocessing methods for accurate recognizing surface transitions, and the second investigates whether outlier removal through DBSCAN clustering improves the previously found model.
 
 \section{Postprocessing and detection}
 
