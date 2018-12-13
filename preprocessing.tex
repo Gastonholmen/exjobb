@@ -1,4 +1,5 @@
 \chapter{Data acquisition and preprocessing}
+
 \section{Data Acquisition}
 Having reliable data is a fundamental requirement in building a good model. There are many parameters to consider in optimizing the data collecting process, and often an endless amount of possible configurations among these. This can make it impossible to find an optimal solution, but putting some thought into every decision can prove worthwhile. Below, we motivate our choices of sensor placement as well as various parameters.
 
@@ -11,8 +12,13 @@ After this is done, the data is collected by recording radar sweeps at a certain
 	\label{fig:data_collecting}
 \end{figure}
 
+\subsection{Datacubes and datasquares}
+Some radars have antennas providing multiple simultaneous outputs. In such systems each transmitted pulse generate a two-dimensional image as $P$ recievers each collect $N$ range  samples. Collecting $Q$ sequential pulses produce a \emph{datacube} containing $P\times N\times Q$ samples \citep{richards_2014}. This intuitively pleasing representation of data acquired by a radar array is commonly referenced in journal papers when describing for instance beam forming or doppler processing algorithms \citep{gentile_donovan_2018}. As described in chapter 2, range estimates are formed from estimating the time-of-flight of a returning wavelet from a target scene. This process forms the shortest time frame possible with resolutions on the picosecond scale for millimeter-wave radar, and is because of this commonly referred to as the \emph{fast time} scale. Conversely, the dimension consisting of full sets of range measurements is known as the \emph{slow time} scale.
+
+In this report one dimensional sensors are used, rendering a \emph{data square} with fast time and slow time axes, but no sensor, of sizes $N\times Q$ (A more appropriate name would perhaps be call these data rectangles, but since their three dimensional counterparts are not named data cuboids they are hereby referred to as squares).  
+
 \subsection*{Measurement Setup}
-The measurement setup is comprised of two sensors, mounted at the front of \emph{a slowly moving robot}. One of the sensors is facing straight down towards the ground, whereas the other one is tilted 22.5 degrees, facing forward. The idea behind this setup is that the two sensors will capture information about the same surface but from different directions. 
+The measurement setup is comprised of two sensors, mounted at the front of a slowly moving robot. One of the sensors is facing straight down towards the ground, whereas the other one is tilted 22.5 degrees, facing forward. The idea behind this setup is that the two sensors will capture information about the same surface but from different directions. 
 
 Say for example we are presented two surfaces with equivalent reflective properties but where one is rugged and the other is smooth. For the smooth surface the reflections behave more predictably than those for the rugged. If a strong electromagnetic pulse is transmitted from the sensor facing down, one would expect to receive a strong response from the smooth surface. If one instead were to transmit a pulse from the tilted sensor, a weak response would rather be expected due to the specular reflection atop the, ideally, flat surface. 
 
