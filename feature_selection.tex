@@ -104,6 +104,13 @@ Noting that the autocovariance sequence at 0 lag produce only real numbers, as a
 	\end{bmatrix}
 \end{equation}
 
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.45]{figs_temp/features/autocorr_range.png}
+	\caption{The graphs show the autocorrelations computed from time-varying IQ-signals at an appropriate range. The tiled surface, which is the most even, corresponds to the graph with the highest autocorrelation. In contrast, the most uneven surface - grass - is represented by the graph with the lowest autocorrelation.}
+	\label{fig:autocorr_range}
+\end{figure}
+
 
 \subsubsection{Autocovariance - energy}
 
@@ -142,30 +149,29 @@ As $h(m,k)$ only consist of real values, the energy autocorrelation feature vect
 
 %Despite the fact that the average energy appears to be a highly relevant feature, it is also much gain dependent, and conflicts with what is stated in section *reference to sweep norm.*. Therefore, if different sensors are to be used for training and future classifications, this feature will not be of any use.
 
-\begin{figure}[h]
-	\centering
-	\includegraphics[scale=0.45]{figs_temp/features/sweep_energy}
-	\caption{The figure shows the average sweep energy for 200 sweeps and four different materials. All measurements were made during a short period of time. The reflections from the grass surface carry noticeably less energy than those from the other surfaces. }
-	\label{fig:sweep_energy}
-\end{figure}
 
 
 
 \subsubsection{Fourier Transform}
-The surface underneath the radar can be assumed to be static, whereas the radar traverses the surface at a constant speed. This causes the radar to detect doppler frequencies. Depending on the surface's characteristics, the doppler frequencies may vary, (according to figure *Figure comparing reflections on a flat and rough terrain*?) and to visualize the frequency contents of different measured materials, the discrete Fourier transform is used. 
+While traversing a static surface at a constant speed, one could think of it as the details on the surface, such as small rocks or grass, are moving closer to the radar sensor. This affects the transmitted radar waves according to the Doppler effect, and the radar detects \textit{Doppler frequencies}, corresponding to the frequency shifts. Depending on the surface's characteristics, the doppler frequencies may vary. 
 
-To compute the Fourier transform, a "box" consisting of $T$ sweeps is selected. Viewing this as a matrix with elements $X_{n,t}$, where $n$ denotes slow time, and $t$ fast time we can write a Fourier transform in slow time at range $r$, within this box as
+To visualize the frequency contents of different measured materials, the discrete Fourier transform is used. In figure \ref{fig:fft}, typical transforms are shown for all materials. The figure is intended to show differences in the DFTs, so to make the difference more clear, the squre root of the DFT has been plotted. For grass (the top two plots), it can be seen that the frequency content is contained mainly at the zero frequency. The other materials contain slightly higher frequency content as well. Gravel, in particular, differs a lot from the other materials with a wide variety of frequency components.
+
+As for the feature vector, a datasquare consisting of $T$ sweeps is selected. Viewing this as a matrix with elements $x(i,t)$, where $i$ denotes fast time, and $t$ slow time, we can compute a $k$-step Fourier transform for each range, $i$, as
 \begin{equation}
-	\mathbb{X}_k^{(r)} = \sum_{n=0}^{T-1}X_{n,r}\exp\Big[-2\pi i\frac{nk}{T}\Big] \quad k=0, ..., T-1.
+	\{\mathbb{X}_k^{(i)}\}_{k=0}^{T-1} =  \sum_{n=0}^{T-1}x_{i,n}\exp\Big[-2\pi i\frac{nk}{T}\Big].
 \end{equation}
-In figure \ref{fig:fft} five consecutive 128-step Fourier transforms have been computed for four materials. For grass (top plot), it can be seen that the frequency content is contained mainly at the start of the "FFT blocks", which corresponds to normalized frequency 0. The other materials contain slightly higher frequency content as well.
+After this, the absolute value of the Fourier transform is computed and the transformations of all ranges in the datasquare are concatenated into a one-dimensional feature vector of the form
+\begin{equation}
+	\textbf{f}=\begin{bmatrix} \{\mathbb{X}_k^{(0)}\}_{k=0}^{T-1} & \{\mathbb{X}_k^{(1)}\}_{k=0}^{T-1} & \hdots & \{\mathbb{X}_k^{(m)}\}_{k=0}^{T-1} \end{bmatrix},
+\end{equation}
+where $m$ is the number of considered ranges.
 
-To avoid aliasing we refer to chapter earlier in report where this is discussed. Mention that $\mathbb{X}_k^{(r)}$, for all $r$, $k$, is flattened to a vector, resulting in one new sample.
 
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.4]{figs_temp/features/fft}
-	\caption{Each plot shows 5 concatenated DFTs, which have all been estimated from 128 consecutive sweeps. This has been done for ranges 7-23 cm, and the materials included in the figure are grass, asphalt, soil and tiles, respectively. Each FFT box has an $x$-axis going from normalized frequency 0 to 1.}
+	\caption{For each material, a 128-step DFT is computed in slow time for all ranges. The absolute value is taken over the complex DFT, followed by taking the square root of it to make the differences more clear in the plot.}
 	\label{fig:fft}
 \end{figure}
 
