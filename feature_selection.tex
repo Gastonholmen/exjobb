@@ -197,3 +197,16 @@ where $m$ is the number of considered ranges.
 In above section, four different features were described - the average signal shape, the autocovariance in range, the autocovariance in energy and the fourier transform.
 
 
+\section{Feature Principal Component Analysis}
+
+Through the point and feature selection methods described in previous sections we obtain high dimensional feature vectors. Getting an intuitive feel for such data extracted in these processes is difficult as direct plotting is limited to three dimensions. 
+
+Principal Component Analysis (PCA) is  a classical technique in statistical data analysis which takes a large set of multivariate variables and finds a smaller set of variables with less redundancy. Critically, PCA finds a rotated orthogonal coordinate system such that the elements of the set become uncorrelated. Projecting elements on the principal axes corresponding to the directions of maximal variance a good approximation of the original data in lower dimension is obtained \citep{hyvasrinen_karhunen_oja_2004}.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.60]{figs_temp/pca_analysis.png}
+	\caption{A single radar sweep which has been measured from 7 to 23 cm. The large amplitude at around 13.4 cm. suggests there is some object present at that distance from the sensor.}
+	\label{fig:pca}
+\end{figure}
+
