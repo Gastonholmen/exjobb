@@ -155,7 +155,7 @@ As $h(m,k)$ only consist of real values, the energy autocorrelation feature vect
 \subsubsection{Fourier Transform}
 While traversing a static surface at a constant speed, one could think of it as the details on the surface, such as small rocks or grass, are moving closer to the radar sensor. This affects the transmitted radar waves according to the Doppler effect, and the radar detects \textit{Doppler frequencies}, corresponding to the frequency shifts. Depending on the surface's characteristics, the doppler frequencies may vary. 
 
-To visualize the frequency contents of different measured materials, the discrete Fourier transform is used. In figure \ref{fig:fft}, typical transforms are shown for all materials. The figure is intended to show differences in the DFTs, so to make the difference more clear, the squre root of the DFT has been plotted. For grass (the top two plots), it can be seen that the frequency content is contained mainly at the zero frequency. The other materials contain slightly higher frequency content as well. Gravel, in particular, differs a lot from the other materials with a wide variety of frequency components.
+To visualize the frequency contents of different measured materials, the discrete Fourier transform is used. In figure \ref{fig:fft}, typical DFTs are shown for all materials. The figure is intended to show differences in the DFTs. Hence, to make the difference more clear, the squre root of the DFT has been plotted. For grass (the top two plots), it can be seen that the frequency content is contained mainly at the zero frequency. The other materials contain slightly higher frequency content as well. Gravel, in particular, differs a lot from the other materials with a wide variety of frequency components.
 
 As for the feature vector, a datasquare consisting of $T$ sweeps is selected. Viewing this as a matrix with elements $x(i,t)$, where $i$ denotes fast time, and $t$ slow time, we can compute a $k$-step Fourier transform for each range, $i$, as
 \begin{equation}
@@ -171,7 +171,7 @@ where $m$ is the number of considered ranges.
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.4]{figs_temp/features/fft}
-	\caption{For each material, a 128-step DFT is computed in slow time for all ranges. The absolute value is taken over the complex DFT, followed by taking the square root of it to make the differences more clear in the plot.}
+	\caption{For each material, a 128-step DFT is computed in slow time for all ranges. The absolute value is taken over the complex DFT, followed by taking the square root of it to make the differences more clear in the plot. }
 	\label{fig:fft}
 \end{figure}
 
