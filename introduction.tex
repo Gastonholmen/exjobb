@@ -4,17 +4,15 @@
 
 As technology is becoming increasingly intertwined with everyday life, smart sensing has become an integral component in many areas of engineering. From watches to cars, applications where no or only rudimentary sensoring equipment previously were utilized now hold a multitude of advanced sensors. Many business and technical leades have articulated that a world where an abundance of sensors is emerging, largely propelled by the Internet of Things \citep{bryzek_2013}. 
 
-One sensor type that recently has been recieving much attention is high frequency radars \citep{frenzel_2018}. Finding use in the automotive industry, radars have been adopted in a wide variety of systems, such as adaptive cruise control, automatic breaking and backup object detection. This development has greatly impacted the sales volume, subsequently lowering the price and making millimeter-wave radars attractive in other applications. These radar systems can be packed into a favorable form factor, which further facilitates development. These capabilities has made high frequency radars an increasingly popular choice in a steadily growing number of applications, such as monitoring of vital signs \citep{kuo_lin_yu_lo_lyu_chou_chuang_2016}, gesture recognition \citep{lien_gillian_karagozler_amihood_schwesig_olson_raja_poupyrev_2016}.
+One sensor type that recently has been recieving much attention is high frequency radars \citep{frenzel_2018}. Finding use in the automotive industry, radars have been adopted in a wide variety of systems, such as adaptive cruise control, automatic breaking and backup object detection. This development has greatly impacted the sales volume, subsequently lowering the price and making millimeter-wave radars attractive in other applications. The many advantages of millimeter-wave radars has made the technology an increasingly popular choice in a steadily growing number of applications, such as monitoring of vital signs \citep{kuo_lin_yu_lo_lyu_chou_chuang_2016}, gesture recognition \citep{lien_gillian_karagozler_amihood_schwesig_olson_raja_poupyrev_2016}.
 
-Alongside with this development another trend in data science has emerged; the movement towards machine learning centric methods . This transition, spanned over multiple decades, has placed machine learning as one of the main-stays of information technology and a rather central part of our life. With ever increasing amounts of data, smart data analysis has proven key for technological progress \citep{a_smola_svn_vishwanathan_2010}.
-
-Machine learning algorithms fundamentally utilize various statistical techniques in order to allow computer systems to progressively improve performance. Data scientists have found this subclass of aritficial intelligence extremely practical, especially for data that lack an easily predictable structure. 
+Alongside with this development another trend in data science has emerged; the movement towards machine learning centric methods . This transition, spanned over multiple decades, has placed machine learning as one of the main-stays of information technology. With ever increasing amounts of data, smart data analysis has proven key for technological progress \citep{a_smola_svn_vishwanathan_2010}. Machine learning algorithms fundamentally utilize various statistical techniques in order to allow computer systems to progressively improve performance. Data scientists have found this subclass of aritficial intelligence extremely practical, especially for data that lack an easily predictable structure. 
 
 % One more paragraph here more closely related to this idea
 
 \section{Motivation}
 
-Autonomous robots have found increasing use, from helping customers navigate stores \citep{mcsweeney_2018} to keeping floors clean [reference needed] and mowing lawns \citep{udelhofen_2018}. A common challenge with such systems is keeping the robot in bounds. This commonly means for the robot to be aware where on a two-dimensional map it is currently located, achieved for instance through equipping the robot with ultrasonic transmitters and finding naturally occurring "beacons" for localization \citep{leonard_durrant-whyte_1991}. In certain applications however, "in bounds" rather involves staying on one type of material, such as autonomous robot lawn mowers staying only on areas covered in grass, or robot vacuum cleaners on regions without a carpet. In such devices one may be content with knowing that the robot roams around remaining on its designated surface type rather than knowing its exact position. 
+Autonomous robots have found increasing use in simpler applications than autonomous driving, from helping customers navigate stores \citep{mcsweeney_2018} to keeping floors clean [reference needed] and mowing lawns \citep{udelhofen_2018}. A common challenge with such systems is keeping the robot in bounds. This commonly means for the robot to be aware where on a two-dimensional map it is currently located, achieved for instance through equipping the robot with ultrasonic transmitters and finding naturally occurring "beacons" for localization \citep{leonard_durrant-whyte_1991}. In certain applications however, "in bounds" rather involves staying on one type of material, such as autonomous robot lawn mowers staying only on areas covered in grass, or robot vacuum cleaners on regions without a carpet. In such devices one may be content with knowing that the robot roams around remaining on its designated surface type rather than having knowledge of its exact position. 
 
 Surface classification can also be used in autonomous devices as a supporting system. For the example used above, a robot vacuum cleaner could make use of such a system in numerous ways, such as for avoiding liquid spills and using surface-dependant cleaning programs. One could easily imagine other use cases where this  would be a great convenience. Thus, it would be immensely useful to devise a system able to determine surface type. Surface classification, in its most general form, is a common problem reappearing in many areas and has thus naturally been approached from many different angles. 
 
@@ -48,13 +46,6 @@ The working procedure is illustrated in figure (....)
 
 \subsection{Previous work}
 
-Surface identification is a common problem reappearing in many areas, ranging from determining the hygienic status of stainless steel \citep{jullien_bénézech_carpentier_lebret_faille_2003} to detecting whether a road is driveable or not for an autonomous vehicle \citep{guo_gerasimov_poulton_2006}, \citep{bystrov_2016}. Surface classification is, if one does not limit one self to any sub category, a very general problem statement and has thus naturally been approached in many different ways. In this section a few different methods are introduced, with particular focus on radar-based work. 
-
-\subsubsection{Optical}
-
-\subsubsection{Probing}
-
-\subsubsection{Low frequency radar}
 
 It is in many applications of interest to obtain images of subsurface identification nondestructively. In recent decades, ground penetrating radar (GPR) has found increasing use in evaluation of road conditions \citep{solla_gonzález-jorge_varela_lorenzo_2013} for preservation and maintenance of infrastructure.
 
@@ -77,32 +68,6 @@ Significantly lower frequency (900 MHz)
 \citep{daniels_2004}
 
 % RadarCat
-
-\subsubsection{High frequency radar}
-The RadarCat project is perhaps the work most closely related to this report \citep{yeo_2016}. As a part of Google's project Soli, RadarCat used Infineons radar sensor for accurate classification of materials. Detections was performed by placing an object of interest in direct contact with the sensor and determining the type by using a support vector machine. However, a central part of this approach is having the object in direct contact in a stationary setting, as opposed to at a range and in motion. The results found are however encouraging in the sense that high frequency radars are, at the very least to some degree, capable of classifying materials based solely on their radar response. 
-
-
-\iffalse
- of urban environments and automotive radar 
-\\ \\
-Applications involving millimetre-wave radars and surface recognition is scarce.  
-\\ \\
-These radars commonly have wavelenghts of something something
-\\ \\
-If we however want to classify surface materials using a much shorter wavelength, the task changes dramatically as apsorption is near-instant. 
-\\ \\
-Something about radar wavelenght categories
-\\ \\
-Furthermore, radar sensors are commonly used in an array setting which permits beamforming and extraction of spatial information. 
-\\ \\
-If one on the other hand only has a singular radar sensor this is not possible and you must resort to other means.
-\\ \\
-Probably want something about IQ demodulation somewhere in here.
-\fi
-\subsection{Issues with previous work}
-As seen above, surface classification has been done using optical methods as well as probing. An optical method based on camera images requires, besides the obvious need of a good enough camera, a specific illumination setup in order to work. This requirement could potentially limit the applications of an outdoor surface classifier. Using a radar based solution instead, we can perform surface classification without having to rely on ambient light, nor having to emit any visible light.
-
-As of the probing approach, it has actually been proven that probing can be used successfully in surface identification of rough terrain in \citep{giguere_dudek_2011}. Here, an accelerometer is attached at the end of a small metal rod. The probe measures acceleration patterns that are later used for classification. However, with an instrument that has direct contact with the ground, the chances that the instrument breaks, or that it drags other objects along with it increases significantly. Hence our radar based approach has an advantage over probing in this remark.
 
 \section{Thesis outline}
 
