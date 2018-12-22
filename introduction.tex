@@ -9,9 +9,19 @@ Alongside the miniaturization of radar systems a trend in data science has emerg
 
 In this work we investigate whether millimeter-wave radar can be used for surface recognition. We propose an approach using two non-synchronized 60 GHz radar sensors for surface classification. Two broad antenna beams illuminate a scene capturing a complex refelected signal, and using signal processing and machine learning techniques we classify the surface type. This work focuses on the use case of determining if a surface is grassy or not, but could easily be extended to invoke other surface types as well.  
 
-\section{Motivation}
+\section{Motivation and previous work}
 
-% Stress that this is an unsolved problem
+Autonomous robots have found increasing use in numerous systems, from helping customers navigate stores \citep{mcsweeney_2018} to keeping floors clean \citep{ifr_press_release_2016} and mowing lawns \citep{udelhofen_2018}. A common challenge with such systems is keeping the robot in bounds. This commonly means for the robot to be aware where on a two-dimensional map it is currently located. In certain applications however, "in bounds" rather involves staying on one type of material, such as autonomous robot lawn mowers staying only on areas covered in grass, or robot vacuum cleaners on regions without a carpet. In such devices one may be content with knowing that the robot roams around remaining on its designated surface type rather than having knowledge of its exact position. 
+
+Surface classification can also be used in autonomous devices as a supporting system. For the example used above, a robot vacuum cleaner could make use of such a system in numerous ways, such as for avoiding liquid spills and using surface-dependant cleaning programs. One could easily imagine other use cases where such a system would be a great convenience. Thus, it would be immensely useful to devise a system able to determine surface type. 
+
+
+
+Surface classification, in its most general form, is a common problem reappearing in many areas and has thus naturally been approached from many different angles. 
+
+
+
+%Taking inspiration from the recent advances in autonomous vehicles, one may be tempted to use cameras for visual inspection of the surface at hand. Computer vision has indeed attracted extensive research over the past few decades with impressive results \citep{liu_chen_fieguth_zhao_chellappa_pietikäinen_2018}. In a computer vision framework, images of different surfaces can be separated by their differences in \emph{texture} - their spatial organization of basic elements. Such fundamental microstructures obey some kind of statistical properties which can be percepted by for instance a convolutional neural network (CNN). Effective texture identification of textures in image databases was used in, for example, \citep{do_vetterli_2002} for accuracte classification.
 
 \section{Radar Fundamentals}
 
@@ -26,6 +36,7 @@ If a perfect scatterer is located a distance $d$ from a radar transmitter, and a
 where $C$ is some constant related to the dissapation of power throughout space and some radar system properties. % More on this
 
 
+
 %\section{Smart millimeter-wave sensing}
 
 
@@ -34,11 +45,6 @@ where $C$ is some constant related to the dissapation of power throughout space 
 
 %\section{Motivation}
 
-%Autonomous robots have found increasing use in simpler applications than autonomous driving, from helping customers navigate stores \citep{mcsweeney_2018} to keeping floors clean [reference needed] and mowing lawns \citep{udelhofen_2018}. A common challenge with such systems is keeping the robot in bounds. This commonly means for the robot to be aware where on a two-dimensional map it is currently located, achieved for instance through equipping the robot with ultrasonic transmitters and finding naturally occurring "beacons" for localization \citep{leonard_durrant-whyte_1991}. In certain applications however, "in bounds" rather involves staying on one type of material, such as autonomous robot lawn mowers staying only on areas covered in grass, or robot vacuum cleaners on regions without a carpet. In such devices one may be content with knowing that the robot roams around remaining on its designated surface type rather than having knowledge of its exact position. 
-
-%Surface classification can also be used in autonomous devices as a supporting system. For the example used above, a robot vacuum cleaner could make use of such a system in numerous ways, such as for avoiding liquid spills and using surface-dependant cleaning programs. One could easily imagine other use cases where this  would be a great convenience. Thus, it would be immensely useful to devise a system able to determine surface type. Surface classification, in its most general form, is a common problem reappearing in many areas and has thus naturally been approached from many different angles. 
-
-%Taking inspiration from the recent advances in autonomous vehicles, one may be tempted to use cameras for visual inspection of the surface at hand. Computer vision has indeed attracted extensive research over the past few decades with impressive results \citep{liu_chen_fieguth_zhao_chellappa_pietikäinen_2018}. In a computer vision framework, images of different surfaces can be separated by their differences in \emph{texture} - their spatial organization of basic elements. Such fundamental microstructures obey some kind of statistical properties which can be percepted by for instance a convolutional neural network (CNN). Effective texture identification of textures in image databases was used in, for example, \citep{do_vetterli_2002} for accuracte classification.
 
 %Cameras capture light in the visible frequency spectrum, which inherently renders them sensitive to changes in light conditions. Unless direct illumination of the target surface is used, a solution involving a camera is highly dependent on ambient light. Such a limitation can make cameras unsuitable for surface classification where light conditions varies and low power consumption is critical. Furthermore, making continuous use of CNNs is a computationally expensive operation potentially impractical on small devices with limited hardware capabilities. 
 
