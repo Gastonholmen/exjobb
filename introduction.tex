@@ -15,13 +15,16 @@ Autonomous robots have found increasing use in numerous systems, from helping cu
 
 Surface classification can also be used in autonomous devices as a supporting system. For the example used above, a robot vacuum cleaner could make use of such a system in numerous ways, such as for avoiding liquid spills and using surface-dependant cleaning programs. One could easily imagine other use cases where such a system would be a great convenience. Thus, it would be immensely useful to devise a system able to determine surface type. 
 
+In order to distinguish one surface type from another some feature of the surface at hand must somehow be captured and analyzed. This very general problem statement can and has been approached from many different angles. 
 
+Taking inspiration from the recent advances in autonomous vehicles, one may be tempted to use cameras for visual inspection of the surface at hand. Computer vision has indeed attracted extensive research over the past few decades with impressive results \citep{liu_chen_fieguth_zhao_chellappa_pietikäinen_2018}. In a computer vision framework, images of different surfaces can be separated by their differences in \emph{texture} - their spatial organization of basic elements. Such fundamental microstructures obey some kind of statistical properties which can be percepted by for instance a convolutional neural network. Effective texture identification of textures in image databases was used in, for example, \citep{do_vetterli_2002} for accuracte classification. 
 
-Surface classification, in its most general form, is a common problem reappearing in many areas and has thus naturally been approached from many different angles. 
+Although using computer vision for accurate real time target identification is an attractive option, it is commonly an infeasible option for small devices with limited hardware capabilities. Cameras capture light in the visible frequency spectrum, which inherently renders them sensitive to changes in light conditions. Thus, unless direct illumination of the target surface is used, solutions involving cameras are highly dependent on ambient light. Such a limitation can make cameras impractical for small devices navigating areas with varying lighting. 
 
+The perhaps most immediate way to perform surface identification is through direct contact. In \citep{giguere_dudek_2011}, surface identification for low-velocity mobile robots considered using a small metallic rod with an attached accelerometer. By capturing accelerometer output induced in the tip of the rod during robot motion identification was possible for a couple of different surface types. While probing may produce appealing results in certain situations, the method is fundamentally based on physical contact with the target. Hence, a probe is more susceptible to damage, can more easily get stuck and is more exposed to detrimental tear over time than its non-interfering counterparts. 
 
-
-%Taking inspiration from the recent advances in autonomous vehicles, one may be tempted to use cameras for visual inspection of the surface at hand. Computer vision has indeed attracted extensive research over the past few decades with impressive results \citep{liu_chen_fieguth_zhao_chellappa_pietikäinen_2018}. In a computer vision framework, images of different surfaces can be separated by their differences in \emph{texture} - their spatial organization of basic elements. Such fundamental microstructures obey some kind of statistical properties which can be percepted by for instance a convolutional neural network (CNN). Effective texture identification of textures in image databases was used in, for example, \citep{do_vetterli_2002} for accuracte classification.
+% Two chief methods for doing this - Ultrsonic and radar. 
+The seemingly two chief methods researchers have spent their time on for this application are ultrasonic methods and radar-based methods. These two methods are both noninvasive and have modest power requirements. Being active systems, meaning that they do not require any ambient signal source. Ultrasonic and radar systems have been tested by researchers for road condition monitoring \citep{bystrov_2016}, \citep{mckerrow_kristiansen_2006}.
 
 \section{Radar Fundamentals}
 
@@ -36,21 +39,13 @@ If a perfect scatterer is located a distance $d$ from a radar transmitter, and a
 where $C$ is some constant related to the dissapation of power throughout space and some radar system properties. % More on this
 
 
+\section{Thesis outline}
 
-%\section{Smart millimeter-wave sensing}
-
-
-
-% One more paragraph here more closely related to this idea
-
-%\section{Motivation}
+In chapter 2 we present an overview of a general radar system and introduce some crucial concepts for understanding the radar output used in this work. In chapter 3 we proceed by presenting our measurement setup and comment on the data collecting process and the data itself. Chapter 4 revolves around discussing ways of preprocessing the data and extracting relevant features from it. After the preprocessing, in chapter 5, we go through different classification schemes we have tested. The classification results are presented in a table for easy comparison. Finally, we conclude with an overall discussion of the work in chapter 6 and summarize our conclusions in chapter 7.
 
 
-%Cameras capture light in the visible frequency spectrum, which inherently renders them sensitive to changes in light conditions. Unless direct illumination of the target surface is used, a solution involving a camera is highly dependent on ambient light. Such a limitation can make cameras unsuitable for surface classification where light conditions varies and low power consumption is critical. Furthermore, making continuous use of CNNs is a computationally expensive operation potentially impractical on small devices with limited hardware capabilities. 
 
-%The perhaps most immediate way to circumvent the problem of light conditions is through a probing approach. Here, one resorts to measuring onto a surface through direct contact. In \citep{song_han_hu_li_2014} researches attempted to imitate human touch by designing a surface texture sensor. In \citep{giguere_dudek_2011}, surface identification for low-velocity mobile robots is considered using a small metallic rod with an attached accelerometer. By capturing accelerometer output induced in the tip of this rod during robot motion identification was possible for a couple different surface types. While probing may produce appealing results in certain situations, they are fundamentally based on physical contact with the target of interest. Hence, a probe is more susceptible to damage, can more easily get stuck and is more exposed to detrimental tear over time than its non-interfering counterparts. 
 
-%Another approach is using sound for surface classification. Motivated by experiments showing that bats are able to discriminate between surfaces using echolocation \citep{schmidt_1988}, a number of researchers have used ultrasonic sensors for road condition monitoring \citep{bystrov_2016}, \citep{mckerrow_kristiansen_2006}. 
 
 
 %In spite of their rise in populatity, solutions for surface classification using high frequency radars are somewhat scarce. When a single radar sensor is used for this purpose and a nonstationary setting is considered such as for a device moving across a surface of interest, very little previous work can be found in litterature. The perhaps closest resemblance is the RadarCat project\citep{yeo_2016}. As a part of Google's project Soli, RadarCat used a radar sensor for material classification. Nonetheless, a central part of this approach was having an object stationary and in direct contact with the radar sensor. The focal point of Project Soli was gesture recognition. This application bears some similarities to surface classification in motion in the regard that the subject is nonstationary. However classifying surfaces during motion and classifying hand gestures differ on a critical point - gestures are actions performed during some window in time while a robot moving along a surface is a continuous operation. 
@@ -97,9 +92,6 @@ where $C$ is some constant related to the dissapation of power throughout space 
 
 % RadarCat
 
-%\section{Thesis outline}
-
-%In chapter 2 we present an overview of a general radar system and introduce some crucial concepts for understanding the radar output used in this work. In chapter 3 we proceed by presenting our measurement setup and comment on the data collecting process and the data itself. Chapter 4 revolves around discussing ways of preprocessing the data and extracting relevant features from it. After the preprocessing, in chapter 5, we go through different classification schemes we have tested. The classification results are presented in a table for easy comparison. Finally, we conclude with an overall discussion of the work in chapter 6 and summarize our conclusions in chapter 7.
 
 %Chapter 3: Mention something about the data collecting process. Motive our choice of parameters such as sampling frequency. Go through visual observations of our data.
 
