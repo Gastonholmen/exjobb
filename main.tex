@@ -23,37 +23,44 @@
 \allsectionsfont{\sffamily}
 
 \begin{document}
-\tableofcontents
 
-\newpage
 
-% Introduction 
-\include{introduction}
+\frontmatter
+	\include{titlepage}
+	\include{abstract}
+	\include{acknowledgements}
+	\newpage
+	\tableofcontents
 
-% Radar system overview
-\include{radar_principle}
 
-% Data acquisition and preprocessing
-\include{preprocessing}
+\mainmatter
+	% Introduction 
+	\include{introduction}
 
-% Feature selection
-\include{feature_selection}
+	% Radar system overview
+	\include{radar_principle}
 
-% Classification schemes
-\include{classification_schemes}
+	% Data acquisition and preprocessing
+	\include{preprocessing}
 
-% Postprocessing and optimization
-\include{postprocessing_and_optimization}
+	% Feature selection
+	\include{feature_selection}
 
-% Discussion
-\include{discussion}
+	% Classification schemes
+	\include{classification_schemes}
 
-% Conclusions and future work
-\include{conclusions_and_future_work}
+	% Postprocessing and optimization
+	\include{postprocessing_and_optimization}
 
-% Appendices
-\include{appendices}
+	% Discussion
+	\include{discussion}
 
-\bibliography{refs}
-\bibliographystyle{apalike}
+	% Conclusions and future work
+	\include{conclusions_and_future_work}
+
+\backmatter 
+	% Appendices
+	\include{appendices}
+	\bibliography{refs}
+	\bibliographystyle{apalike}
 \end{document}
