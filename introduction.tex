@@ -22,37 +22,19 @@ Taking inspiration from the recent advances in self-driving cars, one may be tem
 \indent The perhaps most immediate way to perform surface identification is through direct contact. In \citep{giguere_dudek_2011}, surface identification for low-velocity mobile robots considered using a small metallic rod with an attached accelerometer. By capturing accelerometer output induced in the tip of the rod during robot motion identification was possible for a couple of different surface types. While probing may produce appealing results in certain situations, the method is fundamentally based on physical contact with the target. Hence, a probe is more susceptible to damage, can more easily get stuck and is more exposed to detrimental tear over time than its non-interfering counterparts. \\
 % Two chief methods for doing this - Ultrsonic and radar. 
 \indent For surface classification with devices in motion, the seemingly two chief methods researchers have spent their time on for this application are ultrasonic methods and radar-based methods. These two methods are both noninvasive and have modest power requirements. Being active systems, meaning that they do not require any ambient signal source. Ultrasonic and radar systems have been tested by researchers for road condition monitoring \citep{bystrov_2016}, \citep{mckerrow_kristiansen_2006}. \\
-\indent These two methods primarily utilize the difference in roughness, a geometric characteristic of a surface caused by spatial variations in surface depth. Researchers experimenting with ultrasonic sensors (perhaps motivated by a study proving bats capable of discriminating surfaces with different roughness with their echolocation \citep{schmidt_1988}) have found some degree of success. In \citep{politis_probert_1999} angled ultrasonic sensors were used to measure roughness. By using the distribution of energy between specular (i.e. miroor-like) and diffuse componenets of the echo they were able to distinguish between six different surface types, and modeling the floor as having a random structure on the form of a Gaussian distribution around the surface plane.
+\indent These two methods primarily utilize the difference in roughness, a geometric characteristic of a surface caused by spatial variations in surface depth. Researchers experimenting with ultrasonic sensors (perhaps motivated by a study proving bats capable of discriminating surfaces with different roughness with their echolocation \citep{schmidt_1988}) have found some degree of success. In \citep{politis_probert_1999} angled ultrasonic sensors were used to measure roughness. By using the distribution of energy between specular (i.e. miroor-like) and diffuse componenets of ultrasonic echo they were able to distinguish between six different surface types, and modeling the floor as having a random structure on the form of a Gaussian distribution around the surface plane creating. Using this method the researchers were able to generate predictions on a sample-by-sample basis, not taking the temporal dimension into account.
+% Work with the last part here - radar applications/radarCat etc. We wish to utilize time-based methods. Would be neat to find radar work doing nearly the same thing
+\section{Problem formulation}
+
+\begin{figure}
+	\centering
+	\includegraphics[scale=0.8]{figs_temp/acc_sensor}
+	\caption{Image of the 60 GHz PCR radar sensor used in this work. Image retrieved from \emph{www.acconeer.com/products}.}
+	\label{fig:acc_sens}
+\end{figure}
 
 
-
-\section{Radar Fundamentals}
-
-Fundamentally, a radar operates by radiating radio frequency (RF) electromagnetic energy and listening if the transmitted energy generates any echoes \citep{skolnik_2009}. By analyzing properties of the returning signal it is then possible to obtain information about the target objects that scattered the transmitted pulse. This may involve the distance and angle at which scatterers are located or which velocity they are moving in. With a sufficiently high angular and range resolution it is possible to descern parts of the ragets' sizes and shapes.  
-
-If a perfect scatterer is located a distance $d$ from a radar transmitter, and a radar pulse with envelope $A(t)$ and angular frequency $\Omega$ is transmitted towards it, the returning signal will have the form \citep{richards_2014}
-
-\begin{equation}
-	r(t) = CA(t)\sin(\Omega t + \theta(t))
-\end{equation}
-
-where $C$ is some constant related to the dissapation of power throughout space and some radar system properties. % More on this
-
-
-\section{Thesis outline}
-
-In chapter 2 we present an overview of a general radar system and introduce some crucial concepts for understanding the radar output used in this work. In chapter 3 we proceed by presenting our measurement setup and comment on the data collecting process and the data itself. Chapter 4 revolves around discussing ways of preprocessing the data and extracting relevant features from it. After the preprocessing, in chapter 5, we go through different classification schemes we have tested. The classification results are presented in a table for easy comparison. Finally, we conclude with an overall discussion of the work in chapter 6 and summarize our conclusions in chapter 7.
-
-
-
-
-
-
-%In spite of their rise in populatity, solutions for surface classification using high frequency radars are somewhat scarce. When a single radar sensor is used for this purpose and a nonstationary setting is considered such as for a device moving across a surface of interest, very little previous work can be found in litterature. The perhaps closest resemblance is the RadarCat project\citep{yeo_2016}. As a part of Google's project Soli, RadarCat used a radar sensor for material classification. Nonetheless, a central part of this approach was having an object stationary and in direct contact with the radar sensor. The focal point of Project Soli was gesture recognition. This application bears some similarities to surface classification in motion in the regard that the subject is nonstationary. However classifying surfaces during motion and classifying hand gestures differ on a critical point - gestures are actions performed during some window in time while a robot moving along a surface is a continuous operation. 
-
-
-
-%Continue: You want to be able to do this on a budget.
+In this work, we to examine temporal domain methods for single-antenna radar for surface classification. By collecting data on grass surfaces and selection of non-grass surfaces we attempt to create an effective classifier able to distinguish a grass covered surface from other surface types. All experiments will be performed using two Acconeer A1 60 Ghz pulsed coherent radar (PCR) sensors, see figure \ref{fig:acc_sens},  mounted on the front of device moving straight at a constant velocity. 
 
 %\subsection{Problem formulation}
 %With this work, we intend to present a solution towards surface identification based on radar data. The data is collected using two 60 GHz Acconeer radar sensors, each with a sampling frequency of 200 Hz. Both sensors are mounted at the front of a robot, and are assumed to move across a surface with a constant speed and height.
@@ -65,6 +47,53 @@ In chapter 2 we present an overview of a general radar system and introduce some
 %We present modelling options with high accuracy and efficacy. 
 %We present results based on a 60GHz Acconeer micro radar. 
 %In this paper we introduce means of surface identification based on the output from a single 60 GHz radar sensor moving across a surface with constant height. 
+
+
+
+% We only have one sensor and want to work in the temporal domain. 
+
+%\section{Radar Fundamentals}
+
+%Fundamentally, a radar operates by radiating radio frequency (RF) electromagnetic energy and listening if the transmitted energy generates any echoes \citep{skolnik_2009}. By analyzing properties of the returning signal it is then possible to obtain information about the target objects that scattered the transmitted pulse. This may involve the distance and angle at which scatterers are located or which velocity they are moving in. With a sufficiently high angular and range resolution it is possible to descern parts of the ragets' sizes and shapes.  
+
+%If a perfect scatterer is located a distance $d$ from a radar transmitter, and a radar pulse with envelope $A(t)$ and angular frequency $\Omega$ is transmitted towards it, the returning signal will have the form \citep{richards_2014}
+
+%\begin{equation}
+%	r(t) = CA(t)\sin(\Omega t + \theta(t))
+%\end{equation}
+
+%where $C$ is some constant related to the dissapation of power throughout space and some radar system properties. % More on this
+
+
+\section{Thesis outline}
+
+The oulline of this thesis is as follows:
+\\ \\
+\noindent\textbf{Chapter 2:} This chapter presents a brief overview of radar systems, and introduce some concepts needed to understand the output of radar systems. 
+\\ \\
+\noindent\textbf{Chapter 3:} In chapter 3 we proceed with describing the method used for collecting the data used in this project. Sensor settings, such as pulse length and sampling frequency, are discussed. 
+\\ \\
+\noindent\textbf{Chapter 4:} Chapter 4 presents the feature extraction process for surface identification. Temporal features, such as the autocorrelation function and the fourier transform, are investigated for accurate surface classification. At the end of the chapter, one of the tested extraction methods is selected for further investigation. 
+\\ \\
+\noindent\textbf{Chapter 5:}  In this chapter, some different classfiers are tested for prediction accuracy. Both linear and non-linear machine learning models are tested. At the end of the chapter, one machine learning classifier is found to be the best. 
+\\ \\
+\noindent\textbf{Chapter 6:} In chapter 6 some postprocessing and optimizations to the best found model are discussed. 
+\\ \\
+\noindent\textbf{Chapter 7:} Chapter 7 examines the found models capabilities in real and artificially created test scenarios. The found results are discussed, and some limitations are discussed.
+\\ \\
+\noindent\textbf{Chapter 8:} In chapter 8 conclusions of this work is presented and possible directions of future work is discussed. 
+
+
+
+
+
+
+
+%In spite of their rise in populatity, solutions for surface classification using high frequency radars are somewhat scarce. When a single radar sensor is used for this purpose and a nonstationary setting is considered such as for a device moving across a surface of interest, very little previous work can be found in litterature. The perhaps closest resemblance is the RadarCat project\citep{yeo_2016}. As a part of Google's project Soli, RadarCat used a radar sensor for material classification. Nonetheless, a central part of this approach was having an object stationary and in direct contact with the radar sensor. The focal point of Project Soli was gesture recognition. This application bears some similarities to surface classification in motion in the regard that the subject is nonstationary. However classifying surfaces during motion and classifying hand gestures differ on a critical point - gestures are actions performed during some window in time while a robot moving along a surface is a continuous operation. 
+
+
+
+%Continue: You want to be able to do this on a budget.
 
 
 %\subsection{Previous work}
