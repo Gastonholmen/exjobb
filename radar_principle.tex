@@ -4,16 +4,34 @@ In order to build a model capable of accurately capturing key features from vari
 
 \section{The radar principle}
 
-The radar principle is at its core simple. A radar operates by radiating electromagnetic energy and analyzing returning echoes from reflecting targets in its field of view \citep{skolnik_2009}. By examining properties of the echo signal it is possible to obtain information about the targets. This may involve the range at which scatterers are located, the angles at which targets are found or the speed at which a scatterer moves \citep{richards_2014}. With a sufficiently high angular and range resolution it is possible to discern parts of the targets' size and shape. 
 
-Radars are usually active systems, meaning that they have a radiating antenna and do not depend on ambient radiation \citep{skolnik_2009}. To perform measurements, a wavelet pulse $x_T(t)$ with some carrier frequency $\Omega$  is transmitted towards an object of interest. If a perfect reflector is present at distance $d$, the wavelet will return $2d/c$ seconds after transmission, where $c$ denotes the speed of light in air. Thus, the distance to a target object is calculated as 
+Fundamentally, a radar operates by radiating radio frequency (RF) electromagnetic energy and listening if the transmitted energy generates any echoes \citep{skolnik_2009}. By analyzing properties of the returning signal it is then possible to obtain information about the target objects that scattered the transmitted pulse. This may involve the distance and angle at which scatterers are located or which velocity they are moving in. With a sufficiently high angular and range resolution it is possible to descern parts of the ragets' sizes and shapes.  
+
+Radars are typically active systems, meaning that they have a radiating antenna and do not depend on ambient radiation \citep{skolnik_2009}. To perform measurements, a wavelet pulse $x_T(t)$ with some carrier angular frequency $\Omega$ and envelope $A(t)$ is transmitted towards an object of interest. If a perfect scatterer is located some distance away from the radar transmitter, and a radar pulse with envelope $A(t)$ and angular frequency $\Omega$ is transmitted towards it, the returning signal will have the form \citep{richards_2014}
+
+\begin{equation}
+	r(t) = CA(t)\sin(\Omega_r t + \theta(t))
+\end{equation}
+
+where $C$ is some constant related to the dissapation of power throughout space and some radar system properties. If the scatterer was present a distance $d$ from the scatterer, the wavelet will return $2d/c$ seconds after transmission, where $c$ denotes the speed of light. Thus the distance to the target can be concluded to be  
 
 \begin{equation}
 	\label{eq:dist_time}
 	d = \frac{ct}{2}.
 \end{equation}
 
-Note that we must divide by 2 in equation \ref{eq:dist_time} in order to accomodate for the pulse travelling back and forth (or, perhaps more accurately, forth and back) between the sensor and the scatterer. 
+Note that we must divide by 2 in equation \ref{eq:dist_time} in order to accomodate for the pulse travelling back and forth (or, perhaps more accurately, forth and back) between the sensor and the scatterer. This delay will appear in $\theta(t)$ as a phase-shift. 
+
+
+% Here: Talk about the two frequencies appearing! The doppler one and the "doppler" one. 
+
+% Have a part on bandwidth
+
+% Have a part about radar cross section
+
+
+
+
 
 %After the previously transmitted wavelet is guaranteed to have died out, a new one is transmitted. Again, the radar listens for an echo, but this time after another time $t_2$ has passed. $t_2$ is greater than $t_1$, meaning the radar listens for echoes further away. If an echo is received, it means there is an object present at distance 
 
