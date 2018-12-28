@@ -13,17 +13,19 @@ Radars are typically active systems, meaning that they have a radiating antenna 
 	= A(t)\sin(2\pi f_t).
 \end{equation}
 
+After various scattering processes, the returning signal is analyzed. This can be done either using an one or two dimensional array of antennas or just using a single antenna. 
+
 \subsection{Single-antenna considerations}
 
 Commonly, in larger radar systems, many receiving antennas capture the returning radiation. This allows for distinguishing radar targets not only in range, but also allows for the radar to have angular resolution. In this work a single receiving antenna is used, meaning that the radar has no intrinsic method of determining at which angle a scatterer is located, obtaining snapshots of the entire scene. Hence, the sensor used in this work is only capable of acquiring one-dimensional signals. 
 
-To understand what information can be obtained from such a one dimensional signal, a single scattering object some distance away from the transmitter is pictured. If a radar pulse with envelope $A(t)$ and frequency $f_t$ is transmitted towards it, the returning signal will be on the form \citep{richards_2014}
+To understand what information can be obtained from such a one dimensional signal, a single scattering object some distance away from the transmitter is here considered. If a radar pulse with envelope $A(t)$ and frequency $f_t$ is transmitted towards it, the returning signal will be on the form \citep{richards_2014}
 
-\begin{equation}
+\begin{equation}\label{eq:returning}
 	r(t) = CA(t)\sin(2\pi f_t t + \phi)
 \end{equation}
 
-where $C$ is some constant related to the dissapation of power throughout space and some radar system properties. For the purposes of this report, the properties of the phase shift $\phi$ is of particular interest. In the next two sections, it is shown how distance and velocity can be deduced from this parameter using the time delay and the Doppler shift. The $C$ variables carries information too, described lastly. 
+where $C$ is a constant related to the dissapation of power throughout space and some radar system properties. For the purposes of this report, the properties of the phase shift $\phi$ is of particular interest. In the next two sections, it is shown how distance and velocity can be deduced from this parameter using the time delay and the Doppler shift. The $C$ variable carries information too, described lastly. 
 
 \subsection{Radar distance measurements}
 
@@ -75,13 +77,41 @@ For a pulsed radar system, with sampling frequency $F_s$ and sampling period $T_
 For a target moving at a constant pace, the beat frequency arising from the constant doppler phase shift is thus $f_d = 2v/\lambda_t$, as was found in equation \ref{eq:dshift}. 
 
 
-\subsection{Radar cross section}
+\subsection{Power dissapation and radar cross section}
 
+The $C$ factor in \ref{eq:returning} describes the ratio of the emitted power that is returned after a scattering process has occurred. Assuming that the trasmit power $P_t$ is radiated isotropically by a point source, the power density distributed uniformly by the source over the surfase of a sphere of radius $R$ is \citep{amin_2017}
 
+\begin{equation}
+	P_D 
+	= \frac{P_t}{4\pi R^2}.
+\end{equation}
+
+If a scatterer is present at range $d$ with target cross section $\sigma$ and gain $G_t$, the fraction of the radar power reflected by the target is given by 
+
+\begin{equation}
+	P_{e}
+	= \frac{P_tG_t\sigma}{4\pi d^2}.
+\end{equation}
+
+Then, given that the scattering process is isotropic, the power reflected back at the radar receiver is
+
+\begin{equation}
+	P_f 
+	= \frac{P_e}{4\pi R^2} 
+	= \frac{P_t G_t \sigma}{(4\pi d^2)^2}.
+\end{equation}
+
+Finally, only a portion $P_r = P_eA_r$ of the power is captured by the receiver, where $A_r$ is a function of transmission wavelength and receive antenna gain. Putting this all together, we obtain the \emph{radar range equation}
+
+\begin{equation}
+	P_r
+	= \frac{P_t G_t A_r \sigma}{16\pi^2 d^4}.
+\end{equation}
+
+The radar range equation clearly states that power dissapates rapidly, by a factor $d^4$, with range. Thus, increasing the distance to a target object with a factor 2 will return only $1/16$ of the power otherwise received. 
 
 % Have a part on bandwidth
 
-% Have a part about radar cross section
 
 
 
@@ -154,7 +184,7 @@ For a target moving at a constant pace, the beat frequency arising from the cons
 
 %A waveform generator outputs a radar envelope which is modulated by a local oscillator to some desired radio frequency. After signal amplification the wavelet is transmitted through an antenna. Detection is performed by a second antenna, which receives the returning signal during some time interval. 
 
-\subsection{Mixing}
+\section{Mixing}
 
 
 If a transmitted wavelet of angular frequency $\Omega$ is transmitted towards a single scatterer, the returning signal can be modeled as
@@ -205,7 +235,7 @@ Our target is to find $\theta(t)$, providing information about the target scatte
 
 
 
-\subsection{IQ demodulated data}
+\section{IQ demodulated data}
 \label{IQ}
 A common type of data when working with radar signal processing is in-phase and quadrature-phase data (IQ-data). IQ-data is represented as complex numbers, and a radar sweep consists of several such complex numbers - one for each investigated range. The process of obtaining IQ-data is often referred to as IQ- or quadrature demodulation, and is described in appendix .... The usefulness of this type of data lies in that it contains explicit information about the amplitude, $A(t)$, and phase, $\theta(t)$, in equation \eqref{eq:raw_sweep} \citep{richards_2014}. To obtain the amplitude for a sweep, $s$, one simply computes the absolute value for each complex number in $s$. The amplitude plot is a good way to visualize at what ranges objects are present. Figure \ref{fig:single_sweep_iq} illustrates such a graph where the same measurement setup as in figure \ref{fig:single_sweep_raw} has been used. Similarly, a phase curve can be obtained by computing the phase in each point.
 
