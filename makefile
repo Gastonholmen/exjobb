@@ -2,6 +2,10 @@
 
 
 make: 
+	touch temp.toc
+	touch temp.aux
+	touch temp.bbl
+	touch temp.blg
 	rm *.toc
 	rm *.aux
 	rm *.bbl
