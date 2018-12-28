@@ -1,20 +1,29 @@
 \chapter{Radar system overview}
 
-In order to build a model capable of accurately capturing key features from various areas one must first understand the origin of the received signal. In this chapter a few fundamental concepts in radar systems are introduced considered critical for understanding the radar responses produced in the measurement setup outlined in the previous chapter. First, the basic principles of radar is explained. The manner in which electromagnetic waves disperse and scatter in a space are briefly discussed. Then, some important features in an actual radar system are considerd. These involve how the radar transmits its wavelets, the mixing process of returning waves and the demodulation procedure used for accurate phase tracking. 
+In order to build a model capable of accurately capturing key features from various areas one must first understand the origin of the received signal. In this chapter a few fundamental concepts in radar systems are introduced considered critical for understanding the radar responses produced in the measurement setup outlined in the following chapter. First, the basic principles of radar is explained. The manner in which electromagnetic waves disperse and scatter in a space are briefly discussed. Then, some important features in an actual radar system are considerd. These involve how the radar transmits its wavelets, the mixing process of returning waves and the demodulation procedure used for accurate phase tracking. 
 
-\section{The radar principle}
+\section{Target properties from radar response}
 
+Fundamentally, a radar operates by radiating radio frequency (RF) electromagnetic energy and listening if the transmitted energy generates any echoes \citep{skolnik_2009}. By analyzing properties of the returning signal it is then possible to obtain information about the target objects that scattered the transmitted pulse. This may involve the distance and angle at which scatterers are located or which velocity they are moving in. With a sufficiently high angular and range resolution it is possible to descern parts of the targets' sizes and shapes.  
 
-Fundamentally, a radar operates by radiating radio frequency (RF) electromagnetic energy and listening if the transmitted energy generates any echoes \citep{skolnik_2009}. By analyzing properties of the returning signal it is then possible to obtain information about the target objects that scattered the transmitted pulse. This may involve the distance and angle at which scatterers are located or which velocity they are moving in. With a sufficiently high angular and range resolution it is possible to descern parts of the ragets' sizes and shapes.  
+Radars are typically active systems, meaning that they have a radiating antenna and do not depend on ambient radiation \citep{skolnik_2009}. Radar measurements can be performed in a number of ways. In this report, a pulsed radar with constant frequency is used. This means that a sequence of short wavelets are transmitted towards a target to determine its properties. One such transmitted wavelet pulse $x_T(t)$ has some carrier frequency $f_t$ and envelope $A(t)$ as in
 
-Radars are typically active systems, meaning that they have a radiating antenna and do not depend on ambient radiation \citep{skolnik_2009}. To perform measurements, a wavelet pulse $x_T(t)$ with some carrier angular frequency $\Omega$ and envelope $A(t)$ is transmitted towards an object of interest. If a perfect scatterer is located some distance away from the radar transmitter, and a radar pulse with envelope $A(t)$ and frequency $f_t$ is transmitted towards it, the returning signal will be on the form \citep{richards_2014}
+\begin{equation}
+	x_T(t)
+	= A(t)\sin(2\pi f_t).
+\end{equation}
+
+\subsection{Single-antenna considerations}
+
+Commonly, in larger radar systems, many receiving antennas capture the returning radiation. This allows for distinguishing radar targets not only in range, but also allows for the radar to have angular resolution. In this work a single receiving antenna is used, meaning that the radar has no intrinsic method of determining at which angle a scatterer is located, obtaining snapshots of the entire scene. Hence, the sensor used in this work is only capable of acquiring one-dimensional signals. 
+
+To understand what information can be obtained from such a one dimensional signal, a single scattering object some distance away from the transmitter is pictured. If a radar pulse with envelope $A(t)$ and frequency $f_t$ is transmitted towards it, the returning signal will be on the form \citep{richards_2014}
 
 \begin{equation}
 	r(t) = CA(t)\sin(2\pi f_t t + \phi)
 \end{equation}
 
-
-where $C$ is some constant related to the dissapation of power throughout space and some radar system properties. For the purposes of this report, the properties of the phase shift $\phi$ is of particular interest. In the next two sections, it is shown how distance and velocity can be deduced from this parameter using the time delay and the Doppler shift.
+where $C$ is some constant related to the dissapation of power throughout space and some radar system properties. For the purposes of this report, the properties of the phase shift $\phi$ is of particular interest. In the next two sections, it is shown how distance and velocity can be deduced from this parameter using the time delay and the Doppler shift. The $C$ variables carries information too, described lastly. 
 
 \subsection{Radar distance measurements}
 
