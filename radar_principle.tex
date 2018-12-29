@@ -8,7 +8,7 @@ Fundamentally, a radar operates by radiating radio frequency (RF) electromagneti
 
 Radars are typically active systems, meaning that they have a radiating antenna and do not depend on ambient radiation \citep{skolnik_2009}. Radar measurements can be performed in a number of ways. In this report, a pulsed radar with constant frequency is used. This means that a sequence of short wavelets are transmitted towards a target to determine its properties. One such transmitted wavelet pulse $x_T(t)$ has some carrier frequency $f_t$ and envelope $A(t)$ as in
 
-\begin{equation}
+\begin{equation}\label{eq:trans}
 	x_T(t)
 	= A(t)\sin(2\pi f_t).
 \end{equation}
@@ -116,23 +116,6 @@ We also see from the radar range equation that the power returned is also govern
 
 
 
-
-
-
-%After the previously transmitted wavelet is guaranteed to have died out, a new one is transmitted. Again, the radar listens for an echo, but this time after another time $t_2$ has passed. $t_2$ is greater than $t_1$, meaning the radar listens for echoes further away. If an echo is received, it means there is an object present at distance 
-
-%$
-%	d_2 = \frac12(c\cdot t_2).
-%$
-%This process is repeated for different time delays $t_i$. The chosen time delays can be adjusted depending on in what ranges one wants to search in, and how good range resolution one seeks. Together, the echoes (or lack thereof) from each transmitted wavelet make up what we call a \textit{sweep}. Before going through any preprocessing, a sweep can look like the one in figure \ref{fig:single_sweep_raw}.
-
-%After a radar wavelet is transmitted and reflected on a single scatterer, it can be described mathematically as \citep{richards_2014}
-%\begin{equation}
-%	\label{eq:raw_sweep}
-%	x_R(t)=A(t)\sin(\Omega t +\theta (t)),
-%\end{equation}
-%where $t$ relates to distance according to equation \eqref{eq:dist_time}. The major part of the receiver processing consists of extracting $A(t)$ and $\theta(t)$ explicitly from \eqref{eq:raw_sweep}. This process, known as quadrature demodulation, is described in appendix... and the benefits of doing this is further discussed in chapter \ref{IQ}.
-
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.7]{figs_temp/single_sweep_raw}
@@ -140,28 +123,6 @@ We also see from the radar range equation that the power returned is also govern
 	\label{fig:single_sweep_raw}
 \end{figure}
 
-%\subsection{Radar wave dispersion}
-%The transmitted signal from a radar is typically in the shape of a cone. Although, to understand how the signal propagates in space and develops over time, it helps to imagine that the signal is transmitted isotropically in a spherical manner.
-
-%Assuming a signal with power $P_t$ is transmitted isotropically in a medium where no power is lost, the power density at range $R$ will be the total signal power divided by the surface area of a sphere with radius $R$. That is, $\rho_{t,R} = P_t/(4\pi R^2)$.
-
-%How signals get weaker by a factor 1/r4
-
-
-%1-dimensional data: signals propagate in a spherical manner
-
-%How this ties in to what we do
-
-
-%If it is assumed that the radar pulses are transmitted isotropically, and no power is lost in the transmission medium, the power density at a range $R$ is the emission power $P_t$ divided by the surface area of a sphere with radius $R$.
-
-%The ratio $R$ between the transmitted signal power nd the received signal power is described in the \emph{Radar Transmission Equation}, seen below. Relating the 
-
-%In this report a singular radar transmitter and receiver is used. 
-
-
-
-%\citep{skolnik_2009}, \citep{richards_2014}
 
 
 %\section{Radar operation}
@@ -188,21 +149,41 @@ We also see from the radar range equation that the power returned is also govern
 
 \section{Mixing}
 
+In the preceding section it was shown that the scattering response carry information about target range, reflectivity and velocity from or towards the sensor. This section explains how the radar captures the returning signals to generate raw radar data, shown in fiugre \ref{fig:single_sweep_raw} through a process known as \emph{mixing}.
 
-If a transmitted wavelet of angular frequency $\Omega$ is transmitted towards a single scatterer, the returning signal can be modeled as
+An incoming signal from a single scattering point target is on the form described in \ref{eq:returning}. Mixing involves generating an internal pulse, called an analysis pulse, of equal frequency of what was transmitted. The captured signal and the generated signal are then multiplied elementwise and summed, to form one measurement $m(\tau)$, where $\tau$ is the internal delay of the analysis pulse. The mixing process is illustrated in figures \ref{fig:mix0} and \ref{fig:mix1}. The analysis pulse is shown in the top plot, the recieved pulse in the center plot and the result of the elementwise multiplication is shown at the bottom. These two figures differ in that the internal delay $\tau$ of the analysis pulse are different, so that no overlap occurrs in the first figure while significant overlap happens in the second. 
+
+Mathematically we can describe this procedure as
 
 \begin{equation}
-	r(t) = A(t)\sin(\Omega t + \theta(t)).
+	m(\tau) = \int x_T(t + \tau)r(t) dt
 \end{equation}
 
-where $A(t)$ represents the pulse envelope. $r(t)$ is measured by elementwise multiplication of an internally generated reference signal $s(t)$.  
+where $x_T(t)$ and $r(t)$ are the transmitted and received pulses respectively. If only a single point scatterer is in the target scene and $A(t)$ is a rectangular window, $m(\tau)$ will be on the form 
+
+\begin{equation}
+	m(\tau) = 
+	\begin{cases}
+		0 & \text{if $|\tau-2d/c|>L$}, \\
+		1 & \text{else}
+	\end{cases}
+\end{equation}
+
+
+%If a transmitted wavelet of angular frequency $\Omega$ is transmitted towards a single scatterer, the returning signal can be modeled as
+
+%\begin{equation}
+%	r(t) = A(t)\sin(\Omega t + \theta(t)).
+%\end{equation}
+
+%where $A(t)$ represents the pulse envelope. $r(t)$ is measured by elementwise multiplication of an internally generated reference signal $s(t)$.  
 
 % MIXING PROCESS HERE
 
-In this work we are investigating moving targets, which renders doppler frequency shifts in the echo waveform. Thus we are primarily interested in detecting veclocity components in $r(t)$, which shows up in the $\theta(t)$ function. Effective tracking of the $\theta(t)$ function can be achieved through \emph{IQ demodulation}. 
+%In this work we are investigating moving targets, which renders doppler frequency shifts in the echo waveform. Thus we are primarily interested in detecting veclocity components in $r(t)$, which shows up in the $\theta(t)$ function. Effective tracking of the $\theta(t)$ function can be achieved through \emph{IQ demodulation}. 
 
 
-Our target is to find $\theta(t)$, providing information about the target scatterer.  
+%Our target is to find $\theta(t)$, providing information about the target scatterer.  
 
 
 
