@@ -1,4 +1,5 @@
 \documentclass[a4paper, 12pt]{book}
+\usepackage{glossaries}
 \usepackage{natbib}
 \usepackage{amsmath}
 \usepackage{amssymb}
@@ -22,15 +23,28 @@
 \usepackage{sectsty}
 \allsectionsfont{\sffamily}
 
+% Abbreviations
+\makeglossaries
+
 \begin{document}
 
 
 \frontmatter
+	% Title page
 	\include{titlepage}
+
+	% Abstract
 	\include{abstract}
+
+	% Acknowledgements
 	\include{acknowledgements}
 	\newpage
+	
+	% Table of contents
 	\tableofcontents
+
+	% Abbreviations
+	\include{abbreviations}
 
 
 \mainmatter
@@ -61,6 +75,8 @@
 \backmatter 
 	% Appendices
 	\include{appendices}
+
+	% References
 	\bibliography{refs}
 	\bibliographystyle{apalike}
 \end{document}

@@ -51,13 +51,13 @@ Thus, by examining the shift in phase of the returning signal, we can deduce the
 
 \subsection{Doppler frequency in pulsed radar}
 
-If the target scatterer is moving from or towards the transmitting antenna, a frequency shift will occurr. For velocity $v$, the transmitted frequency $f_t$ will be shifted to $f_r$ according to the well known doppler formula \citep{ridenour_1947}
+If the target scatterer is moving from or towards the transmitting antenna, a frequency shift will occurr. For velocity $v$, the transmitted frequency $f_t$ will be shifted to $f_r$ according to the well known Doppler formula \citep{ridenour_1947}
 
 \begin{equation}
 	f_r = \frac{c + v}{c - v}f_t
 \end{equation}
 
-where positive $v$ indicates that the scatterer is moving towards the transmitter. The frequency shift $f_d$, also known as the \emph{beat frequency}, is then
+where positive $v$ indicates that the scatterer is moving towards the transmitter. The frequency shift $f_d$, also known as the \emph{beat frequency} \gls{bf}, is then
 
 \begin{equation}\label{eq:dshift}
 	f_d 
@@ -66,7 +66,7 @@ where positive $v$ indicates that the scatterer is moving towards the transmitte
 	= \frac{2v}{\lambda_t}.
 \end{equation}
 
-This shift means that the an approaching target has slightly increased returning frequency, and conversely that a receeding target has a slightly lowered frequency. In this project a pulsed radar is used, meaning that measurements are done repeatedly using short wavelets instead of transmitting one continuous wave. What does this mean for the Doppler shift?
+This shift means that the an approaching target has slightly increased returning frequency, and conversely that a receeding target has a slightly decreased frequency. In this project a pulsed radar is used, meaning that measurements are done repeatedly using short wavelets instead of transmitting one continuous wave. What does this mean for the Doppler shift?
 
 For a pulsed radar system, with sampling frequency $F_s$ and sampling period $T_s = 1/F_s$, the Doppler shift can be viewed as a phase shift from one pulse to the next. Between two pulses, a target moves a distance $vT_s$. Hence, each pulse travels a distance $2vT_s$ less than the preceding one. This distance corresponds to $2vT_s/\lambda_t$ wavelengths, providing a phase change per pulse of
 
@@ -77,16 +77,16 @@ For a pulsed radar system, with sampling frequency $F_s$ and sampling period $T_
 For a target moving at a constant pace, the beat frequency arising from the constant doppler phase shift is thus $f_d = 2v/\lambda_t$, as was found in equation \ref{eq:dshift}. 
 
 
-\subsection{Power dissapation and radar cross section}
+\subsection{Power dissapation}
 
 The $C$ factor in \ref{eq:returning} describes the ratio of the emitted power that is returned after a scattering process has occurred. Assuming that the trasmit power $P_t$ is radiated isotropically by a point source, the power density distributed uniformly by the source over the surfase of a sphere of radius $R$ is \citep{amin_2017}
 
 \begin{equation}
-	P_D 
+	P_d 
 	= \frac{P_t}{4\pi R^2}.
 \end{equation}
 
-If a scatterer is present at range $d$ with target cross section $\sigma$ and gain $G_t$, the fraction of the radar power reflected by the target is given by 
+If a scatterer is present at range $d$ with radar cross section $\sigma$ and gain $G_t$, the fraction of the radar power reflected by the target is given by 
 
 \begin{equation}
 	P_{e}
@@ -95,20 +95,22 @@ If a scatterer is present at range $d$ with target cross section $\sigma$ and ga
 
 Then, given that the scattering process is isotropic, the power reflected back at the radar receiver is
 
-\begin{equation}
+\begin{equation}\label{eq:temp}
 	P_f 
 	= \frac{P_e}{4\pi R^2} 
 	= \frac{P_t G_t \sigma}{(4\pi d^2)^2}.
 \end{equation}
 
-Finally, only a portion $P_r = P_eA_r$ of the power is captured by the receiver, where $A_r$ is a function of transmission wavelength and receive antenna gain. Putting this all together, we obtain the \emph{radar range equation}
+Finally only a portion $P_r = P_eA_r$ of the power is captured by the receiver, where $A_r$ is a function of transmission wavelength and receive antenna gain. Including this into \ref{eq:temp}, we obtain the \emph{radar range equation} relating the transmitted and recieved power as
 
 \begin{equation}
 	P_r
 	= \frac{P_t G_t A_r \sigma}{16\pi^2 d^4}.
 \end{equation}
 
-The radar range equation clearly states that power dissapates rapidly, by a factor $d^4$, with range. Thus, increasing the distance to a target object with a factor 2 will return only $1/16$ of the power otherwise received. 
+The radar range equation states that power dissapates rapidly, by a factor $1/d^4$, with range. Thus, increasing the distance to a target object with a factor 2 will return only $1/16$ of the power otherwise received. If the noise power $N$ remains constant regardless of target distance, the \emph{signal-to-noise ratio} (\gls{snr}), defined as $\text{SNR} = P_r/N$ quickly decreases with range. 
+
+We also see from the radar range equation that the power returned is also governed by the \emph{radar cross section} (RCS) $\sigma$ of the target. This ascribed area is the projected area of a metal sphere which would return the same echo at hand had the sphere been substituted for the target \citep{skolnik_2009}, and is used for quantifying the echo in terms of reflectivity.  
 
 % Have a part on bandwidth
 

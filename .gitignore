@@ -10,3 +10,8 @@
 *.fdb_latexmk
 *.toc
 *.tex~
+*.glg
+*.glo
+*.gls
+*.glsdefs
+*.ist
