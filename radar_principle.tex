@@ -22,10 +22,10 @@ Commonly, in larger radar systems, many receiving antennas capture the returning
 To understand what information can be obtained from such a one dimensional signal, a single scattering object some distance away from the transmitter is here considered. If a radar pulse with envelope $A(t)$ and frequency $f_t$ is transmitted towards it, the returning signal will be on the form \citep{richards_2014}
 
 \begin{equation}\label{eq:returning}
-	r(t) = CA(t)\sin(2\pi f_t t + \phi)
+	r(t) = CA(t-D)\sin(2\pi f_t (t-D))
 \end{equation}
 
-where $C$ is a constant related to the dissapation of power throughout space and some radar system properties. For the purposes of this report, the properties of the phase shift $\phi$ is of particular interest. In the next two sections, it is shown how distance and velocity can be deduced from this parameter using the time delay and the Doppler shift. The $C$ variable carries information too, described lastly. 
+where $D$ is some delay and $C$ a constant related to the dissapation of power throughout space and some radar system properties. For the purposes of this report, the properties of the phase shift $\phi=-2\pi f_tD$ is of particular interest. In the next two sections, it is shown how distance and velocity can be deduced from this parameter using the time delay and the Doppler shift. The $C$ variable carries information too, described lastly. 
 
 \subsection{Radar distance measurements}
 
@@ -34,12 +34,12 @@ If a scatterer was present a distance $d$ from the transmitting antenna, a wavel
 \begin{equation}
 	\begin{split}
 		r(t) 
-		& = CA(t)\sin(2\pi f_t(t + \frac{2d}{c})) \\
-		& = CA(t)\sin(2\pi f_tt + \frac{4\pi d}{c}f_t).
+		& = CA(t-2d/c)\sin(2\pi f_t(t - \frac{2d}{c})) \\
+		& = CA(t-2d/c)\sin(2\pi f_tt - \frac{4\pi d}{c}f_t).
 	\end{split}
 \end{equation}
 
-which means that the distance can be calculated from the phase shift through
+where the phase shift $\phi$ is equal to $-4\pi f_t d/c$. If we can find $\phi$, the distance can then be calculated through
 
 \begin{equation}
 	d
@@ -116,14 +116,6 @@ We also see from the radar range equation that the power returned is also govern
 
 
 
-\begin{figure}[h]
-	\centering
-	\includegraphics[scale=0.7]{figs_temp/single_sweep_raw}
-	\caption{A single radar sweep which has been measured from 7 to 23 cm. The largest amplitude at around 18 cm. suggests there is some object present at that distance from the sensor.}
-	\label{fig:single_sweep_raw}
-\end{figure}
-
-
 
 %\section{Radar operation}
 
@@ -156,19 +148,39 @@ An incoming signal from a single scattering point target is on the form describe
 Mathematically we can describe this procedure as
 
 \begin{equation}
-	m(\tau) = \int x_T(t + \tau)r(t) dt
+	m(\tau) = \int_{-\infty}^{+\infty} x_T(t - \tau)r(t) dt
 \end{equation}
 
-where $x_T(t)$ and $r(t)$ are the transmitted and received pulses respectively. If only a single point scatterer is in the target scene and $A(t)$ is a rectangular window, $m(\tau)$ will be on the form 
+where $x_T(t)$ and $r(t)$ are the transmitted and received pulses respectively, as defined in \ref{eq:trans} and \ref{eq:returning}. If only a single point scatterer is in the target scene and $A(t)$ is a rectangular window of length $L$
+
+\begin{equation}
+	A(t) = \begin{cases}
+		1 & \text{if $0\leq t < L$} \\
+		0 & \text{otherwise},
+	\end{cases}
+\end{equation}
+then $m(\tau)$ will be on the form 
 
 \begin{equation}
 	m(\tau) = 
 	\begin{cases}
-		0 & \text{if $|\tau-2d/c|>L$}, \\
-		1 & \text{else}
+		0 & \text{if $|\tau-2d/c|\geq L$} \\
+		\text{(\ref{eq:n1})} & \text{if $|\tau-2d/c|<L$ and $\tau \leq 2d/c$} \\
+		\text{(\ref{eq:n2})} & \text{if $|\tau-2d/c|<L$ and $\tau > 2d/c$}
 	\end{cases}
 \end{equation}
 
+\begin{equation}\label{eq:n1}
+	\frac{C}{2}\Big((\tau + L - D)\cos(2\pi f_t(\tau - D)) 
+	- \frac{1}{2\pi f_t}\sin(2\pi f_t(\tau - D))\Big)
+\end{equation}
+
+\begin{equation}\label{eq:n2}
+	\frac{C}{2}\Big((D + L - \tau)\cos(2\pi f_t(\tau - D)) 
+	+ \frac{1}{2\pi f_t}\sin(2\pi f_t(\tau - D))\Big).
+\end{equation}
+
+The full derivation of \ref{eq:n1} and \ref{eq:n2} can be found in the appendix. In figure \ref{fig:mix2}, a numerical computation of the mixing procedure, shown in part in figures \ref{fig:mix0} and \ref{fig:mix1}, has been performed. Note that this result was obtained for a noise-free mixing of a signal from a single scattering target. It is thus clear that with complicated continuous structures, it can become difficult to accurately depict a target scene. In \ref{fig:single_sweep_raw}, a mixing output from the radar sensor used in this project is shown. For this example, the target scatterer is a hand held approximately 15 cm from the sensor. 
 
 %If a transmitted wavelet of angular frequency $\Omega$ is transmitted towards a single scatterer, the returning signal can be modeled as
 
@@ -216,9 +228,14 @@ where $x_T(t)$ and $r(t)$ are the transmitted and received pulses respectively. 
 	\label{fig:mix2}
 \end{figure}
 
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.7]{figs_temp/single_sweep_raw}
+	\caption{A single radar sweep which has been measured from 7 to 23 cm. The largest amplitude at around 18 cm. suggests there is some object present at that distance from the sensor.}
+	\label{fig:single_sweep_raw}
+\end{figure}
 
-
-\section{IQ demodulated data}
+\section{IQ demodulation}
 \label{IQ}
 A common type of data when working with radar signal processing is in-phase and quadrature-phase data (IQ-data). IQ-data is represented as complex numbers, and a radar sweep consists of several such complex numbers - one for each investigated range. The process of obtaining IQ-data is often referred to as IQ- or quadrature demodulation, and is described in appendix .... The usefulness of this type of data lies in that it contains explicit information about the amplitude, $A(t)$, and phase, $\theta(t)$, in equation \eqref{eq:raw_sweep} \citep{richards_2014}. To obtain the amplitude for a sweep, $s$, one simply computes the absolute value for each complex number in $s$. The amplitude plot is a good way to visualize at what ranges objects are present. Figure \ref{fig:single_sweep_iq} illustrates such a graph where the same measurement setup as in figure \ref{fig:single_sweep_raw} has been used. Similarly, a phase curve can be obtained by computing the phase in each point.
 
