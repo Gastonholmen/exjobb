@@ -180,17 +180,11 @@ then $m(\tau)$ will be on the form
 	+ \frac{1}{2\pi f_t}\sin(2\pi f_t(\tau - D))\Big).
 \end{equation}
 
-The full derivation of \ref{eq:n1} and \ref{eq:n2} can be found in the appendix. In figure \ref{fig:mix2}, a numerical computation of the mixing procedure, shown in part in figures \ref{fig:mix0} and \ref{fig:mix1}, has been performed. Note that this result was obtained for a noise-free mixing of a signal from a single scattering target. It is thus clear that with complicated continuous structures, it can become difficult to accurately depict a target scene. In \ref{fig:single_sweep_raw}, a mixing output from the radar sensor used in this project is shown. For this example, the target scatterer is a hand held approximately 15 cm from the sensor. 
+The full derivation of \ref{eq:n1} and \ref{eq:n2} can be found in the appendix. In figure \ref{fig:mix2}, a numerical computation of the mixing procedure, shown in part in figures \ref{fig:mix0} and \ref{fig:mix1}, has been performed. Note that this result was obtained for a noise-free mixing of a signal from a single scattering target. It is thus clear that with complicated continuous structures, target scenes produce complex outputs at the reciever. 
 
-%If a transmitted wavelet of angular frequency $\Omega$ is transmitted towards a single scatterer, the returning signal can be modeled as
+In \ref{fig:single_sweep_raw}, a mixing output from the radar sensor used in this project is shown. For this example, the target scatterer is a hand held approximately 15 cm from the sensor. 
 
-%\begin{equation}
-%	r(t) = A(t)\sin(\Omega t + \theta(t)).
-%\end{equation}
 
-%where $A(t)$ represents the pulse envelope. $r(t)$ is measured by elementwise multiplication of an internally generated reference signal $s(t)$.  
-
-% MIXING PROCESS HERE
 
 %In this work we are investigating moving targets, which renders doppler frequency shifts in the echo waveform. Thus we are primarily interested in detecting veclocity components in $r(t)$, which shows up in the $\theta(t)$ function. Effective tracking of the $\theta(t)$ function can be achieved through \emph{IQ demodulation}. 
 
@@ -237,6 +231,23 @@ The full derivation of \ref{eq:n1} and \ref{eq:n2} can be found in the appendix.
 
 \section{IQ demodulation}
 \label{IQ}
+
+Even though single-antenna systems have no angular resolution, it was shown above that the returning signal carries useful information. By measuring the temporal shift from transmission to reception, we can calculate the distance to a scatterer, and by examining the phase shift between pulses, we may find the \gls{bf} and thus the radial velocity of the scatterer. Finally, the scatterers dielectric properties are brought forward through the \gls{rcs}, showing up as a scaling factor in the mixing output.
+
+Although the raw signal produced by mixing shown in \ref{fig:single_sweep_raw} holds the information we are interested in, it has low \gls{snr} and is commonly avoided \citep{richards_2014}. Instead, some transformation of the raw signal is usually performed. In this work we are particularly interested in resolving small Doppler shifts, and thus we wish to closely monitor phase shifts from one measurement to the next. One effective method focusing on accurate phase tracking involves splitting the signal into its \emph{In-phase} and \emph{Quadrature} components, or IQ components. 
+
+The in-phase channel mixes the raw signal with an oscillator at the radar frequency $f_t$, and the quadrature channel with the same frequency but with a $90^\circ$ phase shift from the I channel oscillator. After low-pass filtering, the IQ components are intepreted as a complex number
+
+\begin{equation}
+	x(t) = I(t) + jQ(t).
+\end{equation}
+
+The details of this demodulation scheme can be found in the appendix. In figure \ref{fig:single_sweep_iq} the amplitude $|x(t)|$ is shown for data captured using the same measurement setup as in figure \ref{fig:single_sweep_raw}. Although the amplitude may be useful, the real power of splitting the signal in I and Q components come from its phase tracking capabilities, as the phase is more sensitive to small changes in range than the amplitude \citep{lien_gillian_karagozler_amihood_schwesig_olson_raja_poupyrev_2016}.
+
+
+
+
+
 A common type of data when working with radar signal processing is in-phase and quadrature-phase data (IQ-data). IQ-data is represented as complex numbers, and a radar sweep consists of several such complex numbers - one for each investigated range. The process of obtaining IQ-data is often referred to as IQ- or quadrature demodulation, and is described in appendix .... The usefulness of this type of data lies in that it contains explicit information about the amplitude, $A(t)$, and phase, $\theta(t)$, in equation \eqref{eq:raw_sweep} \citep{richards_2014}. To obtain the amplitude for a sweep, $s$, one simply computes the absolute value for each complex number in $s$. The amplitude plot is a good way to visualize at what ranges objects are present. Figure \ref{fig:single_sweep_iq} illustrates such a graph where the same measurement setup as in figure \ref{fig:single_sweep_raw} has been used. Similarly, a phase curve can be obtained by computing the phase in each point.
 
 In many applications, the phase information in IQ-data is used when small changes in the radar signal need to be detected, (Mention a case such as recording over grass...) as the phase is more sensitive to changes than the amplitude \citep{lien_gillian_karagozler_amihood_schwesig_olson_raja_poupyrev_2016}. If an object is detected at distance $r(t_1)$ from the radar at time $t_1$, and shortly thereafter, the object is moved to distance $r(t_2)$, the corresponding difference in phase will be
