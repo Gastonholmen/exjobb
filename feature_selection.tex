@@ -2,7 +2,8 @@
 
 In order to create an effective predictive model one must first select a set of features used to produce each classification. Both a science and an art, this process involves intuition, theory and a hefty amount of trial-and-error. Although a seemingly daunting task, for a model to be effective the feature selection procedure is key, and a carefully considered selection often generates significantly better results than one put together without much thought. 
 
-Ideally, one seeks a small set of variables which accurately captures the information content in some larger set of data. After reducing the number of features into a more manageable format it is then possible to obtain good results with significantly less computational load than if no feature selection had been considered. Furthermore, the feature selection process allows us to pinpoint what data characteristics we wish to monitor, and subsequently which data characteristics we can disregard. 
+Ideally, one seeks a small set of variables which accurately captures the information content in some larger set of data. After reducing the number of features into a more manageable format it is then possible to obtain good results with significantly less computational load than if no feature selection had been considered. 
+%Furthermore, the feature selection process allows us to pinpoint what data characteristics we wish to monitor, and subsequently which data characteristics we can disregard. 
 
 \section{An impossible modeling problem}
 
@@ -27,18 +28,18 @@ The parameter $T$ becomes a tradeoff between accuracy and classification rate. T
 
 The reflectivity of a material, described by its dielectric constant, shows up in the obtained IQ-demodulated sweeps in the amplitude of the returning signals. Therefore it might seem like a good idea to simply measure the energy content of a sweep and use it as a feature. However, due to inconsistencies inbetween individual sensors sweep normalization is performed as a pre-processing step rendering such calculations unusable. We are thus left with investigating the topography of the scene. 
 
-In this section four different features are discussed aimed at capturing the geometric characteristics of a target surface. A radar datapoint captured at time $t$ and range $n$ is denoted as $x(n,t)$. Since we are using $T$ samples per classification, each new set of features $f_m$ are estimated from time $t_m=Tm$ to $Tm+T-1$ 
+In this section four different features are discussed aimed at capturing the geometric characteristics of a target surface. A radar datapoint captured at time $t$ and range $n$ is denoted as $x(n,t)$. Since we are using $T$ samples per classification, each new set of features $\mathbf{f}_m$ are estimated from time $t_m=Tm$ to $Tm+T-1$ 
 
 \subsubsection{Expected signal}
 
-First of all we may characterize a sweep by its envelope form - that is, the shape of the absolute values of the radar sweeps. If we can assume that the samples are taken from some unknown stochastic process $X_{i,t}$ with constant mean over $T$ samples we may for range $i$ and feature index $m$ form the estimate using $T$ consecutive sweeps to form the averaging estimate $s_i(m)$ through
+First of all we may characterize a sweep by its envelope form - that is, the shape of the absolute values of the radar sweeps. If we can assume that the samples are taken from some unknown stochastic process $X_{n,t}$ with constant mean over $T$ samples we may for range $n$ and feature index $m$ form the estimate using $T$ consecutive sweeps to form the averaging estimate $s_n(m)$ through
 
 
 \begin{equation}
-	s_i(m) = \E\{X_{i,t_m}\}\frac{1}{T}\sum_{t=0}^{T-1}|x(i, t_m + t)|.
+	s_n(m) = \E\{X_{n,t_m}\}\frac{1}{T}\sum_{t=0}^{T-1}|x(n, t_m + t)|.
 \end{equation}
 
-These estimates form the expected signal feature vector $f_{s,m}$ as 
+These estimates form the expected signal feature vector $\mathbf{f}_{s,m}$ as 
 
 \begin{equation}
 	\mathbf{f}_{s,m} = 
@@ -57,15 +58,46 @@ In figure \ref{fig:sweep_average} we see what such an averaging process yields. 
 	\label{fig:sweep_average}
 \end{figure}
 
-\subsubsection{Autocovariance - range}
 
+\subsubsection{Fourier Transform}
+While traversing a static surface at a constant speed, one could think of it as the details on the surface, such as small rocks or grass, are moving closer to the radar sensor. This affects the transmitted radar waves according to the Doppler effect, and the radar detects \textit{Doppler frequencies}, corresponding to the frequency shifts. Depending on the surface's characteristics, the doppler frequencies may vary. 
 
-We can regard the sequence $\{x(i,t)\}_{t=t_m}^{t_m+T}$ of measurements of range $i$ as samples from a stochastic process $X_{i,t}$ with the autocovariance function
+One way to obtain the the frequency contents is by means of the discrete Fourier transform (DFT). In figure \ref{fig:fft}, typical DFTs are shown for all materials. The figure is intended to show differences in the DFTs. Hence, to make the difference more clear, the squre root of the DFT has been plotted. For grass (the top two plots), it can be seen that the frequency content is contained mainly at the zero frequency. The other materials contain slightly higher frequency content as well. Gravel, in particular, differs a lot from the other materials with a wide variety of frequency components.
 
+As for the feature vector, a datasquare consisting of $T$ sweeps is selected. Viewing this as a matrix with elements $x(n,t)$, we can compute a $k$-step Fourier transform for each range, $n$, and sample index $m$, as
 \begin{equation}
-	C_{XX}(i,t,s) = \text{Cov}(X_{i,t},X_{i,s}).
+	\{\mathbb{X}^{(k)}_{n,m}\}_{k=0}^{T-1} =  \sum_{l=0}^{T-1}x(n,t_m+l)\exp\Big[-2\pi i\frac{kl}{T}\Big].
+\end{equation}
+After this, the absolute value of the Fourier transform is computed and the transformations of all ranges in the datasquare are concatenated into a one-dimensional feature vector of the form
+\begin{equation}
+	\textbf{f}_{f,m}=\begin{bmatrix} \{|\mathbb{X}_{0,m}^{(k)}|\}_{k=0}^{T-1} & \{|\mathbb{X}_{1,m}^{(k)}|\}_{k=0}^{T-1} & \hdots & \{|\mathbb{X}_{R,m}^{(k)}|\}_{k=0}^{T-1} \end{bmatrix},
+\end{equation}
+where $R$ is the number of considered ranges.
+
+An important remark to make regarding the Fourier transform is that under certain circumstances, this is closely related to the autocovariance. The Wiener-Khinchin theorem states that for a wide sense stationary process, $y_t$, the Fourier transform of its autocovariance, denoted $\phi_y(\omega)$, relates to the Fourier transform of the actual process as
+\begin{equation}
+	\phi_y(\omega) = \lim\limits_{N\rightarrow\infty}E\Bigg\{\frac1N\Big|\sum^N_{t=1}y_te^{-j\omega t}\Big|^2\Bigg\}=\lim\limits_{N\rightarrow\infty}E\Big\{\frac1N|Y_N(\omega)|^2\Big\}.
 \end{equation}
 
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.55]{figs_temp/features/fft}
+	\caption{For each material, a 128-step DFT is computed in slow time for all ranges. The absolute value is taken over the complex DFT, followed by taking the square root of it to make the differences more clear in the plot. }
+	\label{fig:fft}
+\end{figure}
+
+
+\subsubsection{Autocovariance - range}
+An obvious surface characteristic to ponder is roughness; while a tiled surface is typically very flat, grass is characterized by a random, unpredictable structure. It is reasonable to assume that there is more correlation between two closely spaced points on the tiled surface than there is on grass. This motivates us to study the autocorrelation at a certain range as the sensor moves forward. Figure \ref{fig:autocorr_range} illustrates the \textit{autocorrelations} for the different materials. As expected, grass and tiles are two extremes in terms of roughness, and the other materials lie somewhere inbetween. Below, we explain how the autocovariance is formed as features before going into the classifier.
+
+We can regard the sequence $\{x(n,t)\}_{t=t_m}^{t_m+T-1}$ of measurements of range $n$ as samples from a stochastic process $X_{n,t}$ with the autocovariance function
+
+\begin{equation}
+	C_{XX}(n,t,s) = \text{Cov}(X_{n,t},X_{n,s}).
+\end{equation}
+
+\noindent
 If we then can consider the process to have the following three properties:
 \emph{
 \begin{enumerate}
@@ -74,48 +106,52 @@ If we then can consider the process to have the following three properties:
 	\item Finite variance
 \end{enumerate}
 }
+\noindent
 over the time interval $t_m$ to $t_m+T-1$, it can be regarded as a \emph{Wide-Sense Stationary} (WSS) process \citep{jakobsson_2015}. The first and second assumptions require the returning signal to carry some level of stability, which is reasonble considering the short time-frame $T/F_s$ considered. From the autocovariance function 
 
 \begin{equation}
-	r_i(m, k) = \E\big\{(X_{i,t_m} - \E\{X_{i,t_m}\})^*(X_{i,t_m+k} - \E\{X_{i,t_m+k}\})\big\}
+	r_n(m, k) = \E\big\{(X_{n,t_m} - \E\{X_{n,t_m}\})^*(X_{n,t_m+k} - \E\{X_{n,t_m+k}\})\big\}
 \end{equation}
 
+\noindent
 we can then form the (biased) estimated autocovariance function through
 
 \begin{equation}
-	\hat{r}_i^b(m, k) = \frac{1}{T}\sum_{t=0}^{T-1-k}\big(x(i,t_m+t) - s_i(m)\big)^*\big(x(i,t_m+t+k) - s_i(m)\big).
+	\hat{r}_n(m, k) = \frac{1}{T}\sum_{t=0}^{T-1-k}\big(x(n,t_m+t) - s_n(m)\big)^*\big(x(n,t_m+t+k) - s_n(m)\big).
 \end{equation}
 
 
 Note that the bias in this estimate is completely inconsequential as all features later are normalized to zero mean unit variance.  Thus, the features formed are
 
 \begin{equation}
-	f_{r,mk} = 
+	\hat{\mathbf{r}}_{m,k} = 
 	\begin{bmatrix}
 		\hat{r}_0(m,k) & \hat{r}_1(m,k) & ... & \hat{r}_{K-1}(m,k)
-	\end{bmatrix}
+	\end{bmatrix}.
 \end{equation}
 
-Noting that the autocovariance sequence at 0 lag produce only real numbers, as any complex number $z = a + bi$ multiplied with its conjugate has zero imaginary part $\text{Im}(z^*z) = \text{Im}((a + bi)(a - bi)) = \text{Im}(a^2 + b^2) = 0$, we may form the full feature component for $q$ autocovariance lags $f_{r,m}$ as
+Noting that the autocovariance sequence at 0 lag produce only real numbers, as any complex number $z = a + bi$ multiplied with its conjugate has zero imaginary part $\text{Im}(zz^*) = \text{Im}((a + bi)(a - bi)) = \text{Im}(a^2 + b^2) = 0$, we may form the full feature component for $q$ autocovariance lags $\mathbf{f}_{r,m}$ as
 
 \begin{equation}
-	f_{r,m} = 
+	\mathbf{f}_{r,m} = 
 	\begin{bmatrix}
-		f_{r,m,0} & \text{Re}(f_{r,m,1}) & \text{Im}(f_{r,m,1}) & ... & \text{Re}(f_{r,m,q}) & \text{Im}(f_{r,m,q}) 
+		\hat{\mathbf{r}}_{m,0}  & \text{Re}(\hat{\mathbf{r}}_{m,1} ) & \text{Im}(\hat{\mathbf{r}}_{m,1} ) & ... & \text{Re}(\hat{\mathbf{r}}_{m,q} ) & \text{Im}(\hat{\mathbf{r}}_{m,q} ).
 	\end{bmatrix}
 \end{equation}
+From figure \ref{fig:autocorr_range}, we see that the the 1-step autocorrelation is what separates grass from other materials the most. For the feature vector we choose $q=2$, thus including the variance as well as autocovariance steps 1 and 2 for the textit{normalized} sweeps.
+
 
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.45]{figs_temp/features/autocorr_range.png}
-	\caption{The graphs show the autocorrelations computed from time-varying IQ-signals at an appropriate range. The tiled surface, which is the most even, corresponds to the graph with the highest autocorrelation. In contrast, the most uneven surface - grass - is represented by the graph with the lowest autocorrelation.}
+	\caption{The graphs show the autocorrelations computed from time-varying IQ-signals at an appropriate range. The tiled surface, which is the most even, corresponds to the graph with the highest autocorrelation. In contrast, the arguably most uneven surface - grass - is represented by the graph with the lowest autocorrelation.}
 	\label{fig:autocorr_range}
 \end{figure}
 
 
 \subsubsection{Autocovariance - energy}
 
-While the sweep normalization process rendered absolute mesurements of signal energy useless, we are still able to investigate its time-dependant structure through the autocovariane function. First we estimate the energy in each sweep $v(t)$ and the average energy $v_a(t)$ in $T$ number of sweeps, and then calculate the real-valued autocorrelation sequence $h(m,k)$. 
+While the sweep normalization process rendered absolute mesurements of signal energy useless, we are still able to investigate its time-dependant structure through the autocovariane function. First we estimate the energy in each sweep $v(t)$ and the average energy $v_a(t)$ in $T$ number of sweeps, and then calculate the real-valued autocovariance sequence $h(m,k)$. 
 
 \begin{equation}
 	v(t) = \frac{1}{N}\sum_{n=0}^{K-1}x(n,t)x^*(n,t)
@@ -129,14 +165,15 @@ While the sweep normalization process rendered absolute mesurements of signal en
 	h(m,k) = \frac{1}{T}\sum_{t=0}^{T-1-k}\big(v(t_m+t) - v_a(m)\big)^*\big(v(t_m+t+k) - v_a(m)\big)
 \end{equation}
 
-As $h(m,k)$ only consist of real values, the energy autocorrelation feature vector $f_{h,m}$ is formed as
+As $h(m,k)$ only consist of real values, the energy autocovariance feature vector $\mathbf{f}_{h,m}$ is formed as
 
 \begin{equation}
-	f_{h,m} = 
+	\mathbf{f}_{h,m} = 
 	\begin{bmatrix}
-		h(m,0) & h(m,1) & ... & h(m,K-1).
+		h(m,0) & h(m,1) & ... & h(m,K-1),
 	\end{bmatrix}
 \end{equation}
+where $K$ is the number of covariance steps included in each sample. 
 
 %We can also calculate the autocovariance function of estimated sweep energy. Although the sweeps are normalized in the preprocessing, we can investigate how the sweeps change over time. 
 
@@ -151,32 +188,8 @@ As $h(m,k)$ only consist of real values, the energy autocorrelation feature vect
 %Despite the fact that the average energy appears to be a highly relevant feature, it is also much gain dependent, and conflicts with what is stated in section *reference to sweep norm.*. Therefore, if different sensors are to be used for training and future classifications, this feature will not be of any use.
 
 
-
-
-\subsubsection{Fourier Transform}
-While traversing a static surface at a constant speed, one could think of it as the details on the surface, such as small rocks or grass, are moving closer to the radar sensor. This affects the transmitted radar waves according to the Doppler effect, and the radar detects \textit{Doppler frequencies}, corresponding to the frequency shifts. Depending on the surface's characteristics, the doppler frequencies may vary. 
-
-To visualize the frequency contents of different measured materials, the discrete Fourier transform is used. In figure \ref{fig:fft}, typical transforms are shown for all materials. The figure is intended to show differences in the DFTs, so to make the difference more clear, the squre root of the DFT has been plotted. For grass (the top two plots), it can be seen that the frequency content is contained mainly at the zero frequency. The other materials contain slightly higher frequency content as well. Gravel, in particular, differs a lot from the other materials with a wide variety of frequency components.
-
-As for the feature vector, a datasquare consisting of $T$ sweeps is selected. Viewing this as a matrix with elements $x(i,t)$, where $i$ denotes fast time, and $t$ slow time, we can compute a $k$-step Fourier transform for each range, $i$, as
-\begin{equation}
-	\{\mathbb{X}_k^{(i)}\}_{k=0}^{T-1} =  \sum_{n=0}^{T-1}x_{i,n}\exp\Big[-2\pi i\frac{nk}{T}\Big].
-\end{equation}
-After this, the absolute value of the Fourier transform is computed and the transformations of all ranges in the datasquare are concatenated into a one-dimensional feature vector of the form
-\begin{equation}
-	\textbf{f}=\begin{bmatrix} \{\mathbb{X}_k^{(0)}\}_{k=0}^{T-1} & \{\mathbb{X}_k^{(1)}\}_{k=0}^{T-1} & \hdots & \{\mathbb{X}_k^{(m)}\}_{k=0}^{T-1} \end{bmatrix},
-\end{equation}
-where $m$ is the number of considered ranges.
-
-
-\begin{figure}[h]
-	\centering
-	\includegraphics[scale=0.4]{figs_temp/features/fft}
-	\caption{For each material, a 128-step DFT is computed in slow time for all ranges. The absolute value is taken over the complex DFT, followed by taking the square root of it to make the differences more clear in the plot.}
-	\label{fig:fft}
-\end{figure}
-
 \begin{table}
+\label{tab:feat}
 \begin{center}
 \rowcolors{2}{gray!25}{white}
   \begin{tabular}{|c|cccccc|}
@@ -195,19 +208,23 @@ where $m$ is the number of considered ranges.
 
 \subsection{Tested feature combinations}
 
-In above section, four different features were described - the average signal shape, the autocovariance in range, the autocovariance in energy and the fourier transform.
+In above section, four different features were described - the average signal shape, the autocovariance in range, the autocovariance in energy and the fourier transform. These methods each generate a number of features. However, we are not limited to feed our model with features taken from a single one of the feature extraction methods. In table \ref{tab:feat} three possible configurations of features are chosen. Each of these combinations were fed through the same classifier to evaluate which was the most efficient. The first one, which simply involves the averaged signal shape, requires much fewer features than the other two combinations. But looking at its performance, these features are not enough to reach the accuracy attained in the other two cases. By appending the autocovariances for ranges as well as for sweep energy, the accuracy increases by 4 percentage points. 
+
+We can also choose to look at the Fourier transform, as in configuration 3. In this case, we omit both the averaged signal shape as well as the autocovariances. The reason is that the Fourier transform is based on the original IQ-data, and by applying the inverse Fourier transform we can go back to the original data. Hence no information is lost, and the information about signal shape and autocovariances remains and can be found by, for instance a neural network, if necessary\footnote{With a neural network complex enough, raw IQ-data could be feeded to the network and it would eventually find any relevant features on its own. But by manually preprocessing the data the convergence rate and complexity of the neural network can be reduced.}. With these features we reach a slightly lower accuracy than configuration 2, but more importantly we would need 700 features compared to 175, making configuration 2 much more favorable as it demands less computational costs. Hence configuration 2 is deemed the most efficient.
 
 
 \section{Feature Principal Component Analysis}
 
 Through the point and feature selection methods described in previous sections we obtain high dimensional feature vectors. Getting an intuitive feel for such data extracted in these processes is difficult as direct plotting is limited to three dimensions. 
 
-Principal Component Analysis (PCA) is  a classical technique in statistical data analysis which takes a large set of multivariate variables and finds a smaller set of variables with less redundancy. Critically, PCA finds a rotated orthogonal coordinate system such that the elements of the set become uncorrelated. Projecting elements on the principal axes corresponding to the directions of maximal variance a good approximation of the original data in lower dimension is obtained \citep{hyvasrinen_karhunen_oja_2004}.
+Principal Component Analysis (PCA) is  a classical technique in statistical data analysis which takes a large set variables from a multivariate dataset and finds a smaller set of variables with less redundancy. Critically, PCA finds a rotated orthogonal coordinate system such that the elements of the set become uncorrelated. Projecting elements on the principal axes corresponding to the directions of maximal variance a good approximation of the original data in lower dimension is obtained \citep{hyvasrinen_karhunen_oja_2004}.
+
+After having chosen to proceed with feature configuration 2 in table \ref{tab:feat}, the 175 dimensions can be reduced to 2 dimensions using PCA. This helps to visualize the separability of the different materials as seen in figure \ref{fig:pca}.
 
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.60]{figs_temp/pca_analysis.png}
-	\caption{A single radar sweep which has been measured from 7 to 23 cm. The large amplitude at around 13.4 cm. suggests there is some object present at that distance from the sensor.}
+	\caption{By performing a principal component analysis on the feature vectors we may reduce them from a 175-dimensional space into 2 dimensions, maintaining maximal variance. This allows us to visualize, and get an idea of how separable the materials are.}
 	\label{fig:pca}
 \end{figure}
 
