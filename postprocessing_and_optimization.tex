@@ -1,10 +1,62 @@
 \chapter{Postprocessing and optimization}
 
-After in previous chapters finding a good model that was capable of accurately fitting data. However, to make such a model practical some robust detection algorithm in place for finding when a surface transition has occurred. Furthermore, every measurement obtained during the measurement process may contain outlying data, which can perturbate a model to make it worse. This chapter is split into two segments: The first considers two detection alternatives and postprocessing methods for accurate recognizing surface transitions, and the second investigates whether outlier removal through DBSCAN clustering improves the previously found model.
+In the previous chapter a simple feed-forward neural network was found to be a suitable model for the surface classification problem investigated. In this chapter, some improvements and additions to this model are introduced. First, we perform some data augmentation to increase the number of training data. Then, removal of outliers using the clustering method DBSCAN is tested to see if accuracy can be further improved. Finally, two detection methods are discussed for outlier suppression.
 
+
+\section{Data augmentation}
+
+A recurring problem in training ANN's is that there simply isn't enough data \citep{lemley_bazrafkan_corcoran_2017}. Too little data will generate overfitting, which means that the network is highly biased to what it has seen in training and will subsequently perform poorly on any validation or test set. In the preceding chapter dropout was introduced for this particular purpose, and examining the cross validation accuracies it is clear that reasonable accuracy is attained without any further means.
+
+However, by \emph{augmenting} the data we may be able to further increase the training set size, and subsequently further increase model performance. Data augmentation is the process of supplementing a dataset with similar data created from the same dataset. How one augments a dataset is of course data dependent. In computer vision, data augmentation often involves rotating, translating, blurring or in some other way modifying existing images \citep{lemley_bazrafkan_corcoran_2017}.
+
+In the present case of increasing the number of data batches from a given data rectangle, we can simply allow for overlapping batches. Previously, when batches of length $T$ were generated from $Q$ slow time samples, every $T$ sweeps produced one batch providing a total of $Q/T$ batches for analysis. However, noting that any slow-time sequence of $T$ sweeps is a valid data batch, we may form overlapping batches from every $T/A$ samples, where $A$ is some integer factor selected so that $T/A$ becomes an integer. This produces $(A-1)(Q/T-1)$ additional batches providing a total $P$ batches of
+
+\begin{equation}
+	P = 
+	\frac{Q}{T} + (A-1)\Big(\frac{Q}{T} - 1\Big) = 
+	\frac{AQ}{T}-A+1.
+\end{equation}
+
+
+Setting $A=5$, one data rectangle consisting of 50,000 slow time samples normally yielding 2,000 data batches using $T=25$, instead produces 9996 data batches.  
+
+----> Result here.
+
+\section{Outlier removal}
+
+In any dataset some data corruption is to be expected. A grassy surface may have small patches of soil without grass, the device may have been moving at either a too high or too low velocity for a short period of time or the radar sensor iteslf may have had temporary issues. Such processes forms data points inconsistent with the overwhelming bulk of data, or \emph{outliers}, which negatively impacts model performance. The importance of outliers is dependant both of their frequency and magnitude, and can be significantly detrimental to model accuracy making effective removal of them often necessary or at least benifitial \citep{osborne_overbay_2004}, \citep{hodge_austin_2004}. 
+
+\section{Detection of surface change}
+
+Even with an optimized model with tons of training data, erronous predictions are unavoidable in any real-world scenario. Prediction probabilities are produced by the model rapidly, 8 times a second for a sampling rate of 200 Hz and a batch size $T=25$ according to equation \ref{eq:classification_rate}. With such errors present in the prediction confidences of the model, what is a reasonable strategy to detect when a change in surface has occurred?  
+
+
+
+
+Many elaborate statistically appealing methods for change detection are presented in \citep{basseville_nikiforov_1993}. These methods require some basic assumptions on the data it attempts to detect a change from, such as data having constant probability distribution before and after a parameter change occurs. This, however, renders these methods difficult to use in the present use case, as we are dealing with the output of a highly nonlinear artificial neural network producing predictions with unknown structure. This is reinforced by examining what the ANN outputs, see the top figure in \ref{fig:trans_tgtg}. Predictions remain extremely stable for long periods of time, with occasional outlying predictions every now and then. 
+
+
+
+Instead, median filtering was used to suppress prediction outliers. Median filtering simply calculates the median of some length $L$ nearest predictions. 
+
+
+\citep{yin_yang_gabbouj_neuvo_1996}
+Nonlinear filter
+"The success of median based filters is based on two intrinsic properties: edge preservation and efficient noise attenuation with robustness against impulsive-type noise."
+"Neither property can be achieved by traditional linear filtering techniques."
+"The median filter is the optimal is the optimal filter for biexponential noise."
+"Median filtering discards temporal ordering"
+
+The perhaps most effective way of suppressing data littered with outliers is through some form of median filtering. The regular form of a median filter simply takes the median of current and previous datapoints, resulting in an output significantly less sensitive to inconsistencies \citep{pearson_2002}. After median filtering a threshold can be utilized, leading to the following predictions for a filter length $L$
+
+\begin{equation}
+	P_i=0 \quad\text{if}\quad\text{median}\{p\}_{i-L+1}^i\leq\xi, 
+	\quad \text{else} \quad P_i = 1
+\end{equation}
+
+
+\iffalse
 \section{Postprocessing and detection}
-
-Prediction probabilities are produced by the model in quick succession by interpreting the neural network softmax output as predictive confidences. When the robot passes over a transition region the produced predictions changes, as seen in figure \ref{fig:detect_no}. In order to detect such a change some detection algorithm is required. In this section three such alternatives are compared and evaluated.  
 
 
 \begin{figure}
@@ -30,15 +82,6 @@ However, for this method to fail only a single incorrect prediction $p_i$ is req
 	\caption{Detecting transition region using thresholding.}
 \end{figure}
 
-\subsection{Median filtering}
-
-The perhaps most effective way of suppressing data littered with outliers is through some form of median filtering. The regular form of a median filter simply takes the median of current and previous datapoints, resulting in an output significantly less sensitive to inconsistencies \citep{pearson_2002}. After median filtering a threshold can be utilized, leading to the following predictions for a filter length $L$
-
-\begin{equation}
-	P_i=0 \quad\text{if}\quad\text{median}\{p\}_{i-L+1}^i\leq\xi, 
-	\quad \text{else} \quad P_i = 1
-\end{equation}
-
 \begin{figure}
 	\includegraphics[scale=0.5]{figs_temp/detect_median}
 	\label{fig:detect_median}
@@ -62,7 +105,6 @@ A traditional and statistically appealing method for effectively detecting abrup
 [Continue explanation]
 
 
-\citep{basseville_nikiforov_1993}
 
 
 
@@ -76,17 +118,12 @@ Informal definition as data points inconsistent with our expectations
 
 \section{Removal of outliers}
 
-In any dataset some data corruption is to be expected. A grassy surface may have small patches of soil without grass, the device may have been vibrating unexpectedly for a short period of time or the radar sensor iteslf may have had temporary issues. Erronous data may cause data points inconsistent with the overwhelming bulk of data, which negatively impacts the model accuracy. 
-
-There are multiple ways of identifying and removing outliers. [Only investigate this if we dont go with LSTM!] 
-
-The importance of outliers cannot be overstated. Extreme or influential data points can be significantly detrimental to model accuracy, so effective removal is commonly necessary or at least benifitial \citep{osborne_overbay_2004}, \citep{hodge_austin_2004}. 
 
 \subsection{Mahalanobis distance}
 
 \subsection{DBSCAN}
 
 \section{Hyperparameter optimization}
-
+\fi
 
 

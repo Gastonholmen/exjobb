@@ -20,7 +20,7 @@ In this work two sensors collect data in parallel. During one run, or one \emph{
 	,
 \end{equation}
 
-or, more succinctly, as samples $r(n,t)$.
+or, more succinctly, as samples $r(n,t) = \mathbf{R}_{n,t}$. Each session is built up of 50,000 slow time samples, so that $t=1,\,...\,,50000$.
 
 \section{Measurement Setup}
 
@@ -61,7 +61,7 @@ The Acconeer radar system has a number of settings controlled by the user. In th
 
 %Setting the sensor parameters is an iterative process which requires a trial-and-error approach. However, the choices for some parameters can be narrowed down with a little bit of thought.
 
-When working with radars and moving targets it is important to select a frequency capable of resolving the maximum speed of the target. If a too low frequency is used, aliasing occurs distorting the frequency spectrum \citep{lindgren_rootzeŽn_sandsten_2013}. In order to assure that aliasing does not occur, one must select a sampling rate $f_s$ at least twice the received maximal freuqncy component $f_{max}$. This limit, commonly known as the Nyquist limit \citep{proakis_manolakis_1995}, thus places the requirement on the sampling frequency that 
+When working with radars and moving targets it is important to select a frequency capable of resolving the maximum speed of the target. If a too low frequency is used, aliasing occurs distorting the frequency spectrum \citep{lindgren_rootzeŽn_sandsten_2013}. In order to assure that aliasing does not occur, one must select a sampling rate $f_s$ at least twice the received maximal frequency component $f_{max}$. This limit, commonly known as the Nyquist limit \citep{proakis_manolakis_1995}, thus places the requirement on the sampling frequency that 
 
 \begin{equation}
 \label{eq:nyquist}
@@ -81,7 +81,7 @@ With $v_0=0.3$ m/s and $\lambda = 2\pi/\Omega = 0.005$ m, the maximal doppler fr
 	f_{d,\textrm{max}} 
 	=\frac{2 v_{\perp, \textrm{max}}}{\lambda} 
 	= \frac{2 v_0\cos(37.5^\circ)}{\lambda}
-	= \approx 95.2 \text { Hz}.
+	\approx 95.2 \text { Hz}.
 \end{equation}
 Combining this result with equation \eqref{eq:nyquist}, we see that we have to select  a sampling frequency that satisfies
 \begin{equation}
@@ -119,7 +119,7 @@ The values chosen for the three parameters are summarized in table \ref{tab:sens
 \end{figure}
 
 %\section{Data Preprocessing}
-\subsection{Downsampling}
+\section{Downsampling}
 
 In an information theoretic framework we interpret a random variable by how unpredicable or unstructured an observation of the variable is\citep{anderson_johnnesson_2006}. First introduced by Claude E. Shannon in his famous 1948 papers, information theory brings about a mean to quantify the information content of some source \citep{shannon_1948}. This concept, which essentially concerns examining the randomness of a variable, is commonly measured through entropy. Directly related to entropy is mutual information which asserts how much information each member of a set have on the other members. \citep{hyvasrinen_karhunen_oja_2004}. Ideally one wants measurements that have a low measure of mutual information, meaning that each datapoint contain information not found elsewhere in the set. 
 
@@ -134,17 +134,18 @@ Downsampling measurements $r_1(d,t)$ and $r_2(d,t)$ by a factor $D$ can be expre
 
 and the datasquare $r_D(n,t)$ is formed correspondingly.
 
-\subsection{Sweep Normalization}
-The gain of Acconeer radars can vary significantly from one sensor to another. Despite facing towards the very same surface, two sensors may exhibit a similar sweep structure,  yet with very different amplitudes. This could potentially have serious consequences if not dealt with. Assuming a model's training data has been collected with one sensor, it would perhaps be difficult to successfully perform classifications with the same model using a sensor which has a different gain, due to nonlinearities both in the feature extraction process as well as the classifiers.
+\section{Sweep Normalization}
 
-A way to combat this problem is to perform sweep normalization. There are multiple ways of doing this. A simple strategy is to simply normalize each sweep with its maximum value. While this may intuitively seem like a good idea, it may eliminate possible correlations between consecutive samples, as this normalization method only takes one sweep in regard. 
+Radar gain can vary significantly from one sensor to another. This means that faced the same surface, two sensors may exhibit a similar sweep structure but with differing amplitudes. Assuming a model's training data has been collected with one sensor, it could therefore perhaps be difficult to successfully perform classifications with the same model using a sensor which has a different gain. This is due to the fact that a linear scaling difference between two sensors behaves nonlinearly in the prediction output, due to nonlinearities both in the feature extraction process as well as in the classification process.
 
-A better solution is to have the normalization method depend on several consecutive sweeps. By computing the average energy in all range bins and a number of sweeps, we can instead normalize using this value, and thus maintain some of their relative structure. Constructing one \emph{data batch} $b_D(n,m,\tau) = r_D(n,mT + \tau)$ for $\tau=0\text{ }...\text{ }T-1$ from $T$ consecutive sweeps, we can average over the energy content in the entire batch to form scaled, downsampled data $x(n,m,\tau)$ through
+A way to overcome this issue is to perform sweep normalization as a preprocessing step. There are multiple ways of performing such a normalization. A simple strategy is to simply divide each sweep with its maximum absolute value. While this may intuitively seem like a good idea, it eliminates certain signal evolution structures between consecutive captured sweeps - if three consecutive sweeps vary in received signal strength we wish to capture such a behaviour. 
+
+A better solution is to instead have the normalization method depend on several consecutive sweeps. By computing the average energy in all range bins and over a number of sweeps, we can instead normalize using this value, and thus maintain some of their relative structure. Constructing one \emph{data batch} $m$ consisting of $r_D(n,mT + \tau)$ for $\tau=0\text{ }...\text{ }T-1$ for $T$ consecutive sweeps, we can average over the energy content in the entire batch to form scaled, downsampled data $x(n,m,\tau)$ through
 
 \begin{equation}
 	x(n,m,\tau) = 
-	\frac{b_{D}(n,m,\tau)TK}
-	{\sum_{n=0}^{K-1}\sum_{\tau=0}^{T-1}|b_{D}(n,m,\tau)|}.
+	\frac{r_{D}(n,mT + \tau)TK}
+	{\sum_{n=0}^{K-1}\sum_{\tau=0}^{T-1}|r_{D}(n,mT + \tau)|}.
 \end{equation}
 
-While this particular choice of normalization method to form $x(n,m,\tau)$ may seem odd at this point, we will see in the following chapter that it makes a lot of sense in the feature extraction framework used.
+While this particular method to form data batches $x(n,m,\tau)$ may seem odd at this point, we will see in the following chapter that it makes a lot of sense in the feature extraction framework used.

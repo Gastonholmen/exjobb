@@ -1,14 +1,16 @@
 \documentclass[a4paper, 12pt]{book}
+\usepackage{glossaries}
 \usepackage{natbib}
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{amsfonts}
-%\usepackage{epstopdf}
 \usepackage{graphicx}
 \usepackage{epstopdf}
 \usepackage{adjustbox}
+\usepackage{setspace}
 \usepackage[table]{xcolor}
 \usepackage[toc, page]{appendix}
+\usepackage{enumitem}
 
 % Drawing
 \usepackage{tikz}
@@ -22,38 +24,60 @@
 \usepackage{sectsty}
 \allsectionsfont{\sffamily}
 
+% Abbreviations
+\makeglossaries
+
 \begin{document}
-\tableofcontents
 
-\newpage
 
-% Introduction 
-\include{introduction}
+\frontmatter
+	% Title page
+	\include{titlepage}
 
-% Radar system overview
-\include{radar_principle}
+	% Abstract
+	\include{abstract}
 
-% Data acquisition and preprocessing
-\include{preprocessing}
+	% Acknowledgements
+	\include{acknowledgements}
+	\newpage
+	
+	% Table of contents
+	\tableofcontents
 
-% Feature selection
-\include{feature_selection}
+	% Abbreviations
+	\include{abbreviations}
 
-% Classification schemes
-\include{classification_schemes}
 
-% Postprocessing and optimization
-\include{postprocessing_and_optimization}
+\mainmatter
+	% Introduction 
+	\include{introduction}
 
-% Discussion
-\include{discussion}
+	% Radar system overview
+	\include{radar_principle}
 
-% Conclusions and future work
-\include{conclusions_and_future_work}
+	% Data acquisition and preprocessing
+	\include{preprocessing}
 
-% Appendices
-\include{appendices}
+	% Feature selection
+	\include{feature_selection}
 
-\bibliography{refs}
-\bibliographystyle{apalike}
+	% Classification schemes
+	\include{classification_schemes}
+
+	% Postprocessing and optimization
+	\include{postprocessing_and_optimization}
+
+	% Discussion
+	\include{discussion}
+
+	% Conclusions and future work
+	\include{conclusions_and_future_work}
+
+\backmatter 
+	% Appendices
+	\include{appendices}
+
+	% References
+	\bibliography{refs}
+	\bibliographystyle{apalike}
 \end{document}

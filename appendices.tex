@@ -1,9 +1,9 @@
 
-
 \begin{appendices}
 
-	\chapter{IQ Demodulation}
-	IQ demodulation is a major part in the receiver processing of radar data. After going through the mixing process, the signal can be expressed as \citep{lee_1991}
+\chapter{IQ Demodulation}
+IQ demodulation is a major part in the receiver processing of radar data. After going through the mixing process, the signal can be expressed as \citep{lee_1991}
+
 \begin{equation}
 \label{eq:signal}
 	x_R(t)=A(t)\sin(\Omega t+\theta(t)).
@@ -29,4 +29,113 @@ After low pass filtering we obtain $A(t)\sin(\theta(t))$, which we define as $Q(
 	I(t)+iQ(t)=A(t)\Big(\cos(\theta(t))+i\sin(\theta(t))\Big)=A(t)e^{i\theta(t)}
 \end{equation}
 
+
+
+% ######### MIXING PROOF ##########
+\chapter{Proof of \ref{eq:n1} and \ref{eq:n2}}
+
+For signals $r(t)$ and $x(t)$ defined as
+
+\begin{equation}
+	\begin{split}
+		r(t) &= CA(t - D)\sin(\Omega(t - D)) \\
+		x(t) &= A(t)\sin(\Omega t) \\
+	\end{split}
+\end{equation}
+with angular frequency $\Omega = 2\pi f$, where $A(t)$ is the defined as 
+
+\begin{equation}
+	A(t) = \begin{cases}
+		1 & \text{if $0 \leq t < L$} \\
+		0 & \text{otherwise}
+	\end{cases}
+\end{equation}
+the output of the mixing process becomes
+
+\begin{equation}
+	m(\tau) 
+	= \int_{-\infty}^{+\infty}r(t)x(t-\tau)dt
+\end{equation}
+
+\begin{equation}	
+	= C \int_{-\infty}^{+\infty}A(t-D)A(t-\tau)\sin(\Omega(t-D))\sin(\Omega(t-\tau))dt.
+\end{equation}
+
+This integral can be split into three cases:
+
+\begin{enumerate}[label=(\roman*)]
+	\item When $|\tau-D| \geq L$, i.e. when no overlap occurrs. 
+	\item When $|\tau-D| < L$ and $\tau \leq D$.
+	\item When $|\tau-D| < L$ and $\tau > D$.
+\end{enumerate}
+
+The first case, (i), clearly results in the integral becoming 0. Case (ii) can be written as
+
+\begin{equation}
+	m(\tau)
+	= C\int_{D}^{\tau+L}\sin(\Omega(t-D))\sin(\Omega(t-\tau))dt
+\end{equation}
+
+\begin{equation}
+	= \frac{C}{2}\int_D^{\tau+L} \cos(\Omega(\tau-D)) - \cos(\Omega(2t - D - \tau))dt
+\end{equation}
+
+\begin{equation}
+	= \frac{C}{2}\Big( (\tau+L-D)\cos(\Omega(D-\tau)) 
+	- \frac{1}{2\Omega}\Big[ \sin(\Omega(2t-D-\tau) \Big]_{D}^{\tau+L} \Big)
+\end{equation}
+
+\begin{equation}\label{eq:long}
+	= \frac{C}{2}\Big((\tau + L - D)\cos(\Omega(D-\tau))
+	- \frac{1}{2\Omega}\big(
+	\sin(\Omega(\tau + 2L - D))
+	- \sin(\Omega(D-\tau))
+	\big)\Big)
+\end{equation}
+
+Selecting $L$ as a whole number $n$ of wavelengths $\lambda$, the argument of the second sinusoid can be simplified into
+
+\begin{equation}
+	\Omega(\tau + 2L - D) 
+	= \Omega(\tau - D) + 2\frac{2\pi f n\lambda}{c} 
+\end{equation}
+
+\begin{equation}
+	= \Omega(\tau - D) + 2\frac{2\pi f n c}{c f}
+	= \Omega(\tau - D) + 4\pi n.
+\end{equation}
+
+This means that, as the sinus function is odd functions and periodic in $2\pi$, \ref{eq:long} can be rewritten as 
+
+\begin{equation}\label{eq:first}
+	 \frac{C}{2}\Big( (\tau+L-D)\cos(\Omega(\tau - D)) 
+	- \frac{1}{\Omega}\sin(\Omega(\tau - D))\Big).
+\end{equation}
+
+For (iii), we get a similar integral differing in the integral limits
+
+\begin{equation}
+	m(\tau) 
+	= \int_\tau^{D+L}\sin(\Omega(t-D))\sin(\Omega(t-\tau))dt
+\end{equation}
+
+which is calculated similarly to (ii) to yield
+
+\begin{equation}\label{eq:latter}
+	\frac{C}{2}\Big( (D + L - \tau)\cos(\Omega(\tau - D))
+	+ \frac{1}{\Omega}\sin(\Omega(\tau - D))\Big).
+\end{equation}
+
+Thus, the full mixing output can be written as
+
+\begin{equation}
+	m(\tau) = \begin{cases}
+		0 & \text{if $|\tau-D|\geq L$} \\
+		\text{(\ref{eq:first})} & \text{if $|\tau-D| < L$ and $\tau \leq D$} \\
+		\text{(\ref{eq:latter})} & \text{if $|\tau-D| < L$ and $\tau>D$}.
+	\end{cases}
+\end{equation}
+
 \end{appendices}
+
+
