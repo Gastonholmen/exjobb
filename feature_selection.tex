@@ -31,7 +31,7 @@ The reflectivity of a material, described by its dielectric constant, shows up i
 In this section four different types of features are discussed aimed at capturing the geometric characteristics of a target surface. A radar datapoint captured at time $t$ and range $n$ is denoted as $x(n,t)$. Since we are using $T$ samples per classification, each new set of features $\mathbf{f}_m$ are estimated from time $t_m=Tm$ to $Tm+T-1$.
 
 
-\subsubsection{Expected signal}
+\subsection{Expected signal}
 
 First of all we may characterize a sweep by its envelope form - that is, the shape of the absolute values of the radar sweeps. If we can assume that the samples are taken from some unknown stochastic process $X_{n,t}$ with constant mean over $T$ samples we may for range $n$ and feature index $m$ form an estimate of the expected envelope, $s_n(m)$. The estimate is formed by computing the average of $T$ consecutive sweeps
 
@@ -57,10 +57,10 @@ In figure \ref{fig:sweep_average} we see what such an averaging process yields. 
 \end{figure}
 
 
-\subsubsection{Fourier Transform}
-While traversing a static surface at a constant speed, one could think of it as the details on the surface, such as small rocks, are moving closer to the radar sensor. As discussed in section ..., this alters the frequency of the transmitted signal according to the Doppler effect, and the radar detects \textit{Doppler frequencies}, corresponding to the frequency shifts. Depending on the surface's characteristics, the doppler frequencies may vary. 
+\subsection{Fourier Transform}
+While traversing a static surface at a constant speed, one could think of it as the details on the surface, such as small rocks, are moving closer to the radar sensor. As discussed in section \ref{doppler}, this alters the frequency of the transmitted signal according to the Doppler effect, and the radar detects beat frequencies, corresponding to the frequency shifts. Depending on the surface's characteristics, the doppler frequencies may vary. 
 
-One way to obtain the the frequency contents is by means of the discrete Fourier transform (DFT). In figure \ref{fig:fft}, typical DFTs are shown for all materials. The figure is intended to show differences in the DFTs. Hence, to make the difference more clear, the squre root of the DFTs have been plotted. For grass (the top two plots), it can be seen that the frequency content is contained mainly at the zero frequency and close to it. The other materials contain slightly higher frequency content as well. Gravel, in particular, differs a lot from the other materials with a wide variety of frequency components.
+One way to obtain the the frequency contents is by means of the \gls{dft}. In figure \ref{fig:fft}, typical \gls{dft}s are shown for all materials. The figure is intended to show differences in the \gls{dft}s. Hence, to make the difference more clear, the squre root of the \gls{dft}s have been plotted. For grass (the top two plots), it can be seen that the frequency content is contained mainly at the zero frequency and close to it. The other materials contain slightly higher frequency content as well. Gravel, in particular, differs a lot from the other materials with a wide variety of frequency components.
 
 As for the feature vector, a datasquare consisting of $T$ sweeps is selected. Viewing this as a matrix with elements $x(n,t)$, we can compute a $k$-step Fourier transform for each range, $n$, and sample index $m$, as
 \begin{equation}
@@ -72,7 +72,7 @@ After this, the absolute value of the Fourier transform is computed and the tran
 \end{equation}
 where $R$ is the number of considered ranges.
 
-An important remark to make is that under the assumption that the autocovariance function of a process $y_t$ decays sufficiently fast, it is closely related to the Fourier transform of the process. The Wiener-Khinchin theorem states that \citep{lu_vaswani_2009} for a wide sense stationary process, $y_t$, the Fourier transform of its autocovariance function, denoted $\phi_y(\omega)$, relates to the Fourier transform of the actual process according to \citep{jakobsson_2015}
+An important remark to make is that under the assumption that the autocovariance function of a process $y_t$ decays sufficiently fast, it is closely related to the Fourier transform of the process. The Wiener-Khinchin theorem states that \citep{lu_vaswani_2009} with certain properties\footnote{The process has to be wide sense stationary. The meaning of this is defined in section \ref{ACr}.}, a process, $y_t$, the Fourier transform of its autocovariance function, denoted $\phi_y(\omega)$, relates to the Fourier transform of the actual process according to \citep{jakobsson_2015}
 \begin{equation}
 	\phi_y(\omega) = \lim\limits_{N\rightarrow\infty}E\Bigg\{\frac1N\Big|\sum^N_{t=1}y_te^{-j\omega t}\Big|^2\Bigg\}=\lim\limits_{N\rightarrow\infty}E\Big\{\frac1N|Y_N(\omega)|^2\Big\}.
 \end{equation}
@@ -81,13 +81,21 @@ An alternative to studying the Fourier transform could therefore be to examine t
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.55]{figs_temp/features/fft}
-	\caption{For each material, a 128-step DFT is computed in slow time for all ranges. The absolute value is taken over the complex DFT, followed by taking the square root of it to make the differences more clear in the plot. }
+	\caption{For each material, a 128-step \gls{dft} is computed in slow time for all ranges. The absolute value is taken over the complex \gls{dft}, followed by taking the square root of it to make the differences more clear in the plot. }
 	\label{fig:fft}
 \end{figure}
 
 
-\subsubsection{Autocovariance - range}
-An obvious surface characteristic to ponder is roughness; while a tiled surface is typically very flat, grass is characterized by a random, unpredictable structure. It is reasonable to assume that there is more correlation between two closely spaced points on the tiled surface than there is on grass. This motivates us to study the autocovariance of the radar signal as the sensor moves forward. Figure \ref{fig:autocorr_range} illustrates the \textit{autocorrelations} for the different materials. As expected, grass and tiles are two extremes in terms of roughness, and the other materials lie somewhere inbetween. Below, we explain how the autocovariance is formed as features before going into the classifier.
+\subsection{Autocovariance - range}
+\label{ACr}
+An obvious surface characteristic to ponder is roughness; while a tiled surface is typically very flat, grass is characterized by a random, unpredictable structure. It is reasonable to assume that there is more correlation between two closely spaced points on the tiled surface than there is on grass. This motivates us to study the autocovariance of the radar signal as the sensor moves forward. Figure \ref{fig:autocorr_range} illustrates the \textit{autocorrelations} for the different materials at a certain range. As expected, grass and tiles are two extremes in terms of roughness, and the other materials lie somewhere inbetween. Below, we explain how the autocovariance is formed as features before going into the classifier.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.45]{figs_temp/features/autocorr_range.png}
+	\caption{The graphs show the autocorrelations computed from a time-varying IQ-signal recorded at a range of approximately 19 cm. The tiled surface, which is the most even, corresponds to the graph with the highest autocorrelation. In contrast, the arguably most uneven surface - grass - is represented by the graph with the lowest autocorrelation.}
+	\label{fig:autocorr_range}
+\end{figure}
 
 We can regard the sequence $\{x(n,t)\}_{t=t_m}^{t_m+T-1}$ of measurements of range $n$ as samples from a stochastic process $X_{n,t}$ with the autocovariance function
 
@@ -139,15 +147,7 @@ Noting that the autocovariance sequence at 0 lag produce only real numbers, as a
 From figure \ref{fig:autocorr_range}, we see that the the 1-step autocorrelation is what separates grass from other materials the most. For the feature vector we choose $q=2$, thus including the variance as well as autocovariance steps 1 and 2 for the \textit{normalized} sweeps.
 
 
-\begin{figure}[h]
-	\centering
-	\includegraphics[scale=0.45]{figs_temp/features/autocorr_range.png}
-	\caption{The graphs show the autocorrelations computed from a time-varying IQ-signal recorded at a range of approximately 19 cm. The tiled surface, which is the most even, corresponds to the graph with the highest autocorrelation. In contrast, the arguably most uneven surface - grass - is represented by the graph with the lowest autocorrelation.}
-	\label{fig:autocorr_range}
-\end{figure}
-
-
-\subsubsection{Autocovariance - energy}
+\subsection{Autocovariance - energy}
 
 While the sweep normalization process rendered absolute mesurements of signal energy useless, we are still able to investigate its time-dependant structure through the autocovariane function. First we estimate the energy in each sweep $v(t)$ and the average energy $v_a(t)$ in $T$ number of sweeps, and then calculate the real-valued autocovariance sequence $h(m,k)$. 
 
@@ -216,7 +216,7 @@ In above section, four different feature extraction methods were described - the
 	\label{fig:feat_fig}
 \end{figure}
 
-We can also choose to look at the Fourier transform, as in configuration 3. With these features we reach a slightly lower accuracy than configuration 2, but more importantly we would need 700 features compared to 175. The 700 features is a result of computing a discrete Fourier transform along the time series of all 28 ranges, over 25 samples\footnote{Ideally, the DFT should be computed over a number of samples which is a power of 2. However, to get a fair comparison of the feature extraction methods, we utilize the same number of samples for all methods.}. The length of each transform is 25, and by concatenating them all into one feature vector, it will have $28\cdot 25=700$ elements.
+We can also choose to look at the Fourier transform, as in configuration 3. With these features we reach a slightly lower accuracy than configuration 2, but more importantly we would need 700 features compared to 175. The 700 features is a result of computing a discrete Fourier transform along the time series of all 28 ranges, over 25 samples\footnote{Ideally, the \gls{dft} should be computed over a number of samples which is a power of 2. However, to get a fair comparison of the feature extraction methods, we utilize the same number of samples for all methods.}. The length of each transform is 25, and by concatenating them all into one feature vector, it will have $28\cdot 25=700$ elements.
 
 This makes configuration 2 more favorable as fewer features demands less computational costs and memory usage. Hence it is deemed the most efficient configuration.
 
@@ -225,9 +225,9 @@ This makes configuration 2 more favorable as fewer features demands less computa
 
 Through the point and feature selection methods described in previous sections we obtain high dimensional feature vectors. Getting an intuitive feel for such data extracted in these processes is difficult as direct plotting is limited to three dimensions. 
 
-Principal Component Analysis (PCA) is  a classical technique in statistical data analysis which takes a large set variables from a multivariate dataset and finds a smaller set of variables with less redundancy. Critically, PCA finds a rotated orthogonal coordinate system such that the elements of the set become uncorrelated. Projecting elements on the principal axes corresponding to the directions of maximal variance a good approximation of the original data in lower dimension is obtained \citep{hyvasrinen_karhunen_oja_2004}.
+\gls{pca} is  a classical technique in statistical data analysis which takes a large set variables from a multivariate dataset and finds a smaller set of variables with less redundancy. Critically, \gls{pca} finds a rotated orthogonal coordinate system such that the elements of the set become uncorrelated. Projecting elements on the principal axes corresponding to the directions of maximal variance a good approximation of the original data in lower dimension is obtained \citep{hyvasrinen_karhunen_oja_2004}.
 
-After having chosen to proceed with feature configuration 2 in table \ref{tab:feat}, the 175 dimensions can be reduced to 2 dimensions using PCA. This helps to visualize the separability of the different materials as seen in figure \ref{fig:pca}.
+After having chosen to proceed with feature configuration 2 in table \ref{tab:feat}, the 175 dimensions can be reduced to 2 dimensions using \gls{pca}. This helps to visualize the separability of the different materials as seen in figure \ref{fig:pca}.
 
 \begin{figure}[h]
 	\centering
