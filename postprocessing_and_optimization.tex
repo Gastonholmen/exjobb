@@ -5,11 +5,11 @@ In the previous chapter a simple feed-forward neural network was found to be a s
 
 \section{Data augmentation}
 
-A recurring problem in training ANN's is that there simply isn't enough data \citep{lemley_bazrafkan_corcoran_2017}. Too little data will generate overfitting, which means that the network is highly biased to what it has seen in training and will subsequently perform poorly on any validation or test set. In the preceding chapter dropout was introduced for this particular purpose, and examining the cross validation accuracies it is clear that reasonable accuracy is attained without any further means.
+A recurring problem in training ANN's is that there simply isn't enough data \citep{lemley_bazrafkan_corcoran_2017}. Too little data will make a network prone to overfitting, which means that it becomes highly biased to what it has seen in training, and will subsequently perform poorly on any validation or test set. In the preceding chapter dropout was introduced for this particular purpose, and examining the cross validation accuracies it is clear that reasonable accuracy is attained without any further means.
 
-However, by \emph{augmenting} the data we may be able to further increase the training set size, and subsequently further increase model performance. Data augmentation is the process of supplementing a dataset with similar data created from the same dataset. How one augments a dataset is of course data dependent. In computer vision, data augmentation often involves rotating, translating, blurring or in some other way modifying existing images \citep{lemley_bazrafkan_corcoran_2017}.
+However, by \emph{augmenting} the data we may be able to further increase the training set size, and subsequently further increase model performance. Data augmentation is the process of supplementing a dataset with similar data created from the same dataset. How one augments a dataset is data dependent. In for instance computer vision, data augmentation often involves rotating, translating, blurring or in some other way modifying existing images \citep{lemley_bazrafkan_corcoran_2017}.
 
-In the present case of increasing the number of data batches from a given data rectangle, we can simply allow for overlapping batches. Previously, when batches of length $T$ were generated from $Q$ slow time samples, every $T$ sweeps produced one batch providing a total of $Q/T$ batches for analysis. However, noting that any slow-time sequence of $T$ sweeps is a valid data batch, we may form overlapping batches from every $T/A$ samples, where $A$ is some integer factor selected so that $T/A$ becomes an integer. This produces $(A-1)(Q/T-1)$ additional batches providing a total $P$ batches of
+In the present case of increasing the number of data batches from a given data square, we can allow for overlapping batches. Previously, when batches of length $T$ were generated from $Q$ slow time samples, every $T$ sweeps produced one batch providing a total of $Q/T$ batches for analysis. However, noting that any slow-time sequence of $T$ sweeps is a valid data batch, we may form overlapping batches from every $T/A$ samples, where $A$ is some integer factor selected so that $T/A$ becomes an integer. This produces $(A-1)(Q/T-1)$ additional batches providing a total $P$ batches of
 
 \begin{equation}
 	P = 
@@ -18,41 +18,45 @@ In the present case of increasing the number of data batches from a given data r
 \end{equation}
 
 
-Setting $A=5$, one data rectangle consisting of 50,000 slow time samples normally yielding 2,000 data batches using $T=25$, instead produces 9996 data batches.  
+Setting $A=5$, one data rectangle consisting of 50,000 slow time samples normally yielding 2,000 data batches using $T=25$, instead produces 9996 data batches. Thus, with this method we are able to increase the number of training samples by almost a factor of 5. In table \ref{tab:aug}, the effects of data augmentation with $A=5$ is compared to having no augmentation.
 
-----> Result here.
+% Discuss this result later on.
 
-\section{Outlier removal}
+\begin{table}
+	\label{tab:aug}
+	\begin{center}
+		\rowcolors{2}{gray!25}{white}
+		\begin{tabular}{|c|c|}
+			\hline
+			\rowcolor{gray!150}
+			\color{white}\textbf{Augmentation} & \color{white}\textbf{LOO Acc.} \\
+			1 & 98.49 \\
+			5 & 98.53 \\
+			\hline
+		\end{tabular}
+	\end{center}
+	\caption{Leave-one-out accuracies with and without data augmentation.}
+\end{table}
 
-In any dataset some data corruption is to be expected. A grassy surface may have small patches of soil without grass, the device may have been moving at either a too high or too low velocity for a short period of time or the radar sensor iteslf may have had temporary issues. Such processes forms data points inconsistent with the overwhelming bulk of data, or \emph{outliers}, which negatively impacts model performance. The importance of outliers is dependant both of their frequency and magnitude, and can be significantly detrimental to model accuracy making effective removal of them often necessary or at least benifitial \citep{osborne_overbay_2004}, \citep{hodge_austin_2004}. 
+%\section{Outlier removal}
+
+%In any dataset some data corruption is to be expected. A grassy surface may have small patches of soil without grass, the device may have been moving at either a too high or too low velocity for a short period of time or the radar sensor iteslf may have had temporary issues. Such processes forms data points inconsistent with the overwhelming bulk of data, or \emph{outliers}, which negatively impacts model performance. The importance of outliers is dependant both of their frequency and magnitude, and can be significantly detrimental to model accuracy making effective removal of them often necessary or at least benifitial \citep{osborne_overbay_2004}, \citep{hodge_austin_2004}. 
 
 \section{Detection of surface change}
 
 Even with an optimized model with tons of training data, erronous predictions are unavoidable in any real-world scenario. Prediction probabilities are produced by the model rapidly, 8 times a second for a sampling rate of 200 Hz and a batch size $T=25$ according to equation \ref{eq:classification_rate}. With such errors present in the prediction confidences of the model, what is a reasonable strategy to detect when a change in surface has occurred?  
 
+Many elaborate statistically appealing methods for change detection are presented in \citep{basseville_nikiforov_1993}. These methods require some basic assumptions on the data it attempts to detect a change from, such as for the data having constant probability distribution before and after a parameter change occurs. This, however, renders these methods difficult to use in the present use case, as we are dealing with the output of a highly nonlinear artificial neural network producing predictions with unknown structure. This is reinforced by examining what the model outputs, see the top figure in \ref{fig:trans_tgtg}. Predictions remain extremely stable for long periods of time, with occasional outlying predictions every now and then. These outlying predictions need be suppressed for stable change detection.
 
-
-
-Many elaborate statistically appealing methods for change detection are presented in \citep{basseville_nikiforov_1993}. These methods require some basic assumptions on the data it attempts to detect a change from, such as data having constant probability distribution before and after a parameter change occurs. This, however, renders these methods difficult to use in the present use case, as we are dealing with the output of a highly nonlinear artificial neural network producing predictions with unknown structure. This is reinforced by examining what the ANN outputs, see the top figure in \ref{fig:trans_tgtg}. Predictions remain extremely stable for long periods of time, with occasional outlying predictions every now and then. 
-
-
-
-Instead, median filtering was used to suppress prediction outliers. Median filtering simply calculates the median of some length $L$ nearest predictions. 
-
-
+The perhaps most effective way of suppressing data littered with outliers is through some form of median filtering \citep{yin_yang_gabbouj_neuvo_1996}. Median filters is very robust against impulsive-type noise, a property that cannot be achieved by traditional linear filtering techniques. The regular form of a median filter simply takes the median of current and previous datapoints, resulting in an output significantly less sensitive to inconsistencies \citep{pearson_2002}. For a sequence $\{p\}$ of predictions, we apply a median filter of length $L$, and set a decision threshold $\xi$ to produce binary predictions $P_i$ according to
 \citep{yin_yang_gabbouj_neuvo_1996}
-Nonlinear filter
-"The success of median based filters is based on two intrinsic properties: edge preservation and efficient noise attenuation with robustness against impulsive-type noise."
-"Neither property can be achieved by traditional linear filtering techniques."
-"The median filter is the optimal is the optimal filter for biexponential noise."
-"Median filtering discards temporal ordering"
-
-The perhaps most effective way of suppressing data littered with outliers is through some form of median filtering. The regular form of a median filter simply takes the median of current and previous datapoints, resulting in an output significantly less sensitive to inconsistencies \citep{pearson_2002}. After median filtering a threshold can be utilized, leading to the following predictions for a filter length $L$
 
 \begin{equation}
 	P_i=0 \quad\text{if}\quad\text{median}\{p\}_{i-L+1}^i\leq\xi, 
 	\quad \text{else} \quad P_i = 1
 \end{equation}
+
+where $0<\xi<1$. The drawback of using median filtering is that a change is delayed a few predictions. Thus, th length $L$ must be selected so that the device has not moved too far before the change detection has occurred, but is still capable of sufficiently  suppressing outlying predictions. 
 
 
 \iffalse
