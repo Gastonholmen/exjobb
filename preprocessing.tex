@@ -88,11 +88,11 @@ Combining this result with equation \eqref{eq:nyquist}, we see that we have to s
 	f_s > 2f_{d,\textrm{max}} = 190.4 \text{ Hz}.
 \end{equation}
 
-The transmitted constant-frequency wavelet has three main properties: Its amplitude, its frequency and its duration. Generally, the amplitude is set as high as possible, simply because the signal-to-noise ratio is increased \citep{richards_2014}. The frequency is essentially set for the system used at around 60 GHz without any significant leeway. The duration may however be chosen somewhat freely. Selecting a longer wavelet means transmitting more energy and thus receiving a signal with better SNR. A shorter wavelet has worse SNR, but is capable of resolving finer details of the target. Thus, the wavelet duration parameter becomes a tradeoff between resolution and SNR. Thus, one may start with a short wavelet and increase its duration until a reasonable SNR is obtained.  
+The transmitted constant-frequency wavelet has three main properties: Its amplitude, its frequency and its duration. Generally, the amplitude is set as high as possible, simply because the signal-to-noise ratio is increased \citep{richards_2014}. The frequency is essentially set for the system used at around 60 GHz without any significant leeway. The duration may however be chosen somewhat freely. Selecting a longer wavelet means transmitting more energy and thus receiving a signal with better SNR. A shorter wavelet has worse SNR, but is capable of resolving finer details of the target. Thus, the wavelet duration parameter becomes a tradeoff between resolution and SNR. One may start with a short wavelet and increase its duration until a reasonable SNR is obtained.  
 
-Finally, the distance interval measured has to be chosen. Again, a tradeoff appears. If a short interval is selected we can increase the sampling rate and still stay within the allowed hardware transmission speed limits. However, if the interval becomes too short we may miss useful information we could have collected outside the chosen interval. Thus, a reasonable strategy is to select the most critical range interval and then increase the sampling frequency to its hardware allowed limit. As the distance to the surface plane was roughly 12 cm the furthest distance illuminated is $12/\sin(37.5^\circ)\approx 20$ cm. We should therefore at least have a range spanning this region.  
+Finally, the distance interval measured has to be chosen. Again, a tradeoff appears. If a short interval is selected we can increase the sampling rate and still stay within the allowed hardware transmission speed limits. However, if the interval becomes too short we may miss useful information we could have collected outside the chosen interval. Thus, a reasonable strategy is to select the most critical range interval and then increase the sampling frequency to its hardware allowed limit. As the distance to the surface plane was roughly 12 cm the furthest distance illuminated is $12/\sin(37.5^\circ)\approx 20$ cm. We should therefore at least have a range spanning this region. 
 
-The values chosen for the three parameters are summarized in table \ref{tab:sensor_settings}. 
+The values chosen for the three parameters are summarized in table \ref{tab:sensor_settings}. With these settings, the radar collects data for 331 ranges, meaning the difference in distance between two adjacent range bins is $\frac{23-17}{331}\textrm{ cm}\approx0.48 \textrm{ mm}$.
 
 \begin{table}
 \begin{center}
@@ -120,6 +120,7 @@ The values chosen for the three parameters are summarized in table \ref{tab:sens
 
 %\section{Data Preprocessing}
 \section{Downsampling}
+\label{downsampling}
 
 In an information theoretic framework we interpret a random variable by how unpredicable or unstructured an observation of the variable is\citep{anderson_johnnesson_2006}. First introduced by Claude E. Shannon in his famous 1948 papers, information theory brings about a mean to quantify the information content of some source \citep{shannon_1948}. This concept, which essentially concerns examining the randomness of a variable, is commonly measured through entropy. Directly related to entropy is mutual information which asserts how much information each member of a set have on the other members. \citep{hyvasrinen_karhunen_oja_2004}. Ideally one wants measurements that have a low measure of mutual information, meaning that each datapoint contain information not found elsewhere in the set. 
 
