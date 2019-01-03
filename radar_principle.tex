@@ -1,12 +1,12 @@
 \chapter{Radar system overview}
 
-In order to build a model capable of accurately capturing key features from various areas one must first understand the origin of the received signal. In this chapter a few fundamental concepts in radar systems are introduced considered critical for understanding the radar responses produced in the measurement setup outlined in the following chapter. First, the basic principles of radar is explained. The manner in which electromagnetic waves disperse and scatter in a space are briefly discussed. Then, some important features in an actual radar system are considerd. These involve how the radar transmits its wavelets, the mixing process of returning waves and the demodulation procedure used for accurate phase tracking. 
+In order to build a model capable of accurately capturing key features from various areas one must first understand the origin of the received signal. In this chapter a few fundamental concepts in radar systems are introduced that explain how range, velocity and reflectivity arise in a \gls{pcr} system. The mixing and IQ demodulation procedures are also discussed, which explain how a returning radar echo is captured and demodulated. 
 
 \section{Target properties from radar response}
+% TODO: Utilize https://acconeer.sharepoint.com/:w:/g/CS/ES_xwcoTqVdGkShPJkNagMMBL1wVd_GaeJJsEDKC8lWIDQ?e=GxZNEw as a source for this.
+Fundamentally, a radar operates by radiating \gls{rf} electromagnetic energy and listening if the transmitted energy generates any echoes \citep{skolnik_2009}. By analyzing properties of the returning signal it is then possible to obtain information about the target objects that scattered the transmitted pulse. This may involve the distance and angle at which scatterers are located or which velocity they are moving in. With a sufficiently high angular and range resolution it is even possible to descern parts of the targets' sizes and shapes.  
 
-Fundamentally, a radar operates by radiating radio frequency (RF) electromagnetic energy and listening if the transmitted energy generates any echoes \citep{skolnik_2009}. By analyzing properties of the returning signal it is then possible to obtain information about the target objects that scattered the transmitted pulse. This may involve the distance and angle at which scatterers are located or which velocity they are moving in. With a sufficiently high angular and range resolution it is possible to descern parts of the targets' sizes and shapes.  
-
-Radars are typically active systems, meaning that they have a radiating antenna and do not depend on ambient radiation \citep{skolnik_2009}. Radar measurements can be performed in a number of ways. In this report, a pulsed radar with constant frequency is used. This means that a sequence of short wavelets are transmitted towards a target to determine its properties. One such transmitted wavelet pulse $x_T(t)$ has some carrier frequency $f_t$ and envelope $A(t)$ as in
+Radars are typically active systems, meaning that they have a radiating antenna and do not depend on ambient radiation \citep{richards_2014}. Radar measurements can be performed in a number of ways. In this report a \gls{pcr} system is used. This means that a sequence of short wavelets are transmitted towards a target scene to determine its properties. One such transmitted wavelet pulse $x_T(t)$ has some carrier frequency $f_t$ and envelope $A(t)$ as in
 
 \begin{equation}\label{eq:trans}
 	x_T(t)
@@ -242,7 +242,7 @@ The in-phase channel mixes the raw signal with an oscillator at the radar freque
 	x(t) = I(t) + jQ(t).
 \end{equation}
 
-IQ demodulation shifts the information bearing part of the mixed signal to baseband, meaning that an echo waveform on form $A(t)\sin(2\pi f t + \phi(t))$ after demodulation becomes $x(t) = e^{j\phi(t)}$.
+IQ demodulation shifts the information bearing part of the mixed signal to baseband, meaning that an echo waveform on form $A(t)\sin(2\pi f t + \phi(t))$ after demodulation becomes $x(t) = A(t)e^{j\phi(t)}$.
 
 The details of this demodulation scheme can be found in the appendix. In figure \ref{fig:single_sweep_iq} the amplitude $|x(t)|$ is shown for data captured using the same measurement setup as in figure \ref{fig:single_sweep_raw}. Although the amplitude may be useful, the real power of splitting the signal in I and Q components come from its phase tracking capabilities, as the phase is more sensitive to small changes in range than the amplitude \citep{lien_gillian_karagozler_amihood_schwesig_olson_raja_poupyrev_2016}.
 

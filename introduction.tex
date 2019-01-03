@@ -39,36 +39,7 @@ These two methods primarily utilize the difference in roughness, a geometric cha
 
 \section{Objective}
 
-In this work, we seek to examine temporal domain methods for single-antenna radar for surface classification. By collecting data on grass surfaces and selection of non-grass surfaces we wish to create an effective classifier able to distinguish a grass covered surface from other surface types. All experiments will be performed using two 60 Ghz pulsed coherent radar \gls{pcr} sensors from Acconeer, see figure \ref{fig:acc_sens},  mounted on the front of device moving straight at a constant velocity. 
-
-%\subsection{Problem formulation}
-%With this work, we intend to present a solution towards surface identification based on radar data. The data is collected using two 60 GHz Acconeer radar sensors, each with a sampling frequency of 200 Hz. Both sensors are mounted at the front of a robot, and are assumed to move across a surface with a constant speed and height.
-
-%Once obtained, the data will undergo feature extraction. Ideally, we want few features that carry as much information as possible. The next step is to develop a machine learning model into which these features will be feeded. Several different model types will be investigated and evaluated, after which we choose one to proceed with and optimize. 
-
-%The working procedure is illustrated in figure (....)
-
-%We develop a pipeline for effectively solving this problem. 
-%We present modelling options with high accuracy and efficacy. 
-%We present results based on a 60GHz Acconeer micro radar. 
-%In this paper we introduce means of surface identification based on the output from a single 60 GHz radar sensor moving across a surface with constant height. 
-
-
-
-% We only have one sensor and want to work in the temporal domain. 
-
-%\section{Radar Fundamentals}
-
-%Fundamentally, a radar operates by radiating radio frequency (RF) electromagnetic energy and listening if the transmitted energy generates any echoes \citep{skolnik_2009}. By analyzing properties of the returning signal it is then possible to obtain information about the target objects that scattered the transmitted pulse. This may involve the distance and angle at which scatterers are located or which velocity they are moving in. With a sufficiently high angular and range resolution it is possible to descern parts of the ragets' sizes and shapes.  
-
-%If a perfect scatterer is located a distance $d$ from a radar transmitter, and a radar pulse with envelope $A(t)$ and angular frequency $\Omega$ is transmitted towards it, the returning signal will have the form \citep{richards_2014}
-
-%\begin{equation}
-%	r(t) = CA(t)\sin(\Omega t + \theta(t))
-%\end{equation}
-
-%where $C$ is some constant related to the dissapation of power throughout space and some radar system properties. % More on this
-
+In this work, we seek to create a model capable of performing binary surface classification from data collected during robot movement. By collecting data on grass surfaces and selection of non-grass surfaces we wish to create an effective classifier able to distinguish a grass covered surface from other surface types. All experiments will be performed using two 60 Ghz pulsed coherent radar \gls{pcr} sensors from Acconeer, see figure \ref{fig:acc_sens},  mounted on the front of device moving straight at a constant velocity. 
 
 \section{Thesis outline}
 
