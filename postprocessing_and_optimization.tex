@@ -1,9 +1,9 @@
-\chapter{Postprocessing and optimization}
+\chapter{Postprocessing and Data Augmentation}
 
-In the previous chapter a simple feed-forward neural network was found to be a suitable model for the surface classification problem investigated. In this chapter, some improvements and additions to this model are introduced. First, we perform some data augmentation to increase the number of training data. Then, removal of outliers using the clustering method DBSCAN is tested to see if accuracy can be further improved. Finally, two detection methods are discussed for outlier suppression.
+In the previous chapter a simple feed-forward neural network was found to be a suitable model for the surface classification problem investigated. In this chapter, some improvements and additions to this model are introduced. First, we perform some data augmentation to increase the number of training data. Finally, two detection methods are discussed for outlier suppression.
 
 
-\section{Data augmentation}
+\section{Data Augmentation}
 
 A recurring problem in training ANN's is that there simply isn't enough data \citep{lemley_bazrafkan_corcoran_2017}. Too little data will make a network prone to overfitting, which means that it becomes highly biased to what it has seen in training, and will subsequently perform poorly on any validation or test set. In the preceding chapter dropout was introduced for this particular purpose, and examining the cross validation accuracies it is clear that reasonable accuracy is attained without any further means.
 
