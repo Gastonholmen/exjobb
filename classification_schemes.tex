@@ -64,7 +64,7 @@ The workflow for all models apart from the last one, follows the chart in figure
 \section{Linear Models}
 Linear models are widely used in practice as they are general, and can therefore be used in many cases \citep{shalev-shwartz_ben-david_2016}.  Furthermore, they are relatively easy to understand, in contrast to more complex models such as neural networks. Despite this, they can often produce a decent accuracy with a low complexity.
 
-In this work, two linear models are considered. One being \gls{lda} and the other, \gls{svm} with a linear kernel. 
+In this work, two linear models are considered. One being linear discriminant analysis (\gls{lda}) and the other, a support vector machine (\gls{svm}) with a linear kernel. 
 
 \subsection*{Linear Discriminant Analysis}
 Linear Discriminant Analysis, or \gls{lda} for short, is an algorithm commonly used for dimensionality reduction of data. \citep{raschka_2014} It is not uncommon, however, to use it for classification tasks as well. \gls{lda} is a supervised algorithm, meaning it knows what class each sample belongs to. This enables it to project data into a lower dimension in such a way that the different classes are as separated as possible; unlike \gls{pca} which projects data in a way that maintains a high variance, disregarding class labels. 
@@ -82,9 +82,9 @@ In some cases, the data is not linearly separable. That is, two classes in the d
 The non-linear models considered in this work are random forest, logistic regression, as well as two kinds of neural networks.
 
 \subsection*{Random Forest}
-Random Forest (RF) is a strong tool that can be used for both regression- and classification problems. The name stems from that the method is based on several \textit{decision trees}, which are initiated randomly. A decision tree is a classifier per se, and is structured as a sequence of simple questions. These questions typically ask if a sample's feature is equal to, or greater/smaller than some set value. The answers to these questions form a path in the decision tree, leading to an end node which corresponds to the prediction.
+Random forest is a strong tool that can be used for both regression- and classification problems. The name stems from that the method is based on several \textit{decision trees}, which are initiated randomly. A decision tree is a classifier per se, and is structured as a sequence of simple questions. These questions typically ask if a sample's feature is equal to, or greater/smaller than some set value. The answers to these questions form a path in the decision tree, leading to an end node which corresponds to the prediction.
 
-RF segments the training data into $n$ parts, and induces a decision tree from each group of data. Thus there are $n$ predictors that work independently, and by selecting the most common prediction, RF yields a robust result with no overfitting due to the combined results of many trees. On top of that it offers a very high accuracy in a wide variety of applications, while still maintaining an intuitive model structure that allows us to, for instance, estimate which features are important. \citep{breiman_cutler_2018}
+Random forest segments the training data into $n$ parts, and induces a decision tree from each group of data. Thus there are $n$ predictors that work independently, and by selecting the most common prediction, random forest yields a robust result with little risks of overfitting due to the combined results of many trees. On top of that it offers a very high accuracy in a wide variety of applications, while still maintaining an intuitive model structure that allows us to, for instance, estimate which features are important. \citep{breiman_cutler_2018}
 
 
 \subsection*{Logistic Regression}
@@ -104,7 +104,7 @@ This value is interpreted as a probability and can be used for making a decision
 Another major difference between linear and logistic regression is the choice of cost function. Logistic regression commonly uses a cost function known as Cross-Entropy or Log Loss as opposed to Mean Squared Error, which is used for linear regression. For further details about logistic regression, including its cost function, we refer to \citep{a_smola_svn_vishwanathan_2010}.
 
 \subsection*{Artificial neural networks}
-Artificial neural networks (ANNs) constitute a class of nonlinear models designed to mimic biological neural systems \citep{rojas_1996}. ANNs consist of multiple layers of neurons, or nodes. Initially, there is one input layer, followed by one or more \textit{hidden layers} and one output layer. \citep{logan_2017} The input layer represents the feature vector, and each node holds one feature. Figure \ref{fig:ann} illustrates a simple network which takes a feature vector $\mathbf{x}^{(0)}=\begin{pmatrix}x_1^{(0)} & x_2^{(0)}\end{pmatrix}$ as input. By multiplying the feature vector with a set of weights $\mathbf{w}^{(1)}$ the features are \textit{propagated} through the network and the new node values are generated. In the network in figure \ref{fig:ann}, the output from the input layer, forwarded to the hidden layer becomes
+Artificial neural networks (\gls{ann}s) constitute a class of nonlinear models designed to mimic biological neural systems \citep{rojas_1996}. ANNs consist of multiple layers of neurons, or nodes. Initially, there is one input layer, followed by one or more \textit{hidden layers} and one output layer. \citep{logan_2017} The input layer represents the feature vector, and each node holds one feature. Figure \ref{fig:ann} illustrates a simple network which takes a feature vector $\mathbf{x}^{(0)}=\begin{pmatrix}x_1^{(0)} & x_2^{(0)}\end{pmatrix}$ as input. By multiplying the feature vector with a set of weights $\mathbf{w}^{(1)}$ the features are \textit{propagated} through the network and the new node values are generated. In the network in figure \ref{fig:ann}, the output from the input layer, forwarded to the hidden layer becomes
 \rowcolors{2}{white}{white}
 \begin{equation}
 	\mathbf{x}^{(1)}=\begin{pmatrix}x_1^{(1)} \\ x_2^{(1)} \\ x_3^{(1)} \end{pmatrix} = 
@@ -121,8 +121,8 @@ The propagated values become the input to the output layer, and using an activat
 
 The model weights $\mathbf{w}^{(i)}$, of a neural network are commonly determined through a method known as \textit{backpropagation} during the model training phase. For details about how this works, we refer to chapter 7 in \citep{rojas_1996}.
 
-By introducing more than one hidden layer, the network is called a deep neural network, or DNN for short \citep{hinton_deng_yu_dahl_mohamed_jaitly_senior_vanhoucke_nguyen_sainath_2012}. 
-DNN's in various forms have gained immense popularity over the past two decades achieving considerable success within a wide spectrum of applications, such as in image recognition \citep{szegedy_liu_jia_sermanet_reed_anguelov_erhan_vanhoucke_rabinovich_2018}, acoustic modeling of speech \citep{hinton_deng_yu_dahl_mohamed_jaitly_senior_vanhoucke_nguyen_sainath_2012}, 
+By introducing more than one hidden layer, the network is called a deep neural network, or \gls{dnn} for short \citep{hinton_deng_yu_dahl_mohamed_jaitly_senior_vanhoucke_nguyen_sainath_2012}. 
+\gls{dnn}s in various forms have gained immense popularity over the past two decades achieving considerable success within a wide spectrum of applications, such as in image recognition \citep{szegedy_liu_jia_sermanet_reed_anguelov_erhan_vanhoucke_rabinovich_2018}, acoustic modeling of speech \citep{hinton_deng_yu_dahl_mohamed_jaitly_senior_vanhoucke_nguyen_sainath_2012}, 
 
 
 \begin{figure}[h]
@@ -145,14 +145,14 @@ If the total number of samples is $m$, and the batch size is $b$, there will be 
 
 
 \subsection*{Convolutional Neural Network + LSTM}
-In previous models the data went through a feature extraction process before going into the model training. For this model, on the other hand, no feature extraction is performed. Instead, several consecutive sweeps of unprocessed IQ-data are used as input. Each range bin can be regarded as a one-dimensional time series. This motivates the use of some classification scheme that exploits temporal behaviour. Recurrent neral networks (RNNs) feature this by having feedback within individual layers in the network. \citep{karim_majumdar_darabi_chen_2018} The problem with RNNs, however, is that they suffer from a quickly vanishing gradient, and can only sustain a short term memory \citep{pascanu_mikolov_bengio_2013}. A way to combat this is to use a neural network layer type called long short term memory (LSTM).
+In previous models the data went through a feature extraction process before going into the model training. For this model, on the other hand, no feature extraction is performed. Instead, several consecutive sweeps of unprocessed IQ-data are used as input. Each range bin can be regarded as a one-dimensional time series. This motivates the use of some classification scheme that exploits temporal behaviour. Recurrent neral networks feature this by having feedback within individual layers in the network. \citep{karim_majumdar_darabi_chen_2018} The problem with these networks, however, is that they suffer from a quickly vanishing or exploding gradient, and can only sustain a short term memory \citep{pascanu_mikolov_bengio_2013}. A way to combat this is to use a neural network layer type called long short term memory (\gls{lstm}).
 
-LSTM-layers have previously been used successfully for classifications in radar applications. For instance in \citep{jithesh_sagayaraj_srinivasa_2018} the method was used in a classification model that was able to distinguish flying targets from several classes with a high accuracy. The theory behind these layers are thoroughly described in, for example \citep{hochreiter_schmidhuber_1997}
+\gls{lstm}-layers have previously been used successfully for classifications in radar applications. For instance in \citep{jithesh_sagayaraj_srinivasa_2018} the method was used in a classification model that was able to distinguish flying targets from several classes with a high accuracy. The theory behind these layers are thoroughly described in, for example \citep{hochreiter_schmidhuber_1997}
 
-Another successful approach for time series classifications is convolutional neural networks (CNNs) \citep{karim_majumdar_darabi_chen_2018}. In \citep{capobianco_facheris_cuccoli_marinai_2017}, time series of radar data are preprocessed and used as input to a CNN. The network is used to predict what types of vehicles are driving by the radar sensor, and does so with a good success rate.
+Another successful approach for time series classifications is convolutional neural networks (\gls{cnn}s) \citep{karim_majumdar_darabi_chen_2018}. In \citep{capobianco_facheris_cuccoli_marinai_2017}, time series of radar data are preprocessed and used as input to a \gls{cnn}. The network is used to predict what types of vehicles are driving by the radar sensor, and does so with a good success rate.
 
 
-A combination of the LSTM layer and a CNN is proposed in \citep{karim_majumdar_darabi_chen_2018}. This proves to be a significant improvement from just using CCNs when classifying time series. The architecture of the model we use in this work is the same as this one, with a few tweaks of parameter values. The model essentially concatenates the outputs from a simple LSTM network and a network consiting of three one-dimensional convolution layers. For more details we refer to \citep{karim_majumdar_darabi_chen_2018}.
+A combination of the \gls{lstm} layer and a \gls{cnn} is proposed in \citep{karim_majumdar_darabi_chen_2018}. This proves to be a significant improvement from just using \gls{cnn}s when classifying time series. The architecture of the model we use in this work is the same as this one, with a few tweaks of parameter values. The model essentially concatenates the outputs from a simple \gls{lstm} network and a network consiting of three one-dimensional convolution layers. For more details we refer to \citep{karim_majumdar_darabi_chen_2018}.
 
 
 \section{Model evaluations}
@@ -254,7 +254,7 @@ After optimizing the hyperparameters of the DNN, using \textit{Hyperas}, the net
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.5]{figs_temp/optimized_network_graph.jpg}
-	\caption{Using Hyperas, a network with two hidden layers was optimized in terms of number of nodes, dropout rate and activation function among other things. The resulting network has 24 and 12 nodes in the hidden layers, and dropout rates of 14 and 2 percent, respectively. The hidden layers were assigned the ReLU activation function.}
+	\caption{Using Hyperas, a network with two hidden layers was optimized in terms of number of nodes, dropout rate and activation function among other things. The resulting network has 25 and 13 nodes - including bias terms - in the hidden layers, and dropout rates of 14 and 2 percent, respectively. The hidden layers were assigned the ReLU activation function.}
 	\label{fig:opt_net}
 \end{figure}
 
