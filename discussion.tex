@@ -1,7 +1,7 @@
 \chapter{Results and Discussion}
-In this section the final model's capabilities are tested and discussed. Previously, the model has been evaluated on labeled data, thus generating a success rate. Below, the model will make predictions on unlabeled data, and instead output a confidence in its prediction.
+In this section the final model's capabilities are tested and discussed. Previously, the model has been evaluated on labeled data, thus generating a success rate. Below, the model will instead make predictions on unlabeled data, and instead output a confidence in its prediction.
 
-First, the model is evaluated on artificial transitions between different surfaces in our dataset. After that, it is tested on real world transitions.
+Later on various things about the work are brought up for discussion.
 
 \section{Real and artificial transition regions}
 
@@ -20,51 +20,65 @@ The results show great promise, but the work is still at an early stage. The sur
 \begin{figure}
 	\centering
 	\includegraphics[scale=0.5]{figs_temp/varmats1}
-	\caption{Artificial transition region created using samples from four different regions.}
+	\caption{Predictions on an artificial transition region created using samples from four different regions. The bottom figure shows the median filtered predictions with filter length $L=5$.}
 	\label{fig:artificial1}
 \end{figure}
 
 \begin{figure}
 	\centering
 	\includegraphics[scale=0.5]{figs_temp/varmats2}
-	\caption{Artificial transition region created using samples from four different regions.}
+	\caption{Predictions on an artificial transition region created using samples from four different regions.}
 	\label{fig:artificial2}
 \end{figure}
 
 \begin{figure}
 	\centering
 	\includegraphics[scale=0.5]{figs_temp/transition_grass_tiles_grass}
-	\caption{Real-world test where the robot moved across a tile pavement in a lawn.} 
+	\caption{Predictions from a real-world test where the robot moved from grass to a tiled pavement.} 
 	\label{fig:trans_tgtg}
 \end{figure}
 
 \begin{figure}
 	\centering
 	\includegraphics[scale=0.5]{figs_temp/transition_grass_gravel2}
-	\caption{Real-world transition}
+	\caption{Predictions from a real-world test where the robot moved from grass to gravel.}
+	\label{fig:trans_gg}
 \end{figure}
 
 \section{Difficult surfaces}
-An often critical aspect of any machine learning system is its performance on dissimilar data. 
+While we only have five material classes in this work, each class can be broken down to multiple subclasses. Taking grass as an example, it may vary in a wide range of attributes such as length, humidity and sparsity to name a few. Therefore it is important to gather a dataset as diverse as possible, so that the model has trained on all common varieties of each surface. 
 
-An often critical aspect of any machine learning system is its performance on dissimilar data: How well does the algorithn manage when we are faced with new data dissimilar to the ones seen in training? When traversing a lawn of poor quality, are we still able to classify its surface as a grassy one?  
+However, the model can only be prepared for so much, and an often critical aspect of any machine learning system is its performance on dissimilar data. It is difficult to foresee how a complex neural network will interpret a surface displaying characteristics not included in training. For instance, what would the model make of a lawn which is partially covered by leaves and twigs; or a surface type it has never seen before? Perfecting the model to work in any surrounding calls for a good sense of what difficulties may occur, as well as a large time investment. 
 
-\section{Moisture}
+%\section{Moisture}
 
-One particularly challenging aspect of adequately classifying surfaces is the ever-changing environmental conditions surronding the sensor. Of particular interest is the moisture content in the surfaces of interest. Greater soil moisture implies higher dielectric constant, which in turn increases radar wave scattering \citep{rappaport_2006}. Thus a single surface may very well change its scattering properties over time. 
+%One particularly challenging aspect of adequately classifying surfaces is the ever-changing environmental conditions surronding the sensor. Of particular interest is the moisture content in the surfaces of interest. Greater soil moisture implies higher dielectric constant, which in turn increases radar wave scattering \citep{rappaport_2006}. Thus a single surface may very well change its scattering properties over time. 
 
 % More things that make selecting data tricky
 
-\section{Surface variances}
+%\section{Surface variances}
 
-Such effects is difficult to account for when selecting data. Gather a dataset as diverse as possible
 
-\section{Feature Extraction}
- Machine learning is used to find features it considers are good. By manually performing feat. ext. we remove information that the algorithms may otherwise have used to become even better etc. 
+%Such effects is difficult to account for when selecting data. Gather a dataset as diverse as possible
 
-Future work: investigate models with no manual feat. extr.
 
-Table [TABLENAME] is in many ways a very telling one. Here, each sample session was classified without using any of the samples from the session at hand. Instead, all other sessions were used in training. Six different methods of classification were evaluated; two linear and four nonlinear. 
 
-First and foremost it is noted that each tested method performed at the very least \emph{decently}. One may argue that the LSTM model is unstable or that using LDA produces lower accuracy predictions, but they nonetheless generated accuracies above 97.5\%. This remarkable result means that given a random sample from the dataset collected, with no samples from the session the sample was taken from used in training, we can correcly classify the surface as grass or non-grass 39/40 times even with the lower-performing classifiers. With the top performing fully connected model, even higher accuracy was obtained with a low standard deviation. 
+\section{Feature Extraction and Model Selection}
+Table \ref{tab:loo} is in many ways a very telling one. Here, each sample session was classified without using any of the samples from the session at hand. Instead, all other sessions were used in training. Six different methods of classification were evaluated; two linear and four nonlinear. 
+
+First and foremost it is noted that each tested method performed at the very least \emph{decently}. One may argue that the \gls{lstm} model is unstable or that using \gls{lda} produces lower accuracy predictions, but they nonetheless generated accuracies above 97\% on average. Considering these are the lower-performing classifiers, and the remaining ones perform even better, suggests that the performed feature extraction captures, or at least maintains, the cruicial information in the original data. 
+
+Some may argue that no feature extraction should be performed when working with deep neural networks; that the networks are complex enough to find good features on their own. If this is true, the network may yield a better result by omitting the feature extraction, as it could discard information in the original data. On the other hand, in favour of performing feature extraction, it reduces the number of features (and thereby computational cost) and - if done properly - represents samples with more robust features that are material specific.
+
+On a different note, the final choice of classifier is also debatable. The \gls{dnn} classifier was chosen mainly because of its high leave-one-out scores in table \ref{tab:loo}. But without blindly chasing an accuracy as high as possible, the results of the linear models are good enough to suggest that the data could be at least \textit{approximately} linearly separable. If it were, a non-linear model would not be necessary, hence further testing with linear models is motivated.
+
+\section{Errors and Uncertainties}
+As with all works, there are things that can go wrong due to either technical reasons or human reliability. The data collecting process is a prime example of where human reliability is inevitable. Here, fundamental decisions are made, which the entire work is based upon. For instance, in general, one strives for a dataset where the numbers of samples from each class are as balanced as possible. But the question of what a balanced dataset \textit{is}, sometimes has multiple answers. In this work, there are four different types of materials belonging to class 0 (not grass) and one belonging to class 1. A natural question to ask oneself is whether there should be equally many samples for each \textit{material}, or equally many for each \textit{class}. We have chosen to balance the dataset so that there are approximately as many samples in each class. If all grass surfaces looked the same, this would perhaps make the model biased in its predictions, but due to the great variety among grass surfaces the bias is eliminated.
+
+Another risk with collecting data is to obtain too little of it. However, looking at how high accuracies the models achieve as well as how little improvement the data augmentation yields, it is not likely that we provide too little data to our models.
+
+
+
+% This remarkable result means that given a random sample from the dataset collected, with no samples from the session the sample was taken from used in training, we can correcly classify the surface as grass or non-grass 39/40 times even with the lower-performing classifiers. With the top performing fully connected model, even higher accuracy was obtained with a low standard deviation. 
+
 
