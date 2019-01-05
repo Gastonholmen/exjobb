@@ -1,6 +1,7 @@
 \chapter{Feature selection}
+By manually extracting informative features from the dataset, we simplify the training process for machine learning models. While the feature extraction may be crucial for simple models, a more advanced model could figure it out on its own given enough complexity and training samples.
 
-In order to create an effective predictive model one must first select a set of features used to produce each classification. As both a science and an art, this process involves intuition, theory and a hefty amount of trial-and-error. Although a seemingly daunting task, for a model to be effective the feature selection procedure is key, and a carefully considered selection often generates significantly better results than one put together without much thought. 
+As both a science and an art, the feature extraction process involves intuition, theory and a hefty amount of trial-and-error. Although a seemingly daunting task, for a model to be effective the feature selection procedure is key, and a carefully considered selection often generates significantly better results than one put together without much thought. 
 
 Ideally, one seeks a small set of variables which accurately capture the information content in some larger set of data. After reducing the number of features into a more manageable format it is then possible to obtain good results with significantly less computational load than if no feature selection had been considered. 
 %Furthermore, the feature selection process allows us to pinpoint what data characteristics we wish to monitor, and subsequently which data characteristics we can disregard. 
@@ -52,7 +53,7 @@ In figure \ref{fig:sweep_average} we see what such an averaging process yields. 
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.7]{figs_temp/features/sweep_average}
-	\caption{By averaging a number of consecutive sweeps, we reduce noise and make samples more similar. The dashed line shows the average of the solid lines. }
+	\caption{By averaging the absolute values of a number of consecutive sweeps, we reduce noise and make samples more similar. The dashed line shows the average of the solid lines. }
 	\label{fig:sweep_average}
 \end{figure}
 
@@ -88,12 +89,12 @@ An alternative to studying the Fourier transform could therefore be to examine t
 
 \subsection{Autocovariance - range}
 \label{ACr}
-An obvious surface characteristic to ponder is roughness; while a tiled surface is typically very flat, grass is characterized by a random, unpredictable structure. It is reasonable to assume that there is more correlation between two closely spaced points on the tiled surface than there is on grass. This motivates us to study the autocovariance of the radar signal as the sensor moves forward. Figure \ref{fig:autocorr_range} illustrates the \textit{autocorrelations} for the different materials at a certain range. As expected, grass and tiles are two extremes in terms of roughness, and the other materials lie somewhere inbetween. Below, we explain how the autocovariance is formed as features before going into the classifier.
+An obvious surface characteristic to ponder is roughness; while a tiled surface is typically very flat, grass is characterized by a random, unpredictable structure. It is reasonable to assume that there is more correlation between two closely spaced points on the tiled surface than there is on grass. This motivates us to study the autocovariance of the radar signal as the sensor moves forward. Figure \ref{fig:autocorr_range} illustrates the normalized autocovariances (or autocorrelations) for the different materials at a certain range. As expected, grass and tiles are two extremes in terms of roughness, and the other materials lie somewhere inbetween. Below, we explain how the autocovariance is formed as features before going into the classifier.
 
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.45]{figs_temp/features/autocorr_range.png}
-	\caption{The graphs show the autocorrelations computed from a time-varying IQ-signal recorded at a range of approximately 19 cm. The tiled surface, which is the most even, corresponds to the graph with the highest autocorrelation. In contrast, the arguably most uneven surface - grass - is represented by the graph with the lowest autocorrelation.}
+	\caption{The graphs show the normalized autocovariances computed from a time-varying IQ-signal recorded at a range of approximately 13 cm. The tiled surface, which is the most even, corresponds to the graph with the highest autocorrelation. In contrast, the arguably most uneven surface - grass - is represented by the graph with the lowest autocorrelation.}
 	\label{fig:autocorr_range}
 \end{figure}
 
