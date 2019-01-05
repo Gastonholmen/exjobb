@@ -1,32 +1,31 @@
 \chapter{Feature selection}
 
-In order to create an effective predictive model one must first select a set of features used to produce each classification. As both a science and an art, this process involves intuition, theory and a hefty amount of trial-and-error. Although a seemingly daunting task, for a model to be effective the feature selection procedure is key, and a carefully considered selection often generates significantly better results than one put together without much thought. 
 
-Ideally, one seeks a small set of variables which accurately capture the information content in some larger set of data. After reducing the number of features into a more manageable format it is then possible to obtain good results with significantly less computational load than if no feature selection had been considered. 
-%Furthermore, the feature selection process allows us to pinpoint what data characteristics we wish to monitor, and subsequently which data characteristics we can disregard. 
+Machine learning algorithms aim to extract useful patterns in data. In our case, the data consist of the complex output of two radar receivers and the patterns we search for can be used to distinguish the surface type as either grass or non-grass. One way to accomplish this would be to simply hand this raw data to a classifier and allow it to figure out structures in the data on its own. However, for small autonomous devices hardware capabilities are often limited and radar systems very fast, thus making real-time classification of the entire bulk of acquired data difficult. 
+
+One effective method to reduce the computational classification cost is to perform \emph{feature extraction}. By extracting a smaller set of features from given data, we can significantly reduce the number of variables used in generating a machine learning prediction. Furthermore, the feature selection process allows us to pinpoint what data characteristics we wish to monitor, and subsequently which data characteristics we believe are of value. This ensures that the machine learning algorithm generates its predictions using patterns selected by the authors, rather than finding patterns on its own.  
+
+% Maybe change a bit...
 
 \section{An impossible modeling problem}
 
-Fundamentally, the radar used transmits pulses with some envelope $A(t)$ of some frequency $\Omega$ into its surroundings.
+Ideally, one seeks a small set of variables which accurately capture the information content in the larger set of data. After reducing the number of features into a more manageable format it is then possible to obtain good results with significantly less computational load than if no feature selection had been considered. Thus, if the exact structure of the returning signals were known, we could simply estimate its parameters and classify using those. 
 
-\begin{equation}
-	x(t) = A(t)\sin(\Omega t + \varphi)
-\end{equation}
-
-Upon reflection, a signal $s(t)$ bounces back to the receiving antenna. This signal is comprised of radiation diffuesly scattered from the target scene. It contains both specular (i.e. mirror-like) and non-specular reflective components. Its content will be a function dependant both on the surrounding surface topography, as well as the dielectric properties of the surface at hand \citep{grossman_popovic_chamberlin_gordon_novotny_2017}. Furthermore, the surfaces at hand have a, to some degree, random structure with varying characteristics. The great difficulty with modeling $s(t)$ is clear - the universe of all possible "realistic" surfaces, both natural and man-made, is almost impossibly large. Without making significant assumptions with regards to surface roughness or dielectric properties, there is no general model of $s(t)$ we can make use of. Instead, we have to come up with a set of \emph{reasonable} features that \emph{should} capture the signal structure. These features will not be based on any specific signal model, but instad rely on the returning signals having stable structure over brief periods of time. Hence our task is to find \emph{defining characteristics} from a given surface using the sequence of one dimensional data obtained from a radar sensor. 
-
-
-As the radar samples rather quickly at around 200 Hz we can allow ourselves to use a sequence of sweeps to generate one prediction. This allows for feature-processing over a number of sweeps, rather than on a sweep-by-sweep basis. Besides improving the signal-to-noise ratio \citep{w_doerry_2016} we may also investigate time correlations when using multiple radar sweeps. If $T$ sweeps are used per classification, the rate of classifications $F_c$ produced relates to the sampling rate $F_s$ through
-
-\begin{equation}
-	\label{eq:classification_rate}
-	F_c = \frac{F_s}{T}
-\end{equation} 
-The parameter $T$ becomes a tradeoff between accuracy and classification rate. The more samples $T$ used per classification the higher the classification accuracy is, but with the cost of a lower classification frequency. Conversely we may be able to generate feature estimates more rapidly by setting $T$ to a lower value, but will in the process end up with worse feature estimates. 
+However, in the preceding chapter, we saw that the envelope of a returning pulse from a point scatterer, after analog convolution and demodulation, has a width of roughly twice the pulse length, which corresponds to $2\times50\times 10^{-15}\text{ [s]}\times c \text{ [m/s]}= 3$ cm with the pulse length in table \ref{tab:sensor_settings}. If the target is a surface, the returning signal is comprised of radiation diffusely scattered containing both specular and non-specular components. The content of the signal will be a function dependent both on the surrounding surface topography, as well as the dielectric properties of the surface at hand \citep{grossman_popovic_chamberlin_gordon_novotny_2017}. The great difficulty in modeling this returning signal is clear - the universe of all possible "realistic" surfaces, both natural and man-made, is almost impossibly large. Instead of modeling the returning signal exactly, we instead extract \emph{reasonable} features that \emph{should} capture the signal structure based on the results from chapter 2.  
 
 \section{Features}
 
-The reflectivity of a material, described by its dielectric constant, shows up in the obtained IQ-demodulated sweeps in the amplitude of the returning signals. Therefore it might seem like a good idea to simply measure the energy content of a sweep and use it as a feature. However, due to inconsistencies inbetween individual sensors, sweep normalization is performed as a pre-processing step rendering such calculations unusable. We are thus left with investigating the topography of the scene. 
+As the radar samples rather quickly at around 200 Hz we can allow ourselves to use a sequence of sweeps to generate one prediction. This allows for feature-processing in slow time rather than solely in fast time. Estimating features over multiple sweeps can also mitigate noise effects \citep{w_doerry_2016}. If $T$ sweeps are used per classification, the rate of classifications $F_c$ produced relates to the sampling rate $F_s$ through
+
+\begin{equation}
+	\label{eq:classification_rate}
+	F_c = \frac{F_s}{T}.
+\end{equation} 
+
+Hence, the parameter $T$ becomes a tradeoff between feature accuracy and classification rate. The more samples $T$ used per classification, the better the extracted features become but with the cost of a lower classification frequency. Conversely we may be able to generate feature estimates more rapidly by setting $T$ to a lower value, but will in the process end up with worse feature estimates. 
+
+% Described in the preceding chapter...
+%The reflectivity of a material, described by its dielectric constant, shows up in the obtained IQ-demodulated sweeps in the amplitude of the returning signals. Therefore it might seem like a good idea to simply measure the energy content of a sweep and use it as a feature. However, due to inconsistencies inbetween individual sensors, sweep normalization is performed as a pre-processing step rendering such calculations unusable. We are thus left with investigating the topography of the scene. 
 
 In this section four different types of features are discussed aimed at capturing the geometric characteristics of a target surface. A radar datapoint captured at time $t$ and range $n$ is denoted as $x(n,t)$. Since we are using $T$ samples per classification, each new set of features $\mathbf{f}_m$ are estimated from time $t_m=Tm$ to $Tm+T-1$.
 
@@ -36,7 +35,7 @@ In this section four different types of features are discussed aimed at capturin
 First of all we may characterize a sweep by its envelope form - that is, the shape of the absolute values of the radar sweeps. If we can assume that the samples are taken from some unknown stochastic process $X_{n,t}$ with constant mean over $T$ samples we may for range $n$ and feature index $m$ form an estimate of the expected envelope, $s_n(m)$. The estimate is formed by computing the average of $T$ consecutive sweeps
 
 \begin{equation}
-	s_n(m) = \E\{X_{n,t_m}\} \approx \frac{1}{T}\sum_{t=0}^{T-1}|x(n, t_m + t)|.
+	s_n(m) = \frac{1}{T}\sum_{t=0}^{T-1}|x(n, t_m + t)|.
 \end{equation}
 
 In figure \ref{fig:sweep_average} we see what such an averaging process yields. Individual variances are suppressed to form a stable estimate of the sweep shape. The estimates for several range bins form the expected signal feature vector $\mathbf{f}_{s,m}$ as 
@@ -52,12 +51,14 @@ In figure \ref{fig:sweep_average} we see what such an averaging process yields. 
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.7]{figs_temp/features/sweep_average}
-	\caption{By averaging a number of consecutive sweeps, we reduce noise and make samples more similar. The dashed line shows the average of the solid lines. }
+	\caption{By averaging a number of envelopes we obtain the average envelope shape, shown as the dashed line.}
 	\label{fig:sweep_average}
 \end{figure}
 
 
 \subsection{Fourier Transform}
+% "Velocity profile" should be used...
+
 While traversing a static surface at a constant speed, one could think of it as the details on the surface, such as small rocks, are moving closer to the radar sensor. As discussed in section \ref{doppler}, this alters the frequency of the transmitted signal according to the Doppler effect, and the radar detects beat frequencies, corresponding to the frequency shifts. Depending on the surface's characteristics, the doppler frequencies may vary. 
 
 One way to obtain the the frequency contents is by means of the \gls{dft}. In figure \ref{fig:fft}, typical \gls{dft}s are shown for all materials. The figure is intended to show differences in the \gls{dft}s. Hence, to make the difference more clear, the squre root of the \gls{dft}s have been plotted. For grass (the top two plots), it can be seen that the frequency content is contained mainly at the zero frequency and close to it. The other materials contain slightly higher frequency content as well. Gravel, in particular, differs a lot from the other materials with a wide variety of frequency components.
