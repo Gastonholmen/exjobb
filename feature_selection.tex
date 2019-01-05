@@ -187,14 +187,14 @@ where $K$ is the number of covariance steps included in each sample.
 
 
 \begin{table}
-\begin{center}
 \rowcolors{2}{gray!25}{white}
+\begin{center}
   \begin{tabular}{|c|cccccc|}
 \hline
     \rowcolor{gray!150}
 		  & \color{white}\textbf{Abs} & \color{white}\textbf{AC Energy} & \color{white}\textbf{AC Range} & \color{white}\textbf{FFT} & \color{white}\textbf{Features} & \color{white}\textbf{Accuracy} \\
 	  Config 1 & X &   &   &   & 28  & 94.49 \\
-	  Config 2 & X & X & X & & 175 & 98.49 \\
+	  Config 2 & X & X & X & & 174 & 98.49 \\
 	  Config 3 & & & & X & 700 & 98.38 \\
 \hline
   \end{tabular}
@@ -207,16 +207,16 @@ where $K$ is the number of covariance steps included in each sample.
 \subsection{Tested feature combinations}
 Before performing any feature processing, the data is downsampled by a downsampling factor $D=24$ (see section \ref{downsampling}) such that only 14 out of the 331 range bins are studied. Thus, the resulting datasquare matrix, $\mathbf{R}\in \mathbb{C}^{N\times 28}$, where $N$ is the number of samples. There are 28 columns as the readings from the two sensors are concatenated. 
 
-In above section, four different feature extraction methods were described - the average signal shape, the autocovariance in range and energy, as well as the Fourier transform. The methods each generate a number of features. However, we are not limited to feed our model with features taken from a single one of the methods. In table \ref{tab:feat}, three possible configurations of features are chosen. Each of these combinations were fed through the same classifier to evaluate which was the most efficient. The first one, which simply involves the averaged signal shape, requires much fewer features than the other two combinations - simply 28 positive real numbers. But looking at its performance, these features are not enough to reach the accuracy attained in the other two cases. By instead selecting autocovariances as features the accuracy increases by 4 percentage points. Here we also include the absolute values as features, as this information is lost when subtracting the mean during the computation of the autocovariances. This configuration generates a feature vector with 175 elements, as seen in figure \ref{fig:feat_fig}. 28 features come from the absolute values, 6 features come from six steps in the energy autocovariance. The majority of the features, 140 to be exact, come from the autocovariance in range. For each of the 28 range bins, there is one real-valued feature representing variance, followed by two complex autocovariances for each range bin. This should give us $28+2\cdot 28=84$ features, but as the real- and imaginary parts of complex numbers are split up in two features, we obtain $28+2\cdot2\cdot 28=140$ features. Finally, a constant bias feature is added, and the total number of features add up to 28+6+140+1=175.
+In above section, four different feature extraction methods were described - the average signal shape, the autocovariance in range and energy, as well as the Fourier transform. The methods each generate a number of features. However, we are not limited to feed our model with features taken from a single one of the methods. In table \ref{tab:feat}, three possible configurations of features are chosen. Each of these combinations were fed through the same classifier to evaluate which was the most efficient. The first one, which simply involves the averaged signal shape, requires much fewer features than the other two combinations - simply 28 positive real numbers. But looking at its performance, these features are not enough to reach the accuracy attained in the other two cases. By instead selecting autocovariances as features the accuracy increases by 4 percentage points. Here we also include the absolute values as features, as this information is lost when subtracting the mean during the computation of the autocovariances. This configuration generates a feature vector with 174 elements, as seen in figure \ref{fig:feat_fig}. 28 features come from the absolute values, 6 features come from six steps in the energy autocovariance. The majority of the features, 140 to be exact, come from the autocovariance in range. For each of the 28 range bins, there is one real-valued feature representing variance, followed by two complex autocovariances for each range bin. This should give us $28+2\cdot 28=84$ features, but as the real- and imaginary parts of complex numbers are split up in two features, we obtain $28+2\cdot2\cdot 28=140$ features. The total number of features therefore becomes $28+6+140=174$.
 
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.8]{figs_temp/features.jpg}
-	\caption{Origin of the 175 features in features in feature configuration 2.}
+	\caption{Origin of the 174 features in features in feature configuration 2.}
 	\label{fig:feat_fig}
 \end{figure}
 
-We can also choose to look at the Fourier transform, as in configuration 3. With these features we reach a slightly lower accuracy than configuration 2, but more importantly we would need 700 features compared to 175. The 700 features is a result of computing a discrete Fourier transform along the time series of all 28 ranges, over 25 samples\footnote{Ideally, the \gls{dft} should be computed over a number of samples which is a power of 2. However, to get a fair comparison of the feature extraction methods, we utilize the same number of samples for all methods.}. The length of each transform is 25, and by concatenating them all into one feature vector, it will have $28\cdot 25=700$ elements.
+We can also choose to look at the Fourier transform, as in configuration 3. With these features we reach a slightly lower accuracy than configuration 2, but more importantly we would need 700 features compared to 174. The 700 features is a result of computing a discrete Fourier transform along the time series of all 28 ranges, over 25 samples\footnote{Ideally, the \gls{dft} should be computed over a number of samples which is a power of 2. However, to get a fair comparison of the feature extraction methods, we utilize the same number of samples for all methods.}. The length of each transform is 25, and by concatenating them all into one feature vector, it will have $28\cdot 25=700$ elements.
 
 This makes configuration 2 more favorable as fewer features demands less computational costs and memory usage. Hence it is deemed the most efficient configuration.
 
@@ -227,12 +227,12 @@ Through the point and feature selection methods described in previous sections w
 
 \gls{pca} is  a classical technique in statistical data analysis which takes a large set variables from a multivariate dataset and finds a smaller set of variables with less redundancy. Critically, \gls{pca} finds a rotated orthogonal coordinate system such that the elements of the set become uncorrelated. Projecting elements on the principal axes corresponding to the directions of maximal variance a good approximation of the original data in lower dimension is obtained \citep{hyvasrinen_karhunen_oja_2004}.
 
-After having chosen to proceed with feature configuration 2 in table \ref{tab:feat}, the 175 dimensions can be reduced to 2 dimensions using \gls{pca}. This helps to visualize the separability of the different materials as seen in figure \ref{fig:pca}.
+After having chosen to proceed with feature configuration 2 in table \ref{tab:feat}, the 174 dimensions can be reduced to 2 dimensions using \gls{pca}. This helps to visualize the separability of the different materials as seen in figure \ref{fig:pca}.
 
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.50]{figs_temp/pca_analysis.png}
-	\caption{By performing a principal component analysis on the feature vectors we may reduce them from a 175-dimensional space into 2 dimensions, maintaining maximal variance. This allows us to visualize, and get an idea of how separable the materials are.}
+	\caption{By performing a principal component analysis on the feature vectors we may reduce them from a 174-dimensional space into 2 dimensions, maintaining maximal variance. This allows us to visualize, and get an idea of how separable the materials are.}
 	\label{fig:pca}
 \end{figure}
 
