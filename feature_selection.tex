@@ -77,9 +77,9 @@ As for the feature vector, a $T$-step DFT along the slow time axis is first comp
 \end{equation}
 After this, the transformations for all ranges are concatenated into a one-dimensional feature vector of the form
 \begin{equation}
-	\textbf{f}_{f}=\begin{bmatrix} |\mathbf{d}_0|^* & |\mathbf{d}_1|^* & \hdots & |\mathbf{d}_N|^* \end{bmatrix},
+	\textbf{f}_{f}=\begin{bmatrix} |\mathbf{d}_0|^* & |\mathbf{d}_1|^* & \hdots & |\mathbf{d}_K|^* \end{bmatrix},
 \end{equation}
-where $|\cdot|^*$ denotes elementwise absolute values, and $N$ is the number of fast time samples.
+where $|\cdot|^*$ denotes elementwise absolute values, and $K$ is the number of fast time samples.
 
 % This section is weirdly written imo 
 An important remark to make is that under the assumption that the autocovariance function of a process $y_t$ decays sufficiently fast, it is closely related to the Fourier transform of the process. The Wiener-Khinchin theorem states that \citep{lu_vaswani_2009} with certain properties\footnote{The process has to be wide sense stationary. The meaning of this is defined in section \ref{ACr}.}, a process, $y_t$, the Fourier transform of its autocovariance function, denoted $\phi_y(\omega)$, relates to the Fourier transform of the actual process according to \citep{jakobsson_2015}
@@ -101,7 +101,7 @@ An alternative to studying the Fourier transform could therefore be to examine t
 % Tie this into preceding section instead. Autocov allows for calculating the number of lags. 
 An obvious surface characteristic to ponder is roughness; while a tiled surface is typically very flat, grass is characterized by a random, unpredictable structure. It is reasonable to assume that there is more correlation between two closely spaced points on the tiled surface than there is on grass. This motivates us to study the autocovariance of the radar signal as the sensor moves forward.
 
-Figure \ref{fig:autocorr_range} illustrates the normalized autocovariances (or autocorrelations) for the different materials at a certain range. As expected, grass and tiles are two extremes in terms of roughness, and the other materials lie somewhere inbetween. Below, we explain how the autocovariance is formed as features before going into the classifier.
+Figure \ref{fig:autocorr_range} illustrates the normalized autocovariances (or autocorrelations) for the different materials at a certain range. As expected, grass and tiles are two extremes in terms of roughness, and the other materials lie somewhere inbetween. Below, we explain how the autocovariance is formed in terms of features as preparation for the classifier.
 
 \begin{figure}[h]
 	\centering
@@ -110,81 +110,81 @@ Figure \ref{fig:autocorr_range} illustrates the normalized autocovariances (or a
 	\label{fig:autocorr_range}
 \end{figure}
 
-We can regard the sequence $\{x(n,t)\}_{t=t_m}^{t_m+T-1}$ of measurements of range $n$ as samples from a stochastic process $X_{n,t}$ with the autocovariance function
+%We can regard the sequence $\{x(n,t)\}_{t=t_m}^{t_m+T-1}$ of measurements of range $n$ as samples from a stochastic process $X_{n,t}$ with the autocovariance function
 
-\begin{equation}
-	C_{XX}(n,t,s) = \text{Cov}(X_{n,t},X_{n,s}).
-\end{equation}
+%\begin{equation}
+%	C_{XX}(n,t,s) = \text{Cov}(X_{n,t},X_{n,s}).
+%\end{equation}
 
 
 % We should maybe remove this tbh... or at the very least move it
-\noindent
-If we then can consider the process to have the following three properties:
-\emph{
-\begin{enumerate}
-	\item Constant finite mean
-	\item Autocovariance function only dependant on the difference $(s-t)$ and not on actual values of $s$ and $t$.
-	\item Finite variance
-\end{enumerate}
-}
-\noindent
-over the time interval $t_m$ to $t_m+T-1$, it can be regarded as a \emph{Wide-Sense Stationary} (WSS) process \citep{jakobsson_2015}. The first and second assumptions require the returning signal to carry some level of stability, which is reasonble considering the short time-frame $T/F_s$ considered. From the autocovariance function 
+%\noindent
+%If we then can consider the process to have the following three properties:
+%\emph{
+%\begin{enumerate}
+%	\item Constant finite mean
+%	\item Autocovariance function only dependant on the difference $(s-t)$ and not on actual values of $s$ and $t$.
+%	\item Finite variance
+%\end{enumerate}
+%}
+%\noindent
+%over the time interval $t_m$ to $t_m+T-1$, it can be regarded as a \emph{Wide-Sense Stationary} (WSS) process \citep{jakobsson_2015}. The first and second assumptions require the returning signal to carry some level of stability, which is reasonble considering the short time-frame $T/F_s$ considered. 
+We assume that $x(n,t)$ are samples from a stochastic process $X_{n,t}$ which is wide sense stationary (WSS) \citep{jakobsson_2015} over some short time $T/F_s$. Its autocovariance function for some range, $n$ may then be defined as
+\begin{equation}
+	r_n(k) = {\E}_t\big\{(X_{n,t} - \mu_n)^*(X_{n,t+k} - \mu_n)\big\}
+\end{equation}
+where $\mu_n=\E_t\{X_{n,t}\}$. We can form the (biased) estimate of the autocovariance function through
 
 \begin{equation}
-	r_n(m, k) = \E\big\{(X_{n,t_m} - \E\{X_{n,t_m}\})^*(X_{n,t_m+k} - \E\{X_{n,t_m+k}\})\big\}
+	\hat{r}_n(k) = \frac{1}{T}\sum_{t=0}^{T-1-k}\big(x(n,t) - \hat{\mu}_n\big)^*\big(x(n,t+k) - \hat{\mu}_n\big).
 \end{equation}
-
-\noindent
-we can then form the (biased) estimated autocovariance function through
-
-% Math is incorrect! no s - s are absolute values...
+where 
 \begin{equation}
-	\hat{r}_n(m, k) = \frac{1}{T}\sum_{t=0}^{T-1-k}\big(x(n,t_m+t) - s_n(m)\big)^*\big(x(n,t_m+t+k) - s_n(m)\big).
+	\hat{\mu}_n = \frac1T \sum_{t=0}^{T-1}x(n,t).
 \end{equation}
-
 
 Note that the bias in this estimate is completely inconsequential as all features later are normalized to zero mean unit variance.  Thus, the features formed are
 
 \begin{equation}
-	\hat{\mathbf{r}}_{m,k} = 
+	\hat{\mathbf{r}}_{k} = 
 	\begin{bmatrix}
-		\hat{r}_0(m,k) & \hat{r}_1(m,k) & ... & \hat{r}_{K-1}(m,k)
+		\hat{r}_0(k) & \hat{r}_1(k) & ... & \hat{r}_{K-1}(k)
 	\end{bmatrix}.
 \end{equation}
 
 Noting that the autocovariance sequence at 0 lag produce only real numbers, as any complex number $z = a + bi$ multiplied with its conjugate has zero imaginary part $\text{Im}(zz^*) = \text{Im}((a + bi)(a - bi)) = \text{Im}(a^2 + b^2) = 0$, we may form the full feature component for $q$ autocovariance lags $\mathbf{f}_{r,m}$ as
 
 \begin{equation}
-	\mathbf{f}_{r,m} = 
+	\mathbf{f}_{r} = 
 	\begin{bmatrix}
-		\hat{\mathbf{r}}_{m,0}  & \text{Re}(\hat{\mathbf{r}}_{m,1} ) & \text{Im}(\hat{\mathbf{r}}_{m,1} ) & ... & \text{Re}(\hat{\mathbf{r}}_{m,q} ) & \text{Im}(\hat{\mathbf{r}}_{m,q} ).
+		\hat{\mathbf{r}}_{0}  & \text{Re}(\hat{\mathbf{r}}_{1} ) & \text{Im}(\hat{\mathbf{r}}_{1} ) & ... & \text{Re}(\hat{\mathbf{r}}_{q} ) & \text{Im}(\hat{\mathbf{r}}_{q} ).
 	\end{bmatrix}
 \end{equation}
-From figure \ref{fig:autocorr_range}, we see that the the 1-step autocorrelation is what separates grass from other materials the most. For the feature vector we choose $q=2$, thus including the variance as well as autocovariance steps 1 and 2 for the \textit{normalized} sweeps.
+From figure \ref{fig:autocorr_range}, we see that the the 1-step autocorrelation is what separates grass from other materials the most. For the feature vector we choose $q=2$, thus ncluding the variance as well as autocovariance steps 1 and 2 for the normalized sweeps.
 
 
 \subsection{Autocovariance - energy}
 
-While the sweep normalization process rendered absolute mesurements of signal energy useless, we are still able to investigate its time-dependant structure through the autocovariane function. First we estimate the energy in each sweep $v(t)$ and the average energy $v_a(t)$ in $T$ number of sweeps, and then calculate the real-valued autocovariance sequence $h(m,k)$. 
+While the sweep normalization process rendered absolute mesurements of signal energy useless, we are still able to investigate its time-dependant structure through the autocovariane function. First we estimate the energy in each sweep $v(t)$ and the average energy $v_a(t)$ in $T$ number of sweeps, and then calculate the real-valued autocovariance sequence $h(k)$. 
 
 \begin{equation}
 	v(t) = \frac{1}{N}\sum_{n=0}^{N-1}x(n,t)x^*(n,t)
 \end{equation}
 
 \begin{equation} 
-	v_a(m) = \frac{1}{T}\sum_{t=0}^{T-1}v(t_m+t)
+	v_a = \frac{1}{T}\sum_{t=0}^{T-1}v(t)
 \end{equation}
 
 \begin{equation}
-	h(m,k) = \frac{1}{T}\sum_{t=0}^{T-1-k}\big(v(t_m+t) - v_a(m)\big)^*\big(v(t_m+t+k) - v_a(m)\big)
+	h(k) = \frac{1}{T}\sum_{t=0}^{T-1-k}\big(v(t) - v_a\big)^*\big(v(t+k) - v_a\big)
 \end{equation}
 
-As $h(m,k)$ only consist of real values, the energy autocovariance feature vector $\mathbf{f}_{h,m}$ is formed as
+As $h(k)$ only consist of real values, the energy autocovariance feature vector $\mathbf{f}_{h}$ is formed as
 
 \begin{equation}
-	\mathbf{f}_{h,m} = 
+	\mathbf{f}_{h} = 
 	\begin{bmatrix}
-		h(m,0) & h(m,1) & ... & h(m,K-1),
+		h(0) & h(1) & ... & h(K-1),
 	\end{bmatrix}
 \end{equation}
 where $K$ is the number of covariance steps included in each sample. 

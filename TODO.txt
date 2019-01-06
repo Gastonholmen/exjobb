@@ -22,9 +22,9 @@ Ch 3
 [X] Downsampling: start/stop/step etc. Check constatnts on acconeerfs 
 
 Ch 4
- G Remove sample index
+[X] Remove sample index
  - DFT notation
- G Error in eq. 4.9
+[X] Error in eq. 4.9
  G DFT/Autocov as BF analysis alternatives
  - Model appearing later
 [X] Downsampling factor in 4.2.5 after changing in ch 3.
