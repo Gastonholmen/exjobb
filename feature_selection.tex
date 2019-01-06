@@ -25,23 +25,23 @@ Hence, the parameter $T$ becomes a tradeoff between feature accuracy and classif
 % Described in the preceding chapter...
 %The reflectivity of a material, described by its dielectric constant, shows up in the obtained IQ-demodulated sweeps in the amplitude of the returning signals. Therefore it might seem like a good idea to simply measure the energy content of a sweep and use it as a feature. However, due to inconsistencies inbetween individual sensors, sweep normalization is performed as a pre-processing step rendering such calculations unusable. We are thus left with investigating the topography of the scene. 
 
-In this section four different types of features are discussed aimed at capturing the geometric characteristics of a target surface. A radar datapoint captured at time $t$ and range $n$ is denoted as $x(n,t)$. Since we are using $T$ samples per classification, each new set of features $\mathbf{f}_m$ are estimated from time $t_m=Tm$ to $Tm+T-1$.
+In this section four different types of features are discussed aimed at capturing the geometric characteristics of a target surface. From a small data matrix, $\mathbf{R}_f$, consisting of $T$ sweeps, a feature vector, $\mathbf{f}_m$, is derived for each type of feature. The elements in $\mathbf{R}_f$ are denoted $x(n,t)$, where $n$ and $t$ correspond to fast- and slow time indices within $\mathbf{R}_f$, respectively.
 
 
-\subsection{Expected signal}
+\subsection{Expected Envelope}
 
-First of all we may characterize a sweep by its envelope form - that is, the shape of the absolute values of the radar sweeps. If we can assume that the samples are taken from some unknown stochastic process $X_{n,t}$ with constant mean over $T$ samples we may for range $n$ and feature index $m$ form an estimate of the expected envelope, $s_n(m)$. The estimate is formed by computing the average of $T$ consecutive sweeps
+First of all we may characterize a sweep by its envelope form - that is, the shape of the absolute values of the radar sweeps. If we can assume that the samples are taken from some unknown stochastic process $X_{n,t}$ with constant mean over $T$ samples we may for range $n$ form an estimate of the expected envelope, $s(n)$. The estimate is formed by computing the average of $T$ consecutive sweeps
 
 \begin{equation}
-	s_n(m) = \frac{1}{T}\sum_{t=0}^{T-1}|x(n, t_m + t)|.
+	s(n) = \frac{1}{T}\sum_{t=0}^{T-1}|x(n, t)|.
 \end{equation}
 
-In figure \ref{fig:sweep_average} we see what such an averaging process yields. Individual variances are suppressed to form a stable estimate of the sweep shape. The estimates for several range bins form the expected signal feature vector $\mathbf{f}_{s,m}$ as 
+In figure \ref{fig:sweep_average} we see what such an averaging process yields. Individual variances are suppressed to form a stable estimate of the sweep shape. With $K$ fast time samples, the estimate of the expected envelope feature vector becomes 
 
 \begin{equation}
-	\mathbf{f}_{s,m} = 
+	\mathbf{f}_{s} = 
 	\begin{bmatrix}
-		s_0(m) & s_1(m) & ... & s_{K-1}(m)
+		s(0) & s(1) & ... & s(K-1)
 	\end{bmatrix}.
 \end{equation}
 
@@ -69,15 +69,17 @@ As discussed in section \ref{doppler} we can relate the velocity of a scatterer 
 % I think the notation looks strange here...
 % Instead just write the DFT? 
 
-As for the feature vector, a data matrix consisting of $T$ sweeps is selected. Viewing this as a matrix with elements $x(n,t)$, we can compute a $k$-step Fourier transform for each range, $n$, and sample index $m$, as
+%As for the feature vector, a data matrix consisting of $T$ sweeps is selected. Viewing this as a matrix with elements $x(n,t)$, we can compute a $k$-step Fourier transform for each range, $n$, and sample index $m$, as
+
+As for the feature vector, a $T$-step DFT along the slow time axis is first computed for each range, $n$ as
 \begin{equation}
-	\{\mathbb{X}^{(k)}_{n,m}\}_{k=0}^{T-1} =  \sum_{l=0}^{T-1}x(n,t_m+l)\exp\Big[-2\pi i\frac{kl}{T}\Big].
+	\mathbf{d}_n=\text{DFT}(x(n,t))_t =  \sum_{t=0}^{T-1}x(n,t)\exp\Big[-2\pi i\frac{kt}{T}\Big], \quad k=0,...,T-1.
 \end{equation}
-After this, the absolute value of the Fourier transform is computed and the transformations of all ranges in the datasquare are concatenated into a one-dimensional feature vector of the form
+After this, the transformations for all ranges are concatenated into a one-dimensional feature vector of the form
 \begin{equation}
-	\textbf{f}_{f,m}=\begin{bmatrix} \{|\mathbb{X}_{0,m}^{(k)}|\}_{k=0}^{T-1} & \{|\mathbb{X}_{1,m}^{(k)}|\}_{k=0}^{T-1} & \hdots & \{|\mathbb{X}_{R,m}^{(k)}|\}_{k=0}^{T-1} \end{bmatrix},
+	\textbf{f}_{f}=\begin{bmatrix} |\mathbf{d}_0|^* & |\mathbf{d}_1|^* & \hdots & |\mathbf{d}_N|^* \end{bmatrix},
 \end{equation}
-where $R$ is the number of considered ranges.
+where $|\cdot|^*$ denotes elementwise absolute values, and $N$ is the number of fast time samples.
 
 % This section is weirdly written imo 
 An important remark to make is that under the assumption that the autocovariance function of a process $y_t$ decays sufficiently fast, it is closely related to the Fourier transform of the process. The Wiener-Khinchin theorem states that \citep{lu_vaswani_2009} with certain properties\footnote{The process has to be wide sense stationary. The meaning of this is defined in section \ref{ACr}.}, a process, $y_t$, the Fourier transform of its autocovariance function, denoted $\phi_y(\omega)$, relates to the Fourier transform of the actual process according to \citep{jakobsson_2015}
