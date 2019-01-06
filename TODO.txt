@@ -25,7 +25,7 @@ Ch 4
  G Remove sample index
  - DFT notation
  G Error in eq. 4.9
- - DFT/Autocov as BF analysis alternatives
+ G DFT/Autocov as BF analysis alternatives
  - Model appearing later
 [X] Downsampling factor in 4.2.5 after changing in ch 3.
 
