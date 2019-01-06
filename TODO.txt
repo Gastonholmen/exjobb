@@ -23,7 +23,7 @@ Ch 3
 
 Ch 4
 [X] Remove sample index
- - DFT notation
+[X] DFT notation
 [X] Error in eq. 4.9
  G DFT/Autocov as BF analysis alternatives
  - Model appearing later

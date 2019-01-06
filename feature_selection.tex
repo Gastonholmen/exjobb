@@ -57,7 +57,7 @@ In figure \ref{fig:sweep_average} we see what such an averaging process yields. 
 \subsection{Fourier Transform}
 % "weighted velocity profile" should be used...
 
-As discussed in section \ref{doppler} we can relate the velocity of a scatterer to its \gls{bf} through \ref{eq:dopp}. When an entire target scene is illuminated, computing a \gls{dft} thus provides a \emph{velocity profile} of the scene at every range. No aliasing in the frequency spectrum should occurr as the sampling rate was set with the Nyquist criterion in mind. In figure \ref{fig:fft} the \gls{dft}'s of radar \gls{iq} data are shown for all surface types considered in this work. For visualization purposes the square root of the absolute values of the \gls{dft} are shown. For grass (the top two plots), it can be seen that the frequency content is contained mainly in the vicinity of zero frequency bin, while the other materials contain considerably larger higher frequency components. %Gravel in particular differs a lot from the other materials with a wide variety of frequency components.
+As discussed in section \ref{doppler} we can relate the velocity of a scatterer to its \gls{bf} through \ref{eq:dopp}. When an entire target scene is illuminated, computing a \gls{dft} thus provides a \emph{velocity profile} of the scene at every range. No aliasing in the frequency spectrum should occurr as the sampling rate was set with the Nyquist criterion in mind. In figure \ref{fig:fft} the \gls{dft}'s of radar \gls{iq} data are shown for all surface types considered in this work. For visualization purposes the square root of the absolute values of the \gls{dft} are shown. For grass (the top two plots), it can be seen that the frequency content is contained mainly in the vicinity of the zero frequency bin, while the other materials contain considerably larger higher frequency components. %Gravel in particular differs a lot from the other materials with a wide variety of frequency components.
 
 %While traversing a static surface at a constant speed, one could think of it as the details on the surface, such as small rocks, are moving closer to the radar sensor. As discussed in section \ref{doppler}, this alters the frequency of the transmitted signal according to the Doppler effect, and the radar detects beat frequencies, corresponding to the frequency shifts. Depending on the surface's characteristics, the doppler frequencies may vary. 
 
@@ -81,12 +81,13 @@ After this, the transformations for all ranges are concatenated into a one-dimen
 \end{equation}
 where $|\cdot|^*$ denotes elementwise absolute values, and $K$ is the number of fast time samples.
 
+
 % This section is weirdly written imo 
-An important remark to make is that under the assumption that the autocovariance function of a process $y_t$ decays sufficiently fast, it is closely related to the Fourier transform of the process. The Wiener-Khinchin theorem states that \citep{lu_vaswani_2009} with certain properties\footnote{The process has to be wide sense stationary. The meaning of this is defined in section \ref{ACr}.}, a process, $y_t$, the Fourier transform of its autocovariance function, denoted $\phi_y(\omega)$, relates to the Fourier transform of the actual process according to \citep{jakobsson_2015}
-\begin{equation}
-	\phi_y(\omega) = \lim\limits_{N\rightarrow\infty}E\Bigg\{\frac1N\Big|\sum^N_{t=1}y_te^{-j\omega t}\Big|^2\Bigg\}=\lim\limits_{N\rightarrow\infty}E\Big\{\frac1N|Y_N(\omega)|^2\Big\}.
-\end{equation}
-An alternative to studying the Fourier transform could therefore be to examine the autocovariance of time series of IQ data.
+%An important remark to make is that under the assumption that the autocovariance function of a process $y_t$ decays sufficiently fast, it is closely related to the Fourier transform of the process. The Wiener-Khinchin theorem states that \citep{lu_vaswani_2009} with certain properties\footnote{The process has to be wide sense stationary. The meaning of this is defined in section \ref{ACr}.}, a process, $y_t$, the Fourier transform of its autocovariance function, denoted $\phi_y(\omega)$, relates to the Fourier transform of the actual process according to \citep{jakobsson_2015}
+%\begin{equation}
+%	\phi_y(\omega) = \lim\limits_{N\rightarrow\infty}E\Bigg\{\frac1N\Big|\sum^N_{t=1}y_te^{-j\omega t}\Big|^2\Bigg\}=\lim\limits_{N\rightarrow\infty}E\Big\{\frac1N|Y_N(\omega)|%^2\Big\}.
+%\end{equation}
+%An alternative to studying the Fourier transform could therefore be to examine the autocovariance of time series of IQ data.
 
 \begin{figure}[h]
 	\centering
