@@ -19,15 +19,15 @@ Ch 2
  - RCS - explain beter.
 
 Ch 3
- - Downsampling: start/stop/step etc. Check constatnts on acconeerfs 
+[X] Downsampling: start/stop/step etc. Check constatnts on acconeerfs 
 
 Ch 4
  - Remove sample index
  - DFT notation
- - Error in eq. 4.9
+ G Error in eq. 4.9
  - DFT/Autocov as BF analysis alternatives
  - Model appearing later
- - Downsampling factor in 4.2.5 after changing in ch 3.
+[X] Downsampling factor in 4.2.5 after changing in ch 3.
 
 Ch 5
  D Hyperas - which parameters were optimized? 
