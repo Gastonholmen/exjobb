@@ -150,15 +150,16 @@ The values chosen for the three parameters are summarized in table \ref{tab:sens
 
 In information theory we interpret and quantify random variables by how unpredictable or unstructured observations of the random variables are \citep{anderson_johnnesson_2006}. Using such a framework, we could argue that variables that contain the same information as others in the same set are obsolete and can be discarded \citep{hyvasrinen_karhunen_oja_2004}, as we ideally we want data that contain information not found elsewhere in the set. 
 
-Using the settings in table \ref{tab:sensor_settings} we obtain 331 range samples per radar measurement in the 7-23 cm range, which means samples are spaced by $(230-70)/331\approx0.48$ mm. Observing a typical radar sweep in figure \ref{fig:single_sweep_iq} we note that points are very closely related on a small range scale, and nearly identical if we were to examine them on a sample by sample basis. Hence individual samples are low on information, and we can downsample by some integer factor $D$, and an offset $F$ without significant loss of information.
+Using the settings in table \ref{tab:sensor_settings} we obtain 331 range samples per radar measurement in the 7-23 cm range, which means samples are spaced by $(230-70)/331\approx0.48$ mm. Observing a typical radar sweep in figure \ref{fig:single_sweep_iq} we note that points are very closely related on a small range scale, and nearly identical if we were to examine them on a sample by sample basis. Hence individual samples are low on information, and we can downsample by some integer factor $D$ without significant loss of information.
 
-Downsampling measurements $r_1(d,t)$ and $r_2(d,t)$ by a factor $D$ with offset $F$ can be expressed as
+Downsampling measurements $r_1(d,t)$ and $r_2(d,t)$ by a factor $D$ can be expressed as
 
 \begin{equation}
-	r_{1,D, F}(d, t) = r_{1}(F+dD,t), 
-	\quad \text{and} \quad r_{2,D,F}(d,t) = r_{2}(F+dD,t)
+\label{eq:downsamp}
+	r_{1,D}(d, t) = r_{1}(dD,t), 
+	\quad \text{and} \quad r_{2,D}(d,t) = r_{2}(dD,t)
 \end{equation}
-and the data matrix $r_{D,F}(n,t)$ is formed correspondingly.
+and the data matrix $r_D(n,t)$ is formed correspondingly.
 
 \section{Sweep Normalization}
 
