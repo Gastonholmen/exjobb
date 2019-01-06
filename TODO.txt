@@ -48,5 +48,5 @@ Ch 7
 [X] Velocity-dependent sampling - speed varied slightly during tests so that spatial sampling is the same. 
 
 Ch 8
- G Conclusions
+[X] Conclusions
  - Future Work
