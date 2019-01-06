@@ -36,7 +36,7 @@ Ch 5
 Ch 6
  - Data augmentation - Understandable?
  - Detection alg -> outlier suppression method
- G 6.2 index
+[X] 6.2 index
 
 Ch 7
  - PCA plot is a concept proof
