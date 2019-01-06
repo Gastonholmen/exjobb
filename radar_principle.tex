@@ -75,7 +75,7 @@ For a pulsed coherent radar system, with sampling frequency $F_s$ and sampling p
 
 For a target moving at a constant pace, the \gls{bf} arising from the constant doppler phase shift is thus $f_d = 2v/\lambda_t$, as was found in equation \ref{eq:dshift}. Thus, by taking a discrete fourier transform (\gls{dft}) of the sequence of $T_s$-spaced measurements for one specific distance, we can estimate the velocity from the peak frequency $f$ in this signal as 
 
-\begin{equation}
+\begin{equation}\label{eq:dopp}
 	v = \frac{\lambda_t f_d}{2}
 	\approx \frac{\lambda_t f}{2}.
 \end{equation}
