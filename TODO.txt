@@ -27,7 +27,7 @@ Ch 4
 [X] DFT notation
 [X] Error in eq. 4.9
  G DFT/Autocov as BF analysis alternatives
- - Model appearing later
+ G Model appearing later
 [X] Downsampling factor in 4.2.5 after changing in ch 3.
 
 Ch 5
