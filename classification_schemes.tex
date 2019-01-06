@@ -176,7 +176,7 @@ When evaluating a machine learning model one must decide how the dataset should 
 
 
 
-\subsubsection{Leave-One-Out Strategy}
+\subsection{Leave-One-Out Strategy}
 
 % We have to explain that we are leaving each "run" undisturbed here.
 The leave-one-out strategy is a form of cross validation, and begins with dividing the dataset into $n$ parts. The model evaluation is then performed in $n$ stages. For each stage, the model is trained on all data, except for one of the $n$ parts, as in figure \ref{fig:loo}. After the training, the model makes predictions of the unseen data, and the accuracy is noted. When having a small dataset - or as in this case, an arguably small amount of surfaces that have been recorded - this method is useful in that it does not require us to withhold data from the model training \citep{raschka}. It also mimics a real scenario where the model predicts on a surface it has never seen before.
@@ -257,7 +257,7 @@ In table \ref{tab:loo}, the leave-one-out results of all models above are listed
 	\label{tab:loo}
 \end{table}
 
-\subsubsection{Selecting a Model}
+\subsection{Selecting a Model}
 % I suggest removing this
 %Optimizing each model presented above would of course be ideal, but also require much time and effort. Hence, we select what we regard as the most promising model based on the result of the leave-one-out evaluation. This model will then be optimized and more thoroughly evaluated.
 
