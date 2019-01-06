@@ -1,11 +1,11 @@
 Overall
- - Carrier frequency fc
- - Autocov, autocorr
- - Fast time and slow time terminology
- - Make sure we're not reusing variable names
- - Feature selection -> feature extraction
+ G Carrier frequency fc
+ G Autocov, autocorr
+ G Fast time and slow time terminology
+ G Make sure we're not reusing variable names
+ G Feature selection -> feature extraction
  - Shorten unnecessarily long parts
- - Capital letters on important title words
+ G Capital letters on important title words
 
 Abstract
  - Write when ch8 is done
