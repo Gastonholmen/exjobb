@@ -77,6 +77,12 @@ As with all works, there are things that can go wrong due to either technical re
 
 Another risk with collecting data is to obtain too little of it. However, looking at how high accuracies the models achieve as well as how little improvement the data augmentation yields, it is not likely that we provide too little data to our models.
 
+A more technical uncertainty regards the performance of the hardware responsible for performing \textit{live} classifications. Ideally we want the system to collect $T$ samples, and make an instantaneous prediction so that $T$ new samples can be collected right away. By running the system on a single thread, however, the time it takes to generate a prediction delays the data collecting process with some time $t_{cl}$, as only one process can be ran at a time. An alternative could be to handle the classifications in a separate thread. That way, data could be collected continously, while classifications are performed in parallel. Doing this requires caution. If the time it takes to generate a classification exceeds the time it takes to collect $T$ samples, i.e. $t_{cl}>TF_s$, a delay will accumulate over time. After a while predictions would be irrelevant as they would be based on surfaces far behind the robot. A natural limitation to assign the model is therefore
+\begin{equation}
+	t_{cl} \le TF_s.
+\end{equation}
+The time $t_{cl}$ has not been discussed in this work, but is highly relevant to study in the future.
+
 
 
 % This remarkable result means that given a random sample from the dataset collected, with no samples from the session the sample was taken from used in training, we can correcly classify the surface as grass or non-grass 39/40 times even with the lower-performing classifiers. With the top performing fully connected model, even higher accuracy was obtained with a low standard deviation. 
