@@ -5,23 +5,23 @@
 IQ demodulation is a major part in the receiver processing of radar data. After going through the mixing process, the signal can be expressed as \citep{lee_1991}
 \begin{equation}
 \label{eq:signal}
-	x_R(t)=A(t)\sin(\Omega t+\theta(t)).
+	x_R(t)=A(t)\sin(f_t t+\theta(t)).
 \end{equation}
-Here, $\Omega$ is the carrier frequency of the transmitted pulse. The goal of IQ demodulation is to extract $A(t)$ and $\theta(t)$ from \eqref{eq:signal}, as well as getting rid of the carrier frequency dependency. At the end, a complex signal of the form $A(t)e^{i\theta(t)}$ is obtained.
+Here, $f_t$ is the carrier frequency of the transmitted pulse. The goal of IQ demodulation is to extract $A(t)$ and $\theta(t)$ from \eqref{eq:signal}, as well as getting rid of the carrier frequency dependency. At the end, a complex signal of the form $A(t)e^{i\theta(t)}$ is obtained.
 
 Most classical radars follow the demodulation scheme depicted in figure \ref{fig:iq_demod}. The first step is to split the signal in \eqref{eq:signal} into two separate channels. In the upper channel, the signal is multiplied by a sinusoid which is generated with the same carrier frequency as the received pulse. The result of this multiplication can be rewritten as
 \begin{gather}
-	 A(t)\sin(\Omega t+\theta(t))\cdot 2\sin(\Omega t) = \\
+	 A(t)\sin(f_t t+\theta(t))\cdot 2\sin(f_t t) = \\
 	\label{eq:split}
- 	 A(t)\cos(\theta(t))-A(t)\cos(2\Omega t+\theta(t)).
+ 	 A(t)\cos(\theta(t))-A(t)\cos(2f_t t+\theta(t)).
 \end{gather}
 The next step in the demodulation scheme is to low pass filter the signal. Thus, the high frequency term in \eqref{eq:split} is removed, and only $A(t)\cos(\theta(t))$ remains. We define this as $I(t)$.
 
 Similarly, in the bottom channel in figure \ref{fig:iq_demod}, the original signal is multiplied by a generated wave signal of the same carrier frequency. However, this time, the signal is shifted 90 degrees in phase. Similar to before, we may rewrite the product as
 \begin{gather}
-	 A(t)\sin(\Omega t+\theta(t))\cdot 2\cos(\Omega t) = \\
+	 A(t)\sin(f_t t+\theta(t))\cdot 2\cos(f_t t) = \\
 	\label{eq:split2}
- 	 A(t)\sin(\theta(t))+A(t)\sin(2\Omega t+\theta(t)).
+ 	 A(t)\sin(\theta(t))+A(t)\sin(2f_t t+\theta(t)).
 \end{gather}
 After low pass filtering we obtain $A(t)\sin(\theta(t))$, which we define as $Q(t)$. Finally, by defining $I$ and $Q$ as the real- and imaginary parts of a complex number, respectively, we have our IQ-data
 \begin{equation}
@@ -46,7 +46,7 @@ For signals $r(t)$ and $x(t)$ defined as
 		x(t) &= A(t)\sin(\Omega t) \\
 	\end{split}
 \end{equation}
-with angular frequency $\Omega = 2\pi f$, where $A(t)$ is the defined as 
+with angular frequency $\Omega = 2\pi f_t$, where $A(t)$ is the defined as 
 
 \begin{equation}
 	A(t) = \begin{cases}

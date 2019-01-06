@@ -1,8 +1,8 @@
-\chapter{Radar system overview}
+\chapter{Radar System Overview}
 
 In order to build a model capable of accurately capturing key features from target surfaces one must first understand the origin of the received signal. In this chapter a few fundamental concepts in radar systems are introduced that explain how range, velocity and reflectivity arise in a \gls{pcr} system. The mixing and IQ demodulation procedures are also discussed, which explain how a returning radar echo is captured and demodulated. 
 
-\section{Target properties from radar response}
+\section{Target Properties from Radar Response}
 % TODO: Utilize https://acconeer.sharepoint.com/:w:/g/CS/ES_xwcoTqVdGkShPJkNagMMBL1wVd_GaeJJsEDKC8lWIDQ?e=GxZNEw as a source for this.
 Fundamentally, a radar operates by radiating \gls{rf} electromagnetic energy and listening if the transmitted energy generates any echoes \citep{skolnik_2009}. By analyzing properties of returning signals it is then possible to obtain information regarding the scattering targets. This may involve the distance and angle at which scatterers are located or at which velocity they are moving in. With a sufficiently high angular and range resolution it is even possible to discern parts of the targets' shapes and sizes.  
 
@@ -15,7 +15,7 @@ Standard radars are active systems, meaning that they have a radiating antenna a
 
 After various scattering processes, the returning signal is captured by either an array of antennas, or just a single antenna.
 
-\subsection{Single-antenna considerations}
+\subsection{Single-Antenna Considerations}
 
 Commonly, in larger radar systems, many receiving antennas capture the returning radiation. This allows for distinguishing radar targets not only in range, but also in angle. In this work a single receiving antenna is used, meaning that the radar has no intrinsic method of determining at which angle a scatterer is located. Thus, only range information can be captured by this sensor. 
 
@@ -27,7 +27,7 @@ To understand what information can be obtained from such a one dimensional signa
 
 where $D$ is some delay related to the distance to the target and $C$ a constant related to the dissapation of power throughout space and some radar system properties. For the purposes of this report, the properties of the phase shift $\phi=-2\pi f_tD$ is of particular interest. In the next two sections, it is shown how distance and velocity can be deduced from this parameter using the time delay and the Doppler shift. The $C$ variable carries information too, described lastly. 
 
-\subsection{Radar distance measurements}
+\subsection{Radar Distance Measurements}
 
 If a scatterer was present a distance $d$ from the transmitting antenna, a wavelet will return $2d/c$ seconds after transmission, where $c$ denotes the speed of light. The 2 appears to accomodate for the pulse traveling back and forth (or, perhaps more accurately, forth and back) between the sensor and the scatterer. Hence, the transmitted signal is delayed according to 
 
@@ -47,7 +47,7 @@ By measuring the delay $D$ in \ref{eq:returning} we can thus simply calculate th
 
 Thus, by examining the time delay of the returning signal, we can deduce the distance to the scattering object. 
 
-\subsection{Doppler frequency in pulsed radar}\label{sec:doppler}
+\subsection{Doppler Frequency in Pulsed Radar}\label{sec:doppler}
 \label{doppler}
 
 If the target scatterer is moving from or towards the transmitting antenna, a frequency shift will occurr. For velocity $v$, the transmitted frequency $f_t$ will be shifted to $f_r$ according to the well known Doppler formula \citep{ridenour_1947}
@@ -81,7 +81,7 @@ For a target moving at a constant pace, the \gls{bf} arising from the constant d
 \end{equation}
 
 
-\subsection{Power dissapation}
+\subsection{Power Dissapation}
 
 The $C$ factor in \ref{eq:returning} describes the ratio of the emitted power that is received after a scattering process has occurred. To get a feel for how a targets' reflectivity relates to this factor we can make the following thought experiment. First we assume that the trasmitted power $P_t$ is radiated isotropically by a point source, meaning that the power density is distributed uniformly by the source over the surface of a sphere. When our radar "balloon" has radius $R$, the power density at the balloon surface becomes  \citep{amin_2017}
 
@@ -211,7 +211,7 @@ The full derivation of \ref{eq:n0}, \ref{eq:n1} and \ref{eq:n2} can be found in 
 	\label{fig:single_sweep_raw}
 \end{figure}
 
-\section{IQ demodulation}
+\section{IQ Demodulation}
 \label{IQ}
 
 Even though single-antenna receivers have no angular resolution, it was shown above that the returning signal carries useful information. By measuring the temporal shift from transmission to reception we can calculate the distance to a scatterer, and by examining the phase shift between pulses we may find the \gls{bf} and thus the radial velocity of the scatterer. Finally, the scatterers' dielectric properties are brought forward through the \gls{rcs}, showing up as a scaling factor after analog convolution. 
@@ -224,7 +224,7 @@ The in-phase channel mixes the raw signal with an oscillator at the carrier freq
 	x(t) = I(t) + jQ(t).
 \end{equation}
 
-\gls{iq} demodulation shifts the information bearing part of the mixed signal to baseband, meaning that an echo waveform on form $A(t)\sin(2\pi f t + \phi(t))$ after demodulation becomes $x(t) = A(t)e^{j\phi(t)}$, eliminating the carrier frequency. 
+\gls{iq} demodulation shifts the information bearing part of the mixed signal to baseband, meaning that an echo waveform on form $A(t)\sin(2\pi f_t t + \phi(t))$ after demodulation becomes $x(t) = A(t)e^{j\phi(t)}$, eliminating the carrier frequency. 
 
 The details of this demodulation scheme can be found in the appendix. In figure \ref{fig:single_sweep_iq} the amplitude $|x(t)|$ is shown for data captured using the same measurement setup as in figure \ref{fig:single_sweep_raw}. Although the amplitude may be useful, the real power of splitting the signal in I and Q components come from its phase tracking capabilities, as the phase is more sensitive to small changes in range than the amplitude \citep{lien_gillian_karagozler_amihood_schwesig_olson_raja_poupyrev_2016}.
 

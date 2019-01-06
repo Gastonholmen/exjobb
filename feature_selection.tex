@@ -1,13 +1,13 @@
 \chapter{Feature Extraction}
 Machine learning algorithms aim to  extract useful patterns in data. In our case, the data consist of the complex output of two radar receivers and the patterns we search for can be used to distinguish the surface type as either grass or non-grass. One way to accomplish this would be to simply hand this raw data to a classifier and allow it to figure out structures in the data on its own. However, for small autonomous devices hardware capabilities are often limited and radar systems very fast, thus making real-time classification of the entire bulk of acquired data cumbersome.  
 
-One effective method to reduce the computational classification cost is to perform \emph{feature extraction}. By extracting a smaller set of features from given data, we can significantly reduce the number of variables used in generating a machine learning prediction. Furthermore, the feature selection process allows us to pinpoint what data characteristics we wish to monitor, and subsequently which data characteristics we believe are of value. This ensures that the machine learning algorithm generates its predictions using patterns selected by the authors, rather than finding patterns on its own.  
+One effective method to reduce the computational classification cost is to perform \emph{feature extraction}. By extracting a smaller set of features from given data, we can significantly reduce the number of variables used in generating a machine learning prediction. Furthermore, the feature extraction process allows us to pinpoint what data characteristics we wish to monitor, and subsequently which data characteristics we believe are of value. This ensures that the machine learning algorithm generates its predictions using patterns selected by the authors, rather than finding patterns on its own.  
 
 % Maybe change a bit...
 
 \section{An Impossible Modeling Problem}
 
-Ideally, one seeks a small set of features which accurately capture the information content in the larger set of data. It is then possible to obtain good results with significantly less computational load than if no feature selection had been considered. Thus, if the exact structure of the returning signals were known, we could simply estimate its parameters and classify using those.
+Ideally, one seeks a small set of features which accurately capture the information content in the larger set of data. It is then possible to obtain good results with significantly less computational load than if no feature extraction had been considered. Thus, if the exact structure of the returning signals were known, we could simply estimate its parameters and classify using those.
 
 However, modeling the returning signal is very difficult. In the preceding chapter, we saw that the envelope of a returning pulse from a point scatterer, after analog convolution and demodulation, has a width of roughly twice the pulse length, which corresponds to $2\times50\times 10^{-15}\text{ [s]}\times c \text{ [m/s]}= 3$ cm with the pulse length in table \ref{tab:sensor_settings}. If the target is a surface, the returning signal is comprised of radiation diffusely scattered in the illuminated area. The content of the signal will be a function dependent both on the surrounding surface topography, as well as the dielectric properties of the surface at hand \citep{grossman_popovic_chamberlin_gordon_novotny_2017}. The great difficulty in modeling this returning signal is clear - the universe of all possible "realistic" surfaces, both natural and man-made, is almost impossibly large. Instead of modeling the returning signal exactly, we instead extract \emph{reasonable} features that \emph{should} capture the signal structure based on the results from chapter 2.  
 
@@ -246,7 +246,7 @@ This makes configuration 2 more favorable as fewer features demands less computa
 
 \section{Feature Principal Component Analysis}
 
-Through the point and feature selection methods described in previous sections we obtain high dimensional feature vectors. Getting an intuitive feel for such data extracted in these processes is difficult as direct plotting is limited to three dimensions. 
+Through the point and feature extraction methods described in previous sections we obtain high dimensional feature vectors. Getting an intuitive feel for such data extracted in these processes is difficult as direct plotting is limited to three dimensions. 
 
 \gls{pca} is  a classical technique in statistical data analysis which takes a large set variables from a multivariate dataset and finds a smaller set of variables with less redundancy. Critically, \gls{pca} finds a rotated orthogonal coordinate system such that the elements of the set become uncorrelated. Projecting elements on the principal axes corresponding to the directions of maximal variance a good approximation of the original data in lower dimension is obtained \citep{hyvasrinen_karhunen_oja_2004}.
 
