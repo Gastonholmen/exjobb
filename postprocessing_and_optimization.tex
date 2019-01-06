@@ -1,6 +1,6 @@
 \chapter{Postprocessing and Data Augmentation}
 
-In the previous chapter a simple feed-forward neural network was found to be a suitable model for the surface classification problem investigated. In this chapter, some improvements and additions to this model are introduced. First, we perform some data augmentation to increase the number of training data. Then, detection methods for outlier suppression are discussed.
+In the previous chapter a deep neural network was found to be a suitable model for the surface classification problem investigated. In this chapter, some improvements and additions to this model are introduced. First, we perform some data augmentation to increase the size of the training data. Then, detection methods for outlier suppression are discussed.
 
 
 \section{Data Augmentation}
@@ -43,7 +43,8 @@ Setting $A=5$, one data matrix consisting of 50,000 slow time samples normally y
 
 \section{Detection of surface change}
 
-Even with an optimized model with tons of training data, erronous predictions are unavoidable in any real-world scenario. Prediction probabilities are produced by the model rapidly, 8 times a second for a sampling rate of 200 Hz and a batch size $T=25$ according to equation \ref{eq:classification_rate}. With such errors present in the prediction confidences of the model, what is a reasonable strategy to detect when a change in surface has occurred?  
+\label{surface_change}
+Even with an optimized model with tons of training data, erroneous predictions are inevitable in any real-world scenario. Prediction probabilities are produced by the model rapidly, 8 times a second for a sampling rate of 200 Hz and a batch size $T=25$ according to equation \ref{eq:classification_rate}. With such errors present in the prediction confidences of the model, what is a reasonable strategy to detect when a change in surface has occurred?  
 
 Many elaborate statistically appealing methods for change detection are presented in \citep{basseville_nikiforov_1993}. These methods require some basic assumptions on the data it attempts to detect a change from, such as for the data having constant probability distribution before and after a parameter change occurs. This, however, renders these methods difficult to use in the present use case, as we are dealing with the output of an artificial neural network producing predictions with unknown structure. This is reinforced by examining what the model outputs, see the top figure in \ref{fig:trans_tgtg}. Predictions remain extremely stable for long periods of time, with occasional outlying predictions every now and then. These outlying predictions need be suppressed for stable change detection.
 
