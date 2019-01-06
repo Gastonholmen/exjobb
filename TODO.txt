@@ -4,6 +4,7 @@ Overall
  - Fast time and slow time terminology
  - Make sure we're not reusing variable names
  - Feature selection -> feature extraction
+ - Shorten unnecessarily long parts
 
 Abstract
  - Write when ch8 is done
@@ -46,4 +47,4 @@ Ch 7
  - Velocity-dependent sampling - speed varied slightly during tests so that spatial sampling is the same. 
 
 Ch 8
- -
+ - Write when ready
