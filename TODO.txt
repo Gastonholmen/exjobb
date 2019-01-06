@@ -30,7 +30,7 @@ Ch 4
 [X] Downsampling factor in 4.2.5 after changing in ch 3.
 
 Ch 5
- D Hyperas - which parameters were optimized? 
+[X] Hyperas - which parameters were optimized? 
 
 Ch 6
  - Data augmentation - Understandable?
