@@ -41,11 +41,11 @@ Ch 6
 Ch 7
  - PCA plot is a concept proof
  - Linear vs. non-linear
- G Surfaces not seen in training -> undefined behaviour
+ - Surfaces not seen in training -> undefined behaviour
  - Note that predictions are stable (not seen in LOO table)
- G Comment on feat extr. vs no feat extr. - loss of info vs. directed classification
+[X] Comment on feat extr. vs no feat extr. - loss of info vs. directed classification
  - Balancing of data
- G Velocity-dependent sampling - speed varied slightly during tests so that spatial sampling is the same. 
+[X] Velocity-dependent sampling - speed varied slightly during tests so that spatial sampling is the same. 
 
 Ch 8
  - Write when ready
