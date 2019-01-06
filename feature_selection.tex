@@ -1,13 +1,13 @@
-\chapter{Feature selection}
+\chapter{Feature Extraction}
 Machine learning algorithms aim to  extract useful patterns in data. In our case, the data consist of the complex output of two radar receivers and the patterns we search for can be used to distinguish the surface type as either grass or non-grass. One way to accomplish this would be to simply hand this raw data to a classifier and allow it to figure out structures in the data on its own. However, for small autonomous devices hardware capabilities are often limited and radar systems very fast, thus making real-time classification of the entire bulk of acquired data cumbersome.  
 
-One effective method to reduce the computational classification cost is to perform \emph{feature extraction}. By extracting a smaller set of features from given data, we can significantly reduce the number of variables used in generating a machine learning prediction. Furthermore, the feature selection process allows us to pinpoint what data characteristics we wish to monitor, and subsequently which data characteristics we believe are of value. This ensures that the machine learning algorithm generates its predictions using patterns selected by the authors, rather than finding patterns on its own.  
+One effective method to reduce the computational classification cost is to perform \emph{feature extraction}. By extracting a smaller set of features from given data, we can significantly reduce the number of variables used in generating a machine learning prediction. Furthermore, the feature extraction process allows us to pinpoint what data characteristics we wish to monitor, and subsequently which data characteristics we believe are of value. This ensures that the machine learning algorithm generates its predictions using patterns selected by the authors, rather than finding patterns on its own.  
 
 % Maybe change a bit...
 
-\section{An impossible modeling problem}
+\section{An Impossible Modeling Problem}
 
-Ideally, one seeks a small set of features which accurately capture the information content in the larger set of data. It is then possible to obtain good results with significantly less computational load than if no feature selection had been considered. Thus, if the exact structure of the returning signals were known, we could simply estimate its parameters and classify using those.
+Ideally, one seeks a small set of features which accurately capture the information content in the larger set of data. It is then possible to obtain good results with significantly less computational load than if no feature extraction had been considered. Thus, if the exact structure of the returning signals were known, we could simply estimate its parameters and classify using those.
 
 However, modeling the returning signal is very difficult. In the preceding chapter, we saw that the envelope of a returning pulse from a point scatterer, after analog convolution and demodulation, has a width of roughly twice the pulse length, which corresponds to $2\times50\times 10^{-15}\text{ [s]}\times c \text{ [m/s]}= 3$ cm with the pulse length in table \ref{tab:sensor_settings}. If the target is a surface, the returning signal is comprised of radiation diffusely scattered in the illuminated area. The content of the signal will be a function dependent both on the surrounding surface topography, as well as the dielectric properties of the surface at hand \citep{grossman_popovic_chamberlin_gordon_novotny_2017}. The great difficulty in modeling this returning signal is clear - the universe of all possible "realistic" surfaces, both natural and man-made, is almost impossibly large. Instead of modeling the returning signal exactly, we instead extract \emph{reasonable} features that \emph{should} capture the signal structure based on the results from chapter 2.  
 
@@ -57,7 +57,7 @@ In figure \ref{fig:sweep_average} we see what such an averaging process yields. 
 \subsection{Fourier Transform}
 % "weighted velocity profile" should be used...
 
-As discussed in section \ref{doppler} we can relate the velocity of a scatterer to its \gls{bf} through \ref{eq:dopp}. When an entire target scene is illuminated, computing a \gls{dft} thus provides a \emph{velocity profile} of the scene at every range. No aliasing in the frequency spectrum should occurr as the sampling rate was set with the Nyquist criterion in mind. In figure \ref{fig:fft} the \gls{dft}'s of radar \gls{iq} data are shown for all surface types considered in this work. For visualization purposes the square root of the absolute values of the \gls{dft} are shown. For grass (the top two plots), it can be seen that the frequency content is contained mainly in the vicinity of zero frequency bin, while the other materials contain considerably larger higher frequency components. %Gravel in particular differs a lot from the other materials with a wide variety of frequency components.
+As discussed in section \ref{doppler} we can relate the velocity of a scatterer to its \gls{bf} through \ref{eq:dopp}. When an entire target scene is illuminated, computing a \gls{dft} thus provides a \emph{velocity profile} of the scene at every range. No aliasing in the frequency spectrum should occurr as the sampling rate was set with the Nyquist criterion in mind. In figure \ref{fig:fft} the \gls{dft}'s of radar \gls{iq} data are shown for all surface types considered in this work. For visualization purposes the square root of the absolute values of the \gls{dft} are shown. For grass (the top two plots), it can be seen that the frequency content is contained mainly in the vicinity of the zero frequency bin, while the other materials contain considerably larger higher frequency components. %Gravel in particular differs a lot from the other materials with a wide variety of frequency components.
 
 %While traversing a static surface at a constant speed, one could think of it as the details on the surface, such as small rocks, are moving closer to the radar sensor. As discussed in section \ref{doppler}, this alters the frequency of the transmitted signal according to the Doppler effect, and the radar detects beat frequencies, corresponding to the frequency shifts. Depending on the surface's characteristics, the doppler frequencies may vary. 
 
@@ -77,16 +77,17 @@ As for the feature vector, a $T$-step DFT along the slow time axis is first comp
 \end{equation}
 After this, the transformations for all ranges are concatenated into a one-dimensional feature vector of the form
 \begin{equation}
-	\textbf{f}_{f}=\begin{bmatrix} |\mathbf{d}_0|^* & |\mathbf{d}_1|^* & \hdots & |\mathbf{d}_N|^* \end{bmatrix},
+	\textbf{f}_{f}=\begin{bmatrix} |\mathbf{d}_0|^* & |\mathbf{d}_1|^* & \hdots & |\mathbf{d}_K|^* \end{bmatrix},
 \end{equation}
-where $|\cdot|^*$ denotes elementwise absolute values, and $N$ is the number of fast time samples.
+where $|\cdot|^*$ denotes elementwise absolute values, and $K$ is the number of fast time samples.
+
 
 % This section is weirdly written imo 
-An important remark to make is that under the assumption that the autocovariance function of a process $y_t$ decays sufficiently fast, it is closely related to the Fourier transform of the process. The Wiener-Khinchin theorem states that \citep{lu_vaswani_2009} with certain properties\footnote{The process has to be wide sense stationary. The meaning of this is defined in section \ref{ACr}.}, a process, $y_t$, the Fourier transform of its autocovariance function, denoted $\phi_y(\omega)$, relates to the Fourier transform of the actual process according to \citep{jakobsson_2015}
-\begin{equation}
-	\phi_y(\omega) = \lim\limits_{N\rightarrow\infty}E\Bigg\{\frac1N\Big|\sum^N_{t=1}y_te^{-j\omega t}\Big|^2\Bigg\}=\lim\limits_{N\rightarrow\infty}E\Big\{\frac1N|Y_N(\omega)|^2\Big\}.
-\end{equation}
-An alternative to studying the Fourier transform could therefore be to examine the autocovariance of time series of IQ data.
+%An important remark to make is that under the assumption that the autocovariance function of a process $y_t$ decays sufficiently fast, it is closely related to the Fourier transform of the process. The Wiener-Khinchin theorem states that \citep{lu_vaswani_2009} with certain properties\footnote{The process has to be wide sense stationary. The meaning of this is defined in section \ref{ACr}.}, a process, $y_t$, the Fourier transform of its autocovariance function, denoted $\phi_y(\omega)$, relates to the Fourier transform of the actual process according to \citep{jakobsson_2015}
+%\begin{equation}
+%	\phi_y(\omega) = \lim\limits_{N\rightarrow\infty}E\Bigg\{\frac1N\Big|\sum^N_{t=1}y_te^{-j\omega t}\Big|^2\Bigg\}=\lim\limits_{N\rightarrow\infty}E\Big\{\frac1N|Y_N(\omega)|%^2\Big\}.
+%\end{equation}
+%An alternative to studying the Fourier transform could therefore be to examine the autocovariance of time series of IQ data.
 
 \begin{figure}[h]
 	\centering
@@ -101,7 +102,7 @@ An alternative to studying the Fourier transform could therefore be to examine t
 % Tie this into preceding section instead. Autocov allows for calculating the number of lags. 
 An obvious surface characteristic to ponder is roughness; while a tiled surface is typically very flat, grass is characterized by a random, unpredictable structure. It is reasonable to assume that there is more correlation between two closely spaced points on the tiled surface than there is on grass. This motivates us to study the autocovariance of the radar signal as the sensor moves forward.
 
-Figure \ref{fig:autocorr_range} illustrates the normalized autocovariances (or autocorrelations) for the different materials at a certain range. As expected, grass and tiles are two extremes in terms of roughness, and the other materials lie somewhere inbetween. Below, we explain how the autocovariance is formed as features before going into the classifier.
+Figure \ref{fig:autocorr_range} illustrates the normalized autocovariances (or autocorrelations) for the different materials at a certain range. As expected, grass and tiles are two extremes in terms of roughness, and the other materials lie somewhere inbetween. Below, we explain how the autocovariance is formed in terms of features as preparation for the classifier.
 
 \begin{figure}[h]
 	\centering
@@ -110,81 +111,81 @@ Figure \ref{fig:autocorr_range} illustrates the normalized autocovariances (or a
 	\label{fig:autocorr_range}
 \end{figure}
 
-We can regard the sequence $\{x(n,t)\}_{t=t_m}^{t_m+T-1}$ of measurements of range $n$ as samples from a stochastic process $X_{n,t}$ with the autocovariance function
+%We can regard the sequence $\{x(n,t)\}_{t=t_m}^{t_m+T-1}$ of measurements of range $n$ as samples from a stochastic process $X_{n,t}$ with the autocovariance function
 
-\begin{equation}
-	C_{XX}(n,t,s) = \text{Cov}(X_{n,t},X_{n,s}).
-\end{equation}
+%\begin{equation}
+%	C_{XX}(n,t,s) = \text{Cov}(X_{n,t},X_{n,s}).
+%\end{equation}
 
 
 % We should maybe remove this tbh... or at the very least move it
-\noindent
-If we then can consider the process to have the following three properties:
-\emph{
-\begin{enumerate}
-	\item Constant finite mean
-	\item Autocovariance function only dependant on the difference $(s-t)$ and not on actual values of $s$ and $t$.
-	\item Finite variance
-\end{enumerate}
-}
-\noindent
-over the time interval $t_m$ to $t_m+T-1$, it can be regarded as a \emph{Wide-Sense Stationary} (WSS) process \citep{jakobsson_2015}. The first and second assumptions require the returning signal to carry some level of stability, which is reasonble considering the short time-frame $T/F_s$ considered. From the autocovariance function 
+%\noindent
+%If we then can consider the process to have the following three properties:
+%\emph{
+%\begin{enumerate}
+%	\item Constant finite mean
+%	\item Autocovariance function only dependant on the difference $(s-t)$ and not on actual values of $s$ and $t$.
+%	\item Finite variance
+%\end{enumerate}
+%}
+%\noindent
+%over the time interval $t_m$ to $t_m+T-1$, it can be regarded as a \emph{Wide-Sense Stationary} (WSS) process \citep{jakobsson_2015}. The first and second assumptions require the returning signal to carry some level of stability, which is reasonble considering the short time-frame $T/F_s$ considered. 
+We assume that $x(n,t)$ are samples from a stochastic process $X_{n,t}$ which is wide sense stationary (WSS) \citep{jakobsson_2015} over some short time $T/F_s$. Its autocovariance function for some range, $n$ may then be defined as
+\begin{equation}
+	r_n(k) = {\E}_t\big\{(X_{n,t} - \mu_n)^*(X_{n,t+k} - \mu_n)\big\}
+\end{equation}
+where $\mu_n=\E_t\{X_{n,t}\}$. We can form the (biased) estimate of the autocovariance function through
 
 \begin{equation}
-	r_n(m, k) = \E\big\{(X_{n,t_m} - \E\{X_{n,t_m}\})^*(X_{n,t_m+k} - \E\{X_{n,t_m+k}\})\big\}
+	\hat{r}_n(k) = \frac{1}{T}\sum_{t=0}^{T-1-k}\big(x(n,t) - \hat{\mu}_n\big)^*\big(x(n,t+k) - \hat{\mu}_n\big).
 \end{equation}
-
-\noindent
-we can then form the (biased) estimated autocovariance function through
-
-% Math is incorrect! no s - s are absolute values...
+where 
 \begin{equation}
-	\hat{r}_n(m, k) = \frac{1}{T}\sum_{t=0}^{T-1-k}\big(x(n,t_m+t) - s_n(m)\big)^*\big(x(n,t_m+t+k) - s_n(m)\big).
+	\hat{\mu}_n = \frac1T \sum_{t=0}^{T-1}x(n,t).
 \end{equation}
-
 
 Note that the bias in this estimate is completely inconsequential as all features later are normalized to zero mean unit variance.  Thus, the features formed are
 
 \begin{equation}
-	\hat{\mathbf{r}}_{m,k} = 
+	\hat{\mathbf{r}}_{k} = 
 	\begin{bmatrix}
-		\hat{r}_0(m,k) & \hat{r}_1(m,k) & ... & \hat{r}_{K-1}(m,k)
+		\hat{r}_0(k) & \hat{r}_1(k) & ... & \hat{r}_{K-1}(k)
 	\end{bmatrix}.
 \end{equation}
 
 Noting that the autocovariance sequence at 0 lag produce only real numbers, as any complex number $z = a + bi$ multiplied with its conjugate has zero imaginary part $\text{Im}(zz^*) = \text{Im}((a + bi)(a - bi)) = \text{Im}(a^2 + b^2) = 0$, we may form the full feature component for $q$ autocovariance lags $\mathbf{f}_{r,m}$ as
 
 \begin{equation}
-	\mathbf{f}_{r,m} = 
+	\mathbf{f}_{r} = 
 	\begin{bmatrix}
-		\hat{\mathbf{r}}_{m,0}  & \text{Re}(\hat{\mathbf{r}}_{m,1} ) & \text{Im}(\hat{\mathbf{r}}_{m,1} ) & ... & \text{Re}(\hat{\mathbf{r}}_{m,q} ) & \text{Im}(\hat{\mathbf{r}}_{m,q} ).
+		\hat{\mathbf{r}}_{0}  & \text{Re}(\hat{\mathbf{r}}_{1} ) & \text{Im}(\hat{\mathbf{r}}_{1} ) & ... & \text{Re}(\hat{\mathbf{r}}_{q} ) & \text{Im}(\hat{\mathbf{r}}_{q} ).
 	\end{bmatrix}
 \end{equation}
-From figure \ref{fig:autocorr_range}, we see that the the 1-step autocorrelation is what separates grass from other materials the most. For the feature vector we choose $q=2$, thus including the variance as well as autocovariance steps 1 and 2 for the \textit{normalized} sweeps.
+From figure \ref{fig:autocorr_range}, we see that the the 1-step autocorrelation is what separates grass from other materials the most. For the feature vector we choose $q=2$, thus ncluding the variance as well as autocovariance steps 1 and 2 for the normalized sweeps.
 
 
 \subsection{Autocovariance - energy}
 
-While the sweep normalization process rendered absolute mesurements of signal energy useless, we are still able to investigate its time-dependant structure through the autocovariane function. First we estimate the energy in each sweep $v(t)$ and the average energy $v_a(t)$ in $T$ number of sweeps, and then calculate the real-valued autocovariance sequence $h(m,k)$. 
+While the sweep normalization process rendered absolute mesurements of signal energy useless, we are still able to investigate its time-dependant structure through the autocovariane function. First we estimate the energy in each sweep $v(t)$ and the average energy $v_a(t)$ in $T$ number of sweeps, and then calculate the real-valued autocovariance sequence $h(k)$. 
 
 \begin{equation}
 	v(t) = \frac{1}{N}\sum_{n=0}^{N-1}x(n,t)x^*(n,t)
 \end{equation}
 
 \begin{equation} 
-	v_a(m) = \frac{1}{T}\sum_{t=0}^{T-1}v(t_m+t)
+	v_a = \frac{1}{T}\sum_{t=0}^{T-1}v(t)
 \end{equation}
 
 \begin{equation}
-	h(m,k) = \frac{1}{T}\sum_{t=0}^{T-1-k}\big(v(t_m+t) - v_a(m)\big)^*\big(v(t_m+t+k) - v_a(m)\big)
+	h(k) = \frac{1}{T}\sum_{t=0}^{T-1-k}\big(v(t) - v_a\big)^*\big(v(t+k) - v_a\big)
 \end{equation}
 
-As $h(m,k)$ only consist of real values, the energy autocovariance feature vector $\mathbf{f}_{h,m}$ is formed as
+As $h(k)$ only consist of real values, the energy autocovariance feature vector $\mathbf{f}_{h}$ is formed as
 
 \begin{equation}
-	\mathbf{f}_{h,m} = 
+	\mathbf{f}_{h} = 
 	\begin{bmatrix}
-		h(m,0) & h(m,1) & ... & h(m,K-1),
+		h(0) & h(1) & ... & h(K-1),
 	\end{bmatrix}
 \end{equation}
 where $K$ is the number of covariance steps included in each sample. 
@@ -220,7 +221,7 @@ where $K$ is the number of covariance steps included in each sample.
 \end{table}
 
 
-\subsection{Tested feature combinations}
+\subsection{Tested Feature Combinations}
 % "The same model" is the hyperparameter optimized model we later get to, so the ordering is strange here. Numbers are off too.
 Before performing any feature processing, the data is downsampled by a downsampling factor $D=20$ (see section \ref{downsampling}). However, examining the fast time samples, it turns out that in ranges below approximately 11 cm., little information resides. This can clearly be seen in the dark regions of the \gls{dft}s in figure \ref{fig:fft}. Similarly, yet not as apparent, little information is found at longer ranges. Therefore we extract samples from an intermediate region when downsampling, modifying equation \eqref{eq:downsamp} to become
 \begin{equation}
@@ -229,7 +230,7 @@ Before performing any feature processing, the data is downsampled by a downsampl
 \end{equation}
 defined only for $d=0,...,13$. With this definition, the downsampled signal consists of 14 evenly spaced range indices from 50 to 310, corresponding to ranges 9.4 to 21.88 cm. Thus, the resulting datasquare matrix, $\mathbf{R}\in \mathbb{C}^{N\times 28}$, where $N$ is the number of samples. There are 28 columns as the readings from the two sensors are concatenated. 
 
-In above section, four different feature extraction methods were described - the average signal shape, the autocovariance in range and energy, as well as the Fourier transform. The methods each generate a number of features. However, we are not limited to feed our model with features taken from a single one of the methods. In table \ref{tab:feat}, three possible configurations of features are chosen. Each of these combinations were fed through the same classifier to evaluate which was the most efficient. The first one, which simply involves the averaged signal shape, requires much fewer features than the other two combinations - simply 28 positive real numbers. But looking at its performance, these features are not enough to reach the accuracy attained in the other two cases. By instead selecting autocovariances as features the accuracy increases by 4 percentage points. Here we also include the absolute values as features, as this information is lost when subtracting the mean during the computation of the autocovariances. This configuration generates a feature vector with 174 elements, as seen in figure \ref{fig:feat_fig}. 28 features come from the absolute values, 6 features come from six steps in the energy autocovariance. The majority of the features, 140 to be exact, come from the autocovariance in range. For each of the 28 range bins, there is one real-valued feature representing variance, followed by two complex autocovariances for each range bin. This should give us $28+2\cdot 28=84$ features, but as the real- and imaginary parts of complex numbers are split up in two features, we obtain $28+2\cdot2\cdot 28=140$ features. The total number of features therefore becomes $28+6+140=174$.
+In above section, four different feature extraction methods were described - the average signal shape, the autocovariance in range and energy, as well as the Fourier transform. The methods each generate a number of features. However, we are not limited to feed our model with features taken from a single one of the methods. In table \ref{tab:feat}, three possible configurations of features are chosen. Each of these combinations were fed through a simple classifier to evaluate which was the most efficient. The first one, which simply involves the averaged sweep envelope, requires much fewer features than the other two combinations - simply 28 positive real numbers. But looking at its performance, these features are not enough to reach the accuracy attained in the other two cases. By instead selecting autocovariances as features the accuracy increases by 4 percentage points. Here we also include the absolute values as features, as this information is lost when subtracting the mean during the computation of the autocovariances. This configuration generates a feature vector with 174 elements, as seen in figure \ref{fig:feat_fig}. 28 features come from the absolute values, 6 features come from six steps in the energy autocovariance. The majority of the features, 140 to be exact, come from the autocovariance in range. For each of the 28 range bins, there is one real-valued feature representing variance, followed by two complex autocovariances for each range bin. This should give us $28+2\cdot 28=84$ features, but as the real- and imaginary parts of complex numbers are split up in two features, we obtain $28+2\cdot2\cdot 28=140$ features. The total number of features therefore becomes $28+6+140=174$.
 
 \begin{figure}[h]
 	\centering
@@ -245,7 +246,7 @@ This makes configuration 2 more favorable as fewer features demands less computa
 
 \section{Feature Principal Component Analysis}
 
-Through the point and feature selection methods described in previous sections we obtain high dimensional feature vectors. Getting an intuitive feel for such data extracted in these processes is difficult as direct plotting is limited to three dimensions. 
+Through the point and feature extraction methods described in previous sections we obtain high dimensional feature vectors. Getting an intuitive feel for such data extracted in these processes is difficult as direct plotting is limited to three dimensions. 
 
 \gls{pca} is  a classical technique in statistical data analysis which takes a large set variables from a multivariate dataset and finds a smaller set of variables with less redundancy. Critically, \gls{pca} finds a rotated orthogonal coordinate system such that the elements of the set become uncorrelated. Projecting elements on the principal axes corresponding to the directions of maximal variance a good approximation of the original data in lower dimension is obtained \citep{hyvasrinen_karhunen_oja_2004}.
 

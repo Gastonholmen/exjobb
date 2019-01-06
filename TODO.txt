@@ -1,10 +1,11 @@
 Overall
- - Carrier frequency fc
- - Autocov, autocorr
+[X] Carrier frequency fc
+[X] Autocov, autocorr
  - Fast time and slow time terminology
  - Make sure we're not reusing variable names
- - Feature selection -> feature extraction
+[X] Feature selection -> feature extraction
  - Shorten unnecessarily long parts
+ - Capital letters on important title words
 
 Abstract
  - Write when ch8 is done
@@ -22,11 +23,11 @@ Ch 3
 [X] Downsampling: start/stop/step etc. Check constatnts on acconeerfs 
 
 Ch 4
- G Remove sample index
- - DFT notation
- G Error in eq. 4.9
- G DFT/Autocov as BF analysis alternatives
- - Model appearing later
+[X] Remove sample index
+[X] DFT notation
+[X] Error in eq. 4.9
+ - Connecting Autocovariance to beat frequencies?
+ - The feature configs have very high accuracies
 [X] Downsampling factor in 4.2.5 after changing in ch 3.
 
 Ch 5
@@ -35,16 +36,16 @@ Ch 5
 Ch 6
  - Data augmentation - Understandable?
  - Detection alg -> outlier suppression method
- - 6.2 index
+[X] 6.2 index
 
 Ch 7
  - PCA plot is a concept proof
  - Linear vs. non-linear
  - Surfaces not seen in training -> undefined behaviour
- - Note that predictions are stable (not seen in LOO table)
- - Comment on feat extr. vs no feat extr. - loss of info vs. directed classification
+[X] Note that predictions are stable (not seen in LOO table)
+[X] Comment on feat extr. vs no feat extr. - loss of info vs. directed classification
  - Balancing of data
- - Velocity-dependent sampling - speed varied slightly during tests so that spatial sampling is the same. 
+[X] Velocity-dependent sampling - speed varied slightly during tests so that spatial sampling is the same. 
 
 Ch 8
  - Write when ready

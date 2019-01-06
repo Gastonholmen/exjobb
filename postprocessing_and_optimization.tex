@@ -52,7 +52,7 @@ The perhaps most effective way of suppressing data littered with outliers is thr
 \citep{yin_yang_gabbouj_neuvo_1996}
 
 \begin{equation}
-	P_i=0 \quad\text{if}\quad\text{median}\{p\}_{i-L+1}^i\leq\xi, 
+	P_i=0 \quad\text{if}\quad\text{median}\{p_k\}_{k=i-L+1}^i\leq\xi, 
 	\quad \text{else} \quad P_i = 1
 \end{equation}
 where $0<\xi<1$. The drawback of using median filtering is that a change is delayed a few predictions. Thus, $L$ must be selected so that the device has not moved too far before the change detection has occurred, but is still capable of sufficiently  suppressing outlying predictions. 
