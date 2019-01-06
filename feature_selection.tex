@@ -25,23 +25,23 @@ Hence, the parameter $T$ becomes a tradeoff between feature accuracy and classif
 % Described in the preceding chapter...
 %The reflectivity of a material, described by its dielectric constant, shows up in the obtained IQ-demodulated sweeps in the amplitude of the returning signals. Therefore it might seem like a good idea to simply measure the energy content of a sweep and use it as a feature. However, due to inconsistencies inbetween individual sensors, sweep normalization is performed as a pre-processing step rendering such calculations unusable. We are thus left with investigating the topography of the scene. 
 
-In this section four different types of features are discussed aimed at capturing the geometric characteristics of a target surface. A radar datapoint captured at time $t$ and range $n$ is denoted as $x(n,t)$. Since we are using $T$ samples per classification, each new set of features $\mathbf{f}_m$ are estimated from time $t_m=Tm$ to $Tm+T-1$.
+In this section four different types of features are discussed aimed at capturing the geometric characteristics of a target surface. From a small data matrix, $\mathbf{R}_f$, consisting of $T$ sweeps, a feature vector, $\mathbf{f}_m$, is derived for each type of feature. The elements in $\mathbf{R}_f$ are denoted $x(n,t)$, where $n$ and $t$ correspond to fast- and slow time indices within $\mathbf{R}_f$, respectively.
 
 
-\subsection{Expected signal}
+\subsection{Expected Envelope}
 
-First of all we may characterize a sweep by its envelope form - that is, the shape of the absolute values of the radar sweeps. If we can assume that the samples are taken from some unknown stochastic process $X_{n,t}$ with constant mean over $T$ samples we may for range $n$ and feature index $m$ form an estimate of the expected envelope, $s_n(m)$. The estimate is formed by computing the average of $T$ consecutive sweeps
+First of all we may characterize a sweep by its envelope form - that is, the shape of the absolute values of the radar sweeps. If we can assume that the samples are taken from some unknown stochastic process $X_{n,t}$ with constant mean over $T$ samples we may for range $n$ form an estimate of the expected envelope, $s(n)$. The estimate is formed by computing the average of $T$ consecutive sweeps
 
 \begin{equation}
-	s_n(m) = \frac{1}{T}\sum_{t=0}^{T-1}|x(n, t_m + t)|.
+	s(n) = \frac{1}{T}\sum_{t=0}^{T-1}|x(n, t)|.
 \end{equation}
 
-In figure \ref{fig:sweep_average} we see what such an averaging process yields. Individual variances are suppressed to form a stable estimate of the sweep shape. The estimates for several range bins form the expected signal feature vector $\mathbf{f}_{s,m}$ as 
+In figure \ref{fig:sweep_average} we see what such an averaging process yields. Individual variances are suppressed to form a stable estimate of the sweep shape. With $K$ fast time samples, the estimate of the expected envelope feature vector becomes 
 
 \begin{equation}
-	\mathbf{f}_{s,m} = 
+	\mathbf{f}_{s} = 
 	\begin{bmatrix}
-		s_0(m) & s_1(m) & ... & s_{K-1}(m)
+		s(0) & s(1) & ... & s(K-1)
 	\end{bmatrix}.
 \end{equation}
 
@@ -69,15 +69,17 @@ As discussed in section \ref{doppler} we can relate the velocity of a scatterer 
 % I think the notation looks strange here...
 % Instead just write the DFT? 
 
-As for the feature vector, a data matrix consisting of $T$ sweeps is selected. Viewing this as a matrix with elements $x(n,t)$, we can compute a $k$-step Fourier transform for each range, $n$, and sample index $m$, as
+%As for the feature vector, a data matrix consisting of $T$ sweeps is selected. Viewing this as a matrix with elements $x(n,t)$, we can compute a $k$-step Fourier transform for each range, $n$, and sample index $m$, as
+
+As for the feature vector, a $T$-step DFT along the slow time axis is first computed for each range, $n$ as
 \begin{equation}
-	\{\mathbb{X}^{(k)}_{n,m}\}_{k=0}^{T-1} =  \sum_{l=0}^{T-1}x(n,t_m+l)\exp\Big[-2\pi i\frac{kl}{T}\Big].
+	\mathbf{d}_n=\text{DFT}(x(n,t))_t =  \sum_{t=0}^{T-1}x(n,t)\exp\Big[-2\pi i\frac{kt}{T}\Big], \quad k=0,...,T-1.
 \end{equation}
-After this, the absolute value of the Fourier transform is computed and the transformations of all ranges in the datasquare are concatenated into a one-dimensional feature vector of the form
+After this, the transformations for all ranges are concatenated into a one-dimensional feature vector of the form
 \begin{equation}
-	\textbf{f}_{f,m}=\begin{bmatrix} \{|\mathbb{X}_{0,m}^{(k)}|\}_{k=0}^{T-1} & \{|\mathbb{X}_{1,m}^{(k)}|\}_{k=0}^{T-1} & \hdots & \{|\mathbb{X}_{R,m}^{(k)}|\}_{k=0}^{T-1} \end{bmatrix},
+	\textbf{f}_{f}=\begin{bmatrix} |\mathbf{d}_0|^* & |\mathbf{d}_1|^* & \hdots & |\mathbf{d}_N|^* \end{bmatrix},
 \end{equation}
-where $R$ is the number of considered ranges.
+where $|\cdot|^*$ denotes elementwise absolute values, and $N$ is the number of fast time samples.
 
 % This section is weirdly written imo 
 An important remark to make is that under the assumption that the autocovariance function of a process $y_t$ decays sufficiently fast, it is closely related to the Fourier transform of the process. The Wiener-Khinchin theorem states that \citep{lu_vaswani_2009} with certain properties\footnote{The process has to be wide sense stationary. The meaning of this is defined in section \ref{ACr}.}, a process, $y_t$, the Fourier transform of its autocovariance function, denoted $\phi_y(\omega)$, relates to the Fourier transform of the actual process according to \citep{jakobsson_2015}
@@ -220,7 +222,12 @@ where $K$ is the number of covariance steps included in each sample.
 
 \subsection{Tested feature combinations}
 % "The same model" is the hyperparameter optimized model we later get to, so the ordering is strange here. Numbers are off too.
-Before performing any feature processing, the data is downsampled by a downsampling factor $D=24$ (see section \ref{downsampling}) such that only 14 out of the 331 range bins are studied. Thus, the resulting datasquare matrix, $\mathbf{R}\in \mathbb{C}^{N\times 28}$, where $N$ is the number of samples. There are 28 columns as the readings from the two sensors are concatenated. 
+Before performing any feature processing, the data is downsampled by a downsampling factor $D=20$ (see section \ref{downsampling}). However, examining the fast time samples, it turns out that in ranges below approximately 11 cm., little information resides. This can clearly be seen in the dark regions of the \gls{dft}s in figure \ref{fig:fft}. Similarly, yet not as apparent, little information is found at longer ranges. Therefore we extract samples from an intermediate region when downsampling, modifying equation \eqref{eq:downsamp} to become
+\begin{equation}
+	r_{1,D}(d, t) = r_{1}(50+dD,t), 
+	\quad \text{and} \quad r_{2,D}(d,t) = r_{2}(50+dD,t)
+\end{equation}
+defined only for $d=0,...,13$. With this definition, the downsampled signal consists of 14 evenly spaced range indices from 50 to 310, corresponding to ranges 9.4 to 21.88 cm. Thus, the resulting datasquare matrix, $\mathbf{R}\in \mathbb{C}^{N\times 28}$, where $N$ is the number of samples. There are 28 columns as the readings from the two sensors are concatenated. 
 
 In above section, four different feature extraction methods were described - the average signal shape, the autocovariance in range and energy, as well as the Fourier transform. The methods each generate a number of features. However, we are not limited to feed our model with features taken from a single one of the methods. In table \ref{tab:feat}, three possible configurations of features are chosen. Each of these combinations were fed through the same classifier to evaluate which was the most efficient. The first one, which simply involves the averaged signal shape, requires much fewer features than the other two combinations - simply 28 positive real numbers. But looking at its performance, these features are not enough to reach the accuracy attained in the other two cases. By instead selecting autocovariances as features the accuracy increases by 4 percentage points. Here we also include the absolute values as features, as this information is lost when subtracting the mean during the computation of the autocovariances. This configuration generates a feature vector with 174 elements, as seen in figure \ref{fig:feat_fig}. 28 features come from the absolute values, 6 features come from six steps in the energy autocovariance. The majority of the features, 140 to be exact, come from the autocovariance in range. For each of the 28 range bins, there is one real-valued feature representing variance, followed by two complex autocovariances for each range bin. This should give us $28+2\cdot 28=84$ features, but as the real- and imaginary parts of complex numbers are split up in two features, we obtain $28+2\cdot2\cdot 28=140$ features. The total number of features therefore becomes $28+6+140=174$.
 
