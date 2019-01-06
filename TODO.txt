@@ -5,6 +5,7 @@ Overall
  - Make sure we're not reusing variable names
  - Feature selection -> feature extraction
  - Shorten unnecessarily long parts
+ - Capital letters on important title words
 
 Abstract
  - Write when ch8 is done
