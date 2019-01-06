@@ -26,8 +26,8 @@ Ch 4
 [X] Remove sample index
 [X] DFT notation
 [X] Error in eq. 4.9
- G DFT/Autocov as BF analysis alternatives
- G Model appearing later
+ - Connecting Autocovariance to beat frequencies?
+ - The feature configs have very high accuracies
 [X] Downsampling factor in 4.2.5 after changing in ch 3.
 
 Ch 5
