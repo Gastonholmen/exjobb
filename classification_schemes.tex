@@ -1,11 +1,5 @@
 \chapter{Classification schemes}
-In this chapter a few classification models are evaluated for the feature extraction processes described in the preceding chapter. The aim of this chapter is to compare various models and to determine the most promising one with regards to accuracy, size and complexity. 
-
-The workflow for all models apart from the last one, follows the chart in figure \ref{fig:flow}, where both training- and test data is preprocessed before going into the classifier. 
-
-
-
-
+In this chapter a few classification models are evaluated for the feature extraction processes described in the preceding chapter. Two linear and six non linear models for supervised learning are compared using cross validation on the acquired data. The workflow for all models apart from the last one, follows the chart in figure \ref{fig:flow}, where both training- and test data is preprocessed before going into the classifier. 
 
 % Define block styles
 \tikzstyle{decision} = [diamond, draw, fill=blue!20, 
@@ -59,58 +53,67 @@ The workflow for all models apart from the last one, follows the chart in figure
 
 
 
-
-
 \section{Linear Models}
-Linear models are widely used in practice as they are general, and can therefore be used in many cases \citep{shalev-shwartz_ben-david_2016}.  Furthermore, they are relatively easy to understand, in contrast to more complex models such as neural networks. Despite this, they can often produce a decent accuracy with a low complexity.
 
-In this work, two linear models are considered. One being linear discriminant analysis (\gls{lda}) and the other, a support vector machine (\gls{svm}) with a linear kernel. 
+Linear classifiers performs a classification decision based on the value of a linear combination of input data \citep{santos_2018}. In the binary case this corresponds to dividing the dataset with a single hyperplane splitting data into two categories. New test data is then mapped into the same space and predicted to belong to a category based on which side of the hyperplane they fall. In this work, two linear models are considered: linear discriminant analysis (\gls{lda}) and a support vector machine (\gls{svm}) with a linear kernel. 
+ 
+% Maybe throw in an equation here somewhere?
 
-\subsection*{Linear Discriminant Analysis}
-Linear Discriminant Analysis, or \gls{lda} for short, is an algorithm commonly used for dimensionality reduction of data. \citep{raschka_2014} It is not uncommon, however, to use it for classification tasks as well. \gls{lda} is a supervised algorithm, meaning it knows what class each sample belongs to. This enables it to project data into a lower dimension in such a way that the different classes are as separated as possible; unlike \gls{pca} which projects data in a way that maintains a high variance, disregarding class labels. 
+% This source doesn't really say this imo.
+%Linear models are widely used in practice as they are general, and can therefore be used in many cases \citep{shalev-shwartz_ben-david_2016}.  Furthermore, they are relatively easy to understand, in contrast to more complex models such as neural networks. Despite this, they can often produce a decent accuracy with a low complexity.
 
-Reducing the dimensionality of data is a good way of both lowering computational costs and avoiding overfitting as well as other phenomena that stem from a high-dimensional data. For further reading about \gls{lda}, we refer to \citep{raschka_2014}.
 
-\subsection*{Support Vector Machine}
-\gls{svm}s are one of the most popular models when it comes to supervised learning. The most simple \gls{svm} uses what is called a linear kernel, and generates a linear hyperplane that separates two sets of labeled data. Finding such a hyperplane is often an ambiguous task, so to find what the \gls{svm} regards as the best hyperplane, it seeks parameters that maximize the distance between the hyperplane and the sample points closest to it, known as support vectors \citep{boswell_2002}.
+\subsection{Linear Discriminant Analysis}
+
+Linear discriminant analysis is an algorithm commonly used for dimensionality reduction \citep{raschka_2014}, but can also be used for classification purposes. \gls{lda} projects given data onto a subspace in a manner that separates the classes as much as possible. 
+
+\gls{lda} bears many similarities to \gls{pca} in that it is based on finding eigenvectors with the largest corresponding eigenvalues, with the key difference that \gls{pca} disregards class labels whereas \gls{lda} does not. For further reading about \gls{lda}, we refer to \citep{raschka_2014}.
+
+
+% Reducing the dimensionality of data is a good way of both lowering computational costs and avoiding overfitting as well as other phenomena that stem from a high-dimensional data. 
+
+\subsection{Support Vector Machines}
+Support vector machines are one of the most popular models when it comes to supervised learning. The most simple \gls{svm} uses what is called a linear kernel, and generates a linear hyperplane that separates two sets of labeled data similarly to \gls{lda}. Unlike \gls{lda} however, \gls{svm} is not an eigen-based method, making \gls{svm} less prone to outliers. Finding a good hyperplane is often an ambiguous task, so to find what the \gls{svm} regards as the best hyperplane it seeks parameters that maximize the distance between the hyperplane and the sample points closest to it known as support vectors \citep{boswell_2002}. 
 
 Even if support vector machines are linear models, they are not limited to work only on linearly separable data. There are ways to use them in a non-linear fashion by utilizing different kinds of kernels. In principle, the data is first transformed into a higher dimensional space, including non-linear terms. In this new space, the \gls{svm} is used just as before. This makes the \gls{svm} a powerful tool even in non-linear problems \citep{boswell_2002}.
 
 \section{Non-linear Models}
-In some cases, the data is not linearly separable. That is, two classes in the dataset cannot be separated by any hyperplane. Hence, if a linear model were to be trained on data that is not linearly separable, one would expect to notice a poor result in comparison to the result of a non-linear model. 
+In many cases data cannot be satisfactorily separated by a linear classifier. That is, two classes in the dataset cannot be well enough separated by any one hyperplane. For such data non-linear algorithms may perform better. In this work, four different non-linear classification methods are tested: random forest (\gls{rf}), logistic regression (\gls{lr}), as well as two types of artificial neural network (\gls{ann}) classifiers. 
 
-The non-linear models considered in this work are random forest, logistic regression, as well as two kinds of neural networks.
+%Hence, if a linear model were to be trained on data that is not linearly separable, one would expect to notice a poor result in comparison to the result of a non-linear model. 
 
-\subsection*{Random Forest}
-Random forest is a strong tool that can be used for both regression- and classification problems. The name stems from that the method is based on several \textit{decision trees}, which are initiated randomly. A decision tree is a classifier per se, and is structured as a sequence of simple questions. These questions typically ask if a sample's feature is equal to, or greater/smaller than some set value. The answers to these questions form a path in the decision tree, leading to an end node which corresponds to the prediction.
+%The non-linear models considered in this work are random forest, logistic regression, as well as two kinds of neural networks.
 
-Random forest segments the training data into $n$ parts, and induces a decision tree from each group of data. Thus there are $n$ predictors that work independently, and by selecting the most common prediction, random forest yields a robust result with little risks of overfitting due to the combined results of many trees. On top of that it offers a very high accuracy in a wide variety of applications, while still maintaining an intuitive model structure that allows us to, for instance, estimate which features are important \citep{breiman_2002}.
+\subsection{Random Forest}
+Random forest is an ensamble learning method that can be used for both regression- and classification problems. The name stems from that the method is based on several \textit{decision trees}, which are initiated randomly. A decision tree is a classifier per se, and is structured as a sequence of simple questions. These questions typically ask if a value is equal to or greater/smaller than some set value. The answers to these questions form a path in the decision tree, leading to an end node which corresponds to the prediction.
 
+Random forest segments the training data into $n$ parts, and induces a decision tree from each group of data. Thus there are $n$ predictors that work independently, and by selecting the most common prediction, random forest yields a robust result with little risks of overfitting due to the combined results of many trees. On top of that it offers a very high accuracy in a wide variety of applications, while still maintaining an intuitive model structure that allows us to, for instance, estimate which features are important \citep{breiman_2002}. In Google's \emph{Project Soli}, random forests were used for millimeter-wave radar gesture recognition with impressive results \citep{lien_gillian_karagozler_amihood_schwesig_olson_raja_poupyrev_2016}. 
 
-\subsection*{Logistic Regression}
-Logistic regression is simlar to an ordinary linear regression. Both methods aim to estimate parameters to describe the relationship between the input- and the output variables. For linear regression, the parameters $\{b_i\}_{i=0}^n$ are estimated, and together with the input variables $\{X_i\}_{i=1}^n$ they generate the output $Y$:
+\subsection{Logistic Regression}
+Logistic regression is simlar to an ordinary linear regression in that both methods aim to estimate parameters to describe the relationship between input and output variables. In linear regression, the parameters $\{b_i\}_{i=0}^n$ are modeled using the input variables $\{X_i\}_{i=1}^n$ and output variables $Y$ through
 
 \begin{equation}
 	Y= b_0+\sum_{i=1}^n b_iX_i.
 \end{equation}
 
-One big difference between the two models is that linear regression outputs continuous values in $\mathbb{R}$, whereas logistic regression outputs a value in the open interval (0,1).  To achieve this, logistic regression transforms the result of the linear regression using the sigmoid function, defined as $f(z)=\frac{1}{1+e^{-z}}$. With this function, logistic regressions maps the inputs $X_i, i=1,...,n$ to
+The key difference between the two is that linear regression outputs continuous values without any boundaries, whereas logistic regression outputs a value in the open interval (0,1).  To achieve this, logistic regression transforms the result of the linear regression using the sigmoid function, defined as $f(z)=\frac{1}{1+e^{-z}}$. With this function, logistic regressions maps the inputs $X_i, i=1,...,n$ to
 \begin{equation}
-	Y= \frac{1}{1+e^{-b_0-\sum_{i=1}^n b_iX_i}}
+	Y= \frac{1}{1+e^{-b_0-\sum_{i=1}^n b_iX_i}}.
 \end{equation}
 
 This value is interpreted as a probability and can be used for making a decision in a binary classification - in this case grass/not grass.
 
 Another major difference between linear and logistic regression is the choice of cost function. Logistic regression commonly uses a cost function known as Cross-Entropy or Log Loss as opposed to Mean Squared Error, which is used for linear regression. For further details about logistic regression, including its cost function, we refer to \citep{a_smola_svn_vishwanathan_2010}.
 
-\subsection*{Artificial neural networks}
-Artificial neural networks (\gls{ann}s) constitute a class of nonlinear models designed to mimic biological neural systems \citep{rojas_1996}. ANNs consist of multiple layers of neurons, or nodes. Initially, there is one input layer, followed by one or more \textit{hidden layers} and one output layer. \citep{logan_2017} The input layer represents the feature vector, and each node holds one feature. Figure \ref{fig:ann} illustrates a simple network which takes a feature vector $\mathbf{x}^{(0)}=\begin{pmatrix}x_1^{(0)} & x_2^{(0)}\end{pmatrix}$ as input. By multiplying the feature vector with a set of weights $\mathbf{w}^{(1)}$ the features are \textit{propagated} through the network and the new node values are generated. In the network in figure \ref{fig:ann}, the output from the input layer, forwarded to the hidden layer becomes
+\subsection{Artificial neural networks}
+Artificial neural networks constitute a class of nonlinear models designed to mimic biological neural systems \citep{rojas_1996}. \gls{ann}s consist of multiple layers of neurons, or nodes. The networks are structured with an input layer followed by one or more hidden layers and one output layer \citep{logan_2017}. Figure \ref{fig:ann} illustrates a simple network which takes a feature vector $\mathbf{x}^{(0)}=\begin{bmatrix}x_1^{(0)} & x_2^{(0)}\end{bmatrix}$ as input. By multiplying the feature vector with a set of weights $\mathbf{w}^{(1)}$ the features are propagated through the network, generating a set of new node values. In the network in figure \ref{fig:ann} the output from the input layer, forwarded to the hidden layer, becomes
 %\rowcolors{2}{white}{white}
 \begin{equation}
 	\mathbf{x}^{(1)}=\begin{pmatrix}x_1^{(1)} \\ x_2^{(1)} \\ x_3^{(1)} \end{pmatrix} = 
 	\begin{pmatrix} w_{11}^{(1)} & w_{21}^{(1)} \\ w_{12}^{(1)} & w_{22}^{(1)} \\ w_{13}^{(1)} & w_{23}^{(1)}\end{pmatrix}\cdot \begin{pmatrix}x_1^{(0)} \\ x_2^{(0)}\end{pmatrix}.
 \end{equation}
-Here, we ignore the node in the hidden layer, labeled "1". This will be discussed in the next section. When the nodes in the hidden layer receive the propagated values, they may range anywhere from negative infinity to positive infinity. Using an \textit{activation function}, $f$, the node transforms the input to a format that is more easily interpreted in terms of whether the node should be active or not (or in biological terms, whether the neuron should fire) \citep{kriesel_2007}. It also introduces non-linearity in the model, allowing it to solve more complex problems. The choice of activation function is one of many things to consider when specifying hyperparameters.
+
+Here we ignore the node in the hidden layer labeled "1" which will be discussed in the following section. When the nodes in the hidden layer receive the propagated values they may range anywhere from negative infinity to positive infinity. Using an \textit{activation function} $f$, the node transforms the input to a format that is more easily interpreted in terms of whether the node should be active or not (or in biological terms, whether the neuron should fire) \citep{kriesel_2007}. It also introduces non-linearity in the model, allowing it to solve more complex problems. The choice of activation function is one of many things to consider when specifying hyperparameters.
 
 Next, the output from the activation function is, again, propagated with a set of weights, $\mathbf{w}^{(2)}$
 \begin{equation}
