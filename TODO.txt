@@ -1,0 +1,50 @@
+Overall
+ - Carrier frequency fc
+ - Autocov, autocorr
+ - Fast time and slow time terminology
+ - Make sure we're not reusing variable names
+ - Feature selection -> feature extraction
+ - Shorten unnecessarily long parts
+
+Abstract
+ - Write when ch8 is done
+
+Pop science article
+ - Write when ch8 is done
+
+Ch 1
+ - Radar sources for road contition monitoring
+
+Ch 2
+ - RCS - explain beter.
+
+Ch 3
+ - Downsampling: start/stop/step etc. Check constatnts on acconeerfs 
+
+Ch 4
+ - Remove sample index
+ - DFT notation
+ - Error in eq. 4.9
+ - DFT/Autocov as BF analysis alternatives
+ - Model appearing later
+ - Downsampling factor in 4.2.5 after changing in ch 3.
+
+Ch 5
+ D Hyperas - which parameters were optimized? 
+
+Ch 6
+ - Data augmentation - Understandable?
+ - Detection alg -> outlier suppression method
+ - 6.2 index
+
+Ch 7
+ - PCA plot is a concept proof
+ - Linear vs. non-linear
+ - Surfaces not seen in training -> undefined behaviour
+ - Note that predictions are stable (not seen in LOO table)
+ - Comment on feat extr. vs no feat extr. - loss of info vs. directed classification
+ - Balancing of data
+ - Velocity-dependent sampling - speed varied slightly during tests so that spatial sampling is the same. 
+
+Ch 8
+ - Write when ready
