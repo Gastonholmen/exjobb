@@ -18,7 +18,7 @@ Ch 1
  - Radar sources for road contition monitoring
 
 Ch 2
- - RCS - explain beter.
+[X] RCS - explain beter.
 
 Ch 3
 [X] Downsampling: start/stop/step etc. Check constatnts on acconeerfs 

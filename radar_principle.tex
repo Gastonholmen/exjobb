@@ -1,6 +1,6 @@
 \chapter{Radar System Overview}
 
-In order to build a model capable of accurately capturing key features from target surfaces one must first understand the origin of the received signal. In this chapter a few fundamental concepts in radar systems are introduced that explain how range, velocity and reflectivity arise in a \gls{pcr} system. The mixing and IQ demodulation procedures are also discussed, which explain how a returning radar echo is captured and demodulated. 
+In order to build a model capable of accurately capturing key features from target surfaces one must first understand the origin of the received signal. In this chapter a few fundamental concepts in radar systems are introduced that explain how range, velocity and reflectivity arise in a \gls{pcr} system. The mixing and \gls{iq} demodulation procedures are also discussed, which explain how a returning radar echo is captured and demodulated. 
 
 \section{Target Properties from Radar Response}
 % TODO: Utilize https://acconeer.sharepoint.com/:w:/g/CS/ES_xwcoTqVdGkShPJkNagMMBL1wVd_GaeJJsEDKC8lWIDQ?e=GxZNEw as a source for this.
@@ -24,17 +24,17 @@ To understand what information can be obtained from such a one dimensional signa
 \begin{equation}\label{eq:returning}
 	y(t) = CA(t-B)\sin(2\pi f_t (t-B))
 \end{equation}
-where $B$ is some delay related to the distance to the target and $C$ a constant related to the dissapation of power throughout space and some radar system properties. For the purposes of this report, the properties of this delay is of particular interest. In the next two sections, it is shown how distance and velocity can be deduced from this parameter using absolute measurements of $D$ and relative changes in $D$ from pulse measurement to pulse measurement. The $C$ variable carries information too, described lastly. 
+where $B$ is some delay related to the distance to the target and $C$ a constant correspoding to the loss of energy from transmission to reception of a pulse. For the purposes of this report, the properties of this delay is of particular interest. In the next two sections, it is shown how distance and velocity can be deduced from this parameter using absolute measurements of $D$ and relative changes in $D$ between pulse measurements. The $C$ variable carries information about the reflectivity of a scatterer, described lastly. 
 
 \subsection{Radar Distance Measurements}
 
-If a scatterer was present a distance $d$ from the transmitting antenna, a wavelet will return $2d/c$ seconds after transmission, where $c$ denotes the speed of light. The 2 appears to accomodate for the pulse traveling back and forth (or, perhaps more accurately, forth and back) between the sensor and the scatterer. Hence, the transmitted signal is delayed according to 
+If a point scatterer was present a distance $d$ from the transmitting antenna, a wavelet will return $2d/c$ seconds after transmission, where $c$ denotes the speed of light. The 2 appears to accomodate for the pulse traveling back and forth (or, perhaps more accurately, forth and back) between the sensor and the scatterer. Hence, the transmitted signal is delayed according to 
 
 \begin{equation}
 	\begin{split}
 		y(t) 
-		& = CA(t-2d/c)\sin(2\pi f_t(t - \frac{2d}{c})) \\
-		& = CA(t-2d/c)\sin(2\pi f_tt - \frac{4\pi d}{c}f_t).
+		& = CA(t-2d/c)\sin(2\pi f_c(t - \frac{2d}{c})) \\
+		& = CA(t-2d/c)\sin(2\pi f_ct - \frac{4\pi d}{c}f_c).
 	\end{split}
 \end{equation}
 
@@ -49,34 +49,32 @@ Thus, by examining the time delay of the returning signal, we can deduce the dis
 \subsection{Doppler Frequency in Pulsed Radar}\label{sec:doppler}
 \label{doppler}
 
-If the target scatterer is moving from or towards the transmitting antenna, a frequency shift will occurr. For velocity $v$, the transmitted frequency $f_t$ will be shifted to $f_r$ according to the well known Doppler formula \citep{ridenour_1947}
+If the target scatterer is moving from or towards the transmitting antenna, a frequency shift will occurr. For velocity $v$, the transmitted frequency $f_c$ will be shifted to $f_r$ according to the well known Doppler formula \citep{ridenour_1947}
 
 \begin{equation}
-	f_r = \frac{c + v}{c - v}f_t
+	f_r = \frac{c + v}{c - v}f_c
 \end{equation}
-
 where positive $v$ indicates that the scatterer is moving towards the transmitter. The frequency shift $f_d$, also known as the \emph{beat frequency} \gls{bf}, is then
 
 \begin{equation}\label{eq:dshift}
 	f_d 
-	= f_r - f_t 
-	= \frac{2v}{c-v}f_t \approx \frac{2v}{c}f_t 
-	= \frac{2v}{\lambda_t}.
+	= f_r - f_c 
+	= \frac{2v}{c-v}f_c \approx \frac{2v}{c}f_c 
+	= \frac{2v}{\lambda_c}
 \end{equation}
+where $\lambda_c$ is the carrier wavelength. This shift means that the an approaching target has slightly increased returning frequency, and conversely that a receeding target has a slightly decreased frequency. In this project a pulsed radar is used, meaning that measurements are done repeatedly using short wavelets instead of transmitting one continuous wave. What does this mean for the Doppler shift?
 
-This shift means that the an approaching target has slightly increased returning frequency, and conversely that a receeding target has a slightly decreased frequency. In this project a pulsed radar is used, meaning that measurements are done repeatedly using short wavelets instead of transmitting one continuous wave. What does this mean for the Doppler shift?
-
-For a pulsed coherent radar system, with sampling frequency $F_s$ and sampling period $T_s = 1/F_s$, the Doppler shift can be viewed as a phase shift from one pulse to the next. Between two pulses, a target moves a distance $vT_s$. Hence, each pulse travels a distance $2vT_s$ less than the preceding one. This distance corresponds to $2vT_s/\lambda_t$ wavelengths, providing a phase change per pulse of
+For a pulsed coherent radar system, with sampling frequency $F_s$ and sampling period $T_s = 1/F_s$, the Doppler shift can instead of a shift in frequency be viewed as a phase shift from one pulse to the next. Between two pulses, a target moves a distance $vT_s$. Hence, each pulse travels a distance $2vT_s$ less than the preceding one. This distance corresponds to $2vT_s/\lambda_c$ wavelengths, providing a phase change $\Delta \phi$ per pulse of
 
 \begin{equation}
-	\Delta \phi = \frac{4\pi}{\lambda_t}vT_s.
+	\Delta \phi = \frac{4\pi}{\lambda_c}vT_s.
 \end{equation}
 
-For a target moving at a constant pace, the \gls{bf} arising from the constant doppler phase shift is thus $f_d = 2v/\lambda_t$, as was found in equation \ref{eq:dshift}. Thus, by taking a discrete fourier transform (\gls{dft}) of the sequence of $T_s$-spaced measurements for one specific distance, we can estimate the velocity from the peak frequency $f$ in this signal as 
+For a target moving at a constant pace, the \gls{bf} arising from the constant doppler phase shift is thus $f_d = 2v/\lambda_c$, as was found in equation \ref{eq:dshift}. Thus, by taking a discrete fourier transform (\gls{dft}) of the sequence of $T_s$-spaced measurements for one specific distance, we can estimate the velocity from the peak frequency $f$ in this signal as 
 
 \begin{equation}\label{eq:dopp}
-	v = \frac{\lambda_t f_d}{2}
-	\approx \frac{\lambda_t f}{2}.
+	v = \frac{\lambda_c f_d}{2}
+	\approx \frac{\lambda_c f}{2}.
 \end{equation}
 
 
@@ -88,12 +86,14 @@ The $C$ factor in \ref{eq:returning} describes the ratio of the emitted power th
 	P_d 
 	= \frac{P_t}{4\pi R^2}.
 \end{equation}
-If a scatterer is present at range $d$ with radar cross section (\gls{rcs})\footnote{The radar cross section can be thought of as a measure of how detectable an object is to a radar.} $\sigma$ and gain $G_t$, the fraction of the radar power reflected by the scatterer is given by 
+
+If a scatterer is present at range $d$ with radar cross section (\gls{rcs}) $\sigma$ and gain $G_t$, the fraction of the radar power reflected by the scatterer is given by 
 
 \begin{equation}
 	P_{e}
 	= \frac{P_tG_t\sigma}{4\pi d^2}.
 \end{equation}
+
 Then, given that the scattering process also is isotropic, the power reflected back at the radar receiver is
 
 \begin{equation}\label{eq:temp}
@@ -101,48 +101,26 @@ Then, given that the scattering process also is isotropic, the power reflected b
 	= \frac{P_e}{4\pi R^2} 
 	= \frac{P_t G_t \sigma}{(4\pi d^2)^2}.
 \end{equation}
+
 Finally only a portion $P_r = P_fA_r$ of the power is captured by the receiver, where $A_r$ is a function of transmission wavelength and receive antenna gain. Including this into \ref{eq:temp}, we obtain the \emph{radar range equation} (\gls{rre}) relating the transmitted and recieved power as
 
 \begin{equation}
 	P_r
 	= \frac{P_t G_t A_r \sigma}{16\pi^2 d^4}.
 \end{equation}
-The radar range equation states that power dissapates rapidly, by a factor $1/d^4$, with range. Thus, increasing the distance to a target object by a factor 2 will return only $1/16$ of the power otherwise received. If the noise power $N$ remains constant regardless of target distance, the \emph{signal-to-noise ratio} (\gls{snr}), defined as $\text{SNR} = P_r/N$ quickly decreases with range. Note that this argument only holds for scatterers of limited size, and that if the scattering target for instance was a parabolic antenna, a waveguide or a large wall this relationship between the transmitted and received power would not be valid. 
 
-We also see from the radar range equation that the power returned is also governed by the \gls{rcs} $\sigma$ of the target. This ascribed area is the projected area of a metal sphere which would return the same echo as the target if the sphere had been substituted for the target \citep{skolnik_2009}, and is used for quantifying the echo in terms of reflectivity.  
+The radar range equation states that power dissapates rapidly, by a factor $1/d^4$, with range. Hence, increasing the distance to a target object by a factor 2 will return only $1/16$ of the power otherwise received. According to \citep{richards_2014} this rate is in real-world scenarios typically between $1/d$ to $1/d^4$, so that the process may not be as lossy as the \gls{rre} predicts. If the noise power $N$ remains constant regardless of target distance, the \emph{signal-to-noise ratio} (\gls{snr}), defined as $\text{SNR} = P_r/N$ quickly decreases with range\footnote{Note that this argument only holds for scatterers of limited size, and that if the scattering target for instance was a parabolic antenna, a waveguide or a large wall this relationship between the transmitted and received power would not be valid.}. 
+
+We also see from the \gls{rre} that the power returned is governed by the \gls{rcs} $\sigma$ of the target. The \gls{rcs} describes how reflective a target is, determined both by its size as well as its dielectric properties. It can be regarded as a fictious area that describes the intensity of the wave reflected back to a scatterer. This area is the projected area of an electrically large, perfectly conducting sphere whose echo strength would match that of the target if we were to replace the target with the sphere \citep{knott_1993}. 
+
+However, as the reflectivity and thus the \gls{rcs} can vary with both distance and viewing angle, this fictious metal sphere subsequently changes size depending on where in space it is located. Thus, our best recourse is to simply regard the \gls{rcs} as a measure of the intensity of the radar echo expressed in terms of an area. 
 
 % Have a part on bandwidth
-
-
-
-
-%\section{Radar operation}
-
-%A pulsed radar system can be realized in countless ways, but all subscribe to the fundamental physical laws of electromagnetic radiation. In this section one such configuration is described. Furthermore, we describe the key signal processing method, \emph{In-phase and Quadrature-phase demodulation} (IQ demodulation), used for extracting useful information from the unprocessed radar response. 
-
-%\subsection{Elements of a pulsed radar}
-%The radar system considered in this report includes the following crucial components:
-
-%\begin{itemize}
-%	\item Waveform generator
-%	\item Oscillator
-%	\item Transmitting antenna
-%	\item Receiving antenna
-%	\item Mixer
-%	\item Integrator
-%\end{itemize}
-
-% List of parts in radar system
-% Nice figure showing this process
-
-
-%A waveform generator outputs a radar envelope which is modulated by a local oscillator to some desired radio frequency. After signal amplification the wavelet is transmitted through an antenna. Detection is performed by a second antenna, which receives the returning signal during some time interval. 
-
 \section{Analog Convolution}
 
 In the preceding section it was shown that the scattering response carry information about target range, reflectivity and radial velocity. This section explains how the radar captures the returning signals to generate raw radar data through \emph{analog convolution}.
 
-Analog convolution means convolving the returning signal with the transmitted. It involves generating an internal pulse, called an analysis pulse of equal frequency of what was transmitted. The captured signal and the generated signal are then multiplied elementwise and summed, to form one measurement $m(\tau)$, where $\tau$ is the internal delay of the analysis pulse. 
+Analog convolution means convolving the returning signal with the transmitted. It involves generating an internal pulse, called an analysis pulse, as a delayed copy of the transmitted pulse. The received signal and the generated signal are then multiplied elementwise and summed, to form one measurement point $m(\tau)$, where $\tau$ is the internal delay of the analysis pulse. 
 
 Mathematically we can describe this convolution as
 
@@ -151,7 +129,7 @@ Mathematically we can describe this convolution as
 	= x_T(-t) * y(t)
 	= \int_{-\infty}^{+\infty} x_T(t - \tau)y(t) dt
 \end{equation}
-where $x_T(t)$ is the analysis pulse, as defined in \ref{eq:trans} and $y(t)$ is the returing wavelet. If the incoming signal $y(t)$ stems from a single scattering point target then $y(t)$ is on the form of \ref{eq:returning}. With the envelope $A(t)$ as a rectangular envelope\footnote{The rectangular envelope is commonly used for maximal power transmission \citep{richards_2014}, however the Acconeer radar system employs an envelope more similar to a raised cosine. The rectangular envelope is used here mainly for mathematical convenience.} of length $L$
+where $x_T(t)$ is the analysis pulse as defined in \ref{eq:trans} and $y(t)$ is the returing wavelet. If the incoming signal $y(t)$ stems from a single scattering point target then $y(t)$ is on the form of \ref{eq:returning}. With the envelope $A(t)$ as a rectangular envelope\footnote{The rectangular envelope is commonly used for maximal power transmission \citep{richards_2014}, however the Acconeer radar system employs an envelope more similar to a raised cosine. The rectangular envelope is used here mainly for mathematical convenience.} of length $L$
 
 \begin{equation}
 	A(t) = \begin{cases}
@@ -171,16 +149,18 @@ $m(\tau)$ will be on the form
 \end{equation}
 
 \begin{equation}\label{eq:n1}
-	\frac{C}{2}\Big((\tau + L - D)\cos(2\pi f_t(\tau - D)) 
-	- \frac{1}{2\pi f_t}\sin(2\pi f_t(\tau - D))\Big)
+	\frac{C}{2}\Big((\tau + L - B)\cos(2\pi f_c(\tau - B)) 
+	- \frac{1}{2\pi f_c}\sin(2\pi f_c(\tau - B))\Big)
 \end{equation}
 
 \begin{equation}\label{eq:n2}
-	\frac{C}{2}\Big((D + L - \tau)\cos(2\pi f_t(\tau - D)) 
-	+ \frac{1}{2\pi f_t}\sin(2\pi f_t(\tau - D))\Big).
+	\frac{C}{2}\Big((B + L - \tau)\cos(2\pi f_c(\tau - B)) 
+	+ \frac{1}{2\pi f_c}\sin(2\pi f_c(\tau - B))\Big).
 \end{equation}
 
-The full derivation of \ref{eq:n0}, \ref{eq:n1} and \ref{eq:n2} can be found in the appendix. This procedure is illustrated in figures \ref{fig:mix0} and \ref{fig:mix1}. The analysis pulse is shown in the top plot, the recieved pulse in the center and the result of the elementwise multiplication at the bottom. These two figures differ in that the internal delay $\tau$ of the analysis pulse is different, so that no overlap occurrs in the first figure while significant overlap happens in the second. In figure \ref{fig:mix2} a numerical computation of $m(\tau)$ has been performed, shown in part in figures \ref{fig:mix0} and \ref{fig:mix1}. Note that this result was obtained for a noise-free mixing of a signal from a single scattering target. It is thus clear that with complicated continuous structures, target scenes produce complex outputs at the reciever. In \ref{fig:single_sweep_raw}, a mixing output from the radar sensor used in this project is shown. For this example, the target scatterer is a hand held approximately 15 cm from the sensor. 
+The full derivation of \ref{eq:n0}, \ref{eq:n1} and \ref{eq:n2} can be found in the appendix. This procedure is illustrated in figures \ref{fig:mix0} and \ref{fig:mix1}. The analysis pulse is shown in the top plot, the recieved pulse in the center and the result of the elementwise multiplication at the bottom. These two figures differ in that the internal delay $\tau$ of the analysis pulse is different, so that no overlap occurrs in the first figure while significant overlap happens in the second.
+
+In figure \ref{fig:mix2} a numerical computation of $m(\tau)$ has been performed, shown in part in figures \ref{fig:mix0} and \ref{fig:mix1}. Note that this result was obtained for a noise-free mixing of a signal from a single theoretical point scattering target. It is thus clear that with complicated continuous structures, target scenes produce complex outputs at the reciever. In \ref{fig:single_sweep_raw}, a mixing output from the radar sensor used in this project is shown. For this example, the target scatterer is a hand held approximately 15 cm from the sensor. 
 
 \begin{figure}[h]
 	\centering
@@ -213,21 +193,15 @@ The full derivation of \ref{eq:n0}, \ref{eq:n1} and \ref{eq:n2} can be found in 
 \section{IQ Demodulation}
 \label{IQ}
 
-Even though single-antenna receivers have no angular resolution, it was shown above that the returning signal carries useful information. By measuring the temporal shift from transmission to reception we can calculate the distance to a scatterer, and by examining the phase shift between pulses we may find the \gls{bf} and thus the radial velocity of the scatterer. Finally, the scatterers' dielectric properties are brought forward through the \gls{rcs}, showing up as a scaling factor after analog convolution. 
+Even though single-antenna receivers have no angular resolution, it was shown above that the returning signal carries useful information. By measuring the temporal shift from transmission to reception we can calculate the distance to a scatterer, and by examining the phase shift between pulses we may find the \gls{bf} and thus the radial velocity of the scatterer. Finally, the scatterers dielectric properties are brought forward through the \gls{rcs}, showing up as a scaling factor after analog convolution. 
 
-Although the raw signal produced by analog convolution shown in \ref{fig:single_sweep_raw} holds the information we are interested in, it has low \gls{snr} \citep{richards_2014} and holds the carrier frequency as can be seen in \ref{eq:n0}-\ref{eq:n2}. Instead, some transformation of the raw signal is usually performed. In this work we are particularly interested in resolving small Doppler shifts, and thus we wish to closely monitor phase shifts from one measurement to the next. One effective method focusing on accurate phase tracking involves splitting the signal into its \emph{In-phase} and \emph{Quadrature} (\gls{iq}) components. 
+Although the raw signal produced by analog convolution shown in \ref{fig:single_sweep_raw} holds the information we are interested in, it has commonly low \gls{snr} \citep{richards_2014} and holds the carrier frequency as can be seen in \ref{eq:n0}-\ref{eq:n2}. Instead, some transformation of the raw signal is usually performed. In this work we are particularly interested in resolving small Doppler shifts, and thus we wish to closely monitor phase shifts from one measurement to the next. One effective method focusing on accurate phase tracking involves splitting the signal into its \emph{In-phase} and \emph{Quadrature} (\gls{iq}) components. 
 
-The in-phase channel mixes the raw signal with an oscillator at the carrier frequency $f_t$, and the quadrature channel with the same frequency but with a $90^\circ$ phase shift from the I channel. After low-pass filtering, the \gls{iq} components are intepreted as a complex number
+The In-phase channel mixes the raw signal with an oscillator at the carrier frequency $f_c$, and the Quadrature channel with the same frequency but with a $90^\circ$ phase shift from the I channel. After low-pass filtering, the \gls{iq} components are intepreted as a complex number $I(t) + jQ(t)$. \gls{iq} demodulation shifts the information bearing part of the mixed signal to baseband, meaning that an echo waveform on form $A(t)\sin(2\pi f_c t + \phi(t))$ after demodulation has form $A(t)e^{j\phi(t)}$, effectively eliminating the carrier frequency. Thus, after analog convolution and \gls{iq} demodulation we obtain a set of complex range measurements that we will denote as a \emph{radar sweep}. 
 
-\begin{equation}
-	x(t) = I(t) + jQ(t).
-\end{equation}
+The details of this demodulation scheme can be found in the appendix. In figure \ref{fig:single_sweep_iq} the amplitude of a radar sweep is shown for data captured using the same measurement setup as in figure \ref{fig:single_sweep_raw}. Although the amplitude may be useful, the real power of splitting the signal into its I and Q constituents come from its phase tracking capabilities, as the phase is vastly more sensitive to small changes in range than the amplitude \citep{lien_gillian_karagozler_amihood_schwesig_olson_raja_poupyrev_2016}.
 
-\gls{iq} demodulation shifts the information bearing part of the mixed signal to baseband, meaning that an echo waveform on form $A(t)\sin(2\pi f_t t + \phi(t))$ after demodulation becomes $x(t) = A(t)e^{j\phi(t)}$, eliminating the carrier frequency. 
-
-The details of this demodulation scheme can be found in the appendix. In figure \ref{fig:single_sweep_iq} the amplitude $|x(t)|$ is shown for data captured using the same measurement setup as in figure \ref{fig:single_sweep_raw}. Although the amplitude may be useful, the real power of splitting the signal in I and Q components come from its phase tracking capabilities, as the phase is more sensitive to small changes in range than the amplitude \citep{lien_gillian_karagozler_amihood_schwesig_olson_raja_poupyrev_2016}.
-
-
+% Is this good enough?
 % TODO: Incorporate more of what is written below. Intermediary frequency? Discuss with Peter. 
 
 
