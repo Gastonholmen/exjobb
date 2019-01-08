@@ -13,21 +13,21 @@ to complex form without the carrier frequency $f_c$ \citep{lee_1991}
 \end{equation}
 	
 IQ demodulation thus aims to extract the information bearing part of $x(t)$ found in the envelope $A(t)$ and phase shift $\phi(t)$ from \eqref{eq:signal}. Most classical radars follow the demodulation scheme depicted in figure \ref{fig:iq_demod}. The first step is to split the signal in \eqref{eq:signal} into two separate channels. In the upper channel, the signal is multiplied by a coherent sinusoid with the same carrier frequency as the received pulse. The result of this multiplication can be rewritten as
-\begin{equation}\label{eq:split}
+\begin{equation}
 	 A(t)\sin(f_c t+\phi(t))\cdot 2\sin(f_c t) = \\
 \end{equation}
-\begin{equation}
-	A(t)\cos(\theta(t))-A(t)\cos(2f_c t+\phi(t))
+\begin{equation}\label{eq:split}
+	A(t)\cos(\phi(t))-A(t)\cos(2f_c t+\phi(t))
 \end{equation}
 yielding one baseband sinusoid and one sinusoid at the double carrier frequency. 
 
 The next step in the demodulation scheme is to low pass filter to get rid of the undesired high frequency term term in \eqref{eq:split} leaving only $A(t)\cos(\theta(t))$. This constitutes the \emph{In-phase} channel $I(t)$.
 
 	Similarly, in the bottom channel in figure \ref{fig:iq_demod}, $x(t)$ is multiplied by a signal of the same carrier frequency. However, this time, the signal is shifted $90^\circ$ in phase\footnote{This shift is technically a \emph{Hilbert transform}, as the sinusoid is shifted by $\pi/2$.}. We can rewrite this product as
-\begin{equation}\label{eq:split2}
+\begin{equation}
 	 A(t)\sin(f_c t+\phi(t))\cdot 2\cos(f_c t) = 
 \end{equation}
-\begin{equation}
+\begin{equation}\label{eq:split2}
  	 A(t)\sin(\theta(t))+A(t)\sin(2f_c t+\phi(t)).
 \end{equation}
 
