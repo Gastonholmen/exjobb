@@ -7,6 +7,7 @@ Overall
 [X] Feature selection -> feature extraction
  - Shorten unnecessarily long parts
  - Capital letters on important title words
+ - Change all equation references to use \eqref instead of both \ref and \eqref
 
 Abstract
  - Write when ch8 is done
@@ -18,7 +19,7 @@ Ch 1
  - Radar sources for road contition monitoring
 
 Ch 2
- - RCS - explain beter.
+[X] RCS - explain beter.
 
 Ch 3
 [X] Downsampling: start/stop/step etc. Check constatnts on acconeerfs 
