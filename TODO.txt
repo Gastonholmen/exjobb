@@ -7,6 +7,7 @@ Overall
 [X] Feature selection -> feature extraction
  - Shorten unnecessarily long parts
  - Capital letters on important title words
+ - Change all equation references to use \eqref instead of both \ref and \eqref
 
 Abstract
  - Write when ch8 is done
