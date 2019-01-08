@@ -51,4 +51,4 @@ Ch 7
 
 Ch 8
 [X] Conclusions
- G Future Work
+[X] Future Work
