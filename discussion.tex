@@ -64,6 +64,7 @@ However, the model can only be prepared for so much, and an often critical aspec
 
 
 \section{Feature Extraction and Model Selection}
+\label{disc_feat}
 Table \ref{tab:loo} is in many ways a very telling one. Here, each sample session was classified without using any of the samples from the session at hand. Instead, all other sessions were used in training. Six different methods of classification were evaluated; two linear and four nonlinear. 
 
 First and foremost it is noted that each tested method performed at the very least \emph{decently}. One may argue that the \gls{lstm} model is unstable or that using \gls{lda} produces lower accuracy predictions, but they nonetheless generated accuracies above 97\% on average. Considering these are the lower-performing classifiers, and the remaining ones perform even better, suggests that the performed feature extraction captures, or at least maintains, the cruicial information in the original data. 
