@@ -6,11 +6,11 @@ In order to build a model capable of accurately capturing key features from targ
 % TODO: Utilize https://acconeer.sharepoint.com/:w:/g/CS/ES_xwcoTqVdGkShPJkNagMMBL1wVd_GaeJJsEDKC8lWIDQ?e=GxZNEw as a source for this.
 Fundamentally, a radar operates by radiating \gls{rf} electromagnetic energy and listening if the transmitted energy generates any echoes \citep{skolnik_2009}. By analyzing properties of returning signals it is then possible to obtain information regarding the scattering targets. This may involve the distance and angle at which scatterers are located or at which velocity they are moving in. With a sufficiently high angular and range resolution it is even possible to discern parts of the targets' shapes and sizes.  
 
-Standard radars are active systems, meaning that they have a radiating antenna and hence do not depend on any ambient radiation for target identification \citep{richards_2014}. Radar systems can be realized in many ways, however in this report a \gls{pcr} system is used. This means that a sequence of short coherent wavelets are transmitted towards a target scene to determine its properties. One such transmitted wavelet pulse $x_T(t)$ has some carrier frequency $f_t$ and envelope $A(t)$ as in
+Standard radars are active systems, meaning that they have a radiating antenna and hence do not depend on any ambient radiation for target identification \citep{richards_2014}. Radar systems can be realized in many ways, however in this report a \gls{pcr} system is used. This means that a sequence of short coherent wavelets are transmitted towards a target scene to determine its properties. One such transmitted wavelet pulse $x_T(t)$ has some carrier frequency $f_c$ and envelope $A(t)$ as in
 
 \begin{equation}\label{eq:trans}
 	x_T(t)
-	= A(t)\sin(2\pi f_t t).
+	= A(t)\sin(2\pi f_c t).
 \end{equation}
 
 After various scattering processes, the returning signal is captured by either an array of antennas, or just a single antenna.
@@ -19,13 +19,12 @@ After various scattering processes, the returning signal is captured by either a
 
 Commonly, in larger radar systems, many receiving antennas capture the returning radiation. This allows for distinguishing radar targets not only in range, but also in angle. In this work a single receiving antenna is used, meaning that the radar has no intrinsic method of determining at which angle a scatterer is located. Thus, only range information can be captured by this sensor. 
 
-To understand what information can be obtained from such a one dimensional signal, a single scattering object some distance away from the transmitter is here considered. If a radar pulse with envelope $A(t)$ and frequency $f_t$ is transmitted towards it, the returning signal will be on the form \citep{richards_2014}
+To understand what information can be obtained from such a one dimensional signal, a single scattering object some distance away from the transmitter is here considered. If a radar pulse with envelope $A(t)$ and frequency $f_c$ is transmitted towards it, the returning signal will be a delayed pulse on the form \citep{richards_2014}
 
 \begin{equation}\label{eq:returning}
-	y(t) = CA(t-D)\sin(2\pi f_t (t-D))
+	y(t) = CA(t-B)\sin(2\pi f_t (t-B))
 \end{equation}
-
-where $D$ is some delay related to the distance to the target and $C$ a constant related to the dissapation of power throughout space and some radar system properties. For the purposes of this report, the properties of the phase shift $\phi=-2\pi f_tD$ is of particular interest. In the next two sections, it is shown how distance and velocity can be deduced from this parameter using the time delay and the Doppler shift. The $C$ variable carries information too, described lastly. 
+where $B$ is some delay related to the distance to the target and $C$ a constant related to the dissapation of power throughout space and some radar system properties. For the purposes of this report, the properties of this delay is of particular interest. In the next two sections, it is shown how distance and velocity can be deduced from this parameter using absolute measurements of $D$ and relative changes in $D$ from pulse measurement to pulse measurement. The $C$ variable carries information too, described lastly. 
 
 \subsection{Radar Distance Measurements}
 
