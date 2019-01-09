@@ -156,7 +156,7 @@ Downsampling measurements $r_1(d,t)$ and $r_2(d,t)$ by a factor $D$ can be expre
 \end{equation}
 and the data matrix $r_D(n,t)$ is formed correspondingly.
 
-\section{Sweep Normalization}
+\section{Sweep Normalization}\label{sec:norm}
 
 On hardware quirk of the radar sensors used in this project is that their gain can vary significantly from one sensor to the next. This means that faced the same surface two sensors exhibit a similar sweep structure but may be scaled differently. Assuming a models training data has been collected with one sensor, it could therefore be difficult to successfully perform classifications with the same model using a sensor which has a different gain. A way to overcome this issue is to perform radar sweep normalization as a preprocessing step. There are multiple ways of performing such a normalization. %This is due to the fact that a linear scaling difference between two sensors behaves nonlinearly in the prediction output, due to nonlinearities both in the feature extraction process as well as in the classification process.
 
