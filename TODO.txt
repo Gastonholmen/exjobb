@@ -6,7 +6,7 @@ Overall
  D Make sure we're not reusing variable names
 [X] Feature selection -> feature extraction
  - Shorten unnecessarily long parts
- - Capital letters on important title words
+ - Capital letters in titles
  - Change all equation references to use \eqref instead of both \ref and \eqref
 
 Abstract
