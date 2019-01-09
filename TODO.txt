@@ -1,9 +1,10 @@
 Overall
 [X] Carrier frequency fc
 [X] Autocov, autocorr
- D Figure out if any, and if so which, variable names are used in different ways.
- D Fast time and slow time terminology
- D Make sure we're not reusing variable names
+[X] Figure out if any, and if so which, variable names are used in different ways.
+ - Change name of x_T to something else - x is already in use.
+[X] Fast time and slow time terminology
+[X] Make sure we're not reusing variable names
 [X] Feature selection -> feature extraction
  - Shorten unnecessarily long parts
  - Capital letters in titles
