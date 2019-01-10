@@ -6,7 +6,7 @@ Overall
 [X] Fast time and slow time terminology
 [X] Make sure we're not reusing variable names
 [X] Feature selection -> feature extraction
- - Shorten unnecessarily long parts
+[X] Shorten unnecessarily long parts
  - Capital letters in titles
  - Change all equation references to use \eqref instead of both \ref and \eqref
  - Spelling mistakes
@@ -31,9 +31,10 @@ Ch 4
 [X] DFT notation
 [X] Error in eq. 4.9
  - Connecting Autocovariance to beat frequencies?
- - The feature configs have very high accuracies
+[X] The feature configs have very high accuracies
 [X] Downsampling factor in 4.2.5 after changing in ch 3.
 [X] We need to mention that T=25.
+ - Update text with regards to new SVM config comparison
 
 Ch 5
  - Logistic regression - this is not accurately described. We optimize for b parameters and try to separate two classes from each other. 
@@ -44,8 +45,8 @@ Ch 5
  - Write about that it is now an svm classification
 
 Ch 6
- - Data augmentation - Understandable?
- - Detection alg -> outlier suppression method
+[X] Data augmentation - Understandable?
+[X] Detection alg -> outlier suppression method
 [X] 6.2 index
 
 Ch 7

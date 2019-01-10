@@ -27,8 +27,8 @@ Setting $A=5$, one data matrix consisting of 50,000 slow time samples normally y
 			\hline
 			\rowcolor{gray!150}
 			\color{white}\textbf{Augmentation} & \color{white}\textbf{LOO Acc.} \\
-			1 & 98.49 \\
-			5 & 98.53 \\
+			1 & 98.50 \\
+			5 & 98.54 \\
 			\hline
 		\end{tabular}
 	\end{center}
@@ -49,7 +49,7 @@ Many elaborate statistically appealing methods for change detection are presente
 Perhaps most effective way of suppressing data littered with outliers is through some form of median filtering \citep{yin_yang_gabbouj_neuvo_1996}. Median filters is very robust against impulsive-type noise, a property that cannot be achieved by traditional linear filtering techniques. The regular form of a median filter simply takes the median of current and previous datapoints, resulting in an output significantly less sensitive to inconsistencies \citep{pearson_2002}. For a sequence $\{p\}$ of predictions produced by the \gls{dnn} we apply a median filter of length $M$ and set a decision threshold $\xi$ to produce binary predictions $P_i$ according to
 \citep{yin_yang_gabbouj_neuvo_1996}
 \begin{equation}
-	P_i=0 \quad\text{if}\quad\text{median}\{p_k\}_{k=i-L+1}^i\leq\xi, 
+	P_i=0 \quad\text{if}\quad\text{median}\{p_k\}_{k=i-M+1}^i\leq\xi, 
 	\quad \text{else} \quad P_i = 1
 \end{equation}
 where $0<\xi<1$. The drawback of using median filtering, or any filtering really, is that the detection is delayed a few predictions. Thus, $L$ must be selected so that the device has not moved too far before the change detection has occurred, but is still capable of sufficiently  suppressing outlying predictions. 
