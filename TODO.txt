@@ -51,7 +51,7 @@ Ch 6
 
 Ch 7
  - PCA plot is a concept proof
- - Linear vs. non-linear
+[X] Linear vs. non-linear
  - Surfaces not seen in training -> undefined behaviour
 [X] Note that predictions are stable (not seen in LOO table)
 [X] Comment on feat extr. vs no feat extr. - loss of info vs. directed classification
