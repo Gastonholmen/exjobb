@@ -7,7 +7,7 @@ Overall
 [X] Make sure we're not reusing variable names
 [X] Feature selection -> feature extraction
 [X] Shorten unnecessarily long parts
- - Capital letters in titles
+[X] Capital letters in titles
  - Change all equation references to use \eqref instead of both \ref and \eqref
  - Spelling mistakes
 
