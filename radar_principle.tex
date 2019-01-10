@@ -49,12 +49,12 @@ Thus, by examining the time delay of the returning signal, we can deduce the dis
 \subsection{Doppler Frequency in Pulsed Radar}\label{sec:doppler}
 \label{doppler}
 
-If the target scatterer is moving from or towards the transmitting antenna, a frequency shift will occurr. For velocity $v$, the transmitted frequency $f_c$ will be shifted to $f_r$ according to the well known Doppler formula \citep{ridenour_1947}
+If the target scatterer is moving from or towards the transmitting antenna, a shift in frequency will occurr in the received pulse $y(t)$. For velocity $v$, the transmitted frequency $f_c$ will be shifted to $f_r$ according to the well known Doppler formula \citep{ridenour_1947}
 
 \begin{equation}
 	f_r = \frac{c + v}{c - v}f_c
 \end{equation}
-where positive $v$ indicates that the scatterer is moving towards the transmitter. The frequency shift $f_d$, also known as the \emph{beat frequency} \gls{bf}, is then
+where positive $v$ indicates that the scatterer is moving towards the transmitter. The frequency shift $f_d$, also known as the \emph{beat frequency} (\gls{bf}), is then
 
 \begin{equation}\label{eq:dshift}
 	f_d 
@@ -64,13 +64,13 @@ where positive $v$ indicates that the scatterer is moving towards the transmitte
 \end{equation}
 where $\lambda_c$ is the carrier wavelength. This shift means that the an approaching target has slightly increased returning frequency, and conversely that a receeding target has a slightly decreased frequency. In this project a pulsed radar is used, meaning that measurements are done repeatedly using short wavelets instead of transmitting one continuous wave. What does this mean for the Doppler shift?
 
-For a pulsed coherent radar system, with sampling frequency $F_s$ and sampling period $T_s = 1/F_s$, the Doppler shift can instead of a shift in frequency be viewed as a phase shift from one pulse to the next. Between two pulses, a target moves a distance $vT_s$. Hence, each pulse travels a distance $2vT_s$ less than the preceding one. This distance corresponds to $2vT_s/\lambda_c$ wavelengths, providing a phase change $\Delta \phi$ per pulse of
+For a pulsed coherent radar system, with sampling frequency $F_s$ and sampling period $T_s = 1/F_s$, the Doppler shift can instead of a shift in frequency be viewed as a phase shift from one pulse to the next. Between two distance measurements, a target moves a distance $vT_s$. Hence, each pulse travels a distance $2vT_s$ less than the preceding one. This distance corresponds to $2vT_s/\lambda_c$ wavelengths, providing a phase change $\Delta \phi$ per pulse of
 
 \begin{equation}
 	\Delta \phi = \frac{4\pi}{\lambda_c}vT_s.
 \end{equation}
 
-For a target moving at a constant pace, the \gls{bf} arising from the constant doppler phase shift is thus $f_d = 2v/\lambda_c$, as was found in equation \ref{eq:dshift}. Thus, by taking a discrete fourier transform (\gls{dft}) of the sequence of $T_s$-spaced measurements for one specific distance, we can estimate the velocity from the peak frequency $f$ in this signal as 
+For a target moving at a constant pace, the \gls{bf} arising from the constant doppler phase shift is thus $f_d = 2v/\lambda_c$, as was found in equation \ref{eq:dshift}. Thus, by taking a discrete fourier transform (\gls{dft}) of the sequence of $T_s$-spaced measurements for one specific distance, we can estimate the velocity from the peak frequency $f$ in the \gls{dft} as 
 
 \begin{equation}\label{eq:dopp}
 	v = \frac{\lambda_c f_d}{2}

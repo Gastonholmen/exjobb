@@ -8,7 +8,7 @@ Machine learning algorithms aim to  extract useful patterns in data. In our case
 
 In order to make use of the feature content present in the sequence of radar sweeps we have two main options. The first involves using a complex non linear machine learning algorithm, such as a deep neural network (\gls{dnn}) with a large number of layers. Algorithms exist that indeed can learn to analyze frequency components, for instance for speech recognition \citep{graves_mohamed_hinton_2013}, but tend to be too computationally expensive to realistically implement when hardware is limited. A second option is to perform \emph{feature extraction}. By extracting a smaller set of features pertaining to the frequency content of the given data, we can significantly reduce the complexity of the model. Furthermore, the feature extraction process allows us to pinpoint what data characteristics we wish to monitor, and subsequently which data characteristics we believe are of value. This ensures that the machine learning algorithm generates its predictions using patterns selected by the authors, rather than finding patterns on its own. For the reasons outlined the focus in this report is using feature extraction based machine learning. 
 
-\section{An Impossible Modeling Problem}
+\section{An Impossible Modeling Problem}\label{sec:chall}
 
 Ideally, one seeks a small set of features which accurately capture the information content in the larger set of data. It is then possible to obtain good results with significantly less computational load than if no feature extraction had been considered. Thus, if the exact structure of the returning signals were known, we could simply estimate its parameters and classify using those.
 
@@ -217,10 +217,10 @@ where $K$ is the number of covariance steps included in each sample.
   \begin{tabular}{|c|cccccc|}
 \hline
     \rowcolor{gray!150}
-		  & \color{white}\textbf{Abs} & \color{white}\textbf{AC Energy} & \color{white}\textbf{AC Range} & \color{white}\textbf{FFT} & \color{white}\textbf{Features} & \color{white}\textbf{Accuracy} \\
-	  Config 1 & X &   &   &   & 28  & 92.49 \\
-	  Config 2 & X & X & X & & 174 & 98.49 \\
-	  Config 3 & & & & X & 700 & 98.55 \\
+		  & \color{white}\textbf{Abs} & \color{white}\textbf{AC Energy} & \color{white}\textbf{AC Range} & \color{white}\textbf{FFT} & \color{white}\textbf{Features} & \color{white}\textbf{SVM Accuracy} \\
+	  Config 1 & X &   &   &   & 28  & 92.23 \\
+	  Config 2 & X & X & X & & 174 & 97.44 \\
+	  Config 3 & & & & X & 700 & 97.37 \\
 \hline
   \end{tabular}
 \end{center}

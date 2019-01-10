@@ -39,6 +39,8 @@ Ch 5
  - Neural networks - "too many epochs puts the model at risk of overfitting." Is this true? If so we should include a source. 
  - Leave-One-Out Strategy - we don't explain that we are excluding the larger set of data in training and thus avoid fitting with neighbouring samples. This is well done in the figure but should say in the text too. 
 [X] Hyperas - which parameters were optimized? 
+[X] Accuracies are now for a linear support vector classifier
+ - Write about that it is now an svm classification
 
 Ch 6
  - Data augmentation - Understandable?
@@ -53,6 +55,8 @@ Ch 7
 [X] Comment on feat extr. vs no feat extr. - loss of info vs. directed classification
  - Balancing of data
 [X] Velocity-dependent sampling - speed varied slightly during tests so that spatial sampling is the same. 
+ - Discuss the CNN+LSTM model
+ - The last part in Errors&Uncertainties was commented out as it didn't really belong there. Maybe move it?
 
 Ch 8
 [X] Conclusions

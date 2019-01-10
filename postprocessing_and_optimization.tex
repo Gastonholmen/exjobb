@@ -8,8 +8,7 @@ A recurring problem in training \gls{ann}'s is that there simply isn't enough da
 
 However, by \emph{augmenting} the data we are able to further increase the training set size, and subsequently further increase model performance. Data augmentation is the process of supplementing a dataset with similar data created from the same dataset. How one augments a dataset is data dependent. In for instance computer vision, data augmentation often involves rotating, translating, blurring or in some other way modifying existing images \citep{lemley_bazrafkan_corcoran_2017}.
 
-In the present case of increasing the number of smaller data matrices with $T$ slow time samples from a given data matrix with $Q$ slow time samples, we can allow for overlapping batches. Previously, when batches of length $T$ were generated from $Q$ slow time samples, every $T$ sweeps produced one matrix providing a total of $Q/T$ matrices for analysis. However, noting that any slow-time sequence of $T$ sweeps is a valid data matrix, we may form overlapping matrices from every $T/A$ samples, where $A$ is some integer factor selected so that $T/A$ becomes an integer. This produces $(A-1)(Q/T-1)$ additional matrices providing a total $P$ of
-
+In the present case of increasing the number of smaller data matrices with $T$ slow time samples from a given data matrix with $Q$ slow time samples, we can allow for overlapping batches. Previously, when batches of length $T$ were generated from $Q$ slow time samples, every $T$ sweeps produced one data matrix providing a total of $Q/T$ matrices for analysis. However, noting that any sequence of $T$ radar sweeps is a valid data matrix, we may form \emph{overlapping} matrices from every $T/A$ samples, where $A$ is some integer factor selected so that $T/A$ becomes an integer. This produces $(A-1)(Q/T-1)$ additional matrices providing a total $P$ number of data matrices according to
 \begin{equation}
 	P = 
 	\frac{Q}{T} + (A-1)\Big(\frac{Q}{T} - 1\Big) = 
@@ -53,7 +52,7 @@ Perhaps most effective way of suppressing data littered with outliers is through
 	P_i=0 \quad\text{if}\quad\text{median}\{p_k\}_{k=i-L+1}^i\leq\xi, 
 	\quad \text{else} \quad P_i = 1
 \end{equation}
-where $0<\xi<1$. The drawback of using median filtering is that a change is delayed a few predictions. Thus, $L$ must be selected so that the device has not moved too far before the change detection has occurred, but is still capable of sufficiently  suppressing outlying predictions. 
+where $0<\xi<1$. The drawback of using median filtering, or any filtering really, is that the detection is delayed a few predictions. Thus, $L$ must be selected so that the device has not moved too far before the change detection has occurred, but is still capable of sufficiently  suppressing outlying predictions. 
 
 
 \iffalse
