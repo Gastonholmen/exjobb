@@ -28,7 +28,7 @@ Hence, the parameter $T$ becomes a tradeoff between feature accuracy and classif
 % Described in the preceding chapter...
 %The reflectivity of a material, described by its dielectric constant, shows up in the obtained IQ-demodulated sweeps in the amplitude of the returning signals. Therefore it might seem like a good idea to simply measure the energy content of a sweep and use it as a feature. However, due to inconsistencies inbetween individual sensors, sweep normalization is performed as a pre-processing step rendering such calculations unusable. We are thus left with investigating the topography of the scene. 
 
-In this section four different types of features are discussed aimed at capturing the geometric characteristics of a target surface. From a given small normalized data matrix $x(n,t)$, as defined in section \ref{sec:norm}, we construct for each feature type a feature vector. We may then concatenate different feature vectors to form a longer feature vector as we please.  
+In this section four different types of features are discussed aimed at capturing the geometric characteristics of a target surface. From a given data matrix $x(n,t)$ consisting of $T=25$ sweeps, and having been normalized as in section \ref{sec:norm}, we construct for each feature type a feature vector. We may then concatenate different feature vectors to form a longer feature vector as we please.  
 
 %%% CONTINUE READING FROM HERE
 %From a data matrix with $T$ slow time data points a feature vector $\mathbf{f_m}$ is constructed for each feature type. 
