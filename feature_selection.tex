@@ -105,7 +105,7 @@ where $|\cdot|^*$ denotes elementwise absolute values, and $K$ is the number of 
 \end{figure}
 
 
-\subsection{Autocovariance - range}
+\subsection{Autocovariance in Range}
 \label{ACr}
 % Tie this into preceding section instead. Autocov allows for calculating the number of lags. 
 An obvious surface characteristic to ponder is roughness; while a tiled surface is typically very flat, grass is characterized by a random, unpredictable structure. It is reasonable to assume that there is more correlation between two closely spaced points on the tiled surface than there is on grass. This motivates us to study the autocovariance of the radar signal as the sensor moves forward.
@@ -172,7 +172,7 @@ Noting that the autocovariance sequence at 0 lag produce only real numbers, as a
 From figure \ref{fig:autocorr_range}, we see that the the 1-step autocorrelation is what separates grass from other materials the most. For the feature vector we choose $q=2$, thus ncluding the variance as well as autocovariance steps 1 and 2 for the normalized sweeps.
 
 
-\subsection{Autocovariance - energy}
+\subsection{Autocovariance in Energy}
 
 While the sweep normalization process rendered absolute mesurements of signal energy useless, we are still able to investigate its time-dependant structure through the autocovariane function. First we estimate the energy in each sweep $v(t)$ and the average energy $v_a(t)$ in $T$ number of sweeps, and then calculate the real-valued autocovariance sequence $h(k)$. 
 

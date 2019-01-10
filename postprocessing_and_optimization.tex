@@ -39,7 +39,7 @@ Setting $A=5$, one data matrix consisting of 50,000 slow time samples normally y
 
 %In any dataset some data corruption is to be expected. A grassy surface may have small patches of soil without grass, the device may have been moving at either a too high or too low velocity for a short period of time or the radar sensor iteslf may have had temporary issues. Such processes forms data points inconsistent with the overwhelming bulk of data, or \emph{outliers}, which negatively impacts model performance. The importance of outliers is dependant both of their frequency and magnitude, and can be significantly detrimental to model accuracy making effective removal of them often necessary or at least benifitial \citep{osborne_overbay_2004}, \citep{hodge_austin_2004}. 
 
-\section{Detection of surface change}
+\section{Outlier Suppression and Change Detection}
 
 \label{surface_change}
 Even with an optimized model with tons of training data, erroneous predictions are inevitable in any real world scenario. Prediction probabilities are produced by the model rapidly, 8 times a second for a sampling rate of 200 Hz and a batch size $T=25$ according to equation \ref{eq:classification_rate}. With such errors present in the prediction confidences of the model, what is a reasonable strategy to detect when a change in surface has occurred?  
@@ -56,7 +56,7 @@ where $0<\xi<1$. The drawback of using median filtering, or any filtering really
 
 
 \iffalse
-\section{Postprocessing and detection}
+\section{Outlier Supression and Change Detection}
 
 
 \begin{figure}

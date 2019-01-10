@@ -9,7 +9,7 @@ Alongside the miniaturization of radar systems a trend in data science has emerg
 
 In this work we investigate whether millimeter-wave radar can be used for surface classification. Two broad antenna beams illuminate a target scene, and using a feature extraction procedure and machine learning techniques the returning echo is analyzed to determine the surface type. This work focuses on the use case of determining if a surface is grassy or not, but could easily be extended to invoke other surface types as well.  
 
-\section{Motivation and previous work}
+\section{Motivation and Previous Work}
 
 Autonomous robots have found increasing use in numerous devices, from helping customers navigate stores \citep{mcsweeney_2018} to keeping floors clean \citep{sanfacon_2017} and mowing lawns \citep{udelhofen_2018}. A common challenge with such systems is keeping the robot in bounds. This commonly means for the robot to be aware where on a two-dimensional map it is currently located. In certain applications however, "in bounds" rather involves staying on one type of material, such as autonomous robot lawn mowers staying only on areas covered in grass, or robot vacuum cleaners on regions without a carpet. In such devices one may be content with knowing that the robot roams around remaining on its designated surface type rather than having knowledge of its exact position. 
 
@@ -41,7 +41,7 @@ These two methods primarily utilize the difference in roughness, a geometric cha
 
 In this work, we seek to create a model capable of performing binary surface classification from data collected during robot movement. By collecting data on grass surfaces and selection of non-grass surfaces we wish to create an effective classifier able to distinguish a grass covered surface from other surface types. All experiments will be performed using two 60 Ghz pulsed coherent radar \gls{pcr} sensors from Acconeer, see figure \ref{fig:acc_sens},  mounted on the front of device moving straight at a constant velocity. 
 
-\section{Thesis outline}
+\section{Thesis Outline}
 
 The outline of this thesis is as follows:
 \\ \\

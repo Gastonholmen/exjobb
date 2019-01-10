@@ -1,8 +1,8 @@
-\chapter{Data acquisition and preprocessing}
+\chapter{Data Acquisition and Preprocessing}
 
 In the preceding chapter it was shown how certain metrics can be extracted from a target scatterer using its radar response, where the values the radar produces after demodulation was on the form of complex \gls{iq} radar sweeps. In this chapter we continue with describing how measurements are structured and preprocessed. We also describe the measurement setup and motivate the choices of some \gls{pcr} system settings.
 
-\section{Data representation}
+\section{Data Representation}
 
 A common representation of data acquired by multi-antenna radars is the \emph{datacube} \citep{richards_2014}. The first dimension of the datacube consists of the radar sweeps, as described in section \ref{sec:iq}. Radar sweeps are formed by estimating the time-of-flight of a returning wavelet from a target scene. This process forms the shortest time frame possible with sample spacing on the picosecond scale for millimeter-wave radar, and is thus commonly referred to as the \emph{fast time} scale. With a sampling frequency $F_s$ new radar sweeps are acquired every $1/F_s$ seconds. This sequence of measurements form the second dimension of the datacube. Due to its much slower rate (on the $1/F_s$ scale) it is aptly referred to as the \emph{slow time} scale. Finally, the last dimension is constructed from the antenna array. This intuitively pleasing representation of data acquired by radar arrays are commonly referenced in journal papers when describing for instance beam forming or doppler processing algorithms \citep{gentile_donovan_2018}. 
 
@@ -84,7 +84,7 @@ In this work we wish to see if we can create a binary classifier capable of dist
 
 The Acconeer \gls{pcr} system has a number of user-defined settings. In this section a few key parameters of these are discussed, namely the range swath, the slow time sampling rate and the wavelet duration. Although finding the appropriate sensor settings requires some level of trial-and-error due to hardware and software limitations, a good starting point can be found from a theoretical standpoint. 
 
-\subsection{Sampling rate}\label{sec:srate}
+\subsection{Sampling Rate}\label{sec:srate}
 When working with radars and moving targets it is important to select a sampling frequency $F_s$ capable of resolving the maximum speed that the target can have. If the frequency is too low, aliasing occurs distorting the frequency spectrum \citep{lindgren_rootzeŽn_sandsten_2013}. In order to assure that aliasing does not occur, one must select a sampling rate at least twice the received maximal frequency component $f_{max}$. This limit is commonly known as the Nyquist limit \citep{proakis_manolakis_1995}. From section \ref{sec:doppler} we found that the velocity $v$, the carrier wavelength $\lambda_c$ and the \gls{bf} $f_d$ are related through $v \approx \lambda_cf_d/2$. Combining this result with the Nyquist limit we require from the sampling rate that
 \begin{equation}
 \label{eq:nyquist}

@@ -1,7 +1,7 @@
 \chapter{Results and Discussion}
 In this section the best models' capabilities are tested and discussed. Previously, the model has been evaluated on labeled data, providing a clear ground truth to evaluate the models predictions on. Below, the model will instead make predictions on unlabeled data, and instead output its confidence in its prediction. We then discuss various topics with regards to the results found and some overall considerations.
 
-\section{Real and artificial transition regions}
+\section{Real and Artificial Transition Regions}
 
 While we up to this point mainly have focused on \gls{loo} accuracies we have not in detail studied what the neural network softmax output that we base our classification on looks like. We are specifically interested in examining how well performance is when the robot moves across a \emph{transition region}, a region where the surface type changes from grass to nongrass or vice versa. Ideally the prediction should rapidly change according to the new target surface. 
 

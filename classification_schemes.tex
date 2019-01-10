@@ -107,7 +107,7 @@ This value is interpreted as a prediction confidence and can be used for making 
 
 Another major difference between linear and logistic regression is the choice of cost function. \gls{lr} commonly uses a cost function known as Cross-Entropy or Log Loss as opposed to Mean Squared Error, which is used for linear regression. For further details about \gls{lr}, including its cost function, we refer to \citep{a_smola_svn_vishwanathan_2010}.
 
-\subsection{Artificial neural networks}
+\subsection{Artificial Neural Networks}
 Artificial neural networks constitute a class of nonlinear models designed to mimic biological neural systems \citep{rojas_1996}. \gls{ann}s consist of multiple layers of neurons, or nodes. The networks are structured with an input layer followed by one or more hidden layers and one output layer \citep{logan_2017}. Figure \ref{fig:ann} illustrates a simple network which takes a feature vector $\mathbf{x}^{(0)}=[x_1^{(0)}\text{ }  x_2^{(0)}]^{T}$ as input. By multiplying the feature vector with a set of weights $\mathbf{w}^{(1)}$ the features are propagated through the network, generating a set of new node values. In the network in figure \ref{fig:ann} the output from the input layer, forwarded to the hidden layer, becomes
 %\rowcolors{2}{white}{white}
 \begin{equation}
@@ -168,7 +168,7 @@ Recurrent neral networks feature this behaviour by having feedback within indivi
 
 A combination of the \gls{lstm} layer with a \gls{cnn} is proposed in \citep{karim_majumdar_darabi_chen_2018}. This proves to be a significant improvement from just using \gls{cnn}s when classifying time series. The architecture of the model we use in this work is the same as this one, with a few tweaks of parameter values. The model essentially concatenates the outputs from a simple \gls{lstm} network and a network consiting of three one-dimensional convolution layers. For more details we refer to \citep{karim_majumdar_darabi_chen_2018}.
 
-\section{Model evaluations}
+\section{Model Evaluation}
 
 %There are many ways in which to quantify a models' performance.
 
