@@ -9,6 +9,7 @@ Overall
  - Shorten unnecessarily long parts
  - Capital letters in titles
  - Change all equation references to use \eqref instead of both \ref and \eqref
+ - Spelling mistakes
 
 Abstract
  - Write when ch8 is done
@@ -32,7 +33,7 @@ Ch 4
  - Connecting Autocovariance to beat frequencies?
  - The feature configs have very high accuracies
 [X] Downsampling factor in 4.2.5 after changing in ch 3.
- - We need to mention that T=25.
+ G We need to mention that T=25.
 
 Ch 5
  - Logistic regression - this is not accurately described. We optimize for b parameters and try to separate two classes from each other. 
