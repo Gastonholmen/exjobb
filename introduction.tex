@@ -1,7 +1,7 @@
 \chapter{Introduction}
 
 
-Radars have several highly attractive properties: they are active systems independent on lighting conditions, are very fast and have high precision. Furthermore, implemented at millimeter-wave wavelengths, radar sensors can be designed as low-power devices with no moving parts in a favorable form factor \citep{lien_gillian_karagozler_amihood_schwesig_olson_raja_poupyrev_2016}.
+Radars have several highly attractive properties: they are active systems independent of lighting conditions, are very fast and have high precision. Furthermore, implemented at millimeter-wave wavelengths, radar sensors can be designed as low-power devices with no moving parts in a favorable form factor \citep{lien_gillian_karagozler_amihood_schwesig_olson_raja_poupyrev_2016}.
 
 Radar technology has been around since the 1930s \citep{watson-watt_1945}, and has since developed into a well established field of engineering. Although the archetypal use case in radio-frequency (\gls{rf}) radars regard detection and tracking of large objects at far distances, such as for air and marine monitoring, new areas of applications have emerged under recent years posing very different engineering challenges. Some of these are outlined in \citep{amin_2017}, where close-range radars are used for applications such as vital signs monitoring \citep{kuo_lin_yu_lo_lyu_chou_chuang_2016}, gesture recognition \citep{lien_gillian_karagozler_amihood_schwesig_olson_raja_poupyrev_2016} and tumour imaging \citep{klemm_gibbins_leendertz_horseman_preece_benjamin_craddock_2011} to name a few. Furthermore, millimeter-wave radars have lately become more inexpensive, largely due to their widespread adoption in the automotive industry \citep{frenzel_2018}, making such devices an attractive option in a wide range of low cost applications.
 
@@ -10,13 +10,14 @@ Alongside the miniaturization of radar systems a trend in data science has emerg
 In this work we investigate whether millimeter-wave radar can be used for surface classification. Two broad antenna beams illuminate a target scene, and using a feature extraction procedure and machine learning techniques the returning echo is analyzed to determine the surface type. This work focuses on the use case of determining if a surface is grassy or not, but could easily be extended to invoke other surface types as well.  
 
 \section{Motivation and Previous Work}
-
-Autonomous robots have found increasing use in numerous devices, from helping customers navigate stores \citep{mcsweeney_2018} to keeping floors clean \citep{sanfacon_2017} and mowing lawns \citep{udelhofen_2018}. A common challenge with such systems is keeping the robot in bounds. This commonly means for the robot to be aware where on a two-dimensional map it is currently located. In certain applications however, "in bounds" rather involves staying on one type of material, such as autonomous robot lawn mowers staying only on areas covered in grass, or robot vacuum cleaners on regions without a carpet. In such devices one may be content with knowing that the robot roams around remaining on its designated surface type rather than having knowledge of its exact position. 
+% This section needs improvement
+Autonomous robots have found increasing use in numerous devices, from helping customers navigate stores \citep{mcsweeney_2018} to keeping floors clean \citep{sanfacon_2017} and mowing lawns \citep{udelhofen_2018}. A common challenge with such systems is keeping the robot in bounds. This commonly means for the robot to be aware where on a two-dimensional map it is currently located. In certain applications however, "in bounds" rather involves staying on a set of allowed surface types, such as autonomous robot lawn mowers staying only on areas covered in grass. In such devices one may be content with knowing that the robot roams around remaining on its designated surface type rather than having knowledge of its exact position, and a surface classification method of great use. 
 
 Surface classification can also be used in autonomous devices as a supporting system. A robot vacuum cleaner could for instance make use of such a system in numerous ways, such as for avoiding liquid spills or using surface-dependant cleaning programs. One could easily imagine other use cases where such a system would be a great convenience.
 
 In order to distinguish one surface type from another some feature of the surface at hand must somehow be captured and analyzed. This very general problem statement can and has been approached from many different angles.
 
+% Shorten down from here!
 Taking inspiration from the recent advances in computer vision, one may be tempted to use cameras for visual inspection of the surface at hand. Computer vision has indeed attracted extensive research over the past few decades with impressive results \citep{liu_chen_fieguth_zhao_chellappa_pietikäinen_2018}. In a computer vision framework, images of different surfaces can be separated by their differences in \emph{texture} - their spatial organization of basic elements. Such fundamental microstructures obey some kind of statistical properties which can be percepted by for instance a convolutional neural network. Effective texture identification of textures in image databases was used in, for example, \citep{do_vetterli_2002} for accuracte classification. 
 
 Although using computer vision for accurate real time target identification is an attractive option, it is commonly an infeasible option for small devices with limited hardware capabilities. Cameras capture light in the visible frequency spectrum, which inherently renders them sensitive to changes in light conditions. Thus, unless direct illumination of the target surface is used, solutions involving cameras are highly dependent on ambient light. Such a limitation can make cameras impractical for small devices navigating areas with varying lighting.
@@ -32,7 +33,7 @@ These two methods primarily utilize the difference in roughness, a geometric cha
 \begin{figure}
 	\centering
 	\includegraphics[scale=0.8]{figs_temp/acc_sensor}
-	\caption{Image of the 60 GHz PCR radar sensor used in this work. Image retrieved from \emph{www.acconeer.com/products}.}
+	\caption{Image of the 60 GHz PCR radar sensor used in this work. Image retrieved from \url{www.acconeer.com/products}.}
 	\label{fig:acc_sens}
 \end{figure}
 
