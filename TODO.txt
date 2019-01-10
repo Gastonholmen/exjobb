@@ -15,7 +15,7 @@ Abstract
 [D] Write when ch8 is done
 
 Pop science article
- - Write when ch8 is done
+ G Write when ch8 is done
 
 Ch 1
 [D] Radar sources for road contition monitoring
@@ -34,7 +34,7 @@ Ch 4
 [X] The feature configs have very high accuracies
 [X] Downsampling factor in 4.2.5 after changing in ch 3.
 [X] We need to mention that T=25.
- - Update text with regards to new SVM config comparison
+ G Update text with regards to new SVM config comparison
 
 Ch 5
  - Logistic regression - this is not accurately described. We optimize for b parameters and try to separate two classes from each other. 
