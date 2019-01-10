@@ -1,16 +1,22 @@
 \chapter{Conclusions and Future Work}
 
 \section{Conclusions}
-In this work, the possibilities of using millimeter-wave radar for surface classification were explored. We found that by manually extracting features exploiting temporal behaviour and combining this with a deep neural network model, we were able to perform binary classification, distinguishing grass-surfaces from other types of surfaces with an accuracy as high as 98.5 \%. Using a median filter, predictions were improved, giving a perfect result on test data, as well as a promising result on basic real world applications. When confronted with unfamiliar surfaces, the model falls short, and further investigation in this area is required. 
+
+In this work, the possibilities of using millimeter-wave radar for surface classification were explored. It was found that by extracting features exploiting temporal behaviour and combining this with a deep neural network model, it is possible to perform binary classification distinguishing grassy surfaces from four other types of surfaces commonly found adjacent to lawns with an accuracy of 98.5 \%. Using a median filter on the prediction outliers were effectively suppressed, providing good results on test data. 
+
+The feature extraction procedure along with the neural network classification and median output filtering shows promise for use in real world applications. Such applications may involve autonomous lawn mowers, autonomous vacuum cleaners and road condition monitoring. 
+
+% When confronted with unfamiliar surfaces, the model falls short, and further investigation in this area is required. 
 % Mention that patent application has been submitted. Ask Peter how this ought to be phrased and what to include?
 
 
 \section{Future work}
-As debated in section \ref{disc_feat}, a \gls{dnn}'s capabilities of automatic feature extraction is worth evaluating to further improve performance. Another model related topic to explore, briefly metioned in the same section, is whether a linear model can be adapted to solve the problem as good as the \gls{dnn}.
+As debated in section \ref{disc_feat}, a \gls{dnn}s, it would be interesting to use a larger model with more layers to see if improved performance can be attained. Another model related topic to explore, briefly metioned in the same section, is whether a linear model can be adapted to solve the problem to the same degree as the \gls{dnn}. Gathering more data, and in particular a more diverse dataset, could also improve the model to improve model robustness to new target surfaces. A velocity-based sampling scheme should be considered for future use ensuring equidistant sampling.
 
-Gathering more data, and in particular a more diverse dataset could also improve the model as a lacking aspect revolves around confusion when faced with unfamiliar surfaces. Regarding new surfaces, an intriguing, yet natural, extension of the model is to apply it to other tasks such as road condition monitoring or various tasks for indoor surfaces.
+It would also be of interest to evaluate the method described in this thesis for other similar applications, such as for road condition monitoring. 
 
-Finally, equidistant sampling should be considered in the future.
+%Regarding new surfaces, an intriguing, yet natural, extension of the model is to apply it to other tasks such as road condition monitoring or various tasks for indoor surfaces.
+
 %	No feature extraction
 %	Automatic feature extraction(/selection?)
 %	More data! And more types of data
