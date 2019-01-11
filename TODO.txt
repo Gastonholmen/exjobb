@@ -2,7 +2,6 @@ Overall
 [X] Carrier frequency fc
 [X] Autocov, autocorr
 [X] Figure out if any, and if so which, variable names are used in different ways.
- - Change name of x_T to something else - x is already in use.
 [X] Fast time and slow time terminology
 [X] Make sure we're not reusing variable names
 [X] Feature selection -> feature extraction
@@ -55,7 +54,7 @@ Ch 7
  - Surfaces not seen in training -> undefined behaviour
 [X] Note that predictions are stable (not seen in LOO table)
 [X] Comment on feat extr. vs no feat extr. - loss of info vs. directed classification
- - Balancing of data
+[X] Balancing of data
 [X] Velocity-dependent sampling - speed varied slightly during tests so that spatial sampling is the same. 
  - Discuss the CNN+LSTM model
  - The last part in Errors&Uncertainties was commented out as it didn't really belong there. Maybe move it?
