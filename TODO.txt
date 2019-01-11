@@ -15,7 +15,7 @@ Abstract
 [D] Write when ch8 is done
 
 Pop science article
- - Write when ch8 is done
+ G Write when ch8 is done
 
 Ch 1
 [D] Radar sources for road contition monitoring
@@ -34,10 +34,10 @@ Ch 4
 [X] The feature configs have very high accuracies
 [X] Downsampling factor in 4.2.5 after changing in ch 3.
 [X] We need to mention that T=25.
- - Update text with regards to new SVM config comparison
+[X] Update text with regards to new SVM config comparison
 
 Ch 5
- - Logistic regression - this is not accurately described. We optimize for b parameters and try to separate two classes from each other. 
+ G Logistic regression - this is not accurately described. We optimize for b parameters and try to separate two classes from each other. 
  - Neural networks - "too many epochs puts the model at risk of overfitting." Is this true? If so we should include a source. 
  - Leave-One-Out Strategy - we don't explain that we are excluding the larger set of data in training and thus avoid fitting with neighbouring samples. This is well done in the figure but should say in the text too. 
 [X] Hyperas - which parameters were optimized? 
