@@ -93,19 +93,20 @@ Random forest (\gls{rf}) is an ensamble learning method that can be used for bot
 Random forest segments the training data into $n$ parts, and induces a decision tree from each group of data. Thus there are $n$ predictors that work independently, and by selecting the most common prediction, random forest yields a robust result with little risks of overfitting due to the combined results of many trees. On top of that it offers a very high accuracy in a wide variety of applications, while still maintaining an intuitive model structure that allows us to, for instance, estimate which features are important \citep{breiman_2002}. In Google's \emph{Project Soli}, random forests were used for millimeter-wave radar gesture recognition with impressive results \citep{lien_gillian_karagozler_amihood_schwesig_olson_raja_poupyrev_2016}. 
 
 \subsection{Logistic Regression}
-Logistic regression (\gls{lr}) is similar to linear regression, in which the parameters $\{b_i\}_{i=0}^n$ are optimized to model the relationship between the inputs $\{X_i\}$ and the continuous output $Y$
+Logistic regression (\gls{lr}) is similar to linear regression, in which the parameters $\{b_i\}_{i=0}^n$ are optimized to model the linear relationship between the inputs $\{X_i\}_{i=0}^n$ and the continuous output $Y$
 \begin{equation}
 	Y= b_0+\sum_{i=1}^n b_iX_i.
 \end{equation}
 However, logistic regression serves as a binary classifier, hence the continuous output, $Y$ is replaced by mapping it to the open interval $(0,1)$. This is done using the sigmoid function, defined as $\sigma(z)=\frac{1}{1+e^{-z}}$. Thus \gls{lr} maps the input variables to
 \begin{equation}
+\label{eq:log_eq}
 	Y_{log}= \frac{1}{1+\exp(-(b_0 + \sum_{i=1}^n b_iX_i))}.
 \end{equation}
 This value is interpreted as a prediction confidence and can be used together with some threshold value for making a decision in a binary classification.
 
-%\gls{lr} also differs from linear regression in its cost function. While the parameters in linear regression are usually estimated by 
+Note that $Y\gg 0$ implies that $Y_{log}$ is approximately equal to 1, wheras $Y\ll 0$ means $Y_{log}$ is close to 0. The model parameters of \gls{lr} are trained in such a way that $Y$ becomes large for input combinations representing samples of class 1, and small for samples of class 0.
 
-For further details about \gls{lr}, including how its parameters are optimized, we refer to \citep{a_smola_svn_vishwanathan_2010}.
+For further details about \gls{lr}, including how its parameters are optimized, we refer to \citep{shalev-shwartz_ben-david_2016}.
 
 
 

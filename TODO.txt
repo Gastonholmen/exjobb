@@ -37,7 +37,7 @@ Ch 4
 [X] Update text with regards to new SVM config comparison
 
 Ch 5
- G Logistic regression - this is not accurately described. We optimize for b parameters and try to separate two classes from each other. 
+[X] Logistic regression - this is not accurately described. We optimize for b parameters and try to separate two classes from each other. 
  - Neural networks - "too many epochs puts the model at risk of overfitting." Is this true? If so we should include a source. 
  - Leave-One-Out Strategy - we don't explain that we are excluding the larger set of data in training and thus avoid fitting with neighbouring samples. This is well done in the figure but should say in the text too. 
 [X] Hyperas - which parameters were optimized? 
