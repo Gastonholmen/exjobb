@@ -211,9 +211,9 @@ There is one chief issue with this random-selection methodology. If we for insta
 \subsection{Leave-One-Out Strategy}
 
 % We have to explain that we are leaving each "run" undisturbed here.
-The leave-one-out strategy is a form of cross validation, and begins with dividing the dataset into $n$ parts. The model evaluation is then performed in $n$ stages. For each stage, the model is trained on all data, except for one of the $n$ parts, as in figure \ref{fig:loo}. After the training, the model makes predictions of the unseen data, and the accuracy is noted. When having a small dataset - or as in this case, an arguably small amount of surfaces that have been recorded - this method is useful in that it does not require us to withhold data from the model training \citep{raschka}. It also mimics a real scenario where the model predicts on a surface it has never seen before.
+The leave-one-out strategy is a form of cross validation, and begins with dividing the dataset into $n$ parts, one for each measurement session. The model evaluation is then performed in equally many stages. For each stage, one of the $n$ parts is selected for the model to later be evaluated upon. The remaining parts of the dataset are used for training. After both training and evaluation, the prediction score is noted and the model performs the same procedure with another part of the dataset selected for validation. When having a small dataset - or as in this case, an arguably small amount of measurement sessions - this method is useful in that it does not require us to withhold data from the model training \citep{raschka}.
 
-In table \ref{tab:loo}, the leave-one-out results of all models above are listed for comparison.
+In table \ref{tab:loo}, the leave-one-out results of all models above are listed for comparison. The measurment series are collected under varying conditions, meaning the validation samples do not bear as much resemblance to the training samples as in the random selection mentioned above.
 
 \begin{figure}[h]
 	\label{fig:loo}
