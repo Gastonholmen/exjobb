@@ -2,7 +2,13 @@
     {\cleardoublepage\thispagestyle{empty}\null\vfill\begin{center}%
     \bfseries{\textsf{Abstract}}\end{center}}%
     {\vfill\null}
-        \begin{abstract}
-        Millimeter-wave radars have received increasing attention in consumer electronics. In this report the use of a 60 GHz pulsed coherent radar for surface classification is evaluated for a small device moving at constant velocity. This work is focused on determining if a target surface is grass covered or belonging to a set of 5 other surface types commonly found adjacent to lawns. It is found that the use of temporal features and a neural network classifier allows for accurate binary classification for the chosen targets. 
+\begin{abstract}
+Classification of surfaces using millimeter-wave radar normally considers the use of either polarization based methods or modeling of backscattering radiation from the surface one wishes to classify. This work considers the case of classifying grass surfaces from non-grass surfaces which makes use of the aforementioned methodoligies difficult. % It shouldn't say difficult... 
+		
+Instead, we construct a set of slow time and fast time based features and use machine learning classifiers to distinguish grass from asphalt, gravel, soil and tiled surfaces. It is found that a autocovariance-based feature extraction process and a small neural net classifier adequately manages to determine the surface type, making for an effective yet parsimonious classifier that could be implemented with limited hardware requirements. Applying a median filter to the classifier output effectively suppresses outlying predictions.
 
-        \end{abstract}
+This model can find use in devices that have a task performed on a designated surface type, such as autonomous lawn mowers or autonomous vacuum cleaners. 
+
+%Millimeter-wave radars have received increasing attention in consumer electronics. In this report the use of a 60 GHz pulsed coherent radar for surface classification is evaluated for a small device moving at constant velocity. This work is focused on determining if a target surface is grass covered or belonging to a set of 5 other surface types commonly found adjacent to lawns. It is found that the use of temporal features and a neural network classifier allows for accurate binary classification for the chosen targets. 
+
+\end{abstract}
