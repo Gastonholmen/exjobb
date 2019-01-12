@@ -162,7 +162,7 @@ The sizes of input and output layers are determined by the classification proble
 
 While the above parameters relate to the architecture of the network, there are additional parameters that are related to the training process. The \emph{batch size} specifies how many samples are propagated through the network inbetween each update of the model weights. A small batch size has the benefit of requiring little memory and converging quickly, but at the same time impairs the gradient estimate \citep{brownlee_2017}. With a larger batch size the gradient is more accurately estimated but convergencence is slower. 
 
-If the total number of samples is $m$, and the batch size is $b$, there will be $m/b$ forward and backward propagations, and equally many model weight updates. Each batch is only propagated once, but to extend the model training process even further, we can specify number of \emph{epochs}. This hyperparameter determines how many times each batch will be fed through the model. Often, one epoch is not enough for the weights to fully converge \citep{kriesel_2007}. Increasing the number of epochs naturally increases the training time and on top of that too many epochs puts the model at risk of overfitting.
+If the total number of samples is $m$, and the batch size is $b$, there will be $m/b$ forward and backward propagations, and equally many model weight updates. Each batch is only propagated once, but to extend the model training process even further, we can specify number of \emph{epochs}. This hyperparameter determines how many times each batch will be fed through the model. Often, one epoch is not enough for the weights to fully converge \citep{kriesel_2007}. Increasing the number of epochs naturally increases the training time and on top of that too many epochs puts the model at risk of overfitting. In \citep{prechelt_2000}, this issue is addressed, along with proposed strategies to avoid it.
 % "too many epochs puts the model at risk of overfitting." is this really true? If so from what source. 
 
 \begin{figure}[h]
@@ -172,7 +172,7 @@ If the total number of samples is $m$, and the batch size is $b$, there will be 
 	\label{fig:opt_net}
 \end{figure}
 
-The hyperparameters of the \gls{dnn} model was optimized using the free optimization tool Hyperas (available on GitHub at \url{https://github.com/maxpumperla/hyperas}). Hyperas selected the number of nodes, the dropout rates, the batch size and the optimization algorithm (from the three options of RMSprop, Adam and Stochastic Gradient Descent natively available in Keras). 
+The hyperparameters of the \gls{dnn} model were optimized using the free optimization tool Hyperas (available on GitHub at \url{https://github.com/maxpumperla/hyperas}). Hyperas selected the number of nodes, the dropout rates, the batch size and the optimization algorithm (from the three options of RMSprop, Adam and Stochastic Gradient Descent natively available in Keras). 
 
 With the selections made by Hyperas, the network in figure \ref{fig:opt_net} is obtained. The two hidden layers have 24 and 12 nodes with dropout rates of 14 and 2 percent respectively. Both layers have the activation function $f(x)=\textrm{max}(0,x)$ often referred to as rectified linear unit (ReLU) and the output layer has a \textit{softmax} activation function. Furthermore the batch size in the learning phase is 32, and the number of epochs is set to 20. Finally, the optimization algorithm prefered by Hyperas is RMSprop.
 
