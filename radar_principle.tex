@@ -22,7 +22,7 @@ Commonly, in larger radar systems, many receiving antennas capture the returning
 To understand what information can be obtained from such a one dimensional signal, a single scattering object some distance away from the transmitter is here considered. If a radar pulse with envelope $A(t)$ and frequency $f_c$ is transmitted towards it, the returning signal will be a delayed pulse on the form \citep{richards_2014}
 
 \begin{equation}\label{eq:returning}
-	y(t) = CA(t-B)\sin(2\pi f_t (t-B))
+	y(t) = CA(t-B)\sin(2\pi f_c (t-B))
 \end{equation}
 where $B$ is some delay related to the distance to the target and $C$ a constant correspoding to the loss of energy from transmission to reception of a pulse. For the purposes of this report, the properties of this delay is of particular interest. In the next two sections, it is shown how distance and velocity can be deduced from this parameter using absolute measurements of $D$ and relative changes in $D$ between pulse measurements. The $C$ variable carries information about the reflectivity of a scatterer, described lastly. 
 
@@ -38,10 +38,10 @@ If a point scatterer was present a distance $d$ from the transmitting antenna, a
 	\end{split}
 \end{equation}
 
-By measuring the delay $D$ in \ref{eq:returning} we can thus simply calculate the distance through
+By measuring the delay $B$ in \ref{eq:returning} we can thus simply calculate the distance through
 
 \begin{equation}
-	d = \frac{Dc}{2}.
+	d = \frac{Bc}{2}.
 \end{equation}
 
 Thus, by examining the time delay of the returning signal, we can deduce the distance to the scattering object. 
@@ -162,28 +162,28 @@ The full derivation of \ref{eq:n0}, \ref{eq:n1} and \ref{eq:n2} can be found in 
 
 In figure \ref{fig:mix2} a numerical computation of $m(\tau)$ has been performed, shown in part in figures \ref{fig:mix0} and \ref{fig:mix1}. Note that this result was obtained for a noise-free mixing of a signal from a single theoretical point scattering target. It is thus clear that with complicated continuous structures, target scenes produce complex outputs at the reciever. In \ref{fig:single_sweep_raw}, a mixing output from the radar sensor used in this project is shown. For this example, the target scatterer is a hand held approximately 15 cm from the sensor. 
 
-\begin{figure}[h]
+\begin{figure}[t]
 	\centering
 	\includegraphics[scale=0.5]{figs_temp/mixing0}
 	\caption{Analysis pulse $x_T(t-\tau)$ (top), received pulse $y(t)$ (mid) and multiplication output $x_T(t-\tau)y(t)$ (bot). As the signals do not overlap the multiplication yields only zero values.}
 	\label{fig:mix0}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[t]
 	\centering
 	\includegraphics[scale=0.5]{figs_temp/mixing1}
 	\caption{Analysis pulse $x_T(t-\tau)$ (top), received pulse $y(t)$ (mid) and multiplication output $x_T(t-\tau)y(t)$ (bot). The overlapping signals produce non-zero values after multiplication.}
 	\label{fig:mix1}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[t]
 	\centering
 	\includegraphics[scale=0.5]{figs_temp/mixing2}
-	\caption{By integrating the multiplication at each delay the mixing output $m(\tau)$ is produced.}
+	\caption{The output $m(\tau)$ is produced through analog convolution.}
 	\label{fig:mix2}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[t]
 	\centering
 	\includegraphics[scale=0.7]{figs_temp/single_sweep_raw}
 	\caption{A single radar sweep which has been measured from 7 to 23 cm. The largest amplitude at around 18 cm. suggests there is some object present at that distance from the sensor.}
@@ -216,7 +216,7 @@ The details of this demodulation scheme can be found in the appendix. In figure 
 
 %In the case of material classification, a high sampling frequency is highly beneficial. When moving across surfaces characterized by tiny details, a high sampling frequency is essential in capturing the shapes of these.
 
-\begin{figure}[h]
+\begin{figure}[t]
 	\centering
 	\includegraphics[scale=0.7]{figs_temp/single_sweep_iq}
 	\caption{Visualization of an amplitude function derived from IQ-data.}

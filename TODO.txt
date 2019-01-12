@@ -7,8 +7,9 @@ Overall
 [X] Feature selection -> feature extraction
 [X] Shorten unnecessarily long parts
 [X] Capital letters in titles
- - Change all equation references to use \eqref instead of both \ref and \eqref
+[D] Change all equation references to use \eqref instead of both \ref and \eqref
  - Spelling mistakes
+ - Fix references!
 
 Abstract
 [D] Write when ch8 is done
@@ -17,7 +18,7 @@ Pop science article
  G Write when ch8 is done
 
 Ch 1
-[D] Radar sources for road contition monitoring
+[X] Radar sources for road contition monitoring
 
 Ch 2
 [X] RCS - explain beter.
@@ -58,6 +59,7 @@ Ch 7
 [X] Velocity-dependent sampling - speed varied slightly during tests so that spatial sampling is the same. 
  - Discuss the CNN+LSTM model
  - The last part in Errors&Uncertainties was commented out as it didn't really belong there. Maybe move it?
+ - Somehow mention the RRE and the RCS and the normalization process
 
 Ch 8
 [X] Conclusions
