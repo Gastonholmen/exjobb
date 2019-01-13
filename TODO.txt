@@ -25,6 +25,7 @@ Ch 2
 
 Ch 3
 [X] Downsampling: start/stop/step etc. Check constatnts on acconeerfs 
+ - We don't have a figure showing the sensor placement of both sensors.
 
 Ch 4
  - We can absolutely not write that x(n,t) is Wide-Sense-Stationary like we do in the text
@@ -54,12 +55,12 @@ Ch 6
 Ch 7
  - PCA plot is a concept proof
 [X] Linear vs. non-linear
- G Surfaces not seen in training -> undefined behaviour
+[X] Surfaces not seen in training -> undefined behaviour
 [X] Note that predictions are stable (not seen in LOO table)
 [X] Comment on feat extr. vs no feat extr. - loss of info vs. directed classification
 [X] Balancing of data
 [X] Velocity-dependent sampling - speed varied slightly during tests so that spatial sampling is the same. 
- G Discuss the CNN+LSTM model
+[X] Discuss the CNN+LSTM model
  G The last part in Errors&Uncertainties was commented out as it didn't really belong there. Maybe move it?
  G Somehow mention the RRE and the RCS and the normalization process
 
