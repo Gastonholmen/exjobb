@@ -55,14 +55,14 @@ Ch 6
 Ch 7
  - PCA plot is a concept proof
 [X] Linear vs. non-linear
- - Surfaces not seen in training -> undefined behaviour
+ G Surfaces not seen in training -> undefined behaviour
 [X] Note that predictions are stable (not seen in LOO table)
 [X] Comment on feat extr. vs no feat extr. - loss of info vs. directed classification
 [X] Balancing of data
 [X] Velocity-dependent sampling - speed varied slightly during tests so that spatial sampling is the same. 
- - Discuss the CNN+LSTM model
- - The last part in Errors&Uncertainties was commented out as it didn't really belong there. Maybe move it?
- - Somehow mention the RRE and the RCS and the normalization process
+ G Discuss the CNN+LSTM model
+ G The last part in Errors&Uncertainties was commented out as it didn't really belong there. Maybe move it?
+ G Somehow mention the RRE and the RCS and the normalization process
 
 Ch 8
 [X] Conclusions
