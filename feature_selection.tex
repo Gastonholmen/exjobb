@@ -11,6 +11,7 @@ In order to make use of the feature content present in the sequence of radar swe
 \section{An Impossible Modeling Problem}\label{sec:chall}
 
 % This part is no longer good enough...
+% Exactly what assumptions are done in these sources? Say that we can't really make such sweeping assumptions and this is what motivates our feature extraction method! Thats actually a good argument imo.
 
 Ideally, one seeks a small set of features which accurately capture the information content in the larger set of data. It is then possible to obtain good results with significantly less computational load than if no feature extraction had been considered. Thus, if the exact structure of the returning signals were known, we could simply estimate its parameters and classify using those.
 
@@ -69,7 +70,7 @@ In figure \ref{fig:sweep_average} we see what such an averaging process yields. 
 \subsection{Fourier Transform}
 % "weighted velocity profile" should be used...
 
-As discussed in section \ref{doppler} we can relate the velocity of a scatterer to its \gls{bf} through \eqref{eq:dopp}. When an entire target scene is illuminated, computing a \gls{dft} thus provides a \emph{velocity profile} of the scene at every range. No aliasing in the frequency spectrum should occur as the sampling rate was set with the Nyquist criterion in mind. In figure \ref{fig:fft} the \gls{dft}'s of radar \gls{iq} data are shown for all surface types considered in this work. For visualization purposes the square root of the absolute values of the \gls{dft} are shown. For grass (the top two plots), it can be seen that the frequency content is contained mainly in the vicinity of the zero frequency bin, while the other materials contain considerably larger higher frequency components. %Gravel in particular differs a lot from the other materials with a wide variety of frequency components.
+As discussed in section \ref{doppler} we can relate the velocity of a scatterer to its \gls{bf} through \eqref{eq:dopp}. When an entire target scene is illuminated, computing a \gls{dft} in the slow time domain thus provides a \emph{velocity profile} of the scene at every range, indicating the amount of each velocity is present for a given range. Due to the settings outlined in chapter \ref{ch:3}, no significant aliasing in the frequency spectrum should occur as the sampling rate was set with the Nyquist criterion in mind. In figure \ref{fig:fft} the \gls{dft}'s of radar \gls{iq} data are shown for all surface types considered in this work. For visualization purposes the square root of the absolute values of the \gls{dft} are shown. For grass (the top two plots), it can be seen that the frequency content is contained mainly in the vicinity of the zero frequency bin, while the other materials contain considerably larger higher frequency components. It can also be seen that the frequency components become smaller with range, which simply is due to the lower amount of radiation received from scatterers further away as explained by the \ref{rre}. The \ref{rre} assumes that a scatterer is radiating isotropically. If radiation instead can be regarded to be specular in nature, the \gls{dft} provides a good measure of the surfaces topography. %[Continu. %[Continue and add a source]
 
 %While traversing a static surface at a constant speed, one could think of it as the details on the surface, such as small rocks, are moving closer to the radar sensor. As discussed in section \ref{doppler}, this alters the frequency of the transmitted signal according to the Doppler effect, and the radar detects beat frequencies, corresponding to the frequency shifts. Depending on the surface's characteristics, the doppler frequencies may vary. 
 
@@ -111,6 +112,8 @@ where $|\cdot|^*$ denotes elementwise absolute values, and $K$ is the number of 
 
 \subsection{Autocovariance in Range}
 \label{ACr}
+
+% This is actually wrong... and not well written atm
 % Tie this into preceding section instead. Autocov allows for calculating the number of lags. 
 An obvious surface characteristic to ponder is roughness; while a tiled surface is typically very flat, grass is characterized by a random, unpredictable structure. It is reasonable to assume that there is more correlation between two closely spaced points on the tiled surface than there is on grass. This motivates us to study the autocovariance of the radar signal as the sensor moves forward.
 
