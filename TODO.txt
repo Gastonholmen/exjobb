@@ -26,6 +26,7 @@ Ch 2
 Ch 3
 [X] Downsampling: start/stop/step etc. Check constatnts on acconeerfs 
  - We don't have a figure showing the sensor placement of both sensors.
+[X] Bandwidth - add part about bandwidth
 
 Ch 4
  - We can absolutely not write that x(n,t) is Wide-Sense-Stationary like we do in the text

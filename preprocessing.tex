@@ -1,4 +1,4 @@
-\chapter{Data Acquisition and Preprocessing}
+\chapter{Data Acquisition and Preprocessing}\label{ch:3}
 
 In the preceding chapter it was shown how certain metrics can be extracted from a target scatterer using its radar response, where the values the radar produces after demodulation was on the form of complex \gls{iq} radar sweeps. In this chapter we continue with describing how measurements are structured and preprocessed. We also describe the measurement setup and motivate the choices of some \gls{pcr} system settings.
 
@@ -114,9 +114,8 @@ Thus, in order to avoid aliasing, the sampling rate $F_s$ should be at least 190
 \subsection{Wavelet Duration}
 
 %TODO: Introduce some brief bandwidth concepts here 
-The length, or duration, of the transmitted wavelet pulses in a \gls{pcr} system determines the bandwidth. 
 
-Selecting a longer wavelet means transmitting more energy and thus receiving a signal with better \gls{snr}. A shorter wavelet has worse \gls{snr}, but is capable of resolving finer details of the target. Thus, the wavelet duration parameter becomes a tradeoff between resolution and \gls{snr}. One may start with a short wavelet and increase its duration until a reasonable \gls{snr} is obtained.  
+The length, or duration, of the transmitted wavelet pulses in a \gls{pcr} system determines the bandwidth. Taking a fourier transform of a short wavelet produces a wider spectrum. Conversely increasing the pulse length produces a more narrow sprectrum. A longer wavelet corresponds to transmitting more energy and thus receiving a signal with better spectral resolution and \gls{snr}, while a shorter wavelet has better spatial resolution. Thus, the wavelet duration parameter becomes a tradeoff between spatial resolution and \gls{snr}. A reasonable strategy is therefore to start with a short wavelet and increase its duration until a reasonable \gls{snr} is obtained.  
 
 \subsection{Range Swath}
 
@@ -124,7 +123,7 @@ Finally, the radar measures power over some range interval, also called the \emp
 
 Thus, a reasonable strategy is to select the most critical range interval and then increase the sampling frequency to its hardware allowed limit, keeping in mind that the sampling frequency should exceed the limit found above in section \ref{sec:srate}. As the distance to the surface plane is roughly 12 cm in the measurement setup the furthest distance illuminated is $12/\sin(37.5^\circ)\approx 20$ cm from the sensor. We should therefore at least have a range swath spanning this region. 
 
-The values chosen for the three parameters discussed are summarized in table \ref{tab:sensor_settings}.
+The three settings for the three parameters discussed in this section are summarized in table \ref{tab:sensor_settings}.
 
 \begin{table}
 \begin{center}
@@ -133,7 +132,7 @@ The values chosen for the three parameters discussed are summarized in table \re
 	  	\cellcolor{gray!150}\color{white}\textbf{Setting} & \cellcolor{gray!150}\color{white}\textbf{Value} \\
 	 	 Wavelet duration & 50 ps \\
 	  	\cellcolor{gray!25}Sampling frequency & \cellcolor{gray!25}200 Hz \\
-	  	Range interval & 7 to 23 cm \\ 
+	  	Range swath & 7 to 23 cm \\ 
 		\hline
   	\end{tabular}	
 \end{center}
@@ -158,7 +157,7 @@ and the data matrix $r_D(n,t)$ is formed correspondingly.
 
 \section{Sweep Normalization}\label{sec:norm}
 
-On hardware quirk of the radar sensors used in this project is that their gain can vary significantly from one sensor to the next. This means that faced the same surface two sensors exhibit a similar sweep structure but may be scaled differently. Assuming a models training data has been collected with one sensor, it could therefore be difficult to successfully perform classifications with the same model using a sensor which has a different gain. A way to overcome this issue is to perform radar sweep normalization as a preprocessing step. There are multiple ways of performing such a normalization. %This is due to the fact that a linear scaling difference between two sensors behaves nonlinearly in the prediction output, due to nonlinearities both in the feature extraction process as well as in the classification process.
+One hardware quirk of the radar sensors used in this project is that their gain can vary significantly from one sensor to the next. This means that faced the same surface two sensors exhibit a similar sweep structure but may be scaled differently. Assuming a models training data has been collected with one sensor, it could therefore be difficult to successfully perform classifications with the same model using a sensor which has a different gain. A way to overcome this issue is to perform radar sweep normalization as a preprocessing step. There are multiple ways of performing such a normalization. %This is due to the fact that a linear scaling difference between two sensors behaves nonlinearly in the prediction output, due to nonlinearities both in the feature extraction process as well as in the classification process.
 
 A simple strategy is to simply divide each sweep with its maximum absolute value. While this may intuitively seem like a good idea, it eliminates signal evolution structures between consecutive captured sweeps - if three consecutive sweeps vary in received signal strength we wish to capture such a behaviour. A better solution is to instead have the normalization method depend on several consecutive sweeps. Normalizing using multiple sweeps thus maintain some of their relative amplitude structure. Constructing a smaller gain independent data matrix $x(n,t)$ consisting of $K$ sampling points and $T$ consecutive sweeps starting from slow time sample $T_m$, we can normalize by the average amplitude through
 \begin{equation}
