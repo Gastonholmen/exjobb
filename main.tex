@@ -5,6 +5,7 @@
 
 \usepackage{glossaries}
 \usepackage{natbib}
+\bibliographystyle{apalike}
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{amsfonts}
@@ -16,7 +17,10 @@
 \usepackage[toc, page]{appendix}
 \usepackage{enumitem}
 \usepackage[hidelinks]{hyperref}
-\PassOptionsToPackage{hyphens}{url}\usepackage{hyperref}
+
+% Url in italics
+\usepackage{url}
+\def\UrlFont{\em}
 
 % No paragraph spacing
 \setlength{\parskip}{0em}
@@ -88,5 +92,4 @@
 
 	% References
 	\bibliography{refs}
-	\bibliographystyle{apalike}
 \end{document}
