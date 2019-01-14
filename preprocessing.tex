@@ -1,16 +1,16 @@
 \chapter{Data Acquisition and Preprocessing}\label{ch:3}
 
-In the preceding chapter it was shown how certain metrics can be extracted from a target scatterer using its radar response, where the values the radar produces after demodulation was on the form of complex \gls{iq} radar sweeps. In this chapter we continue with describing how measurements are structured and preprocessed. We also describe the measurement setup and motivate the choices of some \gls{pcr} system settings.
+In the preceding chapter it was shown how certain metrics can be extracted from a target scatterer using its radar response, where the values the radar produces after the mathced filter and \gls{iq}-demodulation was on the form of complex \gls{iq} radar sweeps. In this chapter we continue with describing how measurements are structured and preprocessed. We also describe the measurement setup and motivate the choices of some \gls{pcr} system settings.
 
 \section{Data Representation}
 
 A common representation of data acquired by multi-antenna radars is the \emph{datacube} \citep{richards_2014}. The first dimension of the datacube consists of the radar sweeps, as described in section \ref{sec:iq}. Radar sweeps are formed by estimating the time-of-flight of a returning wavelet from a target scene. This process forms the shortest time frame possible with sample spacing on the picosecond scale for millimeter-wave radar, and is thus commonly referred to as the \emph{fast time} scale. With a sampling frequency $F_s$ new radar sweeps are acquired every $1/F_s$ seconds. This sequence of measurements form the second dimension of the datacube. Due to its much slower rate (on the $1/F_s$ scale) it is aptly referred to as the \emph{slow time} scale. Finally, the last dimension is constructed from the antenna array. This intuitively pleasing representation of data acquired by radar arrays are commonly referenced in journal papers when describing for instance beam forming or doppler processing algorithms \citep{gentile_donovan_2018}. 
 
-In this report systems with only a single receiving antenna are used generating data with only fast and slow time dimensions. Two such systems are used in parallel, but are not synchronized to one another. This essentially means that sensors take turn capturing radar sweeps as opposed to listening to the same echo wavelets. Thus it would be incorrect, or at least misleading, to treat these two sensors as the third dimension of a datacube which would indicate that the two sensors are synchronized. 
+In this report, systems with only a single receiving antenna are used generating data with only fast and slow time dimensions. Two such systems are used in parallel, but are not synchronized to one another. This essentially means that sensors take turn capturing radar sweeps as opposed to listening to the same echo wavelets. %Thus it would be incorrect, or at least misleading, to treat these two sensors as the third dimension of a datacube which would indicate that the two sensors are synchronized. 
 
-Instead, for our intents and purposes, we may just as well concatenate the two discrete sensor outputs to form a \emph{data matrix}. If a radar sensors output with fast time index $d=1...Z$ and slow time index $t=1...Q$ is described with $r(d,t)$, we form a data matrix $\mathbf{R}$ with sensors $r_1(d,t)$ and $r_2(d,t)$ through
+For our intents and purposes, we may just as well concatenate the two discrete sensor outputs to form a \emph{data matrix}. If a radar sensors output with fast time index $d=1...Z$ and slow time index $t=1...Q$ is described with $r(d,t)$, we form a data matrix $\mathbf{D}$ with sensors $r_1(d,t)$ and $r_2(d,t)$ through
 \begin{equation}
-	\mathbf{R}= 
+	\mathbf{D}= 
 	\begin{bmatrix}
 		r_1(0,0) & r_1(1,0) & \cdots & r_1(Z,0) & r_2(0,0) & \cdots & r_2(Z,0) \\
 		r_1(0,1) & r_1(1,1) & \cdots & r_1(Z,1) & r_2(0,1) & \cdots & r_2(Z,1) \\
@@ -19,7 +19,7 @@ Instead, for our intents and purposes, we may just as well concatenate the two d
 	\end{bmatrix}
 	,
 \end{equation}
-or, more succinctly, as samples $r(n,t) = \mathbf{R}_{t,n}$ with $n=1...2Z$. Each collected data matrix is built up of 50,000 slow time samples, so that $Q=50000$.
+or, more succinctly, as samples $r(n,t) = \mathbf{D}_{n,t}$ with $n=1...2Z$. Each collected data matrix is built up of 50,000 slow time samples, so that $Q=50000$.
 
 \begin{figure}
 	\centering
@@ -30,7 +30,7 @@ or, more succinctly, as samples $r(n,t) = \mathbf{R}_{t,n}$ with $n=1...2Z$. Eac
 
 \section{Measurement Setup}
 
-As mentioned above, two sensors each capture one data matrix per measurement session. Sensor data is acquired while the robot is moving at a constant pace, illustrated in figure \ref{fig:data_collecting}. Furthermore, two mounting angles are used, where one sensor is facing directly towards the ground while the other has a $22.5^\circ$ forward tilt. The reasoning behind this setup is for each sensor to capture different aspects of the surface below; the sensor placed flat downwards may capture a larger component of the specular (i.e. mirror-like) scattering process from the ground plane, while the tilted may capture more of the non-specular scatterers. This concept is closely related to the surface ruggedness, illustrated in figure \ref{fig:reflections}. It is worth noting that the angular spread of the sensor is roughly $30^\circ$ \citep{acconeer_datasheet_a111}, meaning that a $60^\circ$ angular width is illuminated by each sensor. %This idea is illustrated in figure \ref{fig:reflections}. If we are presented with two surfaces of the same material but with different ruggedness, the two will still scatter differently in spite of their equivalent dielectric properties. The scattering processes considered in this work should be highly dependant on the surface structure, where the predictability (or the randomness) should vary from material to material. 
+As mentioned above, two sensors each capture one data matrix per measurement session. Sensor data is acquired while the robot is moving at a constant pace, illustrated in figure \ref{fig:data_collecting}. Furthermore, two mounting angles are used, where one sensor is facing directly towards the ground while the other has a $22.5^\circ$ forward tilt. The reasoning behind this setup is for each sensor to capture different aspects of the surface below; the sensor placed flat downwards may capture a larger component of the specular (i.e. mirror-like) scattering process from the ground plane, while the tilted may capture more of the non-specular scatterers. This concept is closely related to the surface ruggedness, illustrated in figure \ref{fig:reflections}. It is worth noting that the angular spread of the sensor is roughly $30^\circ$ \citep{acconeer_datasheet_a111}, meaning that about a $60^\circ$ angular width is illuminated by each sensor. %This idea is illustrated in figure \ref{fig:reflections}. If we are presented with two surfaces of the same material but with different ruggedness, the two will still scatter differently in spite of their equivalent dielectric properties. The scattering processes considered in this work should be highly dependant on the surface structure, where the predictability (or the randomness) should vary from material to material. 
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.9]{figs_temp/reflections.jpg}
@@ -115,7 +115,7 @@ Thus, in order to avoid aliasing, the sampling rate $F_s$ should be at least 190
 
 %TODO: Introduce some brief bandwidth concepts here 
 
-The length, or duration, of the transmitted wavelet pulses in a \gls{pcr} system determines the bandwidth. Taking a fourier transform of a short wavelet produces a wider spectrum. Conversely increasing the pulse length produces a more narrow sprectrum. A longer wavelet corresponds to transmitting more energy and thus receiving a signal with better spectral resolution and \gls{snr}, while a shorter wavelet has better spatial resolution. Thus, the wavelet duration parameter becomes a tradeoff between spatial resolution and \gls{snr}. A reasonable strategy is therefore to start with a short wavelet and increase its duration until a reasonable \gls{snr} is obtained.  
+The length, or duration, of the transmitted wavelet pulses in a \gls{pcr} system determines the bandwidth. Taking a fourier transform of a short wavelet produces a wider spectrum. Conversely increasing the pulse length produces a more narrow spectrum. Assuming the same amplitude, a longer wavelet corresponds to transmitting more energy and thus receiving a signal with better spectral resolution and \gls{snr}, while a shorter wavelet has better spatial resolution. Thus, the wavelet duration parameter becomes a tradeoff between spatial resolution and \gls{snr}. A reasonable strategy is therefore to start with a short wavelet and increase its duration until a reasonable \gls{snr} is obtained.  
 
 \subsection{Range Swath}
 
@@ -140,12 +140,12 @@ The three settings for the three parameters discussed in this section are summar
 \label{tab:sensor_settings}
 \end{table}
 
-\section{Downsampling}
+\section{Downsampling in Fast Time}
 \label{downsampling}
 
 In information theory we interpret and quantify random variables by how unpredictable or unstructured observations of the random variables are \citep{anderson_johnnesson_2006}. Using such a framework, one could argue that variables that contain the same information as others in the same set are obsolete and can be discarded, as one ideally look for variables that contain information not found elsewhere in the set \citep{hyvasrinen_karhunen_oja_2004}.
 
-Using the settings in table \ref{tab:sensor_settings} we obtain 331 range samples per radar sweep in the 7-23 cm range swath, and as samples are equidistantly spaced they are separated by a mere $(230 \text{ [mm]}-70\text{ [mm]})/331\approx0.48$ mm. Observing a typical radar envelope in figure \ref{fig:single_sweep_iq} we note that points are very closely related on a small range scale, and nearly identical if we were to examine them on a sample by sample basis. Hence individual samples are low on information, and we can downsample by some integer factor $D$ without significant loss of information.
+Using the settings in table \ref{tab:sensor_settings} we obtain 331 range samples per radar sweep in the 7-23 cm range swath, and as samples are equidistantly spaced they are separated by a mere $(230 \text{ [mm]}-70\text{ [mm]})/331\approx0.48$ mm. Observing a typical radar envelope in figure \ref{fig:single_sweep_iq} we note that points are very closely related on a small range scale, and nearly identical if we were to examine them on a sample by sample basis. Hence we can downsample by some integer factor $D$ without significant loss of information.
 
 Downsampling measurements $r_1(d,t)$ and $r_2(d,t)$ by a factor $D$ can be expressed as
 \begin{equation}

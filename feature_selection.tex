@@ -44,20 +44,20 @@ In this section four different types of features are discussed aimed at capturin
 %From a small data matrix, $\mathbf{R}_f$, consisting of $T$ sweeps, a feature vector, $\mathbf{f}_m$, is derived for each type of feature. The elements in $\mathbf{R}_f$ are denoted $x(n,t)$, where $n$ and $t$ correspond to fast- and slow time indices within $\mathbf{R}_f$, respectively.
 
 
-\subsection{Expected Envelope}
+\subsection{Envelope Estimation}
 
-First of all we may characterize a sweep by its envelope form - that is, the shape of the absolute values of the radar sweeps. If we can assume that the samples are taken from some unknown stochastic process $X_{n,t}$ with constant mean over $T$ samples we may for range $n$ form an estimate of the expected envelope, $s(n)$. The estimate is formed by computing the average of $T$ consecutive sweeps
+First of all we may characterize a sweep by its envelope form - that is, the shape of the absolute values of the radar sweeps. If we can assume that the samples are taken from some unknown stochastic process $X_{n,t}$ with constant mean over $T$ samples we may for range $n$ form an estimate of the expected envelope, $\hat{x}(n)$. The estimate is formed by computing the average of $T$ consecutive sweeps
 
 \begin{equation}
-	s(n) = \frac{1}{T}\sum_{t=0}^{T-1}|x(n, t)|.
+	\hat{x}(n) = \frac{1}{T}\sum_{t=0}^{T-1}|x(n, t)|.
 \end{equation}
 
 In figure \ref{fig:sweep_average} we see what such an averaging process yields. Individual variances are suppressed to form a stable estimate of the sweep shape. With $K$ fast time samples, the estimate of the expected envelope feature vector becomes 
 
 \begin{equation}
-	\mathbf{f}_{s} = 
+	\mathbf{f}_{x} = 
 	\begin{bmatrix}
-		s(0) & s(1) & ... & s(K-1)
+		\hat{x}(0) & \hat{x}(1) & ... & \hat{x}(K-1)
 	\end{bmatrix}.
 \end{equation}
 
@@ -73,7 +73,7 @@ In figure \ref{fig:sweep_average} we see what such an averaging process yields. 
 \subsection{Fourier Transform}
 % "weighted velocity profile" should be used...
 
-As discussed in section \ref{doppler} we can relate the velocity of a scatterer to its \gls{bf} through \eqref{eq:dopp}. When an entire target scene is illuminated, computing a \gls{dft} in the slow time domain thus provides a \emph{velocity profile} of the scene at every range, indicating the amount of each velocity is present for a given range. Due to the settings outlined in chapter \ref{ch:3}, no significant aliasing in the frequency spectrum should occur as the sampling rate was set with the Nyquist criterion in mind. In figure \ref{fig:fft} the \gls{dft}'s of radar \gls{iq} data are shown for all surface types considered in this work. For visualization purposes the square root of the absolute values of the \gls{dft} are shown. For grass (the top two plots), it can be seen that the frequency content is contained mainly in the vicinity of the zero frequency bin, while the other materials contain considerably larger higher frequency components. It can also be seen that the frequency components become smaller with range, which simply is due to the lower amount of radiation received from scatterers further away as explained by the \ref{rre}. The \ref{rre} assumes that a scatterer is radiating isotropically. If radiation instead can be regarded to be specular in nature, the \gls{dft} provides a good measure of the surfaces topography. %[Continu. %[Continue and add a source]
+As discussed in section \ref{doppler} we can relate the velocity of a scatterer to its \gls{bf} through \eqref{eq:dopp}. When an entire target scene is illuminated, computing a \gls{dft} in the slow time domain thus provides a \emph{velocity profile} of the scene at every range, indicating the amount of each velocity is present for a given range. Due to the settings outlined in chapter \ref{ch:3}, no significant aliasing in the frequency spectrum should occur as the sampling rate was set with the Nyquist criterion in mind. In figure \ref{fig:fft} the \gls{dft}'s of radar \gls{iq} data are shown for all surface types considered in this work. For visualization purposes the square root of the absolute values of the \gls{dft} are shown. For grass (the top two plots), it can be seen that the frequency content is contained mainly in the vicinity of the zero frequency bin, while the other materials contain considerably larger higher frequency components. It can also be seen that the frequency components become smaller with range, which simply is due to the lower amount of radiation received from scatterers further away as explained by the \gls{rre}. The \gls{rre} assumes that a scatterer is radiating isotropically. If radiation instead can be regarded to be specular in nature, the \gls{dft} provides a good measure of the surfaces topography. %[Continu. %[Continue and add a source]
 
 %While traversing a static surface at a constant speed, one could think of it as the details on the surface, such as small rocks, are moving closer to the radar sensor. As discussed in section \ref{doppler}, this alters the frequency of the transmitted signal according to the Doppler effect, and the radar detects beat frequencies, corresponding to the frequency shifts. Depending on the surface's characteristics, the doppler frequencies may vary. 
 
@@ -246,7 +246,7 @@ Before performing any feature processing, the data is downsampled by a downsampl
 	r_{1,D}(d, t) = r_{1}(50+dD,t), 
 	\quad \text{and} \quad r_{2,D}(d,t) = r_{2}(50+dD,t)
 \end{equation}
-defined only for $d=0,...,13$. With this definition, the downsampled signal consists of 14 evenly spaced range indices from 50 to 310, corresponding to ranges 9.4 to 21.88 cm. Thus, the resulting datasquare matrix, $\mathbf{R}\in \mathbb{C}^{N\times 28}$, where $N$ is the number of samples. There are 28 columns as the readings from the two sensors are concatenated. 
+defined only for $d=0,...,13$. With this definition, the downsampled signal consists of 14 evenly spaced range indices from 50 to 310, corresponding to ranges 9.4 to 21.88 cm. Thus, the resulting datasquare matrix, $\mathbf{D}\in \mathbb{C}^{N\times 28}$, where $N$ is the number of samples. There are 28 columns as the readings from the two sensors are concatenated. 
 
 In above section, four different feature extraction methods were described - the average signal shape, the autocovariance in range and energy, as well as the Fourier transform. The methods each generate a number of features. However, we are not limited to feed our model with features taken from a single one of the methods. In table \ref{tab:feat}, three possible configurations of features are chosen. Each of these combinations was tested in a simple support vector machine classifier (\gls{svm}, described in chapter 5), to evaluate which was the most efficient. The first one, which simply involves the averaged sweep envelope, requires much fewer features than the other two combinations - simply 28 positive real numbers. But looking at its performance, these features are not enough to reach the accuracy attained in the other two cases. By instead selecting autocovariances as features the accuracy increases by 4 percentage points. Here we also include the absolute values as features, as this information is lost when subtracting the mean during the computation of the autocovariances. This configuration generates a feature vector with 174 elements, as seen in figure \ref{fig:feat_fig}. 28 features come from the absolute values, 6 features come from six steps in the energy autocovariance. The majority of the features, 140 to be exact, come from the autocovariance in range. For each of the 28 range bins, there is one real-valued feature representing variance, followed by two complex autocovariances for each range bin. This should give us $28+2\cdot 28=84$ features, but as the real- and imaginary parts of complex numbers are split up in two features, we obtain $28+2\cdot2\cdot 28=140$ features. The total number of features therefore becomes $28+6+140=174$.
 
