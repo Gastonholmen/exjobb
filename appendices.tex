@@ -1,7 +1,7 @@
 
 \begin{appendices}
 
-\chapter{IQ Demodulation}
+\chapter{IQ Demodulation}\label{apx:iq}
 
 \gls{iq} demodulation involves the process of transforming a signal on form 
 \begin{equation}\label{eq:signal}
@@ -44,7 +44,7 @@ After low pass filtering we obtain $A(t)\sin(\phi(t))$ which we define as the \e
 \end{figure}
 
 % ######### MIXING PROOF ##########
-\chapter{Proof of \ref{eq:n1} and \ref{eq:n2}}
+\chapter{Proof of \ref{eq:n1} and \ref{eq:n2}}\label{apx:conv}
 
 For signals $y(t)$ and $x_T(t)$ defined as
 \begin{equation}
@@ -60,7 +60,7 @@ with angular carrier frequency $\Omega = 2\pi f_c$, where $A(t)$ is defined as
 		0 & \text{otherwise}
 	\end{cases}
 \end{equation}
-the output $m(\tau)$ of the analog convolution process becomes
+the output $m(\tau)$ of the matched filtering process becomes
 \begin{equation}
 	m(\tau) 
 	= \int_{-\infty}^{+\infty}y(t)x_T(t-\tau)dt
