@@ -12,7 +12,7 @@ Overall
  - Fix references!
 
 Abstract
-[D] Write when ch8 is done
+[X] Write when ch8 is done
 
 Pop science article
  G Write when ch8 is done
