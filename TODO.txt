@@ -46,7 +46,6 @@ Ch 5
 [X] Leave-One-Out Strategy - we don't explain that we are excluding the larger set of data in training and thus avoid fitting with neighbouring samples. This is well done in the figure but should say in the text too. 
 [X] Hyperas - which parameters were optimized? 
 [X] Accuracies are now for a linear support vector classifier
- - Write about that it is now an svm classification
 
 Ch 6
 [X] Data augmentation - Understandable?
@@ -62,7 +61,7 @@ Ch 7
 [X] Balancing of data
 [X] Velocity-dependent sampling - speed varied slightly during tests so that spatial sampling is the same. 
 [X] Discuss the CNN+LSTM model
- G The last part in Errors&Uncertainties was commented out as it didn't really belong there. Maybe move it?
+[X] The last part in Errors&Uncertainties was commented out as it didn't really belong there. Maybe move it?
  G Somehow mention the RRE and the RCS and the normalization process
 
 Ch 8
