@@ -9,7 +9,7 @@ Overall
 [X] Capital letters in titles
 [X] Change all equation references to use \eqref instead of both \ref and \eqref
  - Spelling mistakes
- D Fix references!
+[X] Fix references!
 
 Abstract
 [X] Write when ch8 is done
