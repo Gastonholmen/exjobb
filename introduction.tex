@@ -43,42 +43,7 @@ Backscattering from rough surfaces have been extensively studied in for instance
 
 %Finding a working model of this is however difficult, as was found in modelling backscattering processes from random rough surfaces, readily showcased in \citep{fung_li_chen_1992}. In \citep{scharf_iberle_mantz_walter_waldschrnidt_2018} simulations and experiments with rough surface backscattering was done by modeling a surfaces topography using a two dimensional autocorrelation function. That paper assumes profiles with moderate slopes and roughness depths and is based on the surface exhibiting a Gaussian height distribution, making it unsuitable for modeling the structures investigated in this paper, other than perhaps gravel. Furthermore, the models presented in \citep{fung_li_chen_1992} can not be used as they rely on specular reflections, whereas reflections on surfaces featured i this work are diffuse.
 
-As far as the authors know this paper presents the first attempts of classification of grass target surfaces
-
-Thus, for the surfaces considered in this paper, it is neither suitable to use a polarizaion based method nor a definitive model based method. We were not able to find any papers that didn't rely on any of these two models in litterature, and we are seeminly entering uncharted territory by classifying grass from a selection of non-grass surfaces using millimeter-wave radar. It is thus of interest to examine whether radar sensors can accurately classify such difficult structures using some other method. 
-
-% One more source - about the ACF or fourier components. 
-
-% Next: Motivate the use of temporal (slow-time) methods
-
-%THESE ARE ALL POLARIZATION BASED
-
-% Alright here we go:
-%Road Condition Monitoring
-
-%(0) 
-
-%(2) Polarimetric \citep{finkele_schreck_wanielik_1995}. Used array of transmitters with different polarities and and array of receivers receiving different polarities. Some different classifiers. 
-
-%(3) Polarimetric \citep{kees_detlefsen_1994}. Bistatic setup, estimated polarization matrix. 
-
-%(4) Polarimetric \citep{finkele_1997}. Ice detection, bistatic setup. Polarization measurements.
-
-%(5) Uninteresting - 0.5 GHzi
-
-%(6) Polarimetric - Monostatic - \citep{viikari_varpula_kantanen_2008} - Road surface recognition monostatic. Estimating backscattering with different kinds of polarizations.
-
-%(6b) 
-
-%(7)
-
-%(8) Polrimetric - Monostatic - \citep{häkli_säily_koivisto_huhtinen_dufva_rautiainen_toivanen_nummila_2013} - Road surface recognition monostatic, estimating backscatterign
-
-
-
-
-
-
+As far as the authors know this paper presents the first attempts of classification of grass target surfaces using millimeter-wave radar with the sensor placed in a device moving at constant velocity. Furthermore we employ a slow time feature extraction process and use pass these features to a machine learning classifier for surface classification in a manner which has seemingly not been done before in litterature. 
 
 \begin{figure}
 	\centering
@@ -87,30 +52,31 @@ Thus, for the surfaces considered in this paper, it is neither suitable to use a
 	\label{fig:acc_sens}
 \end{figure}
 
-
 \section{Objective}
 
-In this work, we seek to create a model capable of performing binary surface classification from data collected during robot movement. By collecting data on grass surfaces and selection of non-grass surfaces we wish to create an effective classifier able to distinguish a grass covered surface from other surface types. All experiments will be performed using two 60 GHz pulsed coherent radar (\gls{pcr}) sensors from Acconeer, see figure \ref{fig:acc_sens},  mounted on the front of device moving straight at a constant velocity. 
+In this work we wish to explore whether it is possible to create an effective classification scheme from millimeter-wave radar reponse acquired during device movement. The classification task will be to accurately distinguish a grass surfaces from a selection of non-grass surfaces commonly found adjacent to lawns. All experiments will be performed using two 60 GHz pulsed coherent radar (\gls{pcr}) sensors from Acconeer, see figure \ref{fig:acc_sens}, mounted on the front of device moving straight at a constant velocity. 
+
+
+
+%In this work, we seek to create a model capable of performing binary surface classification from data collected during robot movement. By collecting data on grass surfaces and selection of non-grass surfaces we wish to create an effective classifier able to distinguish a grass covered surface from other surface types. All experiments will be performed using two 60 GHz pulsed coherent radar (\gls{pcr}) sensors from Acconeer, see figure \ref{fig:acc_sens},  mounted on the front of device moving straight at a constant velocity. 
 
 \section{Thesis Outline}
 
 The outline of this thesis is as follows:
 \\ \\
-\noindent\textbf{Chapter 2:} This chapter explains the fundamentals of \gls{pcr} systems, and describes how distance, reflectivity and radial velocity can be extracted from the radar response. 
+\noindent\textbf{Chapter 2:} This chapter explains the fundamentals of \gls{pcr} systems, and describes how distance, reflectivity and radial velocity can be extracted from the radar response. The method in which radar measurements are carried out is explained, as well as the \gls{iq} demodulation procedure.
 \\ \\
-\noindent\textbf{Chapter 3:} In chapter 3 we proceed with describing the method used for collecting the data used in this project. Sensor settings, such as pulse length and sampling frequency, are discussed. 
+\noindent\textbf{Chapter 3:} In chapter 3 we proceed with describing the method used for collecting data used in this project. Sensor settings, such as pulse length and sampling frequency, are discussed. 
 \\ \\
-\noindent\textbf{Chapter 4:} Chapter 4 presents the feature extraction process for surface identification. Temporal features, such as the autocovariance function and the fourier transform, are investigated for accurate surface classification. At the end of the chapter, one of the tested extraction methods is selected for further investigation. 
+\noindent\textbf{Chapter 4:} Chapter 4 presents the feature extraction process for surface classification. Temporal features, such as the autocovariance function and the fourier transform, are investigated for accurate surface classification. At the end of the chapter, one of the tested extraction methods is selected for further use. 
 \\ \\
-\noindent\textbf{Chapter 5:}  In this chapter, some different classifiers are tested for prediction accuracy. Both linear and non-linear machine learning models are tested. At the end of the chapter, one machine learning classifier is selected for further optimization. 
+\noindent\textbf{Chapter 5:}  In this chapter, some different classifiers are tested for prediction accuracy. A selection of two linear and six non-linear machine learning models are tested. At the end of the chapter, one machine learning classifier is selected as most suitable. 
 \\ \\
-\noindent\textbf{Chapter 6:} In chapter 6 some postprocessing and optimizations to the best found model are discussed. 
+\noindent\textbf{Chapter 6:} In chapter 6 data augmentation and outlier suppression is discussed.  
 \\ \\
-\noindent\textbf{Chapter 7:} Chapter 7 examines the found model's capabilities in real and artificially created test scenarios. The found results, as well as some limitations are discussed.
+\noindent\textbf{Chapter 7:} Chapter 7 examines the capabilities of the found model in real and artificially created test scenarios. The found results, as well as some error sources and limitations are discussed.
 \\ \\
-\noindent\textbf{Chapter 8:} In chapter 8 conclusions of this work is presented and possible directions of future work is discussed. 
-
-
+\noindent\textbf{Chapter 8:} In chapter 8 conclusions of this work is presented and possible directions of future work are discussed. 
 
 
 
