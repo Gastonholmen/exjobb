@@ -30,7 +30,7 @@ or, more succinctly, as samples $r(n,t) = \mathbf{D}_{n,t}$ with $n=1...2Z$. Eac
 	\label{fig:data_collecting}
 \end{figure}
 
-\section{Measurement Setup}
+\section{Measurement Setup}\label{sec:setup}
 
 As mentioned above, two sensors each capture one data matrix per measurement session. Sensor data is acquired while the robot is moving at a constant pace, illustrated in figure \ref{fig:data_collecting}. Furthermore, two mounting angles are used, where one sensor is facing directly towards the ground while the other has a $22.5^\circ$ forward tilt. The reasoning behind this setup is for each sensor to capture different aspects of the surface below; the sensor directed straight downwards may capture a larger component of the specular (i.e. mirror-like) scattering from the ground plane, while the tilted may capture more of the non-specular scattering. This concept is closely related to the surface ruggedness, illustrated in figure \ref{fig:reflections}. It is worth noting that the half power beam width of the sensor is roughly $60^\circ$ \citep{acconeer_datasheet_a111}, meaning that an angular width of about $60^\circ$ is illuminated by each sensor.
 

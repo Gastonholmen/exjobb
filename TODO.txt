@@ -67,6 +67,7 @@ Ch 7
 [X] Discuss the CNN+LSTM model
 [X] The last part in Errors&Uncertainties was commented out as it didn't really belong there. Maybe move it?
 [X] Somehow mention the RRE and the RCS and the normalization process
+ - If we didn't have to normalize...
 
 Ch 8
 [X] Conclusions
