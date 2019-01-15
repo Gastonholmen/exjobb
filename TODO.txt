@@ -53,7 +53,7 @@ Ch 6
 [X] 6.2 index
 
 Ch 7
- - PCA plot is a concept proof
+[X] PCA plot is a concept proof
 [X] Linear vs. non-linear
 [X] Surfaces not seen in training -> undefined behaviour
 [X] Note that predictions are stable (not seen in LOO table)
@@ -62,7 +62,7 @@ Ch 7
 [X] Velocity-dependent sampling - speed varied slightly during tests so that spatial sampling is the same. 
 [X] Discuss the CNN+LSTM model
 [X] The last part in Errors&Uncertainties was commented out as it didn't really belong there. Maybe move it?
- G Somehow mention the RRE and the RCS and the normalization process
+[X] Somehow mention the RRE and the RCS and the normalization process
 
 Ch 8
 [X] Conclusions
