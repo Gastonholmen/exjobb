@@ -21,14 +21,14 @@ IQ demodulation thus aims to extract the information bearing part of $x(t)$ foun
 \end{equation}
 yielding one baseband sinusoid and one sinusoid at the double carrier frequency. 
 
-The next step in the demodulation scheme is to low pass filter to get rid of the undesired high frequency term term in \eqref{eq:split} leaving only $A(t)\cos(\theta(t))$. This constitutes the \emph{In-phase} channel $I(t)$.
+The next step in the demodulation scheme is to low pass filter to get rid of the undesired high frequency term term in \eqref{eq:split} leaving only $A(t)\cos(\phi(t))$. This constitutes the \emph{In-phase} channel $I(t)$.
 
 	Similarly, in the bottom channel in figure \ref{fig:iq_demod}, $x(t)$ is multiplied by a signal of the same carrier frequency. However, this time, the signal is shifted $90^\circ$ in phase\footnote{This shift is technically a \emph{Hilbert transform}, as the sinusoid is shifted by $\pi/2$.}. We can rewrite this product as
 \begin{equation}
 	 A(t)\sin(f_c t+\phi(t))\cdot 2\cos(f_c t) = 
 \end{equation}
 \begin{equation}\label{eq:split2}
- 	 A(t)\sin(\theta(t))+A(t)\sin(2f_c t+\phi(t)).
+ 	 A(t)\sin(\phi(t))+A(t)\sin(2f_c t+\phi(t)).
 \end{equation}
 
 After low pass filtering we obtain $A(t)\sin(\phi(t))$ which we define as the \emph{Quadrature} channel $Q(t)$. Finally, by interpreting $I(t)$ and $Q(t)$ channels as the real- and imaginary parts of a complex number, respectively, we obtain our \gls{iq} data as
