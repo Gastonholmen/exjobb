@@ -11,6 +11,9 @@ Overall
  - Spelling mistakes
 [X] Fix references!
  - Equation spacing
+ - Check that figure captions are good 
+ - Mention the tools we are using - Python/skelarn/Keras/Tensorflow
+
 
 Abstract
 [X] Write when ch8 is done
