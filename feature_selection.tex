@@ -13,7 +13,7 @@ We found in chapter 2 that a single radar sweep only provides information about 
 
 The first involves using a complex non linear machine learning algorithm, such as a deep neural network (\gls{dnn}) with a large number of hidden layers that figures out how to calculate efficient temporal metrics on its own. Algorithms exist that indeed can learn to analyze frequency components, for instance for speech recognition \citep{graves_mohamed_hinton_2013}, but tend to be too computationally expensive to realistically implement when hardware is limited.
 
-Instead we utilize that we know that taking the \gls{dft} in slow time provides velocity estimates for a given distance through \gls{bf}s, as was explained in \ref{sec:doppler}. The scaling of each frequency bin thus provides an estimate of the amount of velocity component at a given range. Such estimates are rich in information regarding the topography of a surface structure, as it accounts for the \gls{rcs} of a surface at different angles of incidence. 
+Instead we utilize that we know that taking the \gls{dft} in slow time provides velocity estimates for a given distance through \gls{bf}s, as was explained in \ref{sec:doppler}. The scaling of each frequency bin thus provides an estimate of the amount of velocity component at a given range. Such estimates are rich in information regarding the topography of a surface structure, as it accounts for the \gls{rcs} of a surface at different velocities and thus different angles of incidence. 
 
 A second option is thus to utilize this knowledge and perform \emph{feature extraction}. By extracting a smaller set of features pertaining to the frequency content of the given data, we can significantly reduce the complexity of the model. Furthermore, the feature extraction process allows us to pinpoint what data characteristics we wish to monitor, and subsequently which data characteristics we believe are of value. This ensures that the machine learning algorithm generates its predictions using patterns selected by the authors, rather than finding patterns on its own. For the reasons outlined the focus in this report is using feature extraction based machine learning. 
 
@@ -268,12 +268,12 @@ Through the point and feature extraction methods described in previous sections 
 
 \gls{pca} is  a classical technique in statistical data analysis which takes a large set variables from a multivariate dataset and finds a smaller set of variables with less redundancy. Critically, \gls{pca} finds a rotated orthogonal coordinate system such that the elements of the set become uncorrelated \citep{hyvasrinen_karhunen_oja_2004}. Projecting elements onto the principal axes corresponding to the directions of maximal variance a good approximation of the original data in lower dimension is obtained.
 
-After having chosen to proceed with feature configuration 2 in table \ref{tab:feat}, the 174 dimensions can be reduced to 2 dimensions using \gls{pca}. By projecting feature vectors onto the two directions of maximal variance, we get a nice visualization of the separability of the different surface as seen in figure \ref{fig:pca}. Note that each dot in thie plot corresponds to one feature vector, and that the figure represents features from the full set of 175 minutes of data.  
+After having chosen to proceed with feature configuration 2 in table \ref{tab:feat}, the 174 dimensions can be reduced to 2 dimensions using \gls{pca}. By projecting feature vectors onto the two directions of maximal variance, we get a nice visualization of the separability of the different surface as seen in figure \ref{fig:pca}. Note that each dot in thie plot corresponds to one feature vector, and that the figure represents features extracted from the full set of 175 minutes of data.  
 
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.50]{figs_temp/pca_analysis.png}
-	\caption{By performing a principal component analysis on the feature vectors we may reduce them from a 174-dimensional space into 2 dimensions, maintaining maximal variance. This allows us to visualize, and get an idea of how separable the materials are.}
+	\caption{By performing a principal component analysis on the feature vectors we project 174 dimensional feature vecors into two dimensions corresponding to directions of maximum variance. This allows for us to visualize how separable the different surface types are.}
 	\label{fig:pca}
 \end{figure}
 
