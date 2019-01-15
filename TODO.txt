@@ -10,6 +10,7 @@ Overall
 [X] Change all equation references to use \eqref instead of both \ref and \eqref
  - Spelling mistakes
 [X] Fix references!
+ - Equation spacing
 
 Abstract
 [X] Write when ch8 is done
