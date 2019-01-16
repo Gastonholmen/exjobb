@@ -1,12 +1,12 @@
 \chapter{Postprocessing and Data Augmentation}
 
-In the previous chapter a small deep neural network was found to be the best model for the surface classification problem investigated. In this chapter, two improvements to this model are introduced. First, we use a basic data augmentation technique to increase the size of the training data. Then, outlier suppression and detection methods are discussed.
+In the previous chapter a parsimonious \gls{dnn} classifier was found to be the top performing model for the surface classification problem investigated. In this chapter, two improvements to this model are introduced. First, we use a basic data augmentation technique to increase the size of the training data. Then, outlier suppression and detection methods are discussed.
 
 \section{Data Augmentation}
 
-A recurring problem in training \gls{ann}'s is that there simply isn't enough data \citep{lemley_bazrafkan_corcoran_2017}. Too little data will make a network prone to overfitting, which means that it becomes highly biased to what it has seen in training and will subsequently perform poorly on any validation or test set. In the preceding chapter dropout was introduced for this particular purpose, and examining the cross validation accuracies it is clear that reasonable accuracy is attained without any further means.
+A recurring problem in training \gls{ann}s is that there simply is not enough data \citep{lemley_bazrafkan_corcoran_2017}. Too little data will make a network prone to overfitting, which means that it becomes highly biased to what it has seen in training and will subsequently perform poorly on any validation or test set. In the preceding chapter dropout was introduced for this particular purpose, and examining the cross validation accuracies it is clear that reasonable accuracy is attained without any further means.
 
-However, by \emph{augmenting} the data we are able to further increase the training set size, and subsequently further increase model performance. Data augmentation is the process of supplementing a dataset with similar data created from the same dataset. How one augments a dataset is data dependent. In for instance computer vision, data augmentation often involves rotating, translating, blurring or in some other way modifying existing images \citep{lemley_bazrafkan_corcoran_2017}.
+However, by \emph{augmenting} the data we are able to further increase the training set size, and subsequently further increase model performance. Data augmentation is the process of supplementing a dataset with similar data created from the same dataset. How one augments a dataset is completely dependent on the data. In for instance computer vision, data augmentation often involves rotating, translating, blurring or in some other way modifying existing images \citep{lemley_bazrafkan_corcoran_2017}.
 
 In the present case of increasing the number of smaller data matrices with $T$ slow time samples from a given data matrix with $Q$ slow time samples, we can allow for overlapping batches. Previously, when batches of length $T$ were generated from $Q$ slow time samples, every $T$ sweeps produced one data matrix providing a total of $Q/T$ matrices for analysis. However, noting that any sequence of $T$ radar sweeps is a valid data matrix, we may form \emph{overlapping} matrices from every $T/A$ samples, where $A$ is some integer factor selected so that $T/A$ becomes an integer. This produces $(A-1)(Q/T-1)$ additional matrices providing a total $P$ number of data matrices according to
 \begin{equation}
@@ -15,24 +15,24 @@ In the present case of increasing the number of smaller data matrices with $T$ s
 	\frac{AQ}{T}-A+1.
 \end{equation}
 
-Setting $A=5$, one data matrix consisting of 50,000 slow time samples normally yielding 2,000 smaller data matrices with $T=25$ slow time samples, instead produces 9996 matrices. Thus, with this method we are able to increase the number of training data by almost a factor of 5. In table \ref{tab:aug}, the effects of data augmentation with $A=5$ is compared to having no augmentation.
+Setting $A=5$, one data matrix consisting of 50,000 slow time samples normally yielding 2,000 smaller data matrices with $T=25$ slow time samples, instead produces 9996 matrices. Thus, with this method we are able to increase the number of training data by almost a factor of 5. In table \ref{tab:aug} the effects of data augmentation with $A=5$ is compared to having no augmentation.
 
 % Discuss this result later on.
 
 \begin{table}
-	\label{tab:aug}
 	\begin{center}
 		\rowcolors{2}{gray!25}{white}
 		\begin{tabular}{|c|c|}
 			\hline
 			\rowcolor{gray!150}
-			\color{white}\textbf{Augmentation} & \color{white}\textbf{LOO Acc.} \\
+			\color{white}\textbf{A} & \color{white}\textbf{\gls{loo} Acc.} \\
 			1 & 98.50 \\
 			5 & 98.54 \\
 			\hline
 		\end{tabular}
 	\end{center}
 	\caption{Leave-one-out accuracies with and without data augmentation.}
+	\label{tab:aug}
 \end{table}
 
 %\section{Outlier removal}
@@ -52,7 +52,7 @@ Perhaps most effective way of suppressing data littered with outliers is through
 	P_i=0 \quad\text{if}\quad\text{median}\{p_k\}_{k=i-M+1}^i\leq\xi, 
 	\quad \text{else} \quad P_i = 1
 \end{equation}
-where $0<\xi<1$. The drawback of using median filtering, or any filtering really, is that the detection is delayed a few predictions. Thus, $L$ must be selected so that the device has not moved too far before the change detection has occurred, but is still capable of sufficiently  suppressing outlying predictions. 
+where $0<\xi<1$. The drawback of using median filtering, or any filtering really, is that the detection is delayed a few predictions. Thus, $M$ must be selected so that the device has not moved too far before the change detection has occurred, but is still capable of sufficiently  suppressing outlying predictions. 
 
 
 \iffalse
