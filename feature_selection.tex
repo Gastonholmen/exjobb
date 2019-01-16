@@ -105,13 +105,12 @@ where $|\cdot|^*$ denotes elementwise absolute values, and $K$ is the number of 
 % Tie this into preceding section instead. Autocov allows for calculating the number of lags.
 %An obvious surface characteristic to ponder is roughness; while a tiled surface is typically very flat, grass is characterized by a random, unpredictable structure. It is reasonable to assume that there is more correlation between two closely spaced points on the tiled surface than there is on grass. This motivates us to study the autocovariance in slow time.
 
-A second method to investigate time-domain dependencies is through the autocovariance function. This method adds the benefit of allowing for a specification of correlation length, which can significantly reduce the number of features. Figure \ref{fig:autocorr_range} displays absolute values of autocovariances estimated from 5000 sweeps. 
-
+A second method to investigate time-domain dependencies is through the autocovariance function. This method adds the benefit of allowing for a specification of the number of covariance lags, $q$, which can significantly reduce the number of features. Figure \ref{fig:autocorr_range} displays absolute values of autocovariances estimated from 5000 sweeps for all surface types considered. As can be observed, the tiled surface, which is the most even, corresponds to the graph with the highest autocovariances. In contrast, the arguably most uneven surface - grass - is represented by the graph with the lowest autocovariances.
 
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.45]{figs_temp/features/autocorr_range.png}
-	\caption{The graphs show the absolute values of the autocovariances computed from a time-varying \gls{iq}-signal recorded at a range of approximately 14 cm. The tiled surface, which is the most even, corresponds to the graph with the highest autocovariances. In contrast, the arguably most uneven surface - grass - is represented by the graph with the lowest autocovariances.}
+	\caption{The graphs show the absolute values of the autocovariances computed from a time-varying \gls{iq}-signal recorded at a range of approximately 14 cm.}
 	\label{fig:autocorr_range}
 \end{figure}
 
@@ -152,7 +151,7 @@ where
 	\hat{\mu}_n = \frac1T \sum_{t=0}^{T-1}x(n,t).
 \end{equation}
 
-The bias in this estimate is completely inconsequential as all features later are normalized to zero mean unit variance. Estimating the autocovariances through \eqref{eq:ac} does assume that $x(n,t)$ is wide sense stationary. This can not always be guaranteed in practice, however, but the estimates may nevertheless be used as a measure for distinguishing between surfaces. We may form features as
+The bias in this estimate is completely inconsequential as all features later are normalized to zero mean unit variance. Estimating the autocovariances through \eqref{eq:ac} does assume that $x(n,t)$ is wide sense stationary, but for a rough real world terrain, this assumption is optimistic. However, the estimates may nonetheless make for useful metrics for classification as they feature temporal changes. The features may be formed as
 \begin{equation}
 	\hat{\mathbf{r}}_{k} = 
 	\begin{bmatrix}
@@ -160,7 +159,7 @@ The bias in this estimate is completely inconsequential as all features later ar
 	\end{bmatrix}.
 \end{equation}
 
-Noting that the autocovariance sequence at 0 lag produce only real numbers, as any complex number $z = a + bi$ multiplied with its conjugate has zero imaginary part $\text{Im}(zz^*) = \text{Im}((a + bi)(a - bi)) = \text{Im}(a^2 + b^2) = 0$, we may form the full real-valued feature component for $q$ autocovariance lags $\mathbf{f}_{r}$ as
+Noting that the autocovariance sequence at 0 lag produces only real numbers, as any complex number $z = a + bi$ multiplied with its conjugate has zero imaginary part $\text{Im}(zz^*) = \text{Im}((a + bi)(a - bi)) = \text{Im}(a^2 + b^2) = 0$, we may form the full real-valued feature component for $q$ autocovariance lags $\mathbf{f}_{r}$ as
 \begin{equation}
 	\mathbf{f}_{r} = 
 	\begin{bmatrix}
