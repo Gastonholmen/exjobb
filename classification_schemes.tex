@@ -1,6 +1,6 @@
 \chapter{Machine Learning}
 
-In this chapter a few classification models are evaluated for the feature extraction processes described in the preceding chapter. Two linear and four non linear models for supervised learning are compared using leave-one-out (\gls{loo}) cross validation on the acquired data. The workflow for all models apart from the last one follows the chart in figure \ref{fig:flow} where both training and test data use extracted features for classification.
+In this chapter a few classification models are described and evaluated for the feature extraction processes described in the preceding chapter. Two linear and four nonlinear models for supervised learning are compared using leave-one-out (\gls{loo}) cross validation on the acquired data. The workflow for all models apart from the last follows the chart in figure \ref{fig:flow} where extracted features are used for classification.
 
 % Define block styles
 \tikzstyle{decision} = [diamond, draw, fill=blue!20, 
@@ -51,12 +51,9 @@ In this chapter a few classification models are evaluated for the feature extrac
 \label{fig:flow}
 \end{figure}
 
-
-
-
 \section{Linear Models}
 
-Linear classifiers performs a classification decision based on the value of a linear combination of input data \citep{santos_2018}. In the binary case this corresponds to dividing the dataset with a single hyperplane splitting data into two categories. New test data is then mapped into the same space and predicted to belong to a category based on which side of the hyperplane they fall. In this work, two linear models are considered: linear discriminant analysis (\gls{lda}) and a support vector machine (\gls{svm}) with a linear kernel. 
+Linear classifiers performs a classification decision based on the value of a linear combination of input data \citep{santos_2018}. In the binary case this corresponds to dividing the dataset with a single hyperplane splitting data into two categories. New test data is predicted to belong to a category based on which side of the hyperplane it is on. In this work, two linear models are considered: linear discriminant analysis (\gls{lda}) and a support vector machine (\gls{svm}) with a linear kernel.
  
 % Maybe throw in an equation here somewhere?
 
@@ -75,25 +72,26 @@ Linear discriminant analysis is an algorithm commonly used for dimensionality re
 
 \subsection{Support Vector Machines}
 
-Support vector machines are one of the most popular models when it comes to supervised learning. The most simple \gls{svm} uses what is called a linear kernel, and generates a linear hyperplane that separates two sets of labeled data similarly to \gls{lda}. Unlike \gls{lda} however, \gls{svm} is not an eigen-based method, making \gls{svm} less prone to outliers. Finding a good hyperplane is often an ambiguous task, so to find what the \gls{svm} regards as the best hyperplane it seeks parameters that maximize the distance between the hyperplane and the sample points closest to it known as support vectors \citep{boswell_2002}. 
+Support vector machines are one of the most popular linear models for supervised learning. The most simple \gls{svm} does not introduce any nonlinearities through any kernel tricks, and generates a linear hyperplane that separates two sets of labeled data similarly to \gls{lda}. Unlike \gls{lda} however, an \gls{svm} is not an eigen-based method, making \gls{svm}s less prone to outliers. Finding a good hyperplane is often an ambiguous task, so to find what an \gls{svm} regards as the best hyperplane it optimizes after parameters that maximize the distance between the hyperplane and the sample points closest to it known as support vectors \citep{boswell_2002}. 
 
 % Commented out because we don't really use this
 %Even if support vector machines are linear models, they are not limited to work only on linearly separable data. There are ways to use them in a non-linear fashion by utilizing different kinds of kernels. In principle, the data is first transformed into a higher dimensional space, including non-linear terms. In this new space, the \gls{svm} is used just as before. This makes the \gls{svm} a powerful tool even in non-linear problems \citep{boswell_2002}.
 
-\section{Non-linear Models}
-In many cases data cannot be satisfactorily separated by a linear classifier. In the binary case this means that the two classes in the dataset cannot be properly split by any one hyperplane. For such data non-linear algorithms may perform better. In this work, four different non-linear classification methods are tested: random forest (\gls{rf}), logistic regression (\gls{lr}), as well as two types of artificial neural network (\gls{ann}) classifiers. 
+\section{Nonlinear Models}
+
+In many cases data cannot be satisfactorily separated by a linear classifier. In the binary case this means that two classes in a dataset cannot be properly split by any one hyperplane. For such data non-linear algorithms may perform better. In this work, four different nonlinear machine learning classifiers are tested: random forest (\gls{rf}), logistic regression (\gls{lr}) and two types of artificial neural networks (\gls{ann}s). 
 
 %Hence, if a linear model were to be trained on data that is not linearly separable, one would expect to notice a poor result in comparison to the result of a non-linear model. 
 
 %The non-linear models considered in this work are random forest, logistic regression, as well as two kinds of neural networks.
 
 \subsection{Random Forest}
-Random forest (\gls{rf}) is an ensamble learning method that can be used for both regression- and classification problems. The name stems from that the method is based on several \textit{decision trees}, which are initiated randomly. A decision tree is a classifier per se, and is structured as a sequence of simple questions. These questions typically ask if a value is equal to or greater/smaller than some set value. The answers to these questions form a path in the decision tree, leading to an end node which corresponds to the prediction.
+Random forest (\gls{rf}) is an ensamble learning method that can be used for both regression- and classification problems. The name stems from that the method is based on a collection of randomly initiated \textit{decision trees}. A decision tree is structured as a sequence of simple questions, or decision rules. These questions typically ask if a value is equal to or greater/smaller than some set value. The answers to these questions form a path in the decision tree, leading to an end node which corresponds to a prediction.
 
 Random forest segments the training data into $n$ parts, and induces a decision tree from each group of data. Thus there are $n$ predictors that work independently, and by selecting the most common prediction, random forest yields a robust result with little risks of overfitting due to the combined results of many trees. On top of that it offers a very high accuracy in a wide variety of applications, while still maintaining an intuitive model structure that allows us to, for instance, estimate which features are important \citep{breiman_2002}. In Google's \emph{Project Soli}, random forests were used for millimeter-wave radar gesture recognition with impressive results \citep{lien_gillian_karagozler_amihood_schwesig_olson_raja_poupyrev_2016}. 
 
 \subsection{Logistic Regression}
-Logistic regression (\gls{lr}) is similar to linear regression, in which the parameters $\{b_i\}_{i=0}^n$ are optimized to model the linear relationship between the inputs $\{X_i\}_{i=0}^n$ and the continuous output $Y$
+Logistic regression (\gls{lr}) is similar to linear regression, in that the parameters $\{b_i\}_{i=0}^n$ are optimized to model the linear relationship between the inputs $\{X_i\}_{i=0}^n$ and the continuous output $Y$
 \begin{equation}
 	Y= b_0+\sum_{i=1}^n b_iX_i.
 \end{equation}
@@ -102,9 +100,8 @@ However, logistic regression serves as a binary classifier, hence the continuous
 \label{eq:log_eq}
 	Y_{log}= \frac{1}{1+\exp(-(b_0 + \sum_{i=1}^n b_iX_i))}.
 \end{equation}
-This value is interpreted as a prediction confidence and can be used together with some threshold value for making a decision in a binary classification.
 
-Note that $Y\gg 0$ implies that $Y_{log}$ is approximately equal to 1, wheras $Y\ll 0$ means $Y_{log}$ is close to 0. The model parameters of \gls{lr} are trained in such a way that $Y$ becomes large for input combinations representing samples of class 1, and small for samples of class 0.
+For $Y\rightarrow \infty$ we have that $Y_{log}\rightarrow 1$ and for $Y\rightarrow -\infty$ that $Y_{log}\rightarrow 0$, accomplishing the mapping to $(0,1)$. $Y_{log}$ is interpreted as a prediction confidence and can be used together with some threshold value for making a decision in a binary classification. The model parameters in \gls{lr} are trained in such a way that $Y$ becomes large for input combinations representing samples of class 1, and small for samples of class 0.
 
 For further details about \gls{lr}, including how its parameters are optimized, we refer to \citep{shalev-shwartz_ben-david_2016}.
 
@@ -127,16 +124,14 @@ For further details about \gls{lr}, including how its parameters are optimized, 
 \subsection{Artificial Neural Networks}
 Artificial neural networks constitute a class of nonlinear models designed to mimic biological neural systems \citep{rojas_1996}. \gls{ann}s consist of multiple layers of neurons, or nodes. The networks are structured with an input layer followed by one or more hidden layers and one output layer \citep{logan_2017}. Figure \ref{fig:ann} illustrates a simple network which takes a feature vector $\mathbf{x}^{(0)}=[x_1^{(0)}\text{ }  x_2^{(0)}]^{T}$ as input. By multiplying the feature vector with a set of weights $\mathbf{w}^{(1)}$ the features are propagated through the network, generating a set of new node values. In the network in figure \ref{fig:ann} the output from the input layer, forwarded to the hidden layer, becomes
 %\rowcolors{2}{white}{white}
-\begin{equation}
+\begin{equation}\label{eq:nn}
 	\mathbf{x}^{(1)}=\begin{bmatrix}x_1^{(1)} \\ x_2^{(1)} \\ x_3^{(1)} \end{bmatrix} = 
 	\begin{bmatrix} w_{11}^{(1)} & w_{21}^{(1)} \\ w_{12}^{(1)} & w_{22}^{(1)} \\ w_{13}^{(1)} & w_{23}^{(1)}\end{bmatrix}\cdot \begin{bmatrix}x_1^{(0)} \\ x_2^{(0)}\end{bmatrix}.
 \end{equation}
 
-Here we omit the bias term in the hidden layer labeled "1". A bias term is an external, constant input to a layer, with trainable weights assigned to it. The bias term is independent of inputs from the previous layer and increases the flexibiliy of a model, thus making it more capable of fitting to the training data \citep{kohl_2010}. The bias term is represented by the top node within the hidden layer in figure \ref{fig:ann}. 
+When the nodes in the hidden layer receives the propagated values they may range anywhere from negative to positive infinity. Using an \textit{activation function} $f$, the node transforms the input to a more suitable format in terms of whether the node should be "active" or not (or, in biological terms, whether the neuron should fire) \citep{kriesel_2007}. The function $f$ also introduces non-linearity in the model, making \gls{ann}s capable of solving non-linear problems. 
 
-When the nodes in the hidden layer receives the propagated values they may range anywhere from negative to positive infinity. Using an \textit{activation function} $f$, the node transforms the input to a more suitable format in terms of whether the node should be "active" or not (or in biological terms, whether the neuron should fire) \citep{kriesel_2007}. The function $f$ also introduces non-linearity in the model, making \gls{ann}s capable of solving non-linear problems. 
-% Wait with this to later?
-%The choice of activation function is one of many things to consider when specifying hyperparameters.
+In \eqref{eq:nn} we omit the bias term in the hidden layer labeled "1" in figure \ref{fig:ann}. A bias term is an external, constant input to an input or hidden layer. The bias term is independent of inputs from the preceding layer and increases the flexibiliy of a model, as it allows for translations of the activation function \citep{kohl_2010}. The bias term is represented by the top node within the hidden layer in figure \ref{fig:ann}. 
 
 Next, the output from the activation function is propagated with a new set of weights $\mathbf{w}^{(2)}$
 \begin{equation}
@@ -144,9 +139,9 @@ Next, the output from the activation function is propagated with a new set of we
 	\begin{bmatrix} w_{11}^{(2)} & w_{21}^{(2)} & w_{31}^{(2)} \\ w_{12}^{(2)} & w_{22}^{(2)} & w_{32}^{(2)} \end{bmatrix}\cdot \begin{bmatrix}f(x_1^{(1)}) \\ f(x_2^{(1)}) \\ f(x_3^{(1)}) \end{bmatrix}.
 \end{equation}
 
-The propagated values in $\mathbf{x}^{(2)}$ are the inputs to the output layer which after application of the activation function produces the output that is interpreted as a classification prediction. The model weights $\mathbf{w}^{(i)}$ of a neural network are commonly set through \textit{backpropagation} during the model training phase. For details about backpropagation, we refer to chapter 7 in \citep{rojas_1996}.
+The propagated values in $\mathbf{x}^{(2)}$ are the inputs to the output layer which after application of the activation function produces the output that is interpreted as a classification prediction. The model weights $\mathbf{w}^{(i)}$ of a neural network are set through some version of \textit{backpropagation} during the model training phase. For details about backpropagation, we refer to chapter 7 in \citep{rojas_1996}.
 
-By introducing more than one hidden layer, the \gls{ann} can be called a deep neural network (\gls{dnn}). With the increased number of hidden layers, \gls{dnn}s are capable of extracting more complex patterns from data such as for image recognition \citep{szegedy_liu_jia_sermanet_reed_anguelov_erhan_vanhoucke_rabinovich_2018} or modeling of speech \citep{hinton_deng_yu_dahl_mohamed_jaitly_senior_vanhoucke_nguyen_sainath_2012}. Since we in the preceding chapter performed feature extraction the it should however not be necessary in this case to have more hidden layers than two, since useful features are already readily available.
+By introducing more than one hidden layer, an \gls{ann} can be called a deep neural network (\gls{dnn}). With increased number of hidden layers, \gls{dnn}s are capable of extracting more complex patterns from data such as for image recognition \citep{szegedy_liu_jia_sermanet_reed_anguelov_erhan_vanhoucke_rabinovich_2018} or modeling of speech \citep{hinton_deng_yu_dahl_mohamed_jaitly_senior_vanhoucke_nguyen_sainath_2012}. Since we in the preceding chapter performed feature extraction it should however not be necessary in this case to have more hidden layers than two, since useful features are already readily available from the feature extraction stage.
 %\gls{dnn}s in various forms have gained immense popularity over the past two decades achieving considerable success within a wide spectrum of applications, such as in image recognition and acoustic modeling of speech .v
 
 \begin{figure}[h]
@@ -158,11 +153,13 @@ By introducing more than one hidden layer, the \gls{ann} can be called a deep ne
 
 \subsubsection{Hyperparameters of Neural Networks}
 
-The sizes of input and output layers are determined by the classification problem, but the internal structure of a \gls{dnn} classifier can be structured freely. The number of hidden layers and the number of nodes therein should be selected with care, as increasing the model size rapidly increases the computational complexity and the number of trainable parameters. When it comes to reducing overfitting \emph{dropout} is a method commonly utilized in nerual networks. By randomly disabling some of the hidden layer nodes during the training phase the model is forced to become more general not relying on any specific set of nodes for accomplishing its target. A node $n$ in layer $k$ is disabled by setting the weights $w^{(k)}_{nj}$ to 0, where $j$ ranges from 1 to the number of nodes in the sequent layer. For any node in a layer that features dropout, the \textit{dropout rate} specifies the probability that the node will be disabled.
+The sizes of input and output layers are determined by the classification problem, but the internal structure of a \gls{dnn} classifier can be structured freely. The number of hidden layers and the number of nodes therein should be selected with care, as increasing the model size rapidly increases the computational complexity and the number of trainable parameters.
 
-While the above parameters relate to the architecture of the network, there are additional parameters that are related to the training process. The \emph{batch size} specifies how many samples are propagated through the network inbetween each update of the model weights. A small batch size has the benefit of requiring little memory and converging quickly, but at the same time impairs the gradient estimate \citep{brownlee_2017}. With a larger batch size the gradient is more accurately estimated but convergencence is slower. 
+While the number of hidden layers and the number of nodes in each layer relates to the architecture of the network, there are a number of parameters that are related to the training process. The \emph{batch size} specifies how many samples are propagated through a network between each model weight update. A small batch size has the benefit of requiring little memory and converging rapidly, but at the same time impairs the gradient estimate \citep{brownlee_2017}. With a larger batch size the gradient is more accurately estimated but convergence is slower. 
 
-If the total number of samples is $m$, and the batch size is $b$, there will be $m/b$ forward and backward propagations, and equally many model weight updates. Each batch is only propagated once, but to extend the model training process even further, we can specify number of \emph{epochs}. This hyperparameter determines how many times each batch will be fed through the model. Often, one epoch is not enough for the weights to fully converge \citep{kriesel_2007}, but increasing the number of epochs naturally increases the training time and on top of that too many epochs puts the model at risk of overfitting. In \citep{prechelt_2000}, this issue is addressed, along with proposed strategies to avoid it.
+When it comes to reducing overfitting \emph{dropout} is a method commonly utilized in nerual networks. By randomly disabling some of the hidden layer nodes during the training phase the model is forced to become more general not relying on any specific set of nodes for accomplishing its target. A node $n$ in layer $k$ is disabled by setting its weights $w^{(k)}_{nj}$ to 0, where $j$ ranges from 1 to the number of nodes in the sequent layer. For any node in a layer that features dropout, the \emph{dropout rate} specifies the probability that the node will be disabled.
+
+If the total number of feature vectors is $m$, and the batch size is $b$, there will be $\lceil m/b \rceil$ forward and backward propagations, and equally many model weight updates. Each batch is only propagated once, but to extend the model training process even further, we can specify number of \emph{epochs}. This hyperparameter determines how many times each batch will be fed through the model. Often, one epoch is not enough for the weights to fully converge \citep{kriesel_2007}, but increasing the number of epochs naturally increases the training time and on top of that too many epochs puts the model at risk of overfitting. In \citep{prechelt_2000}, this issue is addressed, along with proposed strategies to avoid it.
 % "too many epochs puts the model at risk of overfitting." is this really true? If so from what source. 
 
 \begin{figure}[h]
@@ -172,11 +169,12 @@ If the total number of samples is $m$, and the batch size is $b$, there will be 
 	\label{fig:opt_net}
 \end{figure}
 
-The hyperparameters of the \gls{dnn} model were optimized using the free optimization tool Hyperas (available on GitHub at \url{https://github.com/maxpumperla/hyperas}). Hyperas selected the number of nodes, the dropout rates, the batch size and the optimization algorithm (from the three options of RMSprop, Adam and Stochastic Gradient Descent natively available in Keras). 
+The hyperparameters of the \gls{dnn} model were optimized using the free optimization tool Hyperas (available at \url{https://github.com/maxpumperla/hyperas}). Hyperas selected the number of nodes, the dropout rates, the batch size and the optimization algorithm (from the three optimization algorithm options of RMSprop, Adam and Stochastic Gradient Descent natively available in Keras). 
 
 With the selections made by Hyperas, the network in figure \ref{fig:opt_net} is obtained. The two hidden layers have 24 and 12 nodes with dropout rates of 14 and 2 percent respectively. Both layers have the activation function $f(x)=\textrm{max}(0,x)$ often referred to as rectified linear unit (ReLU) and the output layer has a \textit{softmax} activation function. Furthermore the batch size in the learning phase is 32, and the number of epochs is set to 20. Finally, the optimization algorithm prefered by Hyperas is RMSprop.
 
 \subsection{Convolutional Neural Network with Long Short Term Memory}
+
 In previous models normalized data went through a feature extraction process before going into model training. For this model, on the other hand, no feature extraction is performed. Instead, several consecutive radar sweeps are used as input. Each range bin can be regarded as a one-dimensional time series, containing the velocity information arising found in the \gls{bf} as was found in section \ref{sec:doppler}. Previously we utilized this temporal information through calculating fourier transforms and estimating autocovariance coefficients for a few lags, but we may also exploit this temporal behaviour more directly.
 
 Recurrent neral networks are models that do this by having feedback within individual layers in the network \citep{karim_majumdar_darabi_chen_2018}. The problem with these networks, however, is that they suffer from a quickly vanishing or exploding gradient, and can only sustain a short term memory \citep{pascanu_mikolov_bengio_2013}. A way to combat this is to use a neural network layer type called long short term memory (\gls{lstm}).
