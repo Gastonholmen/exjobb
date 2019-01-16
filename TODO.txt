@@ -21,8 +21,8 @@ Ch 3
  - We don't have a figure showing the sensor placement of both sensors.
 
 Ch 4
- - We can absolutely not write that x(n,t) is Wide-Sense-Stationary like we do in the text
- - Assumptions - Mention that ACF technically assumes WSS, we can't really guarantee
+[X] We can absolutely not write that x(n,t) is Wide-Sense-Stationary like we do in the text
+[X] Assumptions - Mention that ACF technically assumes WSS, we can't really guarantee
  - ACF - Its okay to discuss the ACF image in terms of how much info they have on each other
 
 Ch 5

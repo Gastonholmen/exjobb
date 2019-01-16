@@ -105,7 +105,7 @@ where $|\cdot|^*$ denotes elementwise absolute values, and $K$ is the number of 
 % Tie this into preceding section instead. Autocov allows for calculating the number of lags.
 %An obvious surface characteristic to ponder is roughness; while a tiled surface is typically very flat, grass is characterized by a random, unpredictable structure. It is reasonable to assume that there is more correlation between two closely spaced points on the tiled surface than there is on grass. This motivates us to study the autocovariance in slow time.
 
-A second method to investigate time-domain dependencies is through the autocovariance function. This method adds the benefit of allowing for a specification of correlation length, which can significantly reduce the number of features. In figure \ref{fig:autocorr_range}, autocovariances are estimated from 5000 sweeps. 
+A second method to investigate time-domain dependencies is through the autocovariance function. This method adds the benefit of allowing for a specification of correlation length, which can significantly reduce the number of features. Figure \ref{fig:autocorr_range} displays absolute values of autocovariances estimated from 5000 sweeps. 
 
 
 \begin{figure}[h]
@@ -144,6 +144,7 @@ A second method to investigate time-domain dependencies is through the autocovar
 
 For practical reasons, only $T$ sweeps are used for estimates in the model. The biased estimate of the autocovariance function can be obtained through \citep{jakobsson_2015}
 \begin{equation}
+\label{eq:ac}
 	\hat{r}_n(k) = \frac{1}{T}\sum_{t=k}^{T-1}\big(x(n,t) - \hat{\mu}_n\big)\big(x(n,t-k) - \hat{\mu}_n\big)^*
 \end{equation}
 where 
@@ -151,7 +152,7 @@ where
 	\hat{\mu}_n = \frac1T \sum_{t=0}^{T-1}x(n,t).
 \end{equation}
 
-The bias in this estimate is completely inconsequential as all features later are normalized to zero mean unit variance. We may then form features
+The bias in this estimate is completely inconsequential as all features later are normalized to zero mean unit variance. Estimating the autocovariances through \eqref{eq:ac} does assume that $x(n,t)$ is wide sense stationary. This can not always be guaranteed in practice, however, but the estimates may nevertheless be used as a measure for distinguishing between surfaces. We may form features as
 \begin{equation}
 	\hat{\mathbf{r}}_{k} = 
 	\begin{bmatrix}
