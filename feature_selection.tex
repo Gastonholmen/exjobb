@@ -105,13 +105,12 @@ where $|\cdot|^*$ denotes elementwise absolute values, and $K$ is the number of 
 % Tie this into preceding section instead. Autocov allows for calculating the number of lags.
 %An obvious surface characteristic to ponder is roughness; while a tiled surface is typically very flat, grass is characterized by a random, unpredictable structure. It is reasonable to assume that there is more correlation between two closely spaced points on the tiled surface than there is on grass. This motivates us to study the autocovariance in slow time.
 
-A second method to investigate time-domain dependencies is through the autocovariance function. This method adds the benefit of allowing for a specification of correlation length, which can significantly reduce the number of features. Figure \ref{fig:autocorr_range} displays absolute values of autocovariances estimated from 5000 sweeps. 
-
+A second method to investigate time-domain dependencies is through the autocovariance function. This method adds the benefit of allowing for a specification of the number of covariance lags, $q$, which can significantly reduce the number of features. Figure \ref{fig:autocorr_range} displays absolute values of autocovariances estimated from 5000 sweeps for all surface types considered. As can be observed, the tiled surface, which is the most even, corresponds to the graph with the highest autocovariances. In contrast, the arguably most uneven surface - grass - is represented by the graph with the lowest autocovariances.
 
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.45]{figs_temp/features/autocorr_range.png}
-	\caption{The graphs show the absolute values of the autocovariances computed from a time-varying \gls{iq}-signal recorded at a range of approximately 14 cm. The tiled surface, which is the most even, corresponds to the graph with the highest autocovariances. In contrast, the arguably most uneven surface - grass - is represented by the graph with the lowest autocovariances.}
+	\caption{The graphs show the absolute values of the autocovariances computed from a time-varying \gls{iq}-signal recorded at a range of approximately 14 cm.}
 	\label{fig:autocorr_range}
 \end{figure}
 
@@ -152,7 +151,7 @@ where
 	\hat{\mu}_n = \frac1T \sum_{t=0}^{T-1}x(n,t).
 \end{equation}
 
-The bias in this estimate is completely inconsequential as all features later are normalized to zero mean unit variance. Estimating the autocovariances through \eqref{eq:ac} does assume that $x(n,t)$ is wide sense stationary. This can not always be guaranteed in practice, however, but the estimates may nevertheless be used as a measure for distinguishing between surfaces. We may form features as
+The bias in this estimate is completely inconsequential as all features later are normalized to zero mean unit variance. Estimating the autocovariances through \eqref{eq:ac} does assume that $x(n,t)$ is wide sense stationary, but for a rough real world terrain, this assumption is optimistic. However, the estimates may nonetheless make for useful metrics for classification as they feature temporal changes. The features may be formed as
 \begin{equation}
 	\hat{\mathbf{r}}_{k} = 
 	\begin{bmatrix}
@@ -160,7 +159,7 @@ The bias in this estimate is completely inconsequential as all features later ar
 	\end{bmatrix}.
 \end{equation}
 
-Noting that the autocovariance sequence at 0 lag produce only real numbers, as any complex number $z = a + bi$ multiplied with its conjugate has zero imaginary part $\text{Im}(zz^*) = \text{Im}((a + bi)(a - bi)) = \text{Im}(a^2 + b^2) = 0$, we may form the full real-valued feature component for $q$ autocovariance lags $\mathbf{f}_{r}$ as
+Noting that the autocovariance sequence at 0 lag produces only real numbers, as any complex number $z = a + bi$ multiplied with its conjugate has zero imaginary part $\text{Im}(zz^*) = \text{Im}((a + bi)(a - bi)) = \text{Im}(a^2 + b^2) = 0$, we may form the full real-valued feature component for $q$ autocovariance lags $\mathbf{f}_{r}$ as
 \begin{equation}
 	\mathbf{f}_{r} = 
 	\begin{bmatrix}
@@ -241,7 +240,7 @@ Before performing any feature processing, the data is downsampled by a downsampl
 	r_{1,D}(d, t) = r_{1}(50+dD,t), 
 	\quad \text{and} \quad r_{2,D}(d,t) = r_{2}(50+dD,t)
 \end{equation}
-for $d=0,...,13$. With this definition, the downsampled signal consists of 14 evenly spaced range indices from 50 to 310, corresponding to ranges 9.4 to 21.88 cm. Thus, the resulting data matrix used for generating one set of features has $13\times 2$ ranges for the two sensors and has $T=25$ slow time sweeps. 
+for $d=0,...,13$. With this definition, the downsampled signal consists of 14 evenly spaced range indices from 50 to 310, corresponding to ranges 9.4 to 21.88 cm. Thus, the resulting data matrix used for generating one set of features has $14\times 2$ ranges for the two sensors and has $T=25$ slow time sweeps. 
 
 \subsection{Tested Feature Combinations}
 
@@ -262,11 +261,11 @@ The high accuracy and low number of features of configuration 2 makes it the cle
 
 \section{Feature Principal Component Analysis}
 
-Through the point and feature extraction methods described in previous sections we obtain high dimensional feature vectors. Getting an intuitive feel for such data extracted in these processes is difficult as direct plotting is limited to three dimensions. 
+Through the feature extraction methods described in previous sections we obtain high dimensional feature vectors. Getting an intuitive feel for such data extracted in these processes is difficult as direct plotting is limited to three dimensions. 
 
 \gls{pca} is  a classical technique in statistical data analysis which takes a large set variables from a multivariate dataset and finds a smaller set of variables with less redundancy. Critically, \gls{pca} finds a rotated orthogonal coordinate system such that the elements of the set become uncorrelated \citep{hyvasrinen_karhunen_oja_2004}. Projecting elements onto the principal axes corresponding to the directions of maximal variance a good approximation of the original data in lower dimension is obtained.
 
-After having chosen to proceed with feature configuration 2 in table \ref{tab:feat}, the 174 dimensions can be reduced to 2 dimensions using \gls{pca}. By projecting feature vectors onto the two directions of maximal variance, we get a nice visualization of the separability of the different surface as seen in figure \ref{fig:pca}. Note that each dot in thie plot corresponds to one feature vector, and that the figure represents features extracted from the full set of 175 minutes of data.  
+After having chosen to proceed with feature configuration 2 in table \ref{tab:feat}, the 174 dimensions can be reduced to 2 dimensions using \gls{pca}. By projecting feature vectors onto the two directions of maximal variance, we get a good visualization of the separability of the different surfaces as seen in figure \ref{fig:pca}. Note that each dot in thie plot corresponds to one feature vector, and that the figure represents features extracted from the full set of 175 minutes of data.  
 
 \begin{figure}[h]
 	\centering
