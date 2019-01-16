@@ -58,7 +58,7 @@ In figure \ref{fig:sweep_average} we see what such an averaging process yields. 
 \subsection{Fourier Transform}
 % "weighted velocity profile" should be used...
 
-As discussed in section \ref{doppler} we can relate the velocity of a scatterer to its \gls{bf} through \eqref{eq:dopp}. When an entire target scene is illuminated, computing a \gls{dft} in the slow time domain thus provides a \emph{velocity profile} of the scene at every range, indicating the amount of each velocity is present for a given range. Due to the settings outlined in chapter \ref{ch:3}, no significant aliasing in the frequency spectrum should occur as the sampling rate was set with the Nyquist criterion in mind. In figure \ref{fig:fft} the \gls{dft}'s of radar \gls{iq} data are shown for all surface types considered in this work. For visualization purposes the square root of the absolute values of the \gls{dft} are shown. For grass (the top two plots), it can be seen that the frequency content is contained mainly in the vicinity of the zero frequency bin, while the other materials contain considerably larger higher frequency components. It can also be seen that the frequency components become smaller with range, which simply is due to the lower amount of radiation received from scatterers further away as explained by the \gls{rre}. %The \gls{rre} assumes that a scatterer is radiating isotropically. If radiation instead can be regarded to be specular in nature, the \gls{dft} provides a good measure of the surfaces topography. %[Continu. %[Continue and add a source]
+As discussed in section \ref{doppler} we can relate the velocity of a scatterer to its \gls{bf} through \eqref{eq:dopp}. When an entire target scene is illuminated, computing a \gls{dft} in the slow time domain thus provides a \emph{velocity profile} of the scene at every range, indicating the amount of each velocity is present for a given range. Due to the settings outlined in chapter \ref{ch:3}, no significant aliasing in the frequency spectrum should occur in theory, as the sampling rate was set with the Nyquist criterion in mind. In figure \ref{fig:fft} the \gls{dft}s of radar \gls{iq} data are shown for all surface types considered in this work. For visualization purposes the square root of the absolute values of the \gls{dft} are shown. For grass (the top two plots), it can be seen that the frequency content is contained mainly in the vicinity of the zero frequency bin, while the other materials contain considerably higher frequency components. %The \gls{rre} assumes that a scatterer is radiating isotropically. If radiation instead can be regarded to be specular in nature, the \gls{dft} provides a good measure of the surfaces topography. %[Continu. %[Continue and add a source]
 
 %While traversing a static surface at a constant speed, one could think of it as the details on the surface, such as small rocks, are moving closer to the radar sensor. As discussed in section \ref{doppler}, this alters the frequency of the transmitted signal according to the Doppler effect, and the radar detects beat frequencies, corresponding to the frequency shifts. Depending on the surface's characteristics, the doppler frequencies may vary. 
 
@@ -105,18 +105,15 @@ where $|\cdot|^*$ denotes elementwise absolute values, and $K$ is the number of 
 % Tie this into preceding section instead. Autocov allows for calculating the number of lags.
 %An obvious surface characteristic to ponder is roughness; while a tiled surface is typically very flat, grass is characterized by a random, unpredictable structure. It is reasonable to assume that there is more correlation between two closely spaced points on the tiled surface than there is on grass. This motivates us to study the autocovariance in slow time.
 
-A second method to investigate time-domain dependencies is through the autocovariance function. This method adds the benefit of allowing for a correlation length, which can significantly reduce the number of features.
+A second method to investigate time-domain dependencies is through the autocovariance function. This method adds the benefit of allowing for a specification of correlation length, which can significantly reduce the number of features. Figure \ref{fig:autocorr_range} displays absolute values of autocovariances estimated from 5000 sweeps. 
 
 
-% Unclear figure!
-\iffalse
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.45]{figs_temp/features/autocorr_range.png}
-	\caption{The graphs show the absolute values of the autocorrelations computed from a time-varying \gls{iq}-signal recorded at a range of approximately 13 cm. The tiled surface, which is the most even, corresponds to the graph with the highest autocorrelation. In contrast, the arguably most uneven surface - grass - is represented by the graph with the lowest autocorrelation.}
+	\caption{The graphs show the absolute values of the autocovariances computed from a time-varying \gls{iq}-signal recorded at a range of approximately 14 cm. The tiled surface, which is the most even, corresponds to the graph with the highest autocovariances. In contrast, the arguably most uneven surface - grass - is represented by the graph with the lowest autocovariances.}
 	\label{fig:autocorr_range}
 \end{figure}
-\fi
 
 %We can regard the sequence $\{x(n,t)\}_{t=t_m}^{t_m+T-1}$ of measurements of range $n$ as samples from a stochastic process $X_{n,t}$ with the autocovariance function
 
@@ -145,8 +142,9 @@ A second method to investigate time-domain dependencies is through the autocovar
 %\end{equation}
 %where $\mu_n=\E_t\{X_{n,t}\}$. We can form the (biased) estimate of the autocovariance function through
 
-The biased estimate of the autocovariance function can be obtained through \citep{jakobsson_2015}
+For practical reasons, only $T$ sweeps are used for estimates in the model. The biased estimate of the autocovariance function can be obtained through \citep{jakobsson_2015}
 \begin{equation}
+\label{eq:ac}
 	\hat{r}_n(k) = \frac{1}{T}\sum_{t=k}^{T-1}\big(x(n,t) - \hat{\mu}_n\big)\big(x(n,t-k) - \hat{\mu}_n\big)^*
 \end{equation}
 where 
@@ -154,7 +152,7 @@ where
 	\hat{\mu}_n = \frac1T \sum_{t=0}^{T-1}x(n,t).
 \end{equation}
 
-The bias in this estimate is completely inconsequential as all features later are normalized to zero mean unit variance. We may then form features
+The bias in this estimate is completely inconsequential as all features later are normalized to zero mean unit variance. Estimating the autocovariances through \eqref{eq:ac} does assume that $x(n,t)$ is wide sense stationary. This can not always be guaranteed in practice, however, but the estimates may nevertheless be used as a measure for distinguishing between surfaces. We may form features as
 \begin{equation}
 	\hat{\mathbf{r}}_{k} = 
 	\begin{bmatrix}
@@ -247,7 +245,7 @@ for $d=0,...,13$. With this definition, the downsampled signal consists of 14 ev
 
 \subsection{Tested Feature Combinations}
 
-Four different feature extraction methods has now been described - the average signal shape, the autocovariance in range and energy as well as the Fourier transform. The methods each generate a number of features. However, we are not limited to feed our model with features taken from a single one of the methods. In table \ref{tab:feat}, three possible configurations of features are chosen. Each of these combinations was tested in a simple support vector machine classifier (\gls{svm}, described in further detail in chapter 5), to evaluate which was the most efficient. The first one, which simply involves the averaged sweep envelope, requires much fewer features than the other two combinations - 28 positive real numbers for the 28 ranges. But looking at its performance, these features are not enough to reach the accuracy attained in the other two cases. 
+Four different feature extraction methods have now been described - the average signal shape, the autocovariance in range and energy as well as the Fourier transform. The methods each generate a number of features. However, we are not limited to feed our model with features taken from a single one of the methods. In table \ref{tab:feat}, three possible configurations of features are chosen. Each of these combinations was tested in a simple support vector machine classifier (\gls{svm}, described in further detail in chapter 5), to evaluate which was the most efficient. The first one, which simply involves the averaged sweep envelope, requires much fewer features than the other two combinations - 28 positive real numbers for the 28 ranges. But looking at its performance, these features are not enough to reach the accuracy attained in the other two cases. 
 
 By instead selecting autocovariances with 3 lags as features the accuracy increases by nearly 5 percent. Here we also include the absolute values as features, as this information is lost when subtracting the mean during the computation of the autocovariances. This configuration generates a feature vector with 174 elements, as seen in figure \ref{fig:feat_fig}. 28 features come from the absolute values and 6 from the energy autocovariance. The majority of the features come from the autocovariance in range. For each of the 28 range bins there is one real-valued feature representing variance followed by two complex autocovariances for each range bin. This should give us $28+2\cdot 28=84$ features, but as the real- and imaginary parts of complex numbers are split up in two features, we obtain $28+2\cdot2\cdot 28=140$ features. The total number of features therefore becomes $28+6+140=174$.
 

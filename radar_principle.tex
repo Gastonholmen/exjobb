@@ -112,6 +112,8 @@ It is worth pointing out that this argument only holds for scatterers of limited
 
 We also see from the \gls{rre} that the power returned is governed by the \gls{rcs}, $\sigma$, of the target. The \gls{rcs} describes how reflective a target is, determined by its size and shape as well as its dielectric properties. \gls{rcs} can be regarded as a fictious area that describes the intensity of the wave reflected back to the scatterer. This area corresponds to the projected area of an electrically large, perfectly conducting sphere whose echo strength would match that of the target if we were to replace the target with the sphere \citep{knott_1993}. 
 
+We also see from the \gls{rre} that the power returned is governed by the \gls{rcs}, $\sigma$, of the target. The \gls{rcs} describes how reflective a target is, determined by its size and shape as well as its dielectric properties. \gls{rcs} can be regarded as a fictious area that describes the intensity of the wave reflected back to the scatterer. This area corresponds to the projected area of a perfectly conducting sphere, with at least several wavelengths in diameter, whose echo strength would match that of the target if we were to replace the target with the sphere \citep{knott_1993}. 
+
 However, as the reflectivity and thus the \gls{rcs} can vary with both distance and viewing angle, this fictious metal sphere subsequently changes size depending on where in space it is located. Thus, our best recourse is to simply regard the \gls{rcs} as a measure of the intensity of the radar echo expressed in terms of an area. 
 
 % Have a part on bandwidth
@@ -121,7 +123,7 @@ In the preceding section it was shown that the scattering response carry informa
 
 Matched filtering involves convolving the returning signal with a copy of the transmitted signal. Since the radio channel is assumed to be linear and time invariant (recall that any Doppler shift is insignificant on the transmission-reception time scale) the received signal consists of a sum of weighted and time shifted transmitted signals. An internal pulse, called an analysis pulse, is generated as a delayed copy of the transmitted pulse. The received signal and the generated signal are then multiplied and summed to form one measurement point $m(\tau)$, where $\tau$ is the internal delay of the analysis pulse. 
 
-Mathematically we can describe this matched filtering as a convoluation
+Mathematically we can describe this matched filtering as a convolution
 \begin{equation}
 	m(\tau) 
 	= x_T(-t) * y(t)
