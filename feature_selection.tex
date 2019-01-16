@@ -3,55 +3,40 @@
 
 \chapter{Feature Extraction}
 
-In this chapter we describe our feature extraction process. This process is an intermediary step between data preprocessing and surface classification where we try to calculate efficient metrics that can be used in classification. After introducing some potential metrics we compare the accuracy of a few feature ensembles using a simple linear classifier to determine which features are best suitable for further analysis.  
+In this chapter we describe our feature extraction process. This process is an intermediary step between data preprocessing and surface classification where we calculate metrics that can be used in classification. After introducing some potential features we compare the accuracy of a few feature ensembles using a linear classifier to determine which ensemble should be used for further analysis.  
 
 \section{Why Feature Extract?}
 
-Machine learning algorithms aim to  extract useful patterns in data. In our case, data consist of the complex output of two radar receivers and the useful patterns we search for are patterns capable of distinguishing surface type as either grass or non-grass. One way to accomplish this would be to simply hand the raw \gls{iq} radar sweeps to a classifier and allow it to figure out structures in the data on its own. However, for small autonomous devices hardware capabilities are often limited and radar systems comparatively fast, making complete real-time classification of the entire bulk of acquired data either inaccurate or cumbersome. Furthermore we believe that the velocities, appearing in data through \gls{bf}'s, carry useful information that can be used for determining the surface type. 
+Machine learning algorithms fundamentally aim to extract useful patterns in data. In our case, data consist of the complex output of two radar receivers and the useful patterns we search for are patterns capable of distinguishing the surface type as either grass or non-grass. %One way to accomplish this would be to simply hand the raw \gls{iq} radar sweeps to a classifier and allow it to figure out structures in the data on its own. However, for small autonomous devices hardware capabilities are often limited and radar systems comparatively fast, making complete real-time classification of the entire bulk of acquired data cumbersome. 
 
-In order to make use of the feature content present in the sequence of radar sweeps we have two main options. The first involves using a complex non linear machine learning algorithm, such as a deep neural network (\gls{dnn}) with a large number of layers. Algorithms exist that indeed can learn to analyze frequency components, for instance for speech recognition \citep{graves_mohamed_hinton_2013}, but tend to be too computationally expensive to realistically implement when hardware is limited. A second option is to perform \emph{feature extraction}. By extracting a smaller set of features pertaining to the frequency content of the given data, we can significantly reduce the complexity of the model. Furthermore, the feature extraction process allows us to pinpoint what data characteristics we wish to monitor, and subsequently which data characteristics we believe are of value. This ensures that the machine learning algorithm generates its predictions using patterns selected by the authors, rather than finding patterns on its own. For the reasons outlined the focus in this report is using feature extraction based machine learning. 
+We found in chapter 2 that a single radar sweep only provides information about ranges and reflectivities but cannot determine target velocities. Due in part to the normalization process done in the preprocessing step such measures alone will hardly suffice to make an efficient predictor. Instead information from a number of sequential sweeps should be used to generate a prediction. In order to make use of the information content present in the sequence of radar sweeps we have two main options. 
 
-\section{An Impossible Modeling Problem}\label{sec:chall}
+The first involves using a complex non linear machine learning algorithm, such as a deep neural network (\gls{dnn}) with a large number of hidden layers that figures out how to calculate efficient temporal metrics on its own. Algorithms exist that indeed can learn to analyze frequency components, for instance for speech recognition \citep{graves_mohamed_hinton_2013}, but tend to be too computationally expensive to realistically implement when hardware is limited.
 
-% This part is no longer good enough...
-% Exactly what assumptions are done in these sources? Say that we can't really make such sweeping assumptions and this is what motivates our feature extraction method! Thats actually a good argument imo.
+Instead we utilize that we know that taking the \gls{dft} in slow time provides velocity estimates for a given distance through \gls{bf}s, as was explained in \ref{sec:doppler}. The scaling of each frequency bin thus provides an estimate of the amount of velocity component at a given range. Such estimates are rich in information regarding the topography of a surface structure, as it accounts for the \gls{rcs} of a surface at different velocities and thus different angles of incidence. 
 
-Ideally, one seeks a small set of features which accurately capture the information content in the larger set of data. It is then possible to obtain good results with significantly less computational load than if no feature extraction had been considered. Thus, if the exact structure of the returning signals were known, we could simply estimate its parameters and classify using those.
-
-However, modeling the returning signal in any meaningful way is very difficult. Attempts such as the one presented in \citep{fung_li_chen_1992} show that although one can calculate models based on surface roughness, such expressions rely on multiple approximations that cannot be done for the present case where we are consdiering 5 different surface with differing structures. 
-
-In the preceding chapter we saw that the envelope of a returning pulse from a point scatterer, after analog convolution and demodulation, has a width of roughly twice the pulse length, which corresponds to $2\times50\times 10^{-12}\text{ [s]}\times c \text{ [m/s]}= 3$ cm with the pulse length from table \ref{tab:sensor_settings}. If the target is a surface, the returning signal is comprised of radiation diffusely scattered in the illuminated area. The content of the signal will be a function dependent both on the surrounding surface topography, as well as the dielectric properties of the surface at hand \citep{grossman_popovic_chamberlin_gordon_novotny_2017}. The great difficulty in modeling this returning signal is clear - the universe of all possible "realistic" surfaces, both natural and man-made, is almost impossibly large. Instead of modeling the returning signal exactly, we instead resort to extracting \emph{reasonable} features that \emph{should} capture the signal structure based on results from chapter 2.  
+A second option is thus to utilize this knowledge and perform \emph{feature extraction}. By extracting a smaller set of features pertaining to the frequency content of the given data, we can significantly reduce the complexity of the model. Furthermore, the feature extraction process allows us to pinpoint what data characteristics we wish to monitor, and subsequently which data characteristics we believe are of value. This ensures that the machine learning algorithm generates its predictions using patterns selected by the authors, rather than finding patterns on its own. For the reasons outlined the focus in this report is using feature extraction based machine learning. 
 
 \section{Features}
 
-As the radar samples rather quickly at around 200 Hz we can use a sequence of sweeps to generate a prediction. This allows for feature extraction both in fast and slow time rather than solely in fast time. Estimating features over multiple sweeps can also reduce noise effects \citep{w_doerry_2016}. If $T$ sweeps are used per classification, the rate of classifications $F_c$ produced relates to the sampling rate $F_s$ through
-
+Calculating velocity based features require the use of a sequence of multiple sweeps. How long should one such sequence be? If $T$ radar sweeps are used per classification, the rate of classifications per second, $F_c$, produced relates to the sampling rate through
 \begin{equation}
 	\label{eq:classification_rate}
 	F_c = \frac{F_s}{T}.
 \end{equation} 
-
-Hence, the parameter $T$ becomes a tradeoff between feature accuracy and classification rate. The more samples $T$ used per classification, the better the extracted features become but with the cost of a lower classification frequency. Conversely we may be able to generate feature estimates more rapidly by setting $T$ to a lower value, but will in the process end up with worse feature estimates. 
+Hence, the parameter $T$ becomes a tradeoff between feature accuracy and classification rate. The more samples used per classification, the better the extracted features become but with the cost of a lower classification frequency. Conversely we may be able to generate feature estimates more rapidly by setting $T$ to a lower value, but will in the process end up with worse feature estimates. 
 
 % Described in the preceding chapter...
 %The reflectivity of a material, described by its dielectric constant, shows up in the obtained IQ-demodulated sweeps in the amplitude of the returning signals. Therefore it might seem like a good idea to simply measure the energy content of a sweep and use it as a feature. However, due to inconsistencies inbetween individual sensors, sweep normalization is performed as a pre-processing step rendering such calculations unusable. We are thus left with investigating the topography of the scene. 
 
-In this section four different types of features are discussed aimed at capturing the geometric characteristics of a target surface. From a given data matrix $x(n,t)$ consisting of $T=25$ sweeps, and having been normalized as in section \ref{sec:norm}, we construct for each feature type a feature vector. We may then concatenate different feature vectors to form a longer feature vector as we please.  
-
-%%% CONTINUE READING FROM HERE
-%From a data matrix with $T$ slow time data points a feature vector $\mathbf{f_m}$ is constructed for each feature type. 
-
-%From a small data matrix, $\mathbf{R}_f$, consisting of $T$ sweeps, a feature vector, $\mathbf{f}_m$, is derived for each type of feature. The elements in $\mathbf{R}_f$ are denoted $x(n,t)$, where $n$ and $t$ correspond to fast- and slow time indices within $\mathbf{R}_f$, respectively.
-
+In this section four different types of features are discussed aimed at capturing the geometric characteristics of a target surface. From a given data matrix $x(n,t)$ consisting of $T=25$ consecutive sweeps normalized as described in section \ref{sec:norm}, we construct for each feature type a corresponding feature vector. We can then concatenate different feature vectors to form longer sets of features as we please.  
 
 \subsection{Envelope Estimation}
 
-First of all we may characterize a sweep by its envelope form - that is, the shape of the absolute values of the radar sweeps. If we can assume that the samples are taken from some unknown stochastic process $X_{n,t}$ with constant mean over $T$ samples we may for range $n$ form an estimate of the expected envelope, $\hat{x}(n)$. The estimate is formed by computing the average of $T$ consecutive sweeps
-
+First of all we may characterize a sweep by its envelope form; that is, the shape of the absolute values of the radar sweeps. We do this by simply calculating the absolute value averages in slow time to construct the estimated envelope shape $\hat{x}(n)$ through
 \begin{equation}
 	\hat{x}(n) = \frac{1}{T}\sum_{t=0}^{T-1}|x(n, t)|.
 \end{equation}
-
 In figure \ref{fig:sweep_average} we see what such an averaging process yields. Individual variances are suppressed to form a stable estimate of the sweep shape. With $K$ fast time samples, the estimate of the expected envelope feature vector becomes 
 
 \begin{equation}
@@ -73,7 +58,7 @@ In figure \ref{fig:sweep_average} we see what such an averaging process yields. 
 \subsection{Fourier Transform}
 % "weighted velocity profile" should be used...
 
-As discussed in section \ref{doppler} we can relate the velocity of a scatterer to its \gls{bf} through \eqref{eq:dopp}. When an entire target scene is illuminated, computing a \gls{dft} in the slow time domain thus provides a \emph{velocity profile} of the scene at every range, indicating the amount of each velocity is present for a given range. Due to the settings outlined in chapter \ref{ch:3}, no significant aliasing in the frequency spectrum should occur as the sampling rate was set with the Nyquist criterion in mind. In figure \ref{fig:fft} the \gls{dft}'s of radar \gls{iq} data are shown for all surface types considered in this work. For visualization purposes the square root of the absolute values of the \gls{dft} are shown. For grass (the top two plots), it can be seen that the frequency content is contained mainly in the vicinity of the zero frequency bin, while the other materials contain considerably larger higher frequency components. It can also be seen that the frequency components become smaller with range, which simply is due to the lower amount of radiation received from scatterers further away as explained by the \gls{rre}. The \gls{rre} assumes that a scatterer is radiating isotropically. If radiation instead can be regarded to be specular in nature, the \gls{dft} provides a good measure of the surfaces topography. %[Continu. %[Continue and add a source]
+As discussed in section \ref{doppler} we can relate the velocity of a scatterer to its \gls{bf} through \eqref{eq:dopp}. When an entire target scene is illuminated, computing a \gls{dft} in the slow time domain thus provides a \emph{velocity profile} of the scene at every range, indicating the amount of each velocity is present for a given range. Due to the settings outlined in chapter \ref{ch:3}, no significant aliasing in the frequency spectrum should occur as the sampling rate was set with the Nyquist criterion in mind. In figure \ref{fig:fft} the \gls{dft}'s of radar \gls{iq} data are shown for all surface types considered in this work. For visualization purposes the square root of the absolute values of the \gls{dft} are shown. For grass (the top two plots), it can be seen that the frequency content is contained mainly in the vicinity of the zero frequency bin, while the other materials contain considerably larger higher frequency components. It can also be seen that the frequency components become smaller with range, which simply is due to the lower amount of radiation received from scatterers further away as explained by the \gls{rre}. %The \gls{rre} assumes that a scatterer is radiating isotropically. If radiation instead can be regarded to be specular in nature, the \gls{dft} provides a good measure of the surfaces topography. %[Continu. %[Continue and add a source]
 
 %While traversing a static surface at a constant speed, one could think of it as the details on the surface, such as small rocks, are moving closer to the radar sensor. As discussed in section \ref{doppler}, this alters the frequency of the transmitted signal according to the Doppler effect, and the radar detects beat frequencies, corresponding to the frequency shifts. Depending on the surface's characteristics, the doppler frequencies may vary. 
 
@@ -87,15 +72,15 @@ As discussed in section \ref{doppler} we can relate the velocity of a scatterer 
 
 %As for the feature vector, a data matrix consisting of $T$ sweeps is selected. Viewing this as a matrix with elements $x(n,t)$, we can compute a $k$-step Fourier transform for each range, $n$, and sample index $m$, as
 
-As for the feature vector, a $T$-step DFT along the slow time axis is first computed for each range, $n$ as
+As for the feature vector, a $T$-step DFT along the slow time axis is first computed for each range, $n$, as
 \begin{equation}
-	\mathbf{d}_n=\text{DFT}(x(n,t))_t =  \sum_{t=0}^{T-1}x(n,t)\exp\Big[-2\pi i\frac{kt}{T}\Big], \quad k=0,...,T-1.
+	\mathbf{d}_n=\text{DFT}\big\{x(n,t)\big\}_t =  \sum_{t=0}^{T-1}x(n,t)\exp\Big(-2\pi i\frac{kt}{T}\Big), \quad k=0,...,T-1.
 \end{equation}
-After this, the transformations for all ranges are concatenated into a one-dimensional feature vector of the form
+After this, the transformations for all ranges are concatenated into a one-dimensional feature vector. This feature vector must be real-valued, as the machine learning classifiers considered in this work utilize real-valued inputs. The feature vector is formed by taking the absolute values of the frequency components through
 \begin{equation}
 	\textbf{f}_{f}=\begin{bmatrix} |\mathbf{d}_0|^* & |\mathbf{d}_1|^* & \hdots & |\mathbf{d}_K|^* \end{bmatrix},
 \end{equation}
-where $|\cdot|^*$ denotes elementwise absolute values, and $K$ is the number of fast time samples.
+where $|\cdot|^*$ denotes elementwise absolute values, and $K$ is the number of fast time samples.    
 
 
 % This section is weirdly written imo 
@@ -117,17 +102,21 @@ where $|\cdot|^*$ denotes elementwise absolute values, and $K$ is the number of 
 \label{ACr}
 
 % This is actually wrong... and not well written atm
-% Tie this into preceding section instead. Autocov allows for calculating the number of lags. 
-An obvious surface characteristic to ponder is roughness; while a tiled surface is typically very flat, grass is characterized by a random, unpredictable structure. It is reasonable to assume that there is more correlation between two closely spaced points on the tiled surface than there is on grass. This motivates us to study the autocovariance in slow time.
+% Tie this into preceding section instead. Autocov allows for calculating the number of lags.
+%An obvious surface characteristic to ponder is roughness; while a tiled surface is typically very flat, grass is characterized by a random, unpredictable structure. It is reasonable to assume that there is more correlation between two closely spaced points on the tiled surface than there is on grass. This motivates us to study the autocovariance in slow time.
 
-Figure \ref{fig:autocorr_range} illustrates the normalized autocovariances (or autocorrelations) for the different materials at a certain range. As expected, grass and tiles are two extremes in terms of roughness, and the other materials lie somewhere inbetween. Below, we explain how the autocovariance is formed in terms of features as preparation for the classifier.
+A second method to investigate time-domain dependencies is through the autocovariance function. This method adds the benefit of allowing for a correlation length, which can significantly reduce the number of features.
 
+
+% Unclear figure!
+\iffalse
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.45]{figs_temp/features/autocorr_range.png}
 	\caption{The graphs show the absolute values of the autocorrelations computed from a time-varying \gls{iq}-signal recorded at a range of approximately 13 cm. The tiled surface, which is the most even, corresponds to the graph with the highest autocorrelation. In contrast, the arguably most uneven surface - grass - is represented by the graph with the lowest autocorrelation.}
 	\label{fig:autocorr_range}
 \end{figure}
+\fi
 
 %We can regard the sequence $\{x(n,t)\}_{t=t_m}^{t_m+T-1}$ of measurements of range $n$ as samples from a stochastic process $X_{n,t}$ with the autocovariance function
 
@@ -148,22 +137,24 @@ Figure \ref{fig:autocorr_range} illustrates the normalized autocovariances (or a
 %}
 %\noindent
 %over the time interval $t_m$ to $t_m+T-1$, it can be regarded as a \emph{Wide-Sense Stationary} (WSS) process \citep{jakobsson_2015}. The first and second assumptions require the returning signal to carry some level of stability, which is reasonble considering the short time-frame $T/F_s$ considered. 
-We assume that $x(n,t)$ are samples from a stochastic process $X_{n,t}$ which is wide sense stationary (WSS) \citep{jakobsson_2015} over some short time $T/F_s$. Its autocovariance function for some range, $n$ may then be defined as
-\begin{equation}
-	r_n(k) = {\E}_t\big\{(X_{n,t} - \mu_n)^*(X_{n,t+k} - \mu_n)\big\}
-\end{equation}
-where $\mu_n=\E_t\{X_{n,t}\}$. We can form the (biased) estimate of the autocovariance function through
 
+
+%We assume that $x(n,t)$ are samples from a stochastic process $X_{n,t}$ which is wide sense stationary (WSS) \citep{jakobsson_2015} over some short time $T/F_s$. Its autocovariance function for some range, $n$ may then be defined as
+%\begin{equation}
+%	r_n(k) = {\E}_t\big\{(X_{n,t} - \mu_n)^*(X_{n,t+k} - \mu_n)\big\}
+%\end{equation}
+%where $\mu_n=\E_t\{X_{n,t}\}$. We can form the (biased) estimate of the autocovariance function through
+
+The biased estimate of the autocovariance function can be obtained through \citep{jakobsson_2015}
 \begin{equation}
-	\hat{r}_n(k) = \frac{1}{T}\sum_{t=0}^{T-1-k}\big(x(n,t) - \hat{\mu}_n\big)^*\big(x(n,t+k) - \hat{\mu}_n\big).
+	\hat{r}_n(k) = \frac{1}{T}\sum_{t=k}^{T-1}\big(x(n,t) - \hat{\mu}_n\big)\big(x(n,t-k) - \hat{\mu}_n\big)^*
 \end{equation}
 where 
 \begin{equation}
 	\hat{\mu}_n = \frac1T \sum_{t=0}^{T-1}x(n,t).
 \end{equation}
 
-Note that the bias in this estimate is completely inconsequential as all features later are normalized to zero mean unit variance.  Thus, the features formed are
-
+The bias in this estimate is completely inconsequential as all features later are normalized to zero mean unit variance. We may then form features
 \begin{equation}
 	\hat{\mathbf{r}}_{k} = 
 	\begin{bmatrix}
@@ -171,20 +162,24 @@ Note that the bias in this estimate is completely inconsequential as all feature
 	\end{bmatrix}.
 \end{equation}
 
-Noting that the autocovariance sequence at 0 lag produce only real numbers, as any complex number $z = a + bi$ multiplied with its conjugate has zero imaginary part $\text{Im}(zz^*) = \text{Im}((a + bi)(a - bi)) = \text{Im}(a^2 + b^2) = 0$, we may form the full feature component for $q$ autocovariance lags $\mathbf{f}_{r,m}$ as
-
+Noting that the autocovariance sequence at 0 lag produce only real numbers, as any complex number $z = a + bi$ multiplied with its conjugate has zero imaginary part $\text{Im}(zz^*) = \text{Im}((a + bi)(a - bi)) = \text{Im}(a^2 + b^2) = 0$, we may form the full real-valued feature component for $q$ autocovariance lags $\mathbf{f}_{r}$ as
 \begin{equation}
 	\mathbf{f}_{r} = 
 	\begin{bmatrix}
-		\hat{\mathbf{r}}_{0}  & \text{Re}(\hat{\mathbf{r}}_{1} ) & \text{Im}(\hat{\mathbf{r}}_{1} ) & ... & \text{Re}(\hat{\mathbf{r}}_{q} ) & \text{Im}(\hat{\mathbf{r}}_{q} ).
-	\end{bmatrix}
+		\hat{\mathbf{r}}_{0}  & \text{Re}(\hat{\mathbf{r}}_{1} ) & \text{Im}(\hat{\mathbf{r}}_{1} ) & ... & \text{Re}(\hat{\mathbf{r}}_{q} ) & \text{Im}(\hat{\mathbf{r}}_{q} )
+	\end{bmatrix}.
 \end{equation}
-From figure \ref{fig:autocorr_range}, we see that the the 1-step autocorrelation is what separates grass from other materials the most. For the feature vector we choose $q=2$, thus ncluding the variance as well as autocovariance steps 1 and 2 for the normalized sweeps.
+
+
+%%%%% DISCUSSION OF AUTOCOV/CORR IMAGE %%%%%
+%From figure \ref{fig:autocorr_range}, we see that the the 1-step autocorrelation is what separates grass from other materials the most. For the feature vector we choose $q=2$, thus ncluding the variance as well as autocovariance steps 1 and 2 for the normalized sweeps.
+
+%Figure \ref{fig:autocorr_range} illustrates the normalized autocorrelations for the different materials at a certain range. As expected, grass and tiles are two extremes in terms of roughness, and the other materials lie somewhere inbetween. Below, we explain how the autocovariance is formed in terms of features as preparation for the classifier.
 
 
 \subsection{Autocovariance in Energy}
 
-While the sweep normalization process rendered absolute mesurements of signal energy useless, we are still able to investigate its time-dependant structure through the autocovariane function. First we estimate the energy in each sweep $v(t)$ and the average energy $v_a(t)$ in $T$ number of sweeps, and then calculate the real-valued autocovariance sequence $h(k)$. 
+While the sweep normalization process rendered absolute mesurements of signal energy meaningless, we are still able to investigate its time-dependant structure through the autocovariane function. First we estimate the energy in each radar sweep $v(t)$ and the average energy $v_a(t)$ in $T$ number of sweeps, and then calculate the real-valued autocovariance sequence $h(k)$ as 
 
 \begin{equation}
 	v(t) = \frac{1}{N}\sum_{n=0}^{N-1}x(n,t)x^*(n,t)
@@ -195,7 +190,7 @@ While the sweep normalization process rendered absolute mesurements of signal en
 \end{equation}
 
 \begin{equation}
-	h(k) = \frac{1}{T}\sum_{t=0}^{T-1-k}\big(v(t) - v_a\big)^*\big(v(t+k) - v_a\big)
+	h(k) = \frac{1}{T}\sum_{t=k}^{T-1}\big(v(t) - v_a\big)\big(v(t-k) - v_a\big)^*.
 \end{equation}
 
 As $h(k)$ only consist of real values, the energy autocovariance feature vector $\mathbf{f}_{h}$ is formed as
@@ -203,10 +198,10 @@ As $h(k)$ only consist of real values, the energy autocovariance feature vector 
 \begin{equation}
 	\mathbf{f}_{h} = 
 	\begin{bmatrix}
-		h(0) & h(1) & ... & h(K-1),
-	\end{bmatrix}
+		h(0) & h(1) & ... & h(q-1)
+	\end{bmatrix},
 \end{equation}
-where $K$ is the number of covariance steps included in each sample. 
+where $q$ is the number of covariance lags. 
 
 %We can also calculate the autocovariance function of estimated sweep energy. Although the sweeps are normalized in the preprocessing, we can investigate how the sweeps change over time. 
 
@@ -239,16 +234,22 @@ where $K$ is the number of covariance steps included in each sample.
 \end{table}
 
 
-\subsection{Tested Feature Combinations}
 % "The same model" is the hyperparameter optimized model we later get to, so the ordering is strange here. Numbers are off too.
-Before performing any feature processing, the data is downsampled by a downsampling factor $D=20$ (see section \ref{downsampling}). However, examining the fast time samples, it turns out that in ranges below approximately 11 cm., little information resides. This can clearly be seen in the dark regions of the \gls{dft}s in figure \ref{fig:fft}. Similarly, yet not as apparent, little information is found at longer ranges. Therefore we extract samples from an intermediate region when downsampling, modifying equation \eqref{eq:downsamp} to become
+
+\subsection{Reducing the Range Swath}
+
+Before performing any feature processing, the data is downsampled by a downsampling factor of $D=20$ as was described in section \ref{downsampling}. However, after examining the fast time samples it turns out that ranges below approximately 11 cm only contain little information. This can clearly be seen in the dark regions of the \gls{dft}s in figure \ref{fig:fft}. Similarly, yet not as apparent, little information is found at longer ranges. Therefore we extract samples from an intermediate region when downsampling, modifying equation \eqref{eq:downsamp} to become
 \begin{equation}
 	r_{1,D}(d, t) = r_{1}(50+dD,t), 
 	\quad \text{and} \quad r_{2,D}(d,t) = r_{2}(50+dD,t)
 \end{equation}
-defined only for $d=0,...,13$. With this definition, the downsampled signal consists of 14 evenly spaced range indices from 50 to 310, corresponding to ranges 9.4 to 21.88 cm. Thus, the resulting matrix is a member of $\mathbb{C}^{N\times 28}$, where $N$ is the number of samples. There are 28 columns as the readings from the two sensors are concatenated. 
+for $d=0,...,13$. With this definition, the downsampled signal consists of 14 evenly spaced range indices from 50 to 310, corresponding to ranges 9.4 to 21.88 cm. Thus, the resulting data matrix used for generating one set of features has $13\times 2$ ranges for the two sensors and has $T=25$ slow time sweeps. 
 
-In above section, four different feature extraction methods were described - the average signal shape, the autocovariance in range and energy, as well as the Fourier transform. The methods each generate a number of features. However, we are not limited to feed our model with features taken from a single one of the methods. In table \ref{tab:feat}, three possible configurations of features are chosen. Each of these combinations was tested in a simple support vector machine classifier (\gls{svm}, described in chapter 5), to evaluate which was the most efficient. The first one, which simply involves the averaged sweep envelope, requires much fewer features than the other two combinations - simply 28 positive real numbers. But looking at its performance, these features are not enough to reach the accuracy attained in the other two cases. By instead selecting autocovariances as features the accuracy increases by 4 percentage points. Here we also include the absolute values as features, as this information is lost when subtracting the mean during the computation of the autocovariances. This configuration generates a feature vector with 174 elements, as seen in figure \ref{fig:feat_fig}. 28 features come from the absolute values, 6 features come from six steps in the energy autocovariance. The majority of the features, 140 to be exact, come from the autocovariance in range. For each of the 28 range bins, there is one real-valued feature representing variance, followed by two complex autocovariances for each range bin. This should give us $28+2\cdot 28=84$ features, but as the real- and imaginary parts of complex numbers are split up in two features, we obtain $28+2\cdot2\cdot 28=140$ features. The total number of features therefore becomes $28+6+140=174$.
+\subsection{Tested Feature Combinations}
+
+Four different feature extraction methods has now been described - the average signal shape, the autocovariance in range and energy as well as the Fourier transform. The methods each generate a number of features. However, we are not limited to feed our model with features taken from a single one of the methods. In table \ref{tab:feat}, three possible configurations of features are chosen. Each of these combinations was tested in a simple support vector machine classifier (\gls{svm}, described in further detail in chapter 5), to evaluate which was the most efficient. The first one, which simply involves the averaged sweep envelope, requires much fewer features than the other two combinations - 28 positive real numbers for the 28 ranges. But looking at its performance, these features are not enough to reach the accuracy attained in the other two cases. 
+
+By instead selecting autocovariances with 3 lags as features the accuracy increases by nearly 5 percent. Here we also include the absolute values as features, as this information is lost when subtracting the mean during the computation of the autocovariances. This configuration generates a feature vector with 174 elements, as seen in figure \ref{fig:feat_fig}. 28 features come from the absolute values and 6 from the energy autocovariance. The majority of the features come from the autocovariance in range. For each of the 28 range bins there is one real-valued feature representing variance followed by two complex autocovariances for each range bin. This should give us $28+2\cdot 28=84$ features, but as the real- and imaginary parts of complex numbers are split up in two features, we obtain $28+2\cdot2\cdot 28=140$ features. The total number of features therefore becomes $28+6+140=174$.
 
 \begin{figure}[h]
 	\centering
@@ -257,23 +258,22 @@ In above section, four different feature extraction methods were described - the
 	\label{fig:feat_fig}
 \end{figure}
 
-We can also choose to look at the Fourier transform, as in configuration 3. With these features we reach a slightly lower accuracy than configuration 2, but more importantly we would need 700 features compared to 174. The 700 features is a result of computing a discrete Fourier transform along the time series of all 28 ranges, over 25 samples\footnote{Ideally, the \gls{dft} should be computed over a number of samples which is a power of 2. However, to get a fair comparison of the feature extraction methods, we utilize the same number of samples for all methods.}. The length of each transform is 25, and by concatenating them all into one feature vector, it will have $28\cdot 25=700$ elements.
+We can also choose to look at the Fourier transform, as in configuration 3. Using the \gls{dft} we reach a similar accuracy as in configuration 2 but require some 700 features. The 700 features is a result of computing a discrete Fourier transform along the slow time of all 28 ranges over 25 samples\footnote{Ideally, the \gls{dft} should be computed as an FFT over a number of slow time samples which is a power of 2. However, to get a fair comparison of the feature extraction methods, we utilize the same number of samples for all methods.}. The length of each transform is 25, and by concatenating them all into one feature vector, we end up with $28\cdot 25=700$ elements. 
 
-This makes configuration 2 more favorable as fewer features demands less computational costs and memory usage. Hence it is deemed the most efficient configuration.
-
+The high accuracy and low number of features of configuration 2 makes it the clear top performer of the three, and will be used for the remainder of this report for further investigation.
 
 \section{Feature Principal Component Analysis}
 
 Through the point and feature extraction methods described in previous sections we obtain high dimensional feature vectors. Getting an intuitive feel for such data extracted in these processes is difficult as direct plotting is limited to three dimensions. 
 
-\gls{pca} is  a classical technique in statistical data analysis which takes a large set variables from a multivariate dataset and finds a smaller set of variables with less redundancy. Critically, \gls{pca} finds a rotated orthogonal coordinate system such that the elements of the set become uncorrelated. Projecting elements on the principal axes corresponding to the directions of maximal variance a good approximation of the original data in lower dimension is obtained \citep{hyvasrinen_karhunen_oja_2004}.
+\gls{pca} is  a classical technique in statistical data analysis which takes a large set variables from a multivariate dataset and finds a smaller set of variables with less redundancy. Critically, \gls{pca} finds a rotated orthogonal coordinate system such that the elements of the set become uncorrelated \citep{hyvasrinen_karhunen_oja_2004}. Projecting elements onto the principal axes corresponding to the directions of maximal variance a good approximation of the original data in lower dimension is obtained.
 
-After having chosen to proceed with feature configuration 2 in table \ref{tab:feat}, the 174 dimensions can be reduced to 2 dimensions using \gls{pca}. This helps to visualize the separability of the different materials as seen in figure \ref{fig:pca}.
+After having chosen to proceed with feature configuration 2 in table \ref{tab:feat}, the 174 dimensions can be reduced to 2 dimensions using \gls{pca}. By projecting feature vectors onto the two directions of maximal variance, we get a nice visualization of the separability of the different surface as seen in figure \ref{fig:pca}. Note that each dot in thie plot corresponds to one feature vector, and that the figure represents features extracted from the full set of 175 minutes of data.  
 
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.50]{figs_temp/pca_analysis.png}
-	\caption{By performing a principal component analysis on the feature vectors we may reduce them from a 174-dimensional space into 2 dimensions, maintaining maximal variance. This allows us to visualize, and get an idea of how separable the materials are.}
+	\caption{By performing a principal component analysis on the feature vectors we project 174 dimensional feature vecors into two dimensions corresponding to directions of maximum variance. This allows for us to visualize how separable the different surface types are.}
 	\label{fig:pca}
 \end{figure}
 
