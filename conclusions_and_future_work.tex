@@ -2,16 +2,23 @@
 
 \section{Conclusions}
 
-In this work, the possibilities of using millimeter-wave radar for surface classification were explored. It was found that by extracting features exploiting temporal behaviour and combining this with a deep neural network model, it is possible to perform binary classification distinguishing grassy surfaces from four other types of surfaces commonly found adjacent to lawns with an accuracy of 98.5 \%. Using a median filter on the prediction outliers were effectively suppressed, providing good results on test data. 
+In this work, the possibilities of using millimeter-wave radar for surface classification for rough target surfaces was explored. It was found that by extracting features exploiting temporal behaviour and combining this with a deep neural network model it is possible to perform binary classification distinguishing grass covered surfaces from four other types of surfaces commonly found adjacent to lawns with an accuracy of 98.5\% using \gls{loo} cross validation. Application of a median filter onto the classifier outputs effectively suppressed prediction outliers, providing soild results on test data. 
 
-The feature extraction procedure along with the neural network classification and median output filtering shows promise for use in real world applications. Such applications may involve autonomous lawn mowers, autonomous vacuum cleaners and road condition monitoring. 
+The feature extraction procedure along with the neural network classification and median output filtering show promise for use in real world applications. Such applications may involve autonomous lawn mowers and autonomous vacuum cleaners. 
 
 % When confronted with unfamiliar surfaces, the model falls short, and further investigation in this area is required. 
 % Mention that patent application has been submitted. Ask Peter how this ought to be phrased and what to include?
 
 
 \section{Future Work}
-As was discussed in section \ref{disc_feat} regarding feature extraction for \gls{dnn} classifiers, it would be interesting to use a larger model with more layers to see if improved performance can be attained. Another model related topic to explore, briefly metioned in the same section, is whether a linear model can be adapted to solve the problem to the same degree as the \gls{dnn}. Gathering more data, and in particular a more diverse dataset, could also improve the model to improve model robustness to new target surfaces. A velocity-based sampling scheme should be considered for future use ensuring equidistant sampling.
+
+There are many possible areas of improvement for the classification scheme in this work. It would be interesting to examine which sensor angles are most useful, and to further investigate what \gls{pcr} system settings are best suited for rough surface classification. In this work sets of radar sweeps were normalized as a preprocessing step due to different sensors having different gain. Through consistent calibration one could circumvent this issue and utilize the \gls{rre} to a greater extent than was possible in this work. Furthermore, collecting a larger and more diverse dataset could show if a network becomes capable of generalizing grass from non-grass surfaces when a dataset contains a wider range of surface examples, or if this model falls short in such situations. 
+
+On the modeling side it would be interesting to attempt classification without any feature extraction at all and a very deep neural network, or further examine recurring neural network models. It would likewise be of interest to use linear classifiers with other types of extracted features. Lastly a velocity-based sampling scheme should be considered for future use ensuring equidistant sampling.
+
+
+
+%Another model related topic to explore, briefly metioned in the same section, is whether a linear model can be adapted to solve the problem to the same degree as the \gls{dnn}. Gathering more data, and in particular a more diverse dataset, could also improve the model to improve model robustness to new target surfaces. A velocity-based sampling scheme should be considered for future use ensuring equidistant sampling.
 % It would also be of interest to evaluate the method described in this thesis for other similar applications, such as for road condition monitoring. 
 
 %Regarding new surfaces, an intriguing, yet natural, extension of the model is to apply it to other tasks such as road condition monitoring or various tasks for indoor surfaces.
