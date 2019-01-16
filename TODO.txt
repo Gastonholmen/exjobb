@@ -24,7 +24,6 @@ Ch 4
  - We can absolutely not write that x(n,t) is Wide-Sense-Stationary like we do in the text
  - Assumptions - Mention that ACF technically assumes WSS, we can't really guarantee
  - ACF - Its okay to discuss the ACF image in terms of how much info they have on each other
- - New ACF image
 
 Ch 5
 
@@ -82,3 +81,4 @@ DONE:
 [X] Future Work
 [X] Connecting Autocovariance to beat frequencies?
 [X] Fix the "impossible modeling problem" part into something more reasonable...
+[X] New ACF image

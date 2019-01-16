@@ -105,18 +105,15 @@ where $|\cdot|^*$ denotes elementwise absolute values, and $K$ is the number of 
 % Tie this into preceding section instead. Autocov allows for calculating the number of lags.
 %An obvious surface characteristic to ponder is roughness; while a tiled surface is typically very flat, grass is characterized by a random, unpredictable structure. It is reasonable to assume that there is more correlation between two closely spaced points on the tiled surface than there is on grass. This motivates us to study the autocovariance in slow time.
 
-A second method to investigate time-domain dependencies is through the autocovariance function. This method adds the benefit of allowing for a correlation length, which can significantly reduce the number of features.
+A second method to investigate time-domain dependencies is through the autocovariance function. This method adds the benefit of allowing for a specification of correlation length, which can significantly reduce the number of features. In figure \ref{fig:autocorr_range}, autocovariances are estimated from 5000 sweeps. 
 
 
-% Unclear figure!
-\iffalse
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.45]{figs_temp/features/autocorr_range.png}
-	\caption{The graphs show the absolute values of the autocorrelations computed from a time-varying \gls{iq}-signal recorded at a range of approximately 13 cm. The tiled surface, which is the most even, corresponds to the graph with the highest autocorrelation. In contrast, the arguably most uneven surface - grass - is represented by the graph with the lowest autocorrelation.}
+	\caption{The graphs show the absolute values of the autocovariances computed from a time-varying \gls{iq}-signal recorded at a range of approximately 14 cm. The tiled surface, which is the most even, corresponds to the graph with the highest autocovariances. In contrast, the arguably most uneven surface - grass - is represented by the graph with the lowest autocovariances.}
 	\label{fig:autocorr_range}
 \end{figure}
-\fi
 
 %We can regard the sequence $\{x(n,t)\}_{t=t_m}^{t_m+T-1}$ of measurements of range $n$ as samples from a stochastic process $X_{n,t}$ with the autocovariance function
 
@@ -145,7 +142,7 @@ A second method to investigate time-domain dependencies is through the autocovar
 %\end{equation}
 %where $\mu_n=\E_t\{X_{n,t}\}$. We can form the (biased) estimate of the autocovariance function through
 
-The biased estimate of the autocovariance function can be obtained through \citep{jakobsson_2015}
+For practical reasons, only $T$ sweeps are used for estimates in the model. The biased estimate of the autocovariance function can be obtained through \citep{jakobsson_2015}
 \begin{equation}
 	\hat{r}_n(k) = \frac{1}{T}\sum_{t=k}^{T-1}\big(x(n,t) - \hat{\mu}_n\big)\big(x(n,t-k) - \hat{\mu}_n\big)^*
 \end{equation}
