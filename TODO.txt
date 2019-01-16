@@ -1,4 +1,43 @@
 Overall
+ - Spelling mistakes
+ - Equation spacing
+ - Check that figure captions are good 
+ - Mention the tools we are using - Python/skelarn/Keras/Tensorflow
+ - Black-and-white figures: LOO table - fix green/red colors
+ - Black-and-white figures: LOO bar - black text on top
+ - 
+ - Equation proofs -> ??
+
+Abstract
+
+Pop science article
+ G Write when ch8 is done
+
+Ch 1
+
+Ch 2
+
+Ch 3
+ - We don't have a figure showing the sensor placement of both sensors.
+
+Ch 4
+ - We can absolutely not write that x(n,t) is Wide-Sense-Stationary like we do in the text
+ - Assumptions - Mention that ACF technically assumes WSS, we can't really guarantee
+ - ACF - Its okay to discuss the ACF image in terms of how much info they have on each other
+ - New ACF image
+
+Ch 5
+
+Ch 6
+
+Ch 7
+ - If we didn't have to normalize...
+ - Robustness
+ - Mention hardware limitations
+
+Ch 8
+
+DONE:
 [X] Carrier frequency fc
 [X] Autocov, autocorr
 [X] Figure out if any, and if so which, variable names are used in different ways.
@@ -8,55 +47,27 @@ Overall
 [X] Shorten unnecessarily long parts
 [X] Capital letters in titles
 [X] Change all equation references to use \eqref instead of both \ref and \eqref
- - Spelling mistakes
 [X] Fix references!
- - Equation spacing
- - Check that figure captions are good 
- - Mention the tools we are using - Python/skelarn/Keras/Tensorflow
-
-
-Abstract
-[X] Write when ch8 is done
-
-Pop science article
- G Write when ch8 is done
-
-Ch 1
 [X] Radar sources for road contition monitoring
-
-Ch 2
+[X] Write when ch8 is done
 [X] RCS - explain beter.
-
-Ch 3
 [X] Downsampling: start/stop/step etc. Check constatnts on acconeerfs 
- - We don't have a figure showing the sensor placement of both sensors.
 [X] Bandwidth - add part about bandwidth
-
-Ch 4
- - We can absolutely not write that x(n,t) is Wide-Sense-Stationary like we do in the text
- - Fix the "impossible modeling problem" part into something more reasonable...
 [X] Remove sample index
 [X] DFT notation
 [X] Error in eq. 4.9
- - Connecting Autocovariance to beat frequencies?
 [X] The feature configs have very high accuracies
 [X] Downsampling factor in 4.2.5 after changing in ch 3.
 [X] We need to mention that T=25.
 [X] Update text with regards to new SVM config comparison
-
-Ch 5
 [X] Logistic regression - this is not accurately described. We optimize for b parameters and try to separate two classes from each other. 
 [X] Neural networks - "too many epochs puts the model at risk of overfitting." Is this true? If so we should include a source. 
 [X] Leave-One-Out Strategy - we don't explain that we are excluding the larger set of data in training and thus avoid fitting with neighbouring samples. This is well done in the figure but should say in the text too. 
 [X] Hyperas - which parameters were optimized? 
 [X] Accuracies are now for a linear support vector classifier
-
-Ch 6
 [X] Data augmentation - Understandable?
 [X] Detection alg -> outlier suppression method
 [X] 6.2 index
-
-Ch 7
 [X] PCA plot is a concept proof
 [X] Linear vs. non-linear
 [X] Surfaces not seen in training -> undefined behaviour
@@ -67,8 +78,7 @@ Ch 7
 [X] Discuss the CNN+LSTM model
 [X] The last part in Errors&Uncertainties was commented out as it didn't really belong there. Maybe move it?
 [X] Somehow mention the RRE and the RCS and the normalization process
- - If we didn't have to normalize...
-
-Ch 8
 [X] Conclusions
 [X] Future Work
+[X] Connecting Autocovariance to beat frequencies?
+[X] Fix the "impossible modeling problem" part into something more reasonable...
