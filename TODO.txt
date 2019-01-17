@@ -1,6 +1,4 @@
 Overall
- - Black-and-white figures: LOO table - fix green/red colors
- - Black-and-white figures: LOO bar - black text on top 
 
 Abstract
 
@@ -21,7 +19,6 @@ Ch 6
 
 Ch 7
 [D] If we didn't have to normalize...
-[X] Mention hardware limitations
 
 Ch 8
 
@@ -81,3 +78,6 @@ DONE:
 [X] use \cdot not \times
 [X] Robustness
 [X] ACF - Its okay to discuss the ACF image in terms of how much info they have on each other
+[X] Black-and-white figures: LOO table - fix green/red colors
+[X] Black-and-white figures: LOO bar - black text on top 
+[X] Mention hardware limitations
