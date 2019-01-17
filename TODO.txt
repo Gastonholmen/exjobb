@@ -14,15 +14,13 @@ Ch 2
 Ch 3
 
 Ch 4
- - ACF - Its okay to discuss the ACF image in terms of how much info they have on each other
 
 Ch 5
 
 Ch 6
 
 Ch 7
- - If we didn't have to normalize...
- - Robustness
+[D] If we didn't have to normalize...
  - Mention hardware limitations
 
 Ch 8
@@ -81,3 +79,5 @@ DONE:
 [X] Check that figure captions are good 
 [X] Mention the tools we are using - Python/skelarn/Keras/Tensorflow
 [X] use \cdot not \times
+[X] Robustness
+[X] ACF - Its okay to discuss the ACF image in terms of how much info they have on each other
