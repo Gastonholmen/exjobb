@@ -21,7 +21,7 @@ Ch 6
 
 Ch 7
 [D] If we didn't have to normalize...
- - Mention hardware limitations
+[X] Mention hardware limitations
 
 Ch 8
 
