@@ -48,14 +48,6 @@ To test the model further, data was collected when the test robot moved from one
 	\label{fig:trans_gg}
 \end{figure}
 
-\section{Surface Variances}
-
-One particularly challenging aspect of adequately classifying surfaces is that the space of realistically occurring surface variations is essentially infinite. As any lawn owner can testify a lawn changes drastically over the course of its life span depending on grass height, weather conditions, tear and temperature. One would certainly need an enormous training dataset to capture all such variations. And that would still only account for one single lawn. It wouldn't take much for the classifier to enter uncharted territory, as the machine learning classifier solely bases its predictions on training feature vectors.
-
-However, we see from our results that accurate classification is possible when acquired data is reasonably similar to what has been seen in training. A robot \emph{can} learn to identify surfaces as being grassy or not provided that it has previously been exposed to somewhat similar surfaces before. 
-
-To remedy for the dangers of using an unchecked neural network classifier one should consider using some supporting sanity-check system in conjunction with the algorithm suggested in this thesis to improve robustness. Checking that returning signals are of reasonable strengths or that the distance to the ground remains unchanged are suggestions.
-
 
 %In some cases, the robot may even come across surface types unlike any it has ever seen before. It is difficult to foresee what a complex neural network will make of this and it will exhibit an unpredictable behaviour. 
 %%%%%%%%%%%%%%% Introduce again when we actually have done it.
@@ -120,5 +112,13 @@ Previously we mentioned that predictions can be made more frequent by continuous
 
 
 % This remarkable result means that given a random sample from the dataset collected, with no samples from the session the sample was taken from used in training, we can correcly classify the surface as grass or non-grass 39/40 times even with the lower-performing classifiers. With the top performing fully connected model, even higher accuracy was obtained with a low standard deviation. 
+
+\section{Surface Variances}
+
+One particularly challenging aspect of adequately classifying surfaces is that the space of realistically occurring surface variations is essentially infinite. As any lawn owner can testify a lawn changes drastically over the course of its life span depending on grass height, weather conditions, tear and temperature. One would certainly need an enormous training dataset to capture all such variations. And that would still only account for one single lawn. It wouldn't take much for the classifier to enter uncharted territory, as the machine learning classifier solely bases its predictions on training feature vectors.
+
+However, we see from our results that accurate classification is possible when acquired data is reasonably similar to what has been seen in training. A robot \emph{can} learn to identify surfaces as being grassy or not provided that it has previously been exposed to somewhat similar surfaces before. 
+
+To remedy for the dangers of using an unchecked neural network classifier one should consider using some supporting sanity-check system in conjunction with the algorithm suggested in this thesis to improve robustness. Checking that returning signals are of reasonable strengths or that the distance to the ground remains unchanged are suggestions.
 
 

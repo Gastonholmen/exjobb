@@ -170,6 +170,9 @@ Noting that the autocovariance sequence at 0 lag produces only real numbers, as 
 
 
 %%%%% DISCUSSION OF AUTOCOV/CORR IMAGE %%%%%
+
+In figure \ref{fig:autocorr_range} the absolute values of calculated autocovariances are shown, estimated from 5000 slow time samples at a range of approximately 14 cm. Since only absolute values are shown phase information has been lost in this plot. We see that the grass surface has a dissimilar autocovariance sequence from the others, indicating that measuring autocovariance may be a good measure for distinguishing grass from other surface types.  
+
 %From figure \ref{fig:autocorr_range}, we see that the the 1-step autocorrelation is what separates grass from other materials the most. For the feature vector we choose $q=2$, thus ncluding the variance as well as autocovariance steps 1 and 2 for the normalized sweeps.
 
 %Figure \ref{fig:autocorr_range} illustrates the normalized autocorrelations for the different materials at a certain range. As expected, grass and tiles are two extremes in terms of roughness, and the other materials lie somewhere inbetween. Below, we explain how the autocovariance is formed in terms of features as preparation for the classifier.
@@ -237,7 +240,7 @@ Before performing any feature processing, the data is downsampled by a downsampl
 	r_{1,D}(d, t) = r_{1}(50+dD,t), 
 	\quad \text{and} \quad r_{2,D}(d,t) = r_{2}(50+dD,t)
 \end{equation}
-for $d=0,...,13$. With this definition, the downsampled signal consists of 14 evenly spaced range indices from 50 to 310, corresponding to ranges 9.4 to 21.88 cm. Thus, the resulting data matrix used for generating one set of features has $14\times 2$ ranges for the two sensors and has $T=25$ slow time sweeps. 
+for $d=0,...,13$. With this definition, the downsampled signal consists of 14 evenly spaced range indices from 50 to 310, corresponding to ranges 9.4 to 21.88 cm. Thus, the resulting data matrix used for generating one set of features has $14\cdot 2$ ranges for the two sensors and has $T=25$ slow time sweeps. 
 
 \subsection{Tested Feature Combinations}
 
