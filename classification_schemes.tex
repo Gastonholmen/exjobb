@@ -95,6 +95,7 @@ Logistic regression (\gls{lr}) is similar to linear regression, in that the para
 \begin{equation}
 	Y= b_0+\sum_{i=1}^n b_iX_i.
 \end{equation}
+
 However, logistic regression serves as a binary classifier, hence the continuous output, $Y$ is replaced by mapping it to the open interval $(0,1)$. This is done using the sigmoid function, defined as $\sigma(z)=\frac{1}{1+e^{-z}}$. Thus, \gls{lr} maps the input variables to
 \begin{equation}
 \label{eq:log_eq}
@@ -123,7 +124,6 @@ For further details about \gls{lr}, including how its parameters are optimized, 
 
 \subsection{Artificial Neural Networks}
 Artificial neural networks constitute a class of nonlinear models designed to mimic biological neural systems \citep{rojas_1996}. \gls{ann}s consist of multiple layers of neurons, or nodes. The networks are structured with an input layer followed by one or more hidden layers and one output layer \citep{logan_2017}. Figure \ref{fig:ann} illustrates a simple network which takes a feature vector $\mathbf{x}^{(0)}=[x_1^{(0)}\text{ }  x_2^{(0)}]^{T}$ as input. By multiplying the feature vector with a set of weights $\mathbf{w}^{(1)}$ the features are propagated through the network, generating a set of new node values. In the network in figure \ref{fig:ann} the output from the input layer, forwarded to the hidden layer, becomes
-%\rowcolors{2}{white}{white}
 \begin{equation}\label{eq:nn}
 	\mathbf{x}^{(1)}=\begin{bmatrix}x_1^{(1)} \\ x_2^{(1)} \\ x_3^{(1)} \end{bmatrix} = 
 	\begin{bmatrix} w_{11}^{(1)} & w_{21}^{(1)} \\ w_{12}^{(1)} & w_{22}^{(1)} \\ w_{13}^{(1)} & w_{23}^{(1)}\end{bmatrix}\cdot \begin{bmatrix}x_1^{(0)} \\ x_2^{(0)}\end{bmatrix}.

@@ -24,6 +24,7 @@ Calculating velocity-based features require the use of a sequence of multiple sw
 	\label{eq:classification_rate}
 	F_c = \frac{F_s}{T}.
 \end{equation} 
+
 Hence, the parameter $T$ becomes a tradeoff between feature accuracy and classification rate. The more samples used per classification, the better the extracted features become but with the cost of a lower classification frequency. Conversely, we may be able to generate feature estimates more rapidly by setting $T$ to a lower value, but will in the process end up with worse feature estimates. 
 
 % Described in the preceding chapter...
@@ -37,15 +38,14 @@ First of all we may characterize a sweep by its envelope form; that is, the shap
 \begin{equation}
 	\hat{x}(n) = \frac{1}{T}\sum_{t=0}^{T-1}|x(n, t)|.
 \end{equation}
-In figure \ref{fig:sweep_average} we see what such an averaging process yield. Individual variances are suppressed to form a stable estimate of the sweep shape. With $K$ fast time samples, the estimate of the expected envelope feature vector becomes 
 
+In figure \ref{fig:sweep_average} we see what such an averaging process yield. Individual variances are suppressed to form a stable estimate of the sweep shape. With $K$ fast time samples, the estimate of the expected envelope feature vector becomes 
 \begin{equation}
 	\mathbf{f}_{x} = 
 	\begin{bmatrix}
 		\hat{x}(0) & \hat{x}(1) & ... & \hat{x}(K-1)
 	\end{bmatrix}.
 \end{equation}
-
 
 \begin{figure}[h]
 	\centering
@@ -76,6 +76,7 @@ As for the feature vector, a $T$-step DFT along the slow time axis is first comp
 \begin{equation}
 	\mathbf{d}_n=\text{DFT}\big\{x(n,t)\big\}_t =  \sum_{t=0}^{T-1}x(n,t)\exp\Big(-2\pi i\frac{kt}{T}\Big), \quad k=0,...,T-1.
 \end{equation}
+
 After this, the transformations for all ranges are concatenated into a one-dimensional feature vector. This feature vector must be real-valued, as the machine learning classifiers considered in this work utilize real-valued inputs. The feature vector is formed by taking the absolute values of the frequency components through
 \begin{equation}
 	\textbf{f}_{f}=\begin{bmatrix} |\mathbf{d}_0|^* & |\mathbf{d}_1|^* & \hdots & |\mathbf{d}_K|^* \end{bmatrix},
@@ -177,21 +178,17 @@ Noting that the autocovariance sequence at 0 lag produces only real numbers, as 
 \subsection{Autocovariance in Energy}
 
 While the sweep normalization process rendered absolute measurements of signal energy meaningless, we are still able to investigate its time-dependent structure through the autocovariance function. First, we estimate the energy in each radar sweep $v(t)$ and the average energy $v_a(t)$ in $T$ number of sweeps, and then calculate the real-valued autocovariance sequence $h(k)$ as 
-
 \begin{equation}
 	v(t) = \frac{1}{N}\sum_{n=0}^{N-1}x(n,t)x^*(n,t)
 \end{equation}
-
 \begin{equation} 
 	v_a = \frac{1}{T}\sum_{t=0}^{T-1}v(t)
 \end{equation}
-
 \begin{equation}
 	h(k) = \frac{1}{T}\sum_{t=k}^{T-1}\big(v(t) - v_a\big)\big(v(t-k) - v_a\big)^*.
 \end{equation}
 
 As $h(k)$ only consist of real values, the energy autocovariance feature vector $\mathbf{f}_{h}$ is formed as
-
 \begin{equation}
 	\mathbf{f}_{h} = 
 	\begin{bmatrix}
