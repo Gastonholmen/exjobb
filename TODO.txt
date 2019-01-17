@@ -1,12 +1,8 @@
 Overall
- - Spelling mistakes
- - Equation spacing
  - Check that figure captions are good 
  - Mention the tools we are using - Python/skelarn/Keras/Tensorflow
  - Black-and-white figures: LOO table - fix green/red colors
- - Black-and-white figures: LOO bar - black text on top
- - 
- - Equation proofs -> ??
+ - Black-and-white figures: LOO bar - black text on top 
 
 Abstract
 
@@ -82,3 +78,6 @@ DONE:
 [X] Connecting Autocovariance to beat frequencies?
 [X] Fix the "impossible modeling problem" part into something more reasonable...
 [X] New ACF image
+[X] Spelling 
+[X] Equation proofs -> ??
+[X] Equation spacing
