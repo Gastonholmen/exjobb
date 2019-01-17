@@ -1,6 +1,6 @@
 \chapter{Postprocessing and Data Augmentation}
 
-In the previous chapter a parsimonious \gls{dnn} classifier was found to be the top performing model for the surface classification problem investigated. In this chapter, two improvements to this model are introduced. First, we use a basic data augmentation technique to increase the size of the training data. Then, outlier suppression and detection methods are discussed.
+In the previous chapter a \gls{dnn} classifier was found to be the top performing model for the surface classification problem investigated. In this chapter, two improvements to this model are introduced. First, we use a basic data augmentation technique to increase the size of the training data. Then, outlier suppression and detection methods are discussed.
 
 \section{Data Augmentation}
 
@@ -46,13 +46,12 @@ Even with an optimized model with tons of training data, erroneous predictions a
 
 Many elaborate statistically appealing methods for change detection are presented in \citep{basseville_nikiforov_1993}. These methods require some basic assumptions on the data it attempts to detect a change from, such as for the data having constant probability distribution before and after a parameter change occurs. This, however, renders these methods difficult to use in the present use case, as we are dealing with the output of an artificial neural network producing predictions with unknown structure. This is reinforced by examining what the model outputs, see the top figure in \ref{fig:trans_tgtg}. Predictions remain extremely stable for long periods of time, with occasional outlying predictions every now and then. This makes, as far as we can tell, the methods presented in \citep{basseville_nikiforov_1993} unsuitable for detecting change at the softmax output.
 
-Perhaps most effective way of suppressing data littered with outliers is through some form of median filtering \citep{yin_yang_gabbouj_neuvo_1996}. Median filters are very robust against impulsive-type noise, a property that cannot be achieved by traditional linear filtering techniques. The regular form of a median filter simply takes the median of current and previous datapoints, resulting in an output significantly less sensitive to inconsistencies \citep{pearson_2002}. For a sequence $\{p\}$ of predictions produced by the \gls{dnn} we apply a median filter of length $M$ and set a decision threshold $\xi$ to produce binary predictions $P_i$ according to
-\citep{yin_yang_gabbouj_neuvo_1996}
+Perhaps most effective way of suppressing data littered with outliers is through some form of median filtering \citep{yin_yang_gabbouj_neuvo_1996}. Median filters are robust against impulsive-type noise, a property that cannot be achieved by traditional linear filtering techniques. The regular form of a median filter simply takes the median of current and previous datapoints, resulting in an output significantly less sensitive to inconsistencies \citep{pearson_2002}. For a sequence $\{p_k\}$ of predictions produced by the \gls{dnn} we apply a median filter of length $L$ and set a decision threshold $\xi$ to produce binary predictions $P_i$ according to \citep{yin_yang_gabbouj_neuvo_1996}
 \begin{equation}
-	P_i=0 \quad\text{if}\quad\text{median}\{p_k\}_{k=i-M+1}^i\leq\xi, 
+	P_i=0 \quad\text{if}\quad\text{median}\{p_k\}_{k=i-L+1}^i\leq\xi, 
 	\quad \text{else} \quad P_i = 1
 \end{equation}
-where $0<\xi<1$. The drawback of using median filtering, or any filtering really, is that the detection is delayed a few predictions. Thus, $M$ must be selected so that the device has not moved too far before the change detection has occurred, but is still capable of sufficiently  suppressing outlying predictions. 
+where $0<\xi<1$. The drawback of using median filtering, or any filtering really, is that the detection is delayed a few predictions. Thus, $L$ must be selected so that the device has not moved too far before the change detection has occurred, but is still capable of sufficiently  suppressing outlying predictions. 
 
 
 \iffalse
