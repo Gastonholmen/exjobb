@@ -24,7 +24,7 @@ or, more succinctly, as samples $r(n,t) = \mathbf{D}_{n,t}$ with $n=1...2Z$. Eac
 \begin{figure}
 	\centering
 	\includegraphics[scale=0.60]{figs_temp/data_collecting.jpg}
-	\caption{Two sensors mounted at the front of a robot collect data while the robot is moving forward. Note that the collected data is split in its \gls{iq} components, whereas the image depicts its absolute values for the sake of clarity.}
+	\caption{Illustation of the data acquisition process. Radar sweeps are collected during constant velocity robot movement and stored in a data matrix. For visualization purposes the absolute values of the complex radar sweeps are shown and the spatial distance between radar sweep measurements have been greatly exaggerated.}
 	\label{fig:data_collecting}
 \end{figure}
 
@@ -36,7 +36,7 @@ As mentioned above, two sensors each capture one data matrix per measurement ses
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.9]{figs_temp/reflections.jpg}
-	\caption{Using two sensors mounted with different tilts, we can get information about a surface's roughness. For a smooth surface, the flat and tilted sensors yield a very different response, whereas for a rugged surface the responses are more similar.}
+	\caption{By using two \gls{pcr} sensors with different mounting angles more diverse information about a target surface is obtained. The ratio between specular and diffuse reflectivity is highly dependent on surface roughness, as indicated in the figure.} 
 	\label{fig:reflections}
 \end{figure}
 
@@ -50,7 +50,7 @@ In this work we wish to see if we can create a binary classifier capable of dist
 	\begin{center}
 		\begin{tabular}{|c|c|}
 			\hline
-			\rowcolor{gray!150}\color{white}\textbf{Surface} & \color{white}\textbf{Num. sessions} \\
+			\rowcolor{gray!150}\color{white}\textbf{Surface} & \color{white}\textbf{Data matrices} \\
 			Grass & 18 \\
 			\rowcolor{gray!25} Asphalt & 6 \\
 			Gravel & 6 \\
@@ -108,7 +108,7 @@ Thus, in order to avoid aliasing, the sampling rate $F_s$ should be at least 190
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.30]{figs_temp/sensor_placement.jpg}
-	\caption{Sensor placement in robot chassis. The figure indicates the furthest point visible by the radar.}
+	\caption{Sensor placement of the $22.5^\circ$-degree tilted sensor in the robot chassis. The figure indicates the furthest point visible by this sensor.}
 	\label{fig:sensor_placement}
 \end{figure}
 \subsection{Wavelet Duration}

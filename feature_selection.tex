@@ -50,7 +50,7 @@ In figure \ref{fig:sweep_average} we see what such an averaging process yield. I
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.7]{figs_temp/features/sweep_average}
-	\caption{By averaging the absolute values of several consecutive sweeps we reduce noise and make samples more similar. The dashed line shows the average of the solid lines. }
+	\caption{By averaging the absolute values of several consecutive sweeps we obtain a measure of the average sweep shape. The dashed line shows the average of individual absolute values of radar sweeps, shown as solid semi-transparent lines.}
 	\label{fig:sweep_average}
 \end{figure}
 
@@ -94,7 +94,7 @@ where $|\cdot|^*$ denotes elementwise absolute values, and $K$ is the number of 
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.55]{figs_temp/features/fft}
-	\caption{For each material, a 128-step \gls{dft} is computed in slow time for all ranges. The absolute value is taken over the complex \gls{dft}, followed by taking the square root of it to make the differences more clear in the plot. }
+	\caption{For each material a \gls{dft} is computed over 128 sweeps in slow time. For visualization purposes the square root of the absolute values of the complex-valued \gls{dft} is shown, highlighting differences in frequency content of the different surfaces.}
 	\label{fig:fft}
 \end{figure}
 
@@ -111,7 +111,7 @@ A second method to investigate time-domain dependencies is through the autocovar
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.45]{figs_temp/features/autocorr_range.png}
-	\caption{The graphs show the absolute values of the autocovariances computed from a time-varying \gls{iq}-signal recorded at a range of approximately 14 cm.}
+	\caption{The first 11 autocovariance lags have been computed from a large number of slow time samples taken at roughly 14 cm for each surface considered in this work. The absolute values of the covariance lags are shown here for illustrative purposes. Note that only the zeroth lag is real-valued and that the others are complex valued.}
 	\label{fig:autocorr_range}
 \end{figure}
 
@@ -216,14 +216,14 @@ where $q$ is the number of covariance lags.
   \begin{tabular}{|c|cccccc|}
 \hline
     \rowcolor{gray!150}
-		  & \color{white}\textbf{Abs} & \color{white}\textbf{AC Energy} & \color{white}\textbf{AC Range} & \color{white}\textbf{FFT} & \color{white}\textbf{Features} & \color{white}\textbf{SVM Accuracy} \\
+		  & \color{white}\textbf{Abs.} & \color{white}\textbf{AC-E} & \color{white}\textbf{AC-R} & \color{white}\textbf{DFT} & \color{white}\textbf{Feats.} & \color{white}\textbf{SVM Acc. [\%]} \\
 	  Config 1 & X &   &   &   & 28  & 92.23 \\
 	  Config 2 & X & X & X & & 174 & 97.44 \\
 	  Config 3 & & & & X & 700 & 97.37 \\
 \hline
   \end{tabular}
 \end{center}
-\caption{Three possible configurations of feature. Ideally, we want few features and a high accuracy.}
+	\caption{Three feature configurations of the four introduced features are compared. An X indicates that the feature is used in the configuration. Above, Abs indicate estimated envelopes, AC-E and AC-R autocovariances in energy and range, respectively, and DFT the discrete Fourier transform. Ideally we want as few features and as high linear separability, shown through an SVM accuracy score, as possible.} 
 \label{tab:feat}
 \end{table}
 

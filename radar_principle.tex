@@ -136,7 +136,7 @@ where $x_T(t)$ is the analysis pulse as defined in \eqref{eq:trans} and $y(t)$ i
 \begin{figure}[t]
 	\centering
 	\includegraphics[scale=0.5]{figs_temp/mixing2}
-	\caption{The output $m(\tau)$ is produced through matched filtering.}
+	\caption{The matched filtering output $m(\tau)$ is produced by summing the overlap of the analysis and received pulse for all lags $\tau$.}
 	\label{fig:mix2}
 \end{figure}
 \begin{equation}
@@ -166,7 +166,7 @@ $m(\tau)$ will be on the form
 
 The full derivation of \eqref{eq:n0}, \eqref{eq:n1} and \eqref{eq:n2} can be found as an appendix. This procedure is illustrated in figures \ref{fig:mix0} and \ref{fig:mix1}. The analysis pulse is shown in the top plot, the received pulse in the center and the result of the elementwise multiplication at the bottom. These two figures differ in that the internal delay $\tau$ of the analysis pulse is different, so that no overlap occurs in the first figure while significant overlap happens in the second.
 
-In figure \ref{fig:mix2} a numerical computation of $m(\tau)$ has been performed, shown in part in figures \ref{fig:mix0} and \ref{fig:mix1}. Note that this result was obtained for a noise-free mixing of a signal from a single theoretical point scattering target. It is thus clear that with complicated continuous structures, target scenes produce complex outputs at the reciever.
+In figure \ref{fig:mix2} a numerical computation of $m(\tau)$ has been performed, shown in part in figures \ref{fig:mix0} and \ref{fig:mix1}. Note that this result was obtained for a noise-free mixing of a signal from a single theoretical point scattering target. It is thus clear that with complicated continuous structures, target scenes produce complex outputs at the receiver.
 
 \section{IQ Demodulation}
 \label{sec:iq}
