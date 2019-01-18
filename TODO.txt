@@ -1,5 +1,6 @@
 Overall
  - (Make tables look fancier?)
+ - Make sure positions of paragraphs are nicely positioned (e.g. no title at the bottom of a page etc.)
 Abstract
 
 Pop science article
