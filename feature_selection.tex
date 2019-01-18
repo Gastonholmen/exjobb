@@ -177,7 +177,7 @@ In figure \ref{fig:autocorr_range} the absolute values of calculated autocovaria
 
 \subsection{Autocovariance in Energy}
 
-Although the sweep normalization process rendered absolute measurements of \gls{rcs} meaningless, we are still able to investigate its time-dependent structure through the autocovariance function. First, we estimate the energy in each radar sweep $v(t)$ and the average energy $v_a(t)$ in $T$ number of sweeps, and then calculate the real-valued autocovariance sequence $h(k)$ as 
+Although the sweep normalization process rendered absolute measurements of \gls{rcs} pointless, we are still able to investigate any time-dependent structure through the autocovariance function. First, we estimate the energy in each radar sweep $v(t)$ and the average energy $v_a(t)$ in $T$ number of sweeps, and then estimate the real-valued autocovariance sequence $h(k)$ as 
 \begin{equation}
 	v(t) = \frac{1}{N}\sum_{n=0}^{N-1}x(n,t)x^*(n,t)
 \end{equation}
@@ -232,18 +232,18 @@ where $q$ is the number of covariance lags.
 
 \subsection{Reducing the Range Swath}
 
-Before performing any feature processing, the data is downsampled by a downsampling factor of $D=20$ as was described in section \ref{downsampling}. However, after examining the fast time samples, it turns out that ranges below approximately 11 cm only contain little information. This can clearly be seen in the dark regions of the \gls{dft}s in figure \ref{fig:fft}. Similarly, yet not as apparent, little information is found at longer ranges. Therefore, we extract samples from an intermediate region when downsampling, modifying equation \eqref{eq:downsamp} to become
+Before performing any feature processing, data is downsampled by a downsampling factor of $D=20$ as was described in section \ref{downsampling}. However, after examining a number of radar sweeps, it is clear that ranges below approximately 11 cm only contain little useful information. This can clearly be seen in the dark regions of the \gls{dft}s in figure \ref{fig:fft}. Similarly, little information is found at longer ranges. Therefore, we extract samples from an intermediate region when downsampling, modifying equation \eqref{eq:downsamp} to
 \begin{equation}
 	r_{1,D}(d, t) = r_{1}(50+dD,t), 
 	\quad \text{and} \quad r_{2,D}(d,t) = r_{2}(50+dD,t)
 \end{equation}
-for $d=0,...,13$. With this definition, the downsampled signal consists of 14 evenly spaced range indices from 50 to 310, corresponding to ranges 9.4 to 21.88 cm. Thus, the resulting data matrix used for generating one set of features has $14\cdot 2$ ranges for the two sensors and has $T=25$ slow time sweeps. 
+for $d=0,...,13$. With this definition, the downsampled radar sweeps consist of 14 evenly spaced range indices from ranges 9.4 to 21.88 cm. Thus, the resulting data matrix used for generating one set of features has $14\cdot 2$ complex ranges for the two sensors and $T=25$ slow time sweeps. 
 
-\subsection{Tested Feature Combinations}
+\section{Tested Feature Combinations}
 
-Four different feature extraction methods have now been described - the average signal shape, the autocovariance in range and energy as well as the Fourier transform. The methods each generate multiple features. However, we are not limited to feed our model with features taken from a single one of the methods. In table \ref{tab:feat}, three possible configurations of features are chosen. Each of these combinations was tested in a simple support vector machine classifier (\gls{svm}, described in further detail in chapter 5), to evaluate which was the most efficient. The first one, which simply involves the averaged sweep envelope, requires much fewer features than the other two combinations - 28 positive real numbers for the 28 ranges. But looking at its performance, these features are not enough to reach the accuracy attained in the other two cases. 
+Four different feature extraction methods have now been described - the average signal shape, the autocovariance in range and energy and the Fourier transform. Each method generates multiple features. However, we are not limited to feed our model with features taken from a single one of the methods. In table \ref{tab:feat}, results from three feature configurations are tested. Each of these combinations was tested in a support vector machine classifier (\gls{svm}, described in further detail in chapter 5), to evaluate which was the most efficient. The first one, which simply involves the averaged sweep envelope, requires much fewer features than the other two combinations - 28 positive real numbers for the 28 ranges. But looking at its performance, these features are not enough to reach the accuracy attained in the other two cases. 
 
-By instead selecting autocovariances with 2 lags as features the accuracy increases by nearly 5 percent. Here we also include the absolute values as features, as this information is lost when subtracting the mean during the computation of the autocovariances. This configuration generates a feature vector with 174 elements, as seen in figure \ref{fig:feat_fig}. 28 features come from the absolute values and 6 from the energy autocovariance. The majority of the features come from the autocovariance in range. For each of the 28 range bins there is one real-valued feature representing variance followed by two complex autocovariances for each range bin. This should give us $28+2\cdot 28=84$ features, but as the real- and imaginary parts of complex numbers are split up in two features, we obtain $28+2\cdot2\cdot 28=140$ features. The total number of features therefore becomes $28+6+140=174$.
+By instead selecting autocovariances with 2 lags as features the accuracy increases by over 5 percent. Here we also include the absolute values as features, as this information is lost when subtracting the mean during the computation of the autocovariances. This configuration generates a feature vector with 174 elements, as seen in figure \ref{fig:feat_fig}. 28 features come from the absolute values and 6 from the energy autocovariance. The majority of the features come from the autocovariance in range. For each of the 28 range bins there is one real-valued feature representing variance followed by two complex autocovariances for each range bin. This should give us $28+2\cdot 28=84$ features, but as the real- and imaginary parts of complex numbers are split up in two features, we obtain $28+2\cdot2\cdot 28=140$ features. The total number of features therefore becomes $28+6+140=174$.
 
 \begin{figure}[h]
 	\centering
@@ -252,22 +252,22 @@ By instead selecting autocovariances with 2 lags as features the accuracy increa
 	\label{fig:feat_fig}
 \end{figure}
 
-We can also choose to look at the Fourier transform, as in configuration 3. Using the \gls{dft} we reach a similar accuracy as in configuration 2 but require some 700 features. The 700 features is a result of computing a discrete Fourier transform along the slow time of all 28 ranges over 25 samples\footnote{Ideally, the \gls{dft} should be computed as an FFT over a number of slow time samples which is a power of 2. However, to get a fair comparison of the feature extraction methods, we utilize the same number of samples for all methods.}. The length of each transform is 25, and by concatenating them all into one feature vector, we end up with $28\cdot 25=700$ elements. 
+We can also choose to look at the Fourier transform, as in configuration 3. Using the \gls{dft} we reach a similar accuracy as in configuration 2 but require some 700 features. The 700 features are a result of computing a discrete Fourier transform along the slow time of all 28 ranges over 25 samples\footnote{Ideally, the \gls{dft} should be computed as an FFT over a number of slow time samples which is a power of 2. However, to get a fair comparison of the feature extraction methods, we utilize the same number of samples for all methods.}. The length of each transform is 25, and by concatenating them all into one feature vector, we end up with $28\cdot 25=700$ elements. 
 
 The high accuracy and low number of features of configuration 2 makes it the clear top performer of the three, and will be used for the remainder of this report for further investigation.
 
 \section{Feature Principal Component Analysis}
 
-Through the feature extraction methods described in previous sections we obtain high dimensional feature vectors. Getting an intuitive feel for such data extracted in these processes is difficult as direct plotting is limited to three dimensions. 
+Through the feature extraction methods described in previous sections we obtain high dimensional feature vectors. Getting an intuitive feel for such high-dimensional data is difficult as direct plotting is limited to three dimensions. 
 
-\gls{pca} is  a classical technique in statistical data analysis which takes a large set variables from a multivariate dataset and finds a smaller set of variables with less redundancy. Critically, \gls{pca} finds a rotated orthogonal coordinate system such that the elements of the set become uncorrelated \citep{hyvasrinen_karhunen_oja_2004}. Projecting elements onto the principal axes corresponding to the directions of maximal variance a good approximation of the original data in lower dimension is obtained.
+Principal component analysis (\gls{pca}) is  a classical technique in statistical data analysis which takes a large set variables from a multivariate dataset and finds a smaller set of variables with less redundancy. Critically, \gls{pca} finds a rotated orthogonal coordinate system such that the elements of the set become uncorrelated \citep{hyvasrinen_karhunen_oja_2004}. By projecting elements onto the principal axes corresponding onto the directions of maximal variance we obtain a good approximation of the original data in a lower dimension.
 
-After having chosen to proceed with feature configuration 2 in table \ref{tab:feat}, the 174 dimensions can be reduced to 2 dimensions using \gls{pca}. By projecting feature vectors onto the two directions of maximal variance, we get a good visualization of the separability of the different surfaces as seen in figure \ref{fig:pca}. Note that each dot in this plot corresponds to one feature vector, and that the figure represents features extracted from the full set of 175 minutes of data.  
+After having chosen to proceed with feature configuration 2 in table \ref{tab:feat}, the 174 dimensions can be reduced to 2 dimensions using \gls{pca}. By projecting feature vectors onto the two directions of maximal variance, we get a good visualization of the separability of the different surfaces as seen in figure \ref{fig:pca}. Note that each dot in this plot corresponds to one feature vector, and that the figure represents features extracted from the full set of 175 minutes of data sampled at 200 Hz.  
 
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.50]{figs_temp/pca_analysis.png}
-	\caption{By performing a principal component analysis on the feature vectors we project 174 dimensional feature vectors into two dimensions corresponding to directions of maximum variance. This allows for us to visualize how separable the different surface types are.}
+	\caption{By performing a principal component analysis on the feature vectors we project 174 dimensional feature vectors onto two dimensions corresponding to directions of maximum variance. This allows for us to visualize how separable the different surface types are.}
 	\label{fig:pca}
 \end{figure}
 
