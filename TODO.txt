@@ -1,5 +1,5 @@
 Overall
- - Make tables look fancier
+[X] Make tables look fancier
  - Make sure positions of paragraphs are nicely positioned (e.g. no title at the bottom of a page etc.)
 Abstract
 
@@ -11,7 +11,7 @@ Ch 1
 Ch 2
 
 Ch 3
-
+[X] Remove graphs in figure 3.2
 Ch 4
 
 Ch 5

@@ -8,7 +8,7 @@ A common representation of data acquired by multi-antenna radars is the \emph{da
 
 The \gls{pcr} systems considered in this work only have a single receiving antenna, generating data with only fast and slow time dimensions. Two such systems are used in parallel, but are not synchronized to one another. This essentially means that sensors take turn capturing radar sweeps as opposed to listening to the same echo wavelets. %Thus it would be incorrect, or at least misleading, to treat these two sensors as the third dimension of a datacube which would indicate that the two sensors are synchronized. 
 
-For our intents and purposes, we may concatenate the two discrete sensor outputs to form a \emph{data matrix}. If a radar sensor's output with fast time index $d=1...Z$ and slow time index $t=1...Q$ is described with $r(d,t)$, we form a data matrix $\mathbf{D}$ with sensors $r_1(d,t)$ and $r_2(d,t)$ through
+For our intents and purposes, we may concatenate the two discrete sensor outputs to form a \emph{data matrix}. If a radar sensor's output with fast time index $d=1...Z$ and slow time index $t=1...Q$ is described by $r(d,t)$, we form a data matrix $\mathbf{D}$ with sensors $r_1(d,t)$ and $r_2(d,t)$ through
 \begin{equation}
 	\mathbf{D}= 
 	\begin{bmatrix}
@@ -30,13 +30,13 @@ or, more succinctly, as samples $r(n,t) = \mathbf{D}_{n,t}$ with $n=1...2Z$. Eac
 
 \section{Measurement Setup}\label{sec:setup}
 
-As mentioned above, two sensors each capture one data matrix per measurement session. Sensor data is acquired while the robot is moving at a constant pace illustrated in figure \ref{fig:data_collecting}. Furthermore, two mounting angles are used, where one sensor is facing directly towards the ground while the other has a $22.5^\circ$ forward tilt. The reasoning behind this setup is for each sensor to capture different aspects of the surface below; the sensor directed straight downwards may capture a larger component of the specular (i.e. mirror-like) reflection from the ground plane, while the tilted may capture more of the diffuse scattering processes. This concept is closely related to the surface ruggedness illustrated in figure \ref{fig:reflections}. It is worth noting that the half power beam width of the sensor is roughly $60^\circ$ \citep{acconeer_datasheet_a111}, meaning that an angular width of about $60^\circ$ is illuminated by each sensor.
+As mentioned above, two sensors each capture one data matrix per measurement session. Sensor data is acquired while the robot is moving at a constant pace, illustrated in figure \ref{fig:data_collecting}. Furthermore, two mounting angles are used, where one sensor is facing directly towards the ground while the other has a $22.5^\circ$ forward tilt. The reasoning behind this setup is for each sensor to capture different aspects of the surface below; the sensor directed straight downwards may capture a larger component of the specular (i.e. mirror-like) reflection from the ground plane, while the tilted may capture more of the diffuse scattering processes. This concept is closely related to the surface ruggedness illustrated in figure \ref{fig:reflections}. It is worth noting that the half power beam width of the sensor is roughly $60^\circ$ \citep{acconeer_datasheet_a111}, meaning that an angular width of about $60^\circ$ is illuminated by each sensor.
 
 %It is worth noting that the half power beamwidth of the sensor is roughly $60^\circ$ \citep{acconeer_datasheet_a111}, meaning that each sensor illuminates about a $60^\circ$ angular width. %This idea is illustrated in figure \ref{fig:reflections}. If we are presented with two surfaces of the same material but with different ruggedness, the two will still scatter differently in spite of their equivalent dielectric properties. The scattering processes considered in this work should be highly dependant on the surface structure, where the predictability (or the randomness) should vary from material to material. 
 \begin{figure}[h]
 	\centering
-	\includegraphics[scale=0.9]{figs_temp/reflections.jpg}
-	\caption{By using two \gls{pcr} sensors with different mounting angles more diverse information about a target surface is obtained. The ratio between specular and diffuse reflectivity is highly dependent on surface roughness, as indicated in the figure.} 
+	\includegraphics[scale=0.2]{figs_temp/reflections.jpg}
+	\caption{By using two \gls{pcr} sensors with different mounting angles more diverse information about a target surface is obtained. The ratio between specular and diffuse reflectivity is dependent on surface roughness, as indicated in the figure.} 
 	\label{fig:reflections}
 \end{figure}
 
@@ -44,25 +44,31 @@ A final consideration is that as the sensors are placed on the inside of the rob
 
 \section{Target Surfaces}
 
-In this work we wish to see if we can create a binary classifier capable of distinguishing grass from non-grass surfaces. For the application of keeping a robot lawn mower in bounds, it is natural to select other surfaces that commonly borders lawns. The selection of surfaces was made with this in mind and is presented in table \ref{tab:count}, along with the number of measurement sessions per surface, each acquiring one data matrix with 50,000 slow time samples. Each session was taken either on a different day or in a different location than the rest. Note that the total sampling time amounts to $50,000\cdot42/(F_s [\text{s}^{-1}]\cdot60)=175$ minutes.
+In this work we wish to see if we can create a binary classifier capable of distinguishing grass from non-grass surfaces. For the application of keeping a robot lawn mower in bounds, it is natural to select other surfaces that commonly borders lawns. The selection of surfaces was made with this in mind and is presented in table \ref{tab:count}, along with the number of measurement sessions per surface, each acquiring one data matrix with 50,000 slow time samples. Each session was taken either on a different day or in a different location than the rest. Note that the total sampling time amounts to\newline $50,000\cdot42/(F_s [\text{s}^{-1}]\cdot60)=175$ minutes.
 
-\begin{table}
-	\begin{center}
-		\begin{tabular}{|c|c|}
-			\hline
-			\rowcolor{gray!150}\color{white}\textbf{Surface} & \color{white}\textbf{Data matrices} \\
-			Grass & 18 \\
-			\rowcolor{gray!25} Asphalt & 6 \\
-			Gravel & 6 \\
-			\rowcolor{gray!25} Soil & 8 \\
-			Tiles & 4 \\ \hline
-			\rowcolor{gray!25} Total & 42 \\
-			\hline
-		\end{tabular}
-	\end{center}
-	\caption{Measured surface types and number of captured data matrices per surface type.}
+\begin{table}[h]
+	\centering
+	\includegraphics[scale=0.7]{figs_temp/table_surfaces.jpg}
+	\caption{Measured surface types and number of captured data matrices per surface type.} 
 	\label{tab:count}
 \end{table}
+%\begin{table}
+%	\begin{center}
+%		\begin{tabular}{|c|c|}
+%			\hline
+%			\rowcolor{gray!150}\color{white}\textbf{Surface} & \color{white}\textbf{Data matrices} \\
+%			Grass & 18 \\
+%			\rowcolor{gray!25} Asphalt & 6 \\
+%			Gravel & 6 \\
+%			\rowcolor{gray!25} Soil & 8 \\
+%			Tiles & 4 \\ \hline
+%			\rowcolor{gray!25} Total & 42 \\
+%			\hline
+%		\end{tabular}
+%	\end{center}
+%	\caption{Measured surface types and number of captured data matrices per surface type.}
+%	\label{tab:count}
+%\end{table}
 
 \iffalse
 \begin{table}
@@ -125,18 +131,25 @@ The three settings for the three parameters discussed in this section are summar
 
 \begin{table}
 	\begin{center}
-		\begin{tabular}{|c|c|}
-			\hline
-			\cellcolor{gray!150}\color{white}\textbf{Setting} & \cellcolor{gray!150}\color{white}\textbf{Value} \\
-			Wavelet duration & Short \\
-			\cellcolor{gray!25}Sampling frequency & \cellcolor{gray!25}200 Hz \\
-			Range swath & 7 to 23 cm \\ 
-			\hline
-		\end{tabular}	
+		\includegraphics[scale=0.70]{figs_temp/table_settings.jpg}
 	\end{center}
 	\caption{Sensor settings. The wavelet duration is set as short as possible while maintaining a reasonable \gls{snr}.}
 	\label{tab:sensor_settings}
 \end{table}
+%\begin{table}
+%	\begin{center}
+%		\begin{tabular}{|c|c|}
+%			\hline
+%			\cellcolor{gray!150}\color{white}\textbf{Setting} & \cellcolor{gray!150}\color{white}\textbf{Value} \\
+%			Wavelet duration & Short \\
+%			\cellcolor{gray!25}Sampling frequency & \cellcolor{gray!25}200 Hz \\
+%			Range swath & 7 to 23 cm \\ 
+%			\hline
+%		\end{tabular}	
+%	\end{center}
+%	\caption{Sensor settings. The wavelet duration is set as short as possible while maintaining a reasonable \gls{snr}.}
+%	\label{tab:sensor_settings}
+%\end{table}
 
 \section{Downsampling in Fast Time}
 \label{downsampling}

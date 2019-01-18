@@ -18,7 +18,14 @@ In the present case of increasing the number of smaller data matrices with $T$ s
 Setting $A=5$, one data matrix consisting of 50,000 slow time samples normally yielding 2,000 smaller data matrices with $T=25$ slow time samples, instead produces 9996 matrices. Thus, with this method we are able to increase the number of training data by almost a factor of 5. In table \ref{tab:aug} the effects of data augmentation with $A=5$ is compared to having no augmentation.
 
 % Discuss this result later on.
-
+\begin{table}
+	\begin{center}
+		\includegraphics[scale=0.7]{figs_temp/table_augmentation.jpg}
+	\end{center}
+	\caption{Leave-one-out accuracies with and without data augmentation.}
+	\label{tab:aug}
+\end{table}
+\iffalse
 \begin{table}
 	\begin{center}
 		\rowcolors{2}{gray!25}{white}
@@ -34,6 +41,7 @@ Setting $A=5$, one data matrix consisting of 50,000 slow time samples normally y
 	\caption{Leave-one-out accuracies with and without data augmentation.}
 	\label{tab:aug}
 \end{table}
+\fi
 
 %\section{Outlier removal}
 
