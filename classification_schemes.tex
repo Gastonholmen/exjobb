@@ -91,21 +91,21 @@ Random forest (\gls{rf}) is an ensemble learning method that can be used for bot
 Random forest segments the training data into $n$ parts, and induces a decision tree from each group of data. Thus, there are $n$ predictors that work independently, and by selecting the most common prediction, random forest yields a robust result with little risks of overfitting due to the combined results of multiple decision trees. On top of that it offers a very high accuracy in a wide variety of applications, while still maintaining an intuitive model structure that allows us to, for instance, estimate which features are important \citep{breiman_2002}. In Google's \emph{Project Soli}, random forests were used for millimeter-wave radar gesture recognition with impressive results \citep{lien_gillian_karagozler_amihood_schwesig_olson_raja_poupyrev_2016}. 
 
 \subsection{Logistic Regression}
-Logistic regression (\gls{lr}) is similar to linear regression, in that the parameters $\{b_i\}_{i=0}^n$ are optimized to model the linear relationship between the inputs $\{X_i\}_{i=0}^n$ and the continuous output $Y$
+Logistic regression (\gls{lr}) is similar to linear regression where the parameters $\{b_i\}$ are optimized to model the linear relationship between the inputs $\{X_i\}$ and the continuous output $Y$
 \begin{equation}
+\label{eq:linreg}
 	Y= b_0+\sum_{i=1}^n b_iX_i.
 \end{equation}
 
-% What? does below sentence mean???
-However, logistic regression serves as a binary classifier, hence the continuous output, $Y$ is replaced by mapping it to the open interval $(0,1)$. This is done using the sigmoid function, defined as $\sigma(z)=\frac{1}{1+e^{-z}}$. Thus, \gls{lr} maps the input variables to
+However, logistic regression is rather used for modeling a binary variable, $Y_{log}\in\{0,1\}$. Therefore, a continuous output is unsuitable. Instead, the expression in \eqref{eq:linreg} is mapped to the open interval $(0,1)$ using the sigmoid function, defined as $\sigma(z)=\frac{1}{1+e^{-z}}$. Thus, \gls{lr} maps the input variables to
 \begin{equation}
 \label{eq:log_eq}
 	Y_{log}= \frac{1}{1+\exp(-(b_0 + \sum_{i=1}^n b_iX_i))}.
 \end{equation}
 
-For $Y\rightarrow \infty$ we have that $Y_{log}\rightarrow 1$ and for $Y\rightarrow -\infty$ that $Y_{log}\rightarrow 0$, accomplishing the mapping to $(0,1)$. $Y_{log}$ is interpreted as a prediction confidence and can be used together with some threshold value for making a decision in a binary classification. The model parameters in \gls{lr} are trained in such a way that $Y$ becomes large for input combinations representing samples of class 1, and small for samples of class 0.
+This value can be interpreted as the probability that a feature vector with a set of features, $\{X_i\}$, belongs to class 1. Note that for $Y\rightarrow \infty$ we have that $Y_{log}\rightarrow 1$ and for $Y\rightarrow -\infty$ that $Y_{log}\rightarrow 0$. The model parameters in \gls{lr} are trained in such a way that $Y$ becomes large for input combinations representing samples of class 1, and small for samples of class 0. 
 
-For further details about \gls{lr}, including how its parameters are optimized, we refer to \citep{shalev-shwartz_ben-david_2016}.
+For further details about \gls{lr}, including details on how its parameters are optimized, we refer to \citep{shalev-shwartz_ben-david_2016}.
 
 
 
