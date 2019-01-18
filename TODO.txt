@@ -15,6 +15,7 @@ Ch 3
 Ch 4
 
 Ch 5
+- Logistic regression, there are some unclear scentences in there.	
 
 Ch 6
 
