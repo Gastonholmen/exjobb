@@ -3,7 +3,6 @@
 In order to build a model capable of accurately capturing distinguishing features from target surfaces one must first understand the origin and structure of the received signal. In this chapter a few fundamental concepts in radar systems are introduced that explain how a target's range, velocity and reflectivity arise in a \gls{pcr} system. The mixing and \gls{iq} demodulation procedures are also discussed, which explain how radar measurements are performed.  
 
 \section{Target Properties from Pulsed Radar Response}
-% TODO: Utilize https://acconeer.sharepoint.com/:w:/g/CS/ES_xwcoTqVdGkShPJkNagMMBL1wVd_GaeJJsEDKC8lWIDQ?e=GxZNEw as a source for this.
 Fundamentally, a radar operates by radiating \gls{rf} electromagnetic energy and listening if the transmitted energy generates any echoes \citep{skolnik_2009}. By analyzing properties of returning signals it is then possible to obtain information regarding the scattering targets. This may involve the distance and angle at which scatterers are located or at which velocity they are moving in. With a sufficiently high angular and range resolution it is even possible to discern shapes and sizes of targets.  
 
 Standard radars are active systems, meaning that they have a radiating antenna and hence do not depend on any ambient radiation \citep{richards_2014}. Radar systems can be realized in many ways, however in this report a \gls{pcr} system is used. This means that a sequence of short coherent wavelets are transmitted towards a target scene to determine its properties. One such transmitted wavelet pulse $x_T(t)$ has some carrier frequency, $f_c$, and envelope, $A(t)$, as in
@@ -83,10 +82,10 @@ where $4\pi R^2$ is the surface area of the sphere. If a scatterer is present at
 	= \frac{P_tG_t\sigma}{4\pi d^2}.
 \end{equation}
 
-Then, provided that the scattering process also is isotropic and lossless, the power reflected back at the radar receiver is
+Then, provided that the scattering process is isotropic and lossless, the power reflected back at the radar receiver is
 \begin{equation}\label{eq:temp}
 	P_f 
-	= \frac{P_e}{4\pi R^2} 
+	= \frac{P_e}{4\pi d^2} 
 	= \frac{P_t G_t \sigma}{(4\pi d^2)^2}.
 \end{equation}
 
@@ -96,7 +95,7 @@ Finally only a portion $P_r = P_fA_r$ of the power is captured by the receiver, 
 	= \frac{P_t G_t A_r \sigma}{16\pi^2 d^4}.
 \end{equation}
 
-It is worth pointing out that this argument only holds for scatterers of limited size, and that if the scattering target for instance was a parabolic antenna, a waveguide or an infinite plane this relationship between the transmitted and received power would not be valid. The \gls{rre} states that power dissipates rapidly, by a factor $1/d^4$, with range. Hence, increasing the distance to a target object by a factor 2 will return only $1/16$ of the power otherwise received. According to \citep{richards_2014} this rate is in real-world scenarios typically between $1/d$ to $1/d^4$, so that the process may not be as lossy as the \gls{rre} predicts. If the noise power $N$ remains constant regardless of target distance, the \emph{signal-to-noise ratio} (\gls{snr}), defined as $\text{SNR} = P_r/N$ quickly decreases with range. 
+It is worth pointing out that this argument only holds for scatterers of limited size, and that if the scattering target for instance was a parabolic antenna, a waveguide or an infinite plane this relationship between the transmitted and received power would not be valid. The \gls{rre} states that power dissipates rapidly, by a factor $1/d^4$, with range. Hence, increasing the distance to a target object by a factor 2 will return only $1/16$ of the power otherwise received. According to \citep{richards_2014} this rate in real-world scenarios is typically between $1/d$ to $1/d^4$, so that the process may not be as lossy as the \gls{rre} predicts. If the noise power $N$ remains constant regardless of target distance, the \emph{signal-to-noise ratio} (\gls{snr}), defined as $\text{SNR} = P_r/N$ quickly decreases with range. 
 
 We also see from the \gls{rre} that the power returned is governed by the \gls{rcs}, $\sigma$, of the target. The \gls{rcs} describes how reflective a target is, determined by its size and shape as well as its dielectric properties. \gls{rcs} can be regarded as a fictious area that describes the intensity of the wave reflected back to the scatterer. This area corresponds to the projected area of an electrically large, perfectly conducting sphere whose echo strength would match that of the target if we were to replace the target with the sphere \citep{knott_1993}. 
 
