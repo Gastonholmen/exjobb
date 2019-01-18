@@ -48,7 +48,7 @@ If the target scatterer is moving from or towards the transmitting antenna, a sh
 \begin{equation}
 	f_r = \frac{c + v}{c - v}f_c
 \end{equation}
-where positive $v$ indicates that the scatterer is moving towards the transmitter. The frequency shift $f_d$, also known as the \emph{beat frequency} (\gls{bf}), is then
+where a positive $v$ indicates that the scatterer is moving towards the transmitter. The frequency shift $f_d$, also known as the \emph{beat frequency} (\gls{bf}), is then
 \begin{equation}\label{eq:dshift}
 	f_d 
 	= f_r - f_c 
@@ -106,7 +106,7 @@ However, as the reflectivity and thus the \gls{rcs} can vary with both distance 
 % Have a part on bandwidth
 \section{Matched Filter}\label{sec:mf}
 
-In the preceding section it was shown that the scattering response carry information about target range, reflectivity and radial velocity. This section explains how the radar captures the returning signals to generate raw radar data through \emph{matched filtering}.
+In the preceding section it was shown that the scattering response carries information about target range, reflectivity and radial velocity. This section explains how the radar captures the returning signals to generate raw radar data through \emph{matched filtering}.
 
 Matched filtering involves convolving the returning signal with a copy of the transmitted signal. Since the radio channel is assumed to be linear and time invariant (any Doppler shift is insignificant on the transmission-reception time scale) the received signal consists of a sum of weighted and time shifted transmitted signals. An internal pulse, called an analysis pulse, is generated as a delayed copy of the transmitted pulse. The received signal and the generated signal are then multiplied and summed to form one measurement point $m(\tau)$, where $\tau$ is the internal delay of the analysis pulse. 
 
@@ -170,7 +170,7 @@ In figure \ref{fig:mix2} a full numerical computation of $m(\tau)$ has been perf
 \section{IQ Demodulation}
 \label{sec:iq}
 
-Even though single-antenna receivers have no angular resolution it was shown above that the radar echo carries useful information. By measuring the temporal shift from transmission to reception we can calculate the distance to a scatterer, and by examining the phase shift between pulses we may find the \gls{bf} and thus the radial velocity of the scatterer. Finally, the scatterers dielectric properties are brought forward through the \gls{rcs}, showing up as a scaling factor after matched filtering. 
+Even though single-antenna receivers have no angular resolution it was shown above that the radar echo carries useful information. By measuring the temporal shift from transmission to reception we can calculate the distance to a scatterer, and by examining the phase shift between pulses we may find the \gls{bf} and thus the radial velocity of the scatterer. Finally, the scatterers' dielectric properties are brought forward through the \gls{rcs}, showing up as a scaling factor after matched filtering. 
 
 Although the raw data signal produced by matched filtering holds the information we are interested in, it has commonly low \gls{snr} \citep{richards_2014} and holds the carrier frequency as can be seen in equations \eqref{eq:n1} and \eqref{eq:n2}, and in figure \ref{fig:mix2}. To get rid of the carrier frequency some transformation of the raw signal is usually performed. In this work we are particularly interested in resolving small Doppler shifts, and thus we wish to closely monitor phase shifts from one measurement to the next. One effective data representation of raw data that facilitates accurate phase tracking involves splitting the signal into its \emph{In-phase} and \emph{Quadrature} (\gls{iq}) components \citep{lien_gillian_karagozler_amihood_schwesig_olson_raja_poupyrev_2016}. 
 
