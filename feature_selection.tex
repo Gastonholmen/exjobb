@@ -209,7 +209,7 @@ where $q$ is the number of covariance lags.
 
 %Despite the fact that the average energy appears to be a highly relevant feature, it is also much gain dependent, and conflicts with what is stated in section *reference to sweep norm.*. Therefore, if different sensors are to be used for training and future classifications, this feature will not be of any use.
 
-
+\iffalse %%%%%%%
 \begin{table}
 \rowcolors{2}{gray!25}{white}
 \begin{center}
@@ -226,6 +226,16 @@ where $q$ is the number of covariance lags.
 	\caption{Three feature configurations of the four introduced features are compared. An X indicates that the feature is used in the configuration. Above, Abs indicate estimated envelopes, AC-E and AC-R autocovariances in energy and range, respectively, and DFT the discrete Fourier transform. Ideally we want as few features and as high linear separability, shown through an SVM accuracy score, as possible.} 
 \label{tab:feat}
 \end{table}
+\fi
+\begin{table}
+\rowcolors{2}{gray!25}{white}
+\begin{center}
+\includegraphics[scale=0.7]{figs_temp/table_config.jpg}
+\end{center}
+	\caption{Three feature configurations of the four introduced features are compared. An X indicates that the feature is used in the configuration. Above, Abs indicate estimated envelopes, AC-E and AC-R autocovariances in energy and range, respectively, and DFT the discrete Fourier transform. Ideally we want as few features and as high linear separability, shown through an SVM accuracy score, as possible.} 
+\label{tab:feat}
+\end{table}
+
 
 
 % "The same model" is the hyperparameter optimized model we later get to, so the ordering is strange here. Numbers are off too.
