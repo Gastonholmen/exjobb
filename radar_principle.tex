@@ -1,12 +1,12 @@
 \chapter{Radar System Overview}
 
-In order to build a model capable of accurately capturing key features from target surfaces one must first understand the origin and structure of the received signal. In this chapter a few fundamental concepts in radar systems are introduced that explain how a target's range, velocity and reflectivity arise in a \gls{pcr} system. The mixing and \gls{iq} demodulation procedures are also discussed, which explain how radar measurements are performed.  
+In order to build a model capable of accurately capturing distinguishing features from target surfaces one must first understand the origin and structure of the received signal. In this chapter a few fundamental concepts in radar systems are introduced that explain how a target's range, velocity and reflectivity arise in a \gls{pcr} system. The mixing and \gls{iq} demodulation procedures are also discussed, which explain how radar measurements are performed.  
 
 \section{Target Properties from Pulsed Radar Response}
 % TODO: Utilize https://acconeer.sharepoint.com/:w:/g/CS/ES_xwcoTqVdGkShPJkNagMMBL1wVd_GaeJJsEDKC8lWIDQ?e=GxZNEw as a source for this.
-Fundamentally, a radar operates by radiating \gls{rf} electromagnetic energy and listening if the transmitted energy generates any echoes \citep{skolnik_2009}. By analyzing properties of returning signals it is then possible to obtain information regarding the scattering targets. This may involve the distance and angle at which scatterers are located or at which velocity they are moving in. With a sufficiently high angular and range resolution it is even possible to discern shapes and sizes.  
+Fundamentally, a radar operates by radiating \gls{rf} electromagnetic energy and listening if the transmitted energy generates any echoes \citep{skolnik_2009}. By analyzing properties of returning signals it is then possible to obtain information regarding the scattering targets. This may involve the distance and angle at which scatterers are located or at which velocity they are moving in. With a sufficiently high angular and range resolution it is even possible to discern shapes and sizes of targets.  
 
-Standard radars are active systems, meaning that they have a radiating antenna and hence do not depend on any ambient radiation emitted by the target \citep{richards_2014}. Radar systems can be realized in many ways, however in this report a \gls{pcr} system is used. This means that a sequence of short coherent wavelets are transmitted towards a target scene to determine its properties. One such transmitted wavelet pulse $x_T(t)$ has some carrier frequency, $f_c$, and envelope $A(t)$ as in
+Standard radars are active systems, meaning that they have a radiating antenna and hence do not depend on any ambient radiation \citep{richards_2014}. Radar systems can be realized in many ways, however in this report a \gls{pcr} system is used. This means that a sequence of short coherent wavelets are transmitted towards a target scene to determine its properties. One such transmitted wavelet pulse $x_T(t)$ has some carrier frequency, $f_c$, and envelope, $A(t)$, as in
 \begin{equation}\label{eq:trans}
 	x_T(t)
 	= A(t)\sin(2\pi f_c t).
@@ -18,7 +18,7 @@ After various scattering processes, the returning signal is captured by either a
 
 Commonly, in larger radar systems, many receiving antennas capture the returning radiation. This allows for distinguishing radar targets not only in range, but also in angle. In this work a single receiving antenna is used, meaning that the radar has no intrinsic method of determining at which angle a scatterer is located. Thus, only information in range can be captured by this sensor.
 
-To understand what information can be obtained from such a one-dimensional signal, a single scattering object some distance away from the transmitter is here considered. If a radar pulse on the form of \eqref{eq:trans} is transmitted towards it, the returning signal will be a delayed pulse on the form \citep{richards_2014}
+To understand what information can be obtained from such a one-dimensional signal, a single point scatterer some distance away from the transmitter is here considered. If a radar pulse on the form of \eqref{eq:trans} is transmitted towards it, the returning signal will be a delayed pulse on the form \citep{richards_2014}
 \begin{equation}\label{eq:returning}
 	y(t) = CA(t-B)\sin(2\pi f_c (t-B))
 \end{equation}
@@ -35,17 +35,17 @@ If a point scatterer was present a distance $d$ from the transmitting antenna, a
 	\end{split}
 \end{equation}
 
-By measuring the delay $B$ in \eqref{eq:returning} either as a phase shift or a shift in envelope we can thus simply calculate the distance through
+By measuring the delay $B$ in \eqref{eq:returning} either as a phase shift or a shift in envelope we can then simply calculate the distance through
 \begin{equation}
 	d = \frac{Bc}{2}.
 \end{equation}
 
-Thus, by examining the time delay of the returning signal, we can deduce the distance to the scattering object. 
+Thus, by examining the time delay between pulse transmission and reception, we can deduce the distance to the target scatterer. 
 
 \subsection{Doppler Frequency in Pulsed Radar}\label{sec:doppler}
 \label{doppler}
 
-If the target scatterer is moving from or towards the transmitting antenna, a shift in frequency will occur in the received pulse $y(t)$. For velocity $v$, the transmitted frequency $f_c$ will be shifted to $f_r$ according to the well known Doppler formula \citep{ridenour_1947}
+If the target scatterer is moving from or towards the transmitting antenna, a shift in frequency will occur in the received pulse $y(t)$. For velocity $v$, the transmitted frequency, $f_c$, will be shifted to $f_r$ according to the well known Doppler formula \citep{ridenour_1947}
 \begin{equation}
 	f_r = \frac{c + v}{c - v}f_c
 \end{equation}
@@ -72,12 +72,12 @@ For a target moving at a constant pace, the \gls{bf} arising from the constant D
 
 \subsection{Power Dissapation}
 
-The $C$ factor in \eqref{eq:returning} describes the ratio of the emitted power that is received after scattering. To get a feel for how a target's reflectivity relates to this factor we can make the following thought experiment. First, we assume that the transmitted power $P_t$ is radiated isotropically by a point source, meaning that the power density is distributed uniformly by the source over the surface of a sphere. When our radar ``balloon'' has radius $R$, the power density at the balloon surface becomes  \citep{amin_2017}
+The $C$ factor in \eqref{eq:returning} describes the ratio of the emitted power that is received after scattering. To get a feel for how a target's reflectivity relates to this factor we can make the following thought experiment. First, we assume that the transmitted power $P_t$ is radiated isotropically by a point source, meaning that the power density is distributed uniformly by the source over the surface of a sphere. When our radar sphere has radius $R$, the power density at the sphere surface becomes  \citep{amin_2017}
 \begin{equation}
 	P_d 
 	= \frac{P_t}{4\pi R^2}
 \end{equation}
-where $4\pi R^2$ is the surface area of the balloon. If a scatterer is present at range $d$ with radar cross section (\gls{rcs}) $\sigma$ and gain $G_t$, the fraction of the radar power reflected by the scatterer is given by 
+where $4\pi R^2$ is the surface area of the sphere. If a scatterer is present at range $d$ with radar cross section (\gls{rcs}) $\sigma$ and gain $G_t$, the fraction of the radar power reflected by the scatterer is given by 
 \begin{equation}
 	P_{e}
 	= \frac{P_tG_t\sigma}{4\pi d^2}.
