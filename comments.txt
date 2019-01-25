@@ -1,2 +1,9 @@
 * Visst stämmer det att Peter, Rikard, Daniel och Bo har Dr-titel? (se acknowledgement)
-* Lyckas inte få till texten "See page(s)..." i abbreviations, så väntar med den"
+* Lyckas inte få till texten "See page(s)..." i abbreviations, så väntar med den
+
+
+
+
+
+* Har fixat alla Johans kommentarer utom nr. 3
+* Andreas kommentarer är fixade för kapitel 1,2, förutom den som nämns ovan
