@@ -1,0 +1,2 @@
+* Visst stämmer det att Peter, Rikard, Daniel och Bo har Dr-titel? (se acknowledgement)
+* Lyckas inte få till texten "See page(s)..." i abbreviations, så väntar med den"
