@@ -11,7 +11,6 @@ to complex form without the carrier frequency $f_c$ \citep{lee_1991}
 \begin{equation}
 	x_{IQ}(t) = A(t)e^{i\phi(t)}.
 \end{equation}
-	
 IQ demodulation thus aims to extract the information bearing part of $x(t)$ found in the envelope $A(t)$ and phase shift $\phi(t)$ from \eqref{eq:signal}. Most classical radars follow the demodulation scheme depicted in Figure \ref{fig:iq_demod}. The first step is to split the signal in \eqref{eq:signal} into two separate channels. In the upper channel, the signal is multiplied by a coherent sinusoid with the same carrier frequency as the received pulse. The result of this multiplication can be rewritten as
 \begin{equation}
 	 A(t)\sin(f_c t+\phi(t))\cdot 2\sin(f_c t) = \\
@@ -30,8 +29,7 @@ The next step in the demodulation scheme is to low pass filter to get rid of the
 \begin{equation}\label{eq:split2}
  	 A(t)\sin(\phi(t))+A(t)\sin(2f_c t+\phi(t)).
 \end{equation}
-
-After low pass filtering we obtain $A(t)\sin(\phi(t))$ which we define as the \emph{Quadrature} channel $Q(t)$. Finally, by interpreting $I(t)$ and $Q(t)$ channels as the real- and imaginary parts of a complex number, respectively, we obtain our \gls{iq} data as
+After low pass filtering we obtain $A(t)\sin(\phi(t))$ which we define as the \emph{Quadrature} channel $Q(t)$. Finally, by interpreting $I(t)$ and $Q(t)$ channels as the real- and imaginary parts of a complex number, respectively, we obtain our \gls{iq} representation as
 \begin{equation}
 	I(t)+iQ(t)=A(t)\Big(\cos(\phi(t))+i\sin(\phi(t))\Big)=A(t)e^{i\phi(t)}.
 \end{equation}

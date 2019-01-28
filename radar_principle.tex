@@ -10,7 +10,6 @@ Standard radars are active systems, meaning that they have a radiating antenna a
 	x_T(t)
 	= A(t)\sin(2\pi f_c t).
 \end{equation}
-
 After various scattering processes, the returning signal is captured by either an array of antennas, or just a single antenna.
 
 \subsection{Single-Antenna Considerations}
@@ -34,12 +33,10 @@ If a point scatterer was present at a distance $d$ from the transmitting antenna
 		& = CA(t-2d/c)\sin(2\pi f_ct - \frac{4\pi d}{c}f_c).
 	\end{split}
 \end{equation}
-
 By measuring the delay $B$ in \eqref{eq:returning}, either as a phase shift or a shift in envelope, one may simply calculate the distance through
 \begin{equation}
 	d = \frac{Bc}{2}.
 \end{equation}
-
 Thus, by examining the time delay between pulse transmission and reception, we can deduce the distance to the target scatterer. 
 
 \subsection{Doppler Frequency in Pulsed Radar}\label{sec:doppler}
@@ -62,7 +59,6 @@ The use of short wavelets means that each individual transmitted pulse becomes c
 \begin{equation}
 	\Delta \phi = \frac{4\pi}{\lambda_c}vT_s.
 \end{equation}
-
 For a target moving at a constant pace, the \gls{bf} arising from the constant Doppler phase shift is thus $f_d = 2v/\lambda_c$, as was found in equation \eqref{eq:dshift}. Thus, by taking a discrete Fourier transform (\gls{dft}) of the sequence of $T_s$-spaced measurements for one specific distance, we can estimate the velocity from the peak frequency $f$ in the \gls{dft} as 
 \begin{equation}\label{eq:dopp}
 	v = \frac{\lambda_c f_d}{2}
@@ -82,20 +78,17 @@ where $4\pi R^2$ is the surface area of the sphere. If a scatterer is present at
 	P_{e}
 	= \frac{P_tG_t\sigma}{4\pi d^2}.
 \end{equation}
-
 Then, provided that the scattering process is isotropic and lossless, the power reflected back at the radar receiver is
 \begin{equation}\label{eq:temp}
 	P_f 
 	= \frac{P_e}{4\pi d^2} 
 	= \frac{P_t G_t \sigma}{(4\pi d^2)^2}.
 \end{equation}
-
 Finally, only a portion $P_r = P_fA_r$ of the power is captured by the receiver, where $A_r$ is a function of transmission wavelength and receive antenna gain. Including this into \eqref{eq:temp}, we obtain the \emph{radar range equation} (\gls{rre}) relating the transmitted and received power as
 \begin{equation}
 	P_r
 	= \frac{P_t G_t A_r \sigma}{16\pi^2 d^4}.
 \end{equation}
-
 It is worth pointing out that this argument only holds for scatterers of limited sizes, and that if the scattering target for instance was a parabolic antenna, a waveguide or an infinite plane, this relationship between the transmitted and received power would not be valid. The \gls{rre} states that power dissipates rapidly, by a factor $1/d^4$, with range. Hence, increasing the distance to a target object by a factor 2 will return only $1/16$ of the power otherwise received. According to \citep{richards_2014}, this rate in real-world scenarios is typically between $1/d$ to $1/d^4$, so that the process may not be as lossy as the \gls{rre} predicts. If the noise power, $N$, remains constant regardless of target distance, the \emph{signal-to-noise ratio} (\gls{snr}), defined as $\text{SNR} = P_r/N$ quickly decreases with range. 
 
 We also see from the \gls{rre} that the power returned is governed by the \gls{rcs}, $\sigma$, of the target. The \gls{rcs} describes how reflective a target is, determined by its size and shape as well as its dielectric properties. \gls{rcs} can be regarded as a fictious area that describes the intensity of the wave reflected back to the scatterer. This area corresponds to the projected area of a perfectly conducting sphere, with a diameter of several wavelengths, whose echo strength would match that of the target if we were to replace the target with the sphere \citep{knott_1993}. 

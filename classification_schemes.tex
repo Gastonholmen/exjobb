@@ -96,13 +96,11 @@ Logistic regression (\gls{lr}) is similar to linear regression where the paramet
 \label{eq:linreg}
 	Y= b_0+\sum_{i=1}^n b_iX_i.
 \end{equation}
-
 However, logistic regression is rather used for modeling a binary variable, $Y_{log}\in\{0,1\}$. Therefore, a continuous output is unsuitable. Instead, the expression in \eqref{eq:linreg} is mapped to the open interval $(0,1)$ using the sigmoid function, defined as $\sigma(z)=\frac{1}{1+e^{-z}}$. Thus, \gls{lr} maps the input variables to
 \begin{equation}
 \label{eq:log_eq}
 	Y_{log}= \frac{1}{1+\exp(-(b_0 + \sum_{i=1}^n b_iX_i))}.
 \end{equation}
-
 This value can be interpreted as the probability that a feature vector with a set of features, $\{X_i\}$, belongs to class 1. Note that for $Y\rightarrow \infty$ we have that $Y_{log}\rightarrow 1$ and for $Y\rightarrow -\infty$ that $Y_{log}\rightarrow 0$. The model parameters in \gls{lr} are trained in such a way that $Y$ becomes large for input combinations representing samples of class 1, and small for samples of class 0. 
 
 For further details about \gls{lr}, including details on how its parameters are optimized, we refer to \citep{shalev-shwartz_ben-david_2016}.
@@ -129,7 +127,6 @@ Artificial neural networks constitute a class of nonlinear models designed to mi
 	\mathbf{x}^{(1)}=\begin{bmatrix}x_1^{(1)} \\ x_2^{(1)} \\ x_3^{(1)} \end{bmatrix} = 
 	\begin{bmatrix} w_{11}^{(1)} & w_{21}^{(1)} \\ w_{12}^{(1)} & w_{22}^{(1)} \\ w_{13}^{(1)} & w_{23}^{(1)}\end{bmatrix}\cdot \begin{bmatrix}x_1^{(0)} \\ x_2^{(0)}\end{bmatrix}.
 \end{equation}
-
 When the nodes in the hidden layer receive the propagated values, they may range anywhere from negative to positive infinity. Using an \textit{activation function} $f$, the node transforms the input to a more suitable format in terms of whether the node should be ``active'' or not (or, in biological terms, whether the neuron should fire) \citep{kriesel_2007}. The function $f$ also introduces nonlinearity in the model, making \gls{ann}s capable of solving nonlinear problems. 
 
 In \eqref{eq:nn} we omit the bias term in the hidden layer labeled "1" in Figure \ref{fig:ann}. A bias term is an external, constant input to an input or hidden layer. The bias term is independent of inputs from the preceding layer and increases the flexibiliy of a model, as it allows for translations of the activation function \citep{kohl_2010}.
@@ -139,7 +136,6 @@ Next, the output from the activation function is propagated with a new set of we
 	\mathbf{x}^{(2)}=\begin{bmatrix}x_1^{(2)} \\ x_2^{(2)} \end{bmatrix} = 
 	\begin{bmatrix} w_{11}^{(2)} & w_{21}^{(2)} & w_{31}^{(2)} \\ w_{12}^{(2)} & w_{22}^{(2)} & w_{32}^{(2)} \end{bmatrix}\cdot \begin{bmatrix}f(x_1^{(1)}) \\ f(x_2^{(1)}) \\ f(x_3^{(1)}) \end{bmatrix}.
 \end{equation}
-
 The propagated values in $\mathbf{x}^{(2)}$ are the inputs to the output layer which after application of the activation function produces the output that is interpreted as a classification prediction. The model weights $\mathbf{w}^{(i)}$ of a neural network are set through some version of the backpropagation algorithm during the model training phase. For details about backpropagation, we refer to chapter 7 in \citep{rojas_1996}.
 
 By introducing more than one hidden layer, an \gls{ann} can be called a deep neural network (\gls{dnn}). With increased number of hidden layers, \gls{dnn}s are capable of extracting more complex patterns from data such as for image recognition \citep{szegedy_liu_jia_sermanet_reed_anguelov_erhan_vanhoucke_rabinovich_2018} or modeling of speech \citep{hinton_deng_yu_dahl_mohamed_jaitly_senior_vanhoucke_nguyen_sainath_2012}. Since we in the preceding chapter performed feature extraction, it should in this case not be necessary to have more hidden layers than two, since useful features should already readily available from the feature extraction stage.

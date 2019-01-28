@@ -14,7 +14,6 @@ In the present case of increasing the number of smaller data matrices with $T$ s
 	\frac{Q}{T} + (A-1)\Big(\frac{Q}{T} - 1\Big) = 
 	\frac{AQ}{T}-A+1.
 \end{equation}
-
 Setting $A=5$, one data matrix consisting of 50,000 slow time samples normally yielding 2,000 smaller data matrices with $T=25$ slow time samples, instead produces 9996 matrices. Thus, with this method we are able to increase the number of training data by almost a factor of 5. In table \ref{tab:aug} the effects of data augmentation in terms of performance with $A=5$ is compared to having no augmentation.
 
 % Discuss this result later on.
@@ -59,15 +58,13 @@ The perhaps most effective way to suppress outliers in a sequence of data is thr
 \begin{equation}
 	\hat{p}_i=\text{median}\{p_k\}_{k=i-L+1}^i.
 \end{equation}
-
-By specifying some decision threshold, $\xi\in [0,1]$ a classification, $c_i$ can be produced as
+By specifying some decision threshold, $\xi\in [0,1]$, a classification, $c_i$, can be produced as
 \begin{equation}
 	c_i = \begin{cases}
 		0 & \text{if $\hat{p}_i<\xi$} \\
 		1 & \text{otherwise}.
 	\end{cases}
 \end{equation}
-
 The drawback of using median filtering, or any filtering for that matter, is that the detection of a surface change is delayed by a few steps. Thus, $L$ must be selected so that the device has not moved too far before the change detection has occurred, but also such that the filter is still capable of sufficiently  suppressing outlying predictions. 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
