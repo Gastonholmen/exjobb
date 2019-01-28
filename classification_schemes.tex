@@ -1,6 +1,6 @@
 \chapter{Machine Learning}
 
-In this chapter a few classification models are described and evaluated. Two linear and four nonlinear models for supervised learning are compared using leave-one-out (\gls{loo}) cross validation on the acquired data. The workflow for all models apart from the last follows the chart in Figure \ref{fig:flow} where extracted features are used for classification.
+In this chapter, a few classification models are described and evaluated. Two linear and four nonlinear models for supervised learning are compared using leave-one-out (\gls{loo}) cross validation on the acquired data. The workflow for all models apart from the last follows the chart in Figure \ref{fig:flow} where extracted features are used for classification.
 
 % Define block styles
 \tikzstyle{decision} = [diamond, draw, fill=blue!20, 
@@ -47,13 +47,13 @@ In this chapter a few classification models are described and evaluated. Two lin
 	\path [line] (classify) -- (post);
 	\path [line] (post) -- (output);
 \end{tikzpicture}
-\caption{Flowchart of the procedure of generating classifications. Both training- and test data is preprocessed and scaled so that each feature has zero mean, unit variance. The training data is used to obtain model weights, which become inputs to the classifier. Using these weights, predictions are made on the test data. These predictions then go through a postprocessing which results in the final output.}
+\caption{Flowchart of the procedure of generating classifications. Both training- and test data are preprocessed and scaled so that each feature has zero mean and unit variance (\gls{zmuv}). The training data is used to obtain model weights, which become inputs to the classifier. Using these weights, predictions are made on the test data. These predictions then go through a postprocessing which results in the final output.}
 \label{fig:flow}
 \end{figure}
 
 \section{Linear Models}
 
-Linear classifiers perform a classification decision based on the value of a linear combination of input data \citep{santos_2018}. In the binary case this corresponds to dividing the dataset with a single hyperplane splitting data into two categories. New test data is predicted to belong to a category based on which side of the hyperplane it is on. In this work, two linear models are considered: linear discriminant analysis (\gls{lda}) and a support vector machine (\gls{svm}) with a linear kernel.
+Linear classifiers perform a classification decision based on the value of a linear combination of input data \citep{santos_2018}. In the binary case, this corresponds to dividing the dataset with a single hyperplane, splitting data into two categories. New test data is predicted to belong to a category based on which side of the hyperplane it is on. In this work, two linear models are considered: linear discriminant analysis (\gls{lda}) and a support vector machine (\gls{svm}) with a linear kernel.
  
 % Maybe throw in an equation here somewhere?
 
@@ -72,14 +72,14 @@ Linear discriminant analysis is an algorithm commonly used for dimensionality re
 
 \subsection{Support Vector Machines}
 
-Support vector machines are one of the most popular linear models for supervised learning. The simplest \gls{svm} does not introduce any nonlinearities through any kernel tricks, and generates a linear hyperplane that separates two sets of labeled data similarly to \gls{lda}. Unlike \gls{lda} however, an \gls{svm} is not an eigen-based method, making \gls{svm}s less prone to outliers. Finding a good hyperplane can be done in numerous ways. An \gls{svm} finds what it regards as the best hyperplane by optimizing after parameters that maximize the distance between the hyperplane and the sample points closest to it, also known as support vectors \citep{boswell_2002}. 
+Support vector machines are one of the most popular linear models for supervised learning. The simplest \gls{svm} does not introduce any nonlinearities through any kernel tricks, and generates a linear hyperplane that separates two sets of labeled data similarly to \gls{lda}. Unlike \gls{lda} however, an \gls{svm} is not an eigen-based method, making \gls{svm}s less prone to outliers. Finding a good hyperplane can be done in numerous ways. An \gls{svm} finds what it regards as the best hyperplane by optimizing after parameters that maximize the high-dimensional distance between the hyperplane and sample points closest to it \citep{boswell_2002}.
 
 % Commented out because we don't really use this
 %Even if support vector machines are linear models, they are not limited to work only on linearly separable data. There are ways to use them in a non-linear fashion by utilizing different kinds of kernels. In principle, the data is first transformed into a higher dimensional space, including non-linear terms. In this new space, the \gls{svm} is used just as before. This makes the \gls{svm} a powerful tool even in non-linear problems \citep{boswell_2002}.
 
 \section{Nonlinear Models}
 
-In many cases data cannot be satisfactorily separated by a linear classifier. In the binary case this means that two classes in a dataset cannot be properly split by any one hyperplane. For such data non-linear algorithms may perform better. In this work, four different nonlinear machine learning classifiers are tested: random forest (\gls{rf}), logistic regression (\gls{lr}) and two types of artificial neural networks (\gls{ann}s). 
+In many cases, data cannot be satisfactorily separated by a linear classifier. In the binary case this means that two classes in a dataset cannot be properly split by any one hyperplane. For such data non-linear algorithms may perform better. In this work, four different nonlinear machine learning classifiers are tested: random forest (\gls{rf}), logistic regression (\gls{lr}) and two types of artificial neural networks (\gls{ann}s). 
 
 %Hence, if a linear model were to be trained on data that is not linearly separable, one would expect to notice a poor result in comparison to the result of a non-linear model. 
 
@@ -124,7 +124,7 @@ For further details about \gls{lr}, including details on how its parameters are 
 %Another major difference between linear and logistic regression is the choice of cost function. \gls{lr} commonly uses a cost function known as Cross-Entropy or Log Loss as opposed to Mean Squared Error, which is used for linear regression. For further details about \gls{lr}, including its cost function, we refer to \citep{a_smola_svn_vishwanathan_2010}.
 
 \subsection{Artificial Neural Networks}
-Artificial neural networks constitute a class of nonlinear models designed to mimic biological neural systems \citep{rojas_1996}. \gls{ann}s consist of multiple layers of neurons, or nodes. The networks are structured with an input layer followed by one or more hidden layers and an output layer \citep{logan_2017}. Figure \ref{fig:ann} illustrates a simple network which takes a feature vector $\mathbf{x}^{(0)}=[x_1^{(0)}\text{ }  x_2^{(0)}]^{T}$ as input. By multiplying the feature vector with a set of weights $\mathbf{w}^{(1)}$ the features are propagated through the network, generating a set of new node values. In the network in Figure \ref{fig:ann} the output from the input layer, forwarded to the hidden layer, becomes
+Artificial neural networks constitute a class of nonlinear models designed to mimic biological neural systems \citep{rojas_1996}. \gls{ann}s consist of multiple layers of neurons, or nodes. The networks are structured with an input layer followed by one or more hidden layers and an output layer \citep{logan_2017}. Figure \ref{fig:ann} illustrates a simple network which takes a feature vector $\mathbf{x}^{(0)}=[x_1^{(0)}\text{ }  x_2^{(0)}]^{T}$ as input. By multiplying the feature vector with a set of weights $\mathbf{w}^{(1)}$ the features are propagated through the network, generating a set of new node values. In the network in Figure \ref{fig:ann}, the output from the input layer, forwarded to the hidden layer, becomes
 \begin{equation}\label{eq:nn}
 	\mathbf{x}^{(1)}=\begin{bmatrix}x_1^{(1)} \\ x_2^{(1)} \\ x_3^{(1)} \end{bmatrix} = 
 	\begin{bmatrix} w_{11}^{(1)} & w_{21}^{(1)} \\ w_{12}^{(1)} & w_{22}^{(1)} \\ w_{13}^{(1)} & w_{23}^{(1)}\end{bmatrix}\cdot \begin{bmatrix}x_1^{(0)} \\ x_2^{(0)}\end{bmatrix}.
@@ -142,7 +142,7 @@ Next, the output from the activation function is propagated with a new set of we
 
 The propagated values in $\mathbf{x}^{(2)}$ are the inputs to the output layer which after application of the activation function produces the output that is interpreted as a classification prediction. The model weights $\mathbf{w}^{(i)}$ of a neural network are set through some version of the backpropagation algorithm during the model training phase. For details about backpropagation, we refer to chapter 7 in \citep{rojas_1996}.
 
-By introducing more than one hidden layer, an \gls{ann} can be called a deep neural network (\gls{dnn}). With increased number of hidden layers, \gls{dnn}s are capable of extracting more complex patterns from data such as for image recognition \citep{szegedy_liu_jia_sermanet_reed_anguelov_erhan_vanhoucke_rabinovich_2018} or modeling of speech \citep{hinton_deng_yu_dahl_mohamed_jaitly_senior_vanhoucke_nguyen_sainath_2012}. Since we in the preceding chapter performed feature extraction it should however not be necessary in this case to have more hidden layers than two, since useful features should already readily available from the feature extraction stage.
+By introducing more than one hidden layer, an \gls{ann} can be called a deep neural network (\gls{dnn}). With increased number of hidden layers, \gls{dnn}s are capable of extracting more complex patterns from data such as for image recognition \citep{szegedy_liu_jia_sermanet_reed_anguelov_erhan_vanhoucke_rabinovich_2018} or modeling of speech \citep{hinton_deng_yu_dahl_mohamed_jaitly_senior_vanhoucke_nguyen_sainath_2012}. Since we in the preceding chapter performed feature extraction, it should in this case not be necessary to have more hidden layers than two, since useful features should already readily available from the feature extraction stage.
 %\gls{dnn}s in various forms have gained immense popularity over the past two decades achieving considerable success within a wide spectrum of applications, such as in image recognition and acoustic modeling of speech .v
 
 \begin{figure}[h]
@@ -158,7 +158,7 @@ The sizes of input and output layers are determined by the classification proble
 
 While the number of hidden layers and the number of nodes in each layer relates to the architecture of the network, there are several parameters that are related to the training process. The \emph{batch size} specifies how many samples are propagated through a network between each model weight update. A small batch size has the benefit of requiring little memory and converging rapidly, but at the same time impairs the gradient estimate \citep{brownlee_2017}. With a larger batch size the gradient is more accurately estimated but convergence is slower. 
 
-When it comes to reducing overfitting, \emph{dropout} is a method commonly utilized in neural networks. By randomly disabling some of the hidden layer nodes during the training phase the model is forced to become more general not relying on any specific set of nodes for accomplishing its target. A node $n$ in layer $k$ is disabled by setting its weights $w^{(k)}_{nj}$ to 0, where $j$ ranges from 1 to the number of nodes in the sequent layer. For any node in a layer that features dropout, the \emph{dropout rate} specifies the probability that the node will be disabled.
+When it comes to reducing overfitting, \emph{dropout} is a method commonly utilized in neural networks. By randomly disabling some of the hidden layer nodes during the training phase the model is forced to become more general, not relying on any specific set of nodes for accomplishing its target. A node $n$ in layer $k$ is disabled by setting its weights $w^{(k)}_{nj}$ to 0, where $j$ ranges from 1 to the number of nodes in the sequent layer. For any node in a layer that features dropout, the \emph{dropout rate} specifies the probability that the node will be disabled.
 
 If the total number of feature vectors is $m$, and the batch size is $b$, there will be $\lceil m/b \rceil$ forward and backward propagations, and an equal number of model weight updates. Each batch is only propagated once, but to extend the model training process further, we can specify number of \emph{epochs}. This hyperparameter determines how many times each batch will be fed through the model. One epoch is often not enough for the weights to fully converge \citep{kriesel_2007}, but increasing the number of epochs naturally increases the training time. Furthermore, too many epochs may put the model at risk of overfitting. In \citep{prechelt_2000}, this issue is addressed, along with proposed strategies to avoid it.
 % "too many epochs puts the model at risk of overfitting." is this really true? If so from what source. 
@@ -170,9 +170,9 @@ If the total number of feature vectors is $m$, and the batch size is $b$, there 
 	\label{fig:opt_net}
 \end{figure}
 
-The hyperparameters of the \gls{dnn} model were optimized using the free optimization tool Hyperas (available at \url{https://github.com/maxpumperla/hyperas}). Hyperas selected the number of nodes, the dropout rates, the batch size and the optimization algorithm (from the three optimization algorithm options of RMSprop, Adam and Stochastic Gradient Descent natively available in Keras). 
+The hyperparameters of the \gls{dnn} model were optimized using the free optimization tool Hyperas (available at \url{https://github.com/maxpumperla/hyperas}). Hyperas selected the number of nodes, the dropout rates, the batch size and the optimization algorithm (from the three optimization algorithm options of RMSprop, Adam, and Stochastic Gradient Descent natively available in Keras). 
 
-With the selections made by Hyperas, the network in Figure \ref{fig:opt_net} is obtained. The two hidden layers have 24 and 12 nodes with dropout rates of 14 and 2 percent respectively. Both layers have the activation function $f(x)=\textrm{max}(0,x)$ often referred to as rectified linear unit (ReLU) and the output layer has a softmax activation function. Furthermore, the batch size in the learning phase is 32, and the number of epochs is set to 20. Finally, the optimization algorithm preferred by Hyperas is RMSprop.
+With the selections made by Hyperas, the network in Figure \ref{fig:opt_net} is obtained. The two hidden layers have 24 and 12 nodes with dropout rates of 14 and 2 percent, respectively. Both layers have the activation function $f(x)=\textrm{max}(0,x)$ often referred to as rectified linear unit (ReLU) and the output layer has a softmax activation function. Furthermore, the batch size in the learning phase is 32, and the number of epochs is set to 20. Finally, the optimization algorithm preferred by Hyperas is RMSprop.
 
 \subsection{Convolutional Neural Network with Long Short Term Memory}
 
@@ -213,7 +213,7 @@ There is one chief issue with this random-selection methodology. If we, for inst
 
 For this project 42 data matrices were collected from surfaces described in table \ref{tab:count}. Each surface was acquired either on a separate day or in a separate location from the others. When evaluating how well a model perform we would like to test it in as realistic of a scenario as possible, where only training data from other days and locations are available. 
 
-Because of this we use the leave-one-out cross validation strategy. This strategy involves cycling through each of the 42 data matrices and leaving out one and training on the remainder. We then evaluate model performance on the left-out data matrix. This strategy ensures that when we classify a surface, the model has not seen any data from the same measurement session and we thus get a more realistic performance providing an indication of the model's robustness. The \gls{loo} strategy also has the benefit that all data for the most part is used in training, instead of only a portion as is required in the random selection method \citep{raschka}. In table \ref{tab:loo} the \gls{loo} accuracy scores of all six models are listed for comparison. 
+Because of this we use the leave-one-out cross validation strategy. This strategy involves cycling through each of the 42 data matrices and leaving out one and training on the remainder, as shown in Figure \ref{fig:loo}. We then evaluate model performance on the left-out data matrix. This strategy ensures that when we classify a surface, the model has not seen any data from the same measurement session and we thus get a more realistic performance providing an indication of the model's robustness. The \gls{loo} strategy also has the benefit that all data for the most part is used in training, instead of only a portion as is required in the random selection method \citep{raschka}. In table \ref{tab:loo} the \gls{loo} accuracy scores of all six models are listed for comparison. 
 
 %If we for instance want to test how well a model does on a specific data matrix, it would unrealistic to have training data from the same data matrix even if no direct overlap occurr between the two. The leave-one-out strategy is a form of cross validation, and begins with dividing a dataset into $n$ parts, one for each captured data matrix. Each part is evaluated individually with the other $n-1$ data matrices used for training. The model evaluation is then performed in equally many stages. For each stage, one of the $n$ parts is selected for the model to later be evaluated upon. The remaining parts of the dataset are used for training. After both training and evaluation, a prediction score is noted and the model performs the same procedure with another part of the dataset selected for validation. When having a small dataset - or as in this case, an arguably small amount of measurement sessions - this method is useful in that it does not require us to withhold data from the model training \citep{raschka}.
 
@@ -222,10 +222,10 @@ Because of this we use the leave-one-out cross validation strategy. This strateg
 %The measurment series are collected under varying conditions, meaning the validation samples do not bear as much resemblance to the training samples as in the random selection mentioned above.
 
 \begin{figure}[h]
-	\label{fig:loo}
 	\centering
 	\includegraphics[scale=0.7]{figs_temp/loo.jpg}
 	\caption{With the leave-one-out strategy data is split up into $n$ parts. The model evaluation is then performed in $n$ steps. Each time, one part of the data is excluded from the training and evaluated upon. The T's mark which parts of the data that are used for training, and the C's show which data matrix is used for classification.}
+	\label{fig:loo}
 \end{figure}
 
 
