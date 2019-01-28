@@ -12,7 +12,7 @@ to complex form without the carrier frequency $f_c$ \citep{lee_1991}
 	x_{IQ}(t) = A(t)e^{i\phi(t)}.
 \end{equation}
 	
-IQ demodulation thus aims to extract the information bearing part of $x(t)$ found in the envelope $A(t)$ and phase shift $\phi(t)$ from \eqref{eq:signal}. Most classical radars follow the demodulation scheme depicted in figure \ref{fig:iq_demod}. The first step is to split the signal in \eqref{eq:signal} into two separate channels. In the upper channel, the signal is multiplied by a coherent sinusoid with the same carrier frequency as the received pulse. The result of this multiplication can be rewritten as
+IQ demodulation thus aims to extract the information bearing part of $x(t)$ found in the envelope $A(t)$ and phase shift $\phi(t)$ from \eqref{eq:signal}. Most classical radars follow the demodulation scheme depicted in Figure \ref{fig:iq_demod}. The first step is to split the signal in \eqref{eq:signal} into two separate channels. In the upper channel, the signal is multiplied by a coherent sinusoid with the same carrier frequency as the received pulse. The result of this multiplication can be rewritten as
 \begin{equation}
 	 A(t)\sin(f_c t+\phi(t))\cdot 2\sin(f_c t) = \\
 \end{equation}
@@ -23,7 +23,7 @@ yielding one baseband sinusoid and one sinusoid at the double carrier frequency.
 
 The next step in the demodulation scheme is to low pass filter to get rid of the undesired high frequency term term in \eqref{eq:split} leaving only $A(t)\cos(\phi(t))$. This constitutes the \emph{In-phase} channel $I(t)$.
 
-	Similarly, in the bottom channel in figure \ref{fig:iq_demod}, $x(t)$ is multiplied by a signal of the same carrier frequency. However, this time, the signal is shifted $90^\circ$ in phase\footnote{This shift is technically a \emph{Hilbert transform}, as the sinusoid is shifted by $\pi/2$.}. We can rewrite this product as
+	Similarly, in the bottom channel in Figure \ref{fig:iq_demod}, $x(t)$ is multiplied by a signal of the same carrier frequency. However, this time, the signal is shifted $90^\circ$ in phase\footnote{This shift is technically a \emph{Hilbert transform}, as the sinusoid is shifted by $\pi/2$.}. We can rewrite this product as
 \begin{equation}
 	 A(t)\sin(f_c t+\phi(t))\cdot 2\cos(f_c t) = 
 \end{equation}
@@ -61,13 +61,12 @@ with angular carrier frequency $\Omega = 2\pi f_c$, where $A(t)$ is defined as
 	\end{cases}
 \end{equation}
 the output $m(\tau)$ of the matched filtering process becomes
-\begin{equation}
+
+\begin{align}
 	m(\tau) 
-	= \int_{-\infty}^{+\infty}y(t)x_T(t-\tau)dt
-\end{equation}
-\begin{equation}	
-	= C \int_{-\infty}^{+\infty}A(t-B)A(t-\tau)\sin(\Omega(t-B))\sin(\Omega(t-\tau))dt.
-\end{equation}
+	&= \int_{-\infty}^{+\infty}y(t)x_T(t-\tau)dt \\
+	&= C \int_{-\infty}^{+\infty}A(t-B)A(t-\tau)\sin(\Omega(t-B))\sin(\Omega(t-\tau))dt.
+\end{align}
 
 This integral can be split into three cases:
 \begin{enumerate}[label=(\roman*)]
@@ -77,34 +76,26 @@ This integral can be split into three cases:
 \end{enumerate}
 
 The first case, (i), clearly results in the integral becoming 0. Case (ii) can be written as
-\begin{equation}
+
+\begin{align}
 	m(\tau)
-	= C\int_{B}^{\tau+L}\sin(\Omega(t-B))\sin(\Omega(t-\tau))dt
-\end{equation}
-\begin{equation}
-	= \frac{C}{2}\int_B^{\tau+L} \cos(\Omega(\tau-B)) - \cos(\Omega(2t - B - \tau))dt
-\end{equation}
-\begin{equation}
-	= \frac{C}{2}\Big( (\tau+L-B)\cos(\Omega(B-\tau)) 
-	- \frac{1}{2\Omega}\Big[ \sin(\Omega(2t-B-\tau) \Big]_{B}^{\tau+L} \Big)
-\end{equation}
-\begin{equation}\label{eq:long}
-	= \frac{C}{2}\Big((\tau + L - B)\cos(\Omega(B-\tau))
-	- \frac{1}{2\Omega}\big(
+	&= C\int_{B}^{\tau+L}\sin(\Omega(t-B))\sin(\Omega(t-\tau))dt \\
+	&= \frac{C}{2}\int_B^{\tau+L} \cos(\Omega(\tau-B)) - \cos(\Omega(2t - B - \tau))dt \\
+	&= \frac{C}{2}\Big( (\tau+L-B)\cos(\Omega(B-\tau))
+	- \frac{1}{2\Omega}\Big[ \sin(\Omega(2t-B-\tau) \Big]_{B}^{\tau+L} \Big) \\
+	&= \frac{C}{2}\Big((\tau + L - B)\cos(\Omega(B-\tau)) \\ 
+	&\quad\quad\quad - \frac{1}{2\Omega}\big(
 	\sin(\Omega(\tau + 2L - B))
 	- \sin(\Omega(B-\tau))
 	\big)\Big)
-\end{equation}
-
+\end{align}
 Selecting $L$ as a whole number $n$ of wavelengths $\lambda$, the argument of the second sinusoid can be simplified into
-\begin{equation}
+\begin{align}
 	\Omega(\tau + 2L - B) 
-	= \Omega(\tau - B) + 2\frac{2\pi f n\lambda}{c} 
-\end{equation}
-\begin{equation}
-	= \Omega(\tau - B) + 2\frac{2\pi f n c}{c f}
-	= \Omega(\tau - B) + 4\pi n.
-\end{equation}
+	&= \Omega(\tau - B) + 2\frac{2\pi f n\lambda}{c} \\
+	&= \Omega(\tau - B) + 2\frac{2\pi f n c}{c f} \\
+	&= \Omega(\tau - B) + 4\pi n.
+\end{align}
 
 This means that, as the sinus function is odd and $2\pi$ periodic, \eqref{eq:long} can be rewritten as 
 \begin{equation}\label{eq:first}
