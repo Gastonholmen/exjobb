@@ -22,7 +22,7 @@ yielding one baseband sinusoid and one sinusoid at the double carrier frequency.
 
 The next step in the demodulation scheme is to low pass filter to get rid of the undesired high frequency term term in \eqref{eq:split} leaving only $A(t)\cos(\phi(t))$. This constitutes the \emph{In-phase} channel $I(t)$.
 
-	Similarly, in the bottom channel in Figure \ref{fig:iq_demod}, $x(t)$ is multiplied by a signal of the same carrier frequency. However, this time, the signal is shifted $90^\circ$ in phase\footnote{This shift is technically a \emph{Hilbert transform}, as the sinusoid is shifted by $\pi/2$.}. We can rewrite this product as
+Similarly, in the bottom channel in Figure \ref{fig:iq_demod}, $x(t)$ is multiplied by a signal of the same carrier frequency. However, this time, the signal is shifted $90^\circ$ in phase\footnote{This shift is technically a \emph{Hilbert transform}, as the sinusoid is shifted by $\pi/2$.}. We can rewrite this product as
 \begin{equation}
 	 A(t)\sin(f_c t+\phi(t))\cdot 2\cos(f_c t) = 
 \end{equation}
@@ -80,12 +80,16 @@ The first case, (i), clearly results in the integral becoming 0. Case (ii) can b
 	&= C\int_{B}^{\tau+L}\sin(\Omega(t-B))\sin(\Omega(t-\tau))dt \\
 	&= \frac{C}{2}\int_B^{\tau+L} \cos(\Omega(\tau-B)) - \cos(\Omega(2t - B - \tau))dt \\
 	&= \frac{C}{2}\Big( (\tau+L-B)\cos(\Omega(B-\tau))
-	- \frac{1}{2\Omega}\Big[ \sin(\Omega(2t-B-\tau) \Big]_{B}^{\tau+L} \Big) \\
-	&= \frac{C}{2}\Big((\tau + L - B)\cos(\Omega(B-\tau)) \\ 
-	&\quad\quad\quad - \frac{1}{2\Omega}\big(
-	\sin(\Omega(\tau + 2L - B))
-	- \sin(\Omega(B-\tau))
-	\big)\Big)
+	- \frac{1}{2\Omega}\Big[ \sin(\Omega(2t-B-\tau) \Big]_{B}^{\tau+L} \Big)	
+\end{align}
+\begin{align}
+	\begin{split}
+		&= \frac{C}{2}\Big((\tau + L - B)\cos(\Omega(B-\tau)) \\ \label{eq:long}
+		&- \frac{1}{2\Omega}\big(
+		\sin(\Omega(\tau + 2L - B))
+		- \sin(\Omega(B-\tau))
+		\big)\Big)
+	\end{split}
 \end{align}
 Selecting $L$ as a whole number $n$ of wavelengths $\lambda$, the argument of the second sinusoid can be simplified into
 \begin{align}
